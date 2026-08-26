@@ -1,0 +1,320 @@
+/* ============================================
+   TEXTORO - Spectrum Design System Variables
+   Adobe Spectrum Dark Theme - Complete
+   ============================================ */
+
+:root {
+    /* ═══════════════════════════════════════════
+       GRAY SCALE (Spectrum Dark)
+       ═══════════════════════════════════════════ */
+    --sp-gray-50: #1a1a1a;
+    --sp-gray-75: #1e1e1e;
+    --sp-gray-100: #252525;
+    --sp-gray-200: #2d2d2d;
+    --sp-gray-300: #3a3a3a;
+    --sp-gray-400: #4a4a4a;
+    --sp-gray-500: #5c5c5c;
+    --sp-gray-600: #7c7c7c;
+    --sp-gray-700: #a0a0a0;
+    --sp-gray-800: #c8c8c8;
+    --sp-gray-900: #e5e5e5;
+    
+    /* ═══════════════════════════════════════════
+       BLUE (Primary Accent)
+       ═══════════════════════════════════════════ */
+    --sp-blue-100: #0f3d6e;
+    --sp-blue-200: #0f4d8a;
+    --sp-blue-300: #0f5da8;
+    --sp-blue-400: #378ef0;
+    --sp-blue-500: #2680eb;
+    --sp-blue-600: #1473e6;
+    --sp-blue-700: #0d66d0;
+    --sp-blue-800: #095aba;
+    --sp-blue-900: #054da5;
+    
+    /* ═══════════════════════════════════════════
+       GREEN (Positive/Success)
+       ═══════════════════════════════════════════ */
+    --sp-green-100: #0a3b2c;
+    --sp-green-200: #0d4d3a;
+    --sp-green-300: #107154;
+    --sp-green-400: #33ab84;
+    --sp-green-500: #2d9d78;
+    --sp-green-600: #268e6c;
+    --sp-green-700: #12805c;
+    --sp-green-800: #0d7250;
+    --sp-green-900: #066444;
+    
+    /* ═══════════════════════════════════════════
+       RED (Negative/Error)
+       ═══════════════════════════════════════════ */
+    --sp-red-100: #4d1419;
+    --sp-red-200: #6e1d24;
+    --sp-red-300: #a1252f;
+    --sp-red-400: #e34850;
+    --sp-red-500: #d7373f;
+    --sp-red-600: #c9252d;
+    --sp-red-700: #bb121a;
+    --sp-red-800: #a50d12;
+    --sp-red-900: #8f0a0e;
+    
+    /* ═══════════════════════════════════════════
+       ORANGE (Warning)
+       ═══════════════════════════════════════════ */
+    --sp-orange-100: #4a2200;
+    --sp-orange-200: #612d00;
+    --sp-orange-300: #8a4100;
+    --sp-orange-400: #f29423;
+    --sp-orange-500: #e68619;
+    --sp-orange-600: #da7b11;
+    --sp-orange-700: #cb6f10;
+    --sp-orange-800: #bd640d;
+    --sp-orange-900: #ad5a0a;
+    
+    /* ═══════════════════════════════════════════
+       PURPLE (Accent Alternative)
+       ═══════════════════════════════════════════ */
+    --sp-purple-100: #2d1a47;
+    --sp-purple-200: #3d2361;
+    --sp-purple-300: #5a2f8f;
+    --sp-purple-400: #9256d9;
+    --sp-purple-500: #864ccc;
+    --sp-purple-600: #7a42bf;
+    --sp-purple-700: #6f38b1;
+    --sp-purple-800: #642ea4;
+    --sp-purple-900: #592496;
+    
+    /* ═══════════════════════════════════════════
+       SEMANTIC ALIASES
+       ═══════════════════════════════════════════ */
+    --sp-positive: var(--sp-green-500);
+    --sp-positive-hover: var(--sp-green-400);
+    --sp-negative: var(--sp-red-500);
+    --sp-negative-hover: var(--sp-red-400);
+    --sp-warning: var(--sp-orange-500);
+    --sp-warning-hover: var(--sp-orange-400);
+    --sp-info: var(--sp-blue-500);
+    --sp-info-hover: var(--sp-blue-400);
+    
+    /* ═══════════════════════════════════════════
+       BACKGROUND LAYERS
+       ═══════════════════════════════════════════ */
+    --sp-background-base: var(--sp-gray-50);
+    --sp-background-layer-1: var(--sp-gray-75);
+    --sp-background-layer-2: var(--sp-gray-100);
+    --sp-background-layer-3: var(--sp-gray-200);
+    
+    /* ═══════════════════════════════════════════
+       SURFACE COLORS
+       ═══════════════════════════════════════════ */
+    --sp-surface-default: var(--sp-gray-200);
+    --sp-surface-hover: var(--sp-gray-300);
+    --sp-surface-active: var(--sp-gray-400);
+    --sp-surface-selected: var(--sp-blue-700);
+    
+    /* ═══════════════════════════════════════════
+       BORDER COLORS
+       ═══════════════════════════════════════════ */
+    --sp-border-default: var(--sp-gray-300);
+    --sp-border-hover: var(--sp-gray-400);
+    --sp-border-focus: var(--sp-blue-500);
+    --sp-border-error: var(--sp-red-500);
+    --sp-border-success: var(--sp-green-500);
+    
+    /* ═══════════════════════════════════════════
+       TEXT COLORS
+       ═══════════════════════════════════════════ */
+    --sp-text-primary: var(--sp-gray-900);
+    --sp-text-secondary: var(--sp-gray-700);
+    --sp-text-tertiary: var(--sp-gray-600);
+    --sp-text-disabled: var(--sp-gray-500);
+    --sp-text-inverse: var(--sp-gray-50);
+    --sp-text-link: var(--sp-blue-500);
+    --sp-text-link-hover: var(--sp-blue-400);
+    
+    /* ═══════════════════════════════════════════
+       COMPONENT TOKENS - Fields
+       ═══════════════════════════════════════════ */
+    --sp-field-background: var(--sp-gray-100);
+    --sp-field-background-hover: var(--sp-gray-200);
+    --sp-field-border: var(--sp-gray-300);
+    --sp-field-border-hover: var(--sp-gray-400);
+    --sp-field-border-focus: var(--sp-blue-500);
+    --sp-field-text: var(--sp-gray-900);
+    --sp-field-text-placeholder: var(--sp-gray-600);
+    
+    /* ═══════════════════════════════════════════
+       COMPONENT TOKENS - Buttons
+       ═══════════════════════════════════════════ */
+    --sp-button-primary-bg: var(--sp-blue-500);
+    --sp-button-primary-bg-hover: var(--sp-blue-400);
+    --sp-button-primary-bg-active: var(--sp-blue-600);
+    --sp-button-primary-text: white;
+    
+    --sp-button-secondary-bg: transparent;
+    --sp-button-secondary-bg-hover: var(--sp-gray-200);
+    --sp-button-secondary-border: var(--sp-gray-400);
+    --sp-button-secondary-text: var(--sp-gray-800);
+    
+    --sp-button-negative-bg: var(--sp-red-500);
+    --sp-button-negative-bg-hover: var(--sp-red-400);
+    --sp-button-negative-text: white;
+    
+    /* ═══════════════════════════════════════════
+       COMPONENT TOKENS - Checkbox
+       ═══════════════════════════════════════════ */
+    --sp-checkbox-border: var(--sp-gray-400);
+    --sp-checkbox-border-hover: var(--sp-blue-500);
+    --sp-checkbox-checked-bg: var(--sp-blue-500);
+    --sp-checkbox-checked-border: var(--sp-blue-500);
+    --sp-checkbox-checkmark: white;
+    
+    /* ═══════════════════════════════════════════
+       COMPONENT TOKENS - Tabs
+       ═══════════════════════════════════════════ */
+    --sp-tab-text: var(--sp-gray-700);
+    --sp-tab-text-hover: var(--sp-gray-900);
+    --sp-tab-text-selected: var(--sp-blue-500);
+    --sp-tab-indicator: var(--sp-blue-500);
+    
+    /* ═══════════════════════════════════════════
+       TYPOGRAPHY
+       ═══════════════════════════════════════════ */
+    --sp-font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    --sp-font-family-mono: 'SF Mono', 'Consolas', 'Monaco', monospace;
+    
+    --sp-font-size-50: 9px;
+    --sp-font-size-75: 10px;
+    --sp-font-size-100: 11px;
+    --sp-font-size-200: 12px;
+    --sp-font-size-300: 13px;
+    --sp-font-size-400: 14px;
+    --sp-font-size-500: 16px;
+    --sp-font-size-600: 18px;
+    --sp-font-size-700: 20px;
+    
+    --sp-font-weight-regular: 400;
+    --sp-font-weight-medium: 500;
+    --sp-font-weight-semibold: 600;
+    --sp-font-weight-bold: 700;
+    
+    --sp-line-height-100: 1.3;
+    --sp-line-height-200: 1.5;
+    
+    /* ═══════════════════════════════════════════
+       SPACING (4px base unit)
+       ═══════════════════════════════════════════ */
+    --sp-spacing-50: 2px;
+    --sp-spacing-75: 4px;
+    --sp-spacing-100: 6px;
+    --sp-spacing-200: 8px;
+    --sp-spacing-300: 12px;
+    --sp-spacing-400: 16px;
+    --sp-spacing-500: 20px;
+    --sp-spacing-600: 24px;
+    --sp-spacing-700: 32px;
+    --sp-spacing-800: 40px;
+    
+    /* ═══════════════════════════════════════════
+       SIZING
+       ═══════════════════════════════════════════ */
+    --sp-component-height-xs: 20px;
+    --sp-component-height-sm: 24px;
+    --sp-component-height-md: 28px;
+    --sp-component-height-lg: 32px;
+    --sp-component-height-xl: 40px;
+    
+    --sp-icon-size-xs: 12px;
+    --sp-icon-size-sm: 14px;
+    --sp-icon-size-md: 16px;
+    --sp-icon-size-lg: 18px;
+    --sp-icon-size-xl: 20px;
+    
+    /* ═══════════════════════════════════════════
+       BORDER RADIUS
+       ═══════════════════════════════════════════ */
+    --sp-radius-none: 0;
+    --sp-radius-sm: 2px;
+    --sp-radius-md: 4px;
+    --sp-radius-lg: 6px;
+    --sp-radius-xl: 8px;
+    --sp-radius-full: 9999px;
+    
+    /* ═══════════════════════════════════════════
+       SHADOWS
+       ═══════════════════════════════════════════ */
+    --sp-shadow-none: none;
+    --sp-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --sp-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.4);
+    --sp-shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.5);
+    --sp-shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.6);
+    
+    --sp-shadow-focus: 0 0 0 2px var(--sp-blue-500);
+    --sp-shadow-focus-inset: inset 0 0 0 1px var(--sp-blue-500);
+    
+    /* ═══════════════════════════════════════════
+       TRANSITIONS
+       ═══════════════════════════════════════════ */
+    --sp-transition-duration-fast: 100ms;
+    --sp-transition-duration-normal: 150ms;
+    --sp-transition-duration-slow: 200ms;
+    --sp-transition-duration-slower: 300ms;
+    
+    --sp-transition-easing-default: ease;
+    --sp-transition-easing-in: ease-in;
+    --sp-transition-easing-out: ease-out;
+    --sp-transition-easing-in-out: ease-in-out;
+    
+    /* Shorthand */
+    --sp-transition-fast: var(--sp-transition-duration-fast) var(--sp-transition-easing-default);
+    --sp-transition-normal: var(--sp-transition-duration-normal) var(--sp-transition-easing-default);
+    --sp-transition-slow: var(--sp-transition-duration-slow) var(--sp-transition-easing-default);
+    
+    /* ═══════════════════════════════════════════
+       Z-INDEX LAYERS
+       ═══════════════════════════════════════════ */
+    --sp-z-base: 0;
+    --sp-z-dropdown: 100;
+    --sp-z-sticky: 200;
+    --sp-z-fixed: 300;
+    --sp-z-modal-backdrop: 400;
+    --sp-z-modal: 500;
+    --sp-z-popover: 600;
+    --sp-z-tooltip: 700;
+    --sp-z-toast: 800;
+    
+    /* ═══════════════════════════════════════════
+       OPACITY
+       ═══════════════════════════════════════════ */
+    --sp-opacity-disabled: 0.4;
+    --sp-opacity-hover: 0.08;
+    --sp-opacity-active: 0.12;
+}
+
+/* ═══════════════════════════════════════════
+   DARK THEME OVERRIDES (Default)
+   ═══════════════════════════════════════════ */
+[data-theme="dark"],
+.sp-theme-dark {
+    color-scheme: dark;
+}
+
+/* ═══════════════════════════════════════════
+   LIGHT THEME (Optional)
+   ═══════════════════════════════════════════ */
+[data-theme="light"],
+.sp-theme-light {
+    --sp-gray-50: #ffffff;
+    --sp-gray-75: #fafafa;
+    --sp-gray-100: #f5f5f5;
+    --sp-gray-200: #eaeaea;
+    --sp-gray-300: #d3d3d3;
+    --sp-gray-400: #bcbcbc;
+    --sp-gray-500: #959595;
+    --sp-gray-600: #6e6e6e;
+    --sp-gray-700: #4b4b4b;
+    --sp-gray-800: #2c2c2c;
+    --sp-gray-900: #1a1a1a;
+    
+    color-scheme: light;
+}

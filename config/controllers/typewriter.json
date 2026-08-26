@@ -1,0 +1,302 @@
+{
+  "$schema": "./_schema.json",
+  "category": "typewriter",
+  "version": "1.1.0",
+  "description": "Typewriter Controllers - متحكمات تأثير الآلة الكاتبة",
+  "sourceFile": "host/modules/TypewriterManager.jsx",
+  "sourceLines": "224-270",
+  "controllersCount": 15,
+
+  "groups": {
+    "progress": {
+      "label": "التقدم",
+      "labelEn": "Progress",
+      "order": 1,
+      "controllers": ["TW Progress", "TW Auto", "TW Reverse"]
+    },
+    "mode": {
+      "label": "الوضع",
+      "labelEn": "Mode",
+      "order": 2,
+      "controllers": ["Word Mode", "Random Speed", "Box RTL"]
+    },
+    "cursor": {
+      "label": "المؤشر",
+      "labelEn": "Cursor",
+      "order": 3,
+      "controllers": ["Show Cursor", "Cursor Before Text", "Cursor Type", "Cursor Color", "Cursor Spacing"]
+    },
+    "blink": {
+      "label": "الوميض",
+      "labelEn": "Blink",
+      "order": 4,
+      "controllers": ["Blink Speed", "Blink In Hold"]
+    },
+    "easing": {
+      "label": "التسهيل",
+      "labelEn": "Easing",
+      "order": 5,
+      "controllers": ["Easing Type", "Easing Strength"]
+    },
+    "color": {
+      "label": "اللون",
+      "labelEn": "Color",
+      "order": 6,
+      "controllers": ["Text Color"]
+    }
+  },
+
+  "controllers": {
+    "TW Progress": {
+      "type": "slider",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "unit": "percent",
+      "group": "progress",
+      "description": "نسبة التقدم اليدوي",
+      "descriptionEn": "Manual progress percentage",
+      "expressionRef": "effect(\"TW Progress\")(\"Slider\")",
+      "usedInExpressions": ["typewriter/sourceText"]
+    },
+    "TW Auto": {
+      "type": "checkbox",
+      "default": true,
+      "group": "progress",
+      "description": "التشغيل التلقائي بناءً على Markers",
+      "descriptionEn": "Auto play based on markers",
+      "expressionRef": "effect(\"TW Auto\")(\"Checkbox\")",
+      "usedInExpressions": ["typewriter/sourceText"]
+    },
+    "TW Reverse": {
+      "type": "checkbox",
+      "default": false,
+      "group": "progress",
+      "description": "وضع الحذف (عكس الكتابة)",
+      "descriptionEn": "Delete mode (reverse typing)",
+      "expressionRef": "effect(\"TW Reverse\")(\"Checkbox\")",
+      "usedInExpressions": ["typewriter/sourceText"]
+    },
+    "Word Mode": {
+      "type": "checkbox",
+      "default": false,
+      "group": "mode",
+      "description": "وضع الكلمات (للعربية)",
+      "descriptionEn": "Word mode (for Arabic)",
+      "expressionRef": "effect(\"Word Mode\")(\"Checkbox\")",
+      "usedInExpressions": ["typewriter/sourceText"]
+    },
+    "Random Speed": {
+      "type": "slider",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "unit": "percent",
+      "group": "mode",
+      "description": "سرعة عشوائية للكتابة",
+      "descriptionEn": "Random typing speed variation",
+      "expressionRef": "effect(\"Random Speed\")(\"Slider\")",
+      "usedInExpressions": ["typewriter/sourceText"]
+    },
+    "Box RTL": {
+      "type": "checkbox",
+      "default": false,
+      "group": "mode",
+      "description": "اتجاه من اليمين لليسار",
+      "descriptionEn": "Right-to-left direction",
+      "expressionRef": "effect(\"Box RTL\")(\"Checkbox\")",
+      "usedInExpressions": ["typewriter/sourceText"]
+    },
+    "Show Cursor": {
+      "type": "checkbox",
+      "default": true,
+      "group": "cursor",
+      "description": "إظهار المؤشر",
+      "descriptionEn": "Show cursor",
+      "expressionRef": "effect(\"Show Cursor\")(\"Checkbox\")",
+      "usedInExpressions": ["typewriter/sourceText", "cursor/blink"]
+    },
+    "Cursor Before Text": {
+      "type": "checkbox",
+      "default": false,
+      "group": "cursor",
+      "description": "المؤشر قبل النص",
+      "descriptionEn": "Cursor before text",
+      "expressionRef": "effect(\"Cursor Before Text\")(\"Checkbox\")",
+      "usedInExpressions": ["typewriter/sourceText"]
+    },
+    "Cursor Type": {
+      "type": "slider",
+      "default": 0,
+      "min": -1,
+      "max": 6,
+      "values": [-1, 0, 1, 2, 3, 4, 5, 6],
+      "valueLabels": {
+        "-1": "Custom",
+        "0": "| (Pipe)",
+        "1": "▌ (Half Block)",
+        "2": "█ (Block)",
+        "3": "▎ (Thin Block)",
+        "4": "● (Circle)",
+        "5": "◆ (Diamond)",
+        "6": "✦ (Star)"
+      },
+      "group": "cursor",
+      "description": "شكل المؤشر",
+      "descriptionEn": "Cursor shape",
+      "expressionRef": "effect(\"Cursor Type\")(\"Slider\")",
+      "usedInExpressions": ["typewriter/sourceText"]
+    },
+    "Cursor Color": {
+      "type": "color",
+      "default": [1, 1, 1],
+      "defaultHex": "#FFFFFF",
+      "group": "cursor",
+      "description": "لون المؤشر",
+      "descriptionEn": "Cursor color",
+      "expressionRef": "effect(\"Cursor Color\")(\"Color\")",
+      "usedInExpressions": ["cursor/blink (via animator)"]
+    },
+    "Cursor Spacing": {
+      "type": "slider",
+      "default": 0,
+      "min": 0,
+      "max": 50,
+      "unit": "spaces",
+      "group": "cursor",
+      "description": "المسافة بين المؤشر والنص",
+      "descriptionEn": "Space between cursor and text",
+      "expressionRef": "effect(\"Cursor Spacing\")(\"Slider\")",
+      "usedInExpressions": ["typewriter/sourceText"]
+    },
+    "Blink Speed": {
+      "type": "slider",
+      "default": 2,
+      "min": 1,
+      "max": 10,
+      "unit": "speed",
+      "group": "blink",
+      "description": "سرعة وميض المؤشر",
+      "descriptionEn": "Cursor blink speed",
+      "expressionRef": "effect(\"Blink Speed\")(\"Slider\")",
+      "usedInExpressions": ["cursor/blink"]
+    },
+    "Blink In Hold": {
+      "type": "checkbox",
+      "default": true,
+      "group": "blink",
+      "description": "الوميض أثناء فترة الانتظار",
+      "descriptionEn": "Blink during hold period",
+      "expressionRef": "effect(\"Blink In Hold\")(\"Checkbox\")",
+      "usedInExpressions": ["cursor/blink"]
+    },
+    "Easing Type": {
+      "type": "slider",
+      "default": 1,
+      "min": 0,
+      "max": 3,
+      "values": [0, 1, 2, 3],
+      "valueLabels": {
+        "0": "Linear",
+        "1": "Ease Out",
+        "2": "Ease In",
+        "3": "Ease In Out"
+      },
+      "group": "easing",
+      "description": "نوع التسهيل",
+      "descriptionEn": "Easing type",
+      "expressionRef": "effect(\"Easing Type\")(\"Slider\")",
+      "usedInExpressions": ["typewriter/sourceText"]
+    },
+    "Easing Strength": {
+      "type": "slider",
+      "default": 100,
+      "min": 0,
+      "max": 100,
+      "unit": "percent",
+      "group": "easing",
+      "description": "قوة التسهيل",
+      "descriptionEn": "Easing strength",
+      "expressionRef": "effect(\"Easing Strength\")(\"Slider\")",
+      "usedInExpressions": ["typewriter/sourceText"]
+    },
+    "Text Color": {
+      "type": "color",
+      "default": [1, 1, 1],
+      "defaultHex": "#FFFFFF",
+      "group": "color",
+      "optional": true,
+      "condition": "applyTextColor === true",
+      "description": "لون النص (اختياري)",
+      "descriptionEn": "Text color (optional)",
+      "expressionRef": "effect(\"Text Color\")(\"Color\")",
+      "usedInExpressions": ["Color Control animator"]
+    }
+  },
+
+  "markers": {
+    "TW_TEXT": {
+      "format": "TW_TEXT:{text}",
+      "description": "النص الأصلي المخزن",
+      "time": 0
+    },
+    "CURSOR_CHAR": {
+      "format": "CURSOR_CHAR:{char}",
+      "description": "حرف المؤشر المخصص",
+      "time": 0.001,
+      "condition": "cursorType == -1"
+    },
+    "IN_START": {
+      "description": "بداية الكتابة",
+      "labelColor": 3
+    },
+    "IN_END": {
+      "description": "نهاية الكتابة",
+      "labelColor": 3
+    },
+    "OUT_START": {
+      "description": "بداية الحذف",
+      "labelColor": 1,
+      "optional": true
+    },
+    "OUT_END": {
+      "description": "نهاية الحذف",
+      "labelColor": 1,
+      "optional": true
+    },
+    "BLINK_START": {
+      "description": "بداية الوميض",
+      "labelColor": 9
+    },
+    "BLINK_END": {
+      "description": "نهاية الوميض",
+      "labelColor": 9
+    }
+  },
+
+  "animators": {
+    "Cursor Blink": {
+      "description": "Animator للتحكم في وميض ولون المؤشر",
+      "selector": {
+        "start": "cursor/range expression",
+        "end": 100
+      },
+      "properties": {
+        "opacity": "cursor/blink expression",
+        "fillColor": "effect(\"Cursor Color\")(\"Color\")"
+      }
+    },
+    "Color Control": {
+      "description": "Animator للتحكم في لون النص (اختياري)",
+      "optional": true,
+      "condition": "applyTextColor === true",
+      "selector": {
+        "start": 0,
+        "end": "cursor exclusion expression"
+      },
+      "properties": {
+        "fillColor": "effect(\"Text Color\")(\"Color\")"
+      }
+    }
+  }
+}

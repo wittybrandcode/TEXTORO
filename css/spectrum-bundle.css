@@ -1,0 +1,260 @@
+/* ============================================
+   TEXTORO - Spectrum Design System Bundle
+   Adobe Spectrum Dark Theme - Complete Bundle
+   
+   This file imports all Spectrum components.
+   Include this single file to get the full system.
+   ============================================ */
+
+/* === CORE === */
+@import url('spectrum/variables.css');
+
+/* === COMPONENTS === */
+@import url('spectrum/buttons.css');
+@import url('spectrum/inputs.css');
+@import url('spectrum/stepper.css');
+@import url('spectrum/tabs.css');
+@import url('spectrum/accordion.css');
+
+/* ═══════════════════════════════════════════
+   GLOBAL RESETS & BASE STYLES
+   ═══════════════════════════════════════════ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: var(--sp-font-family);
+    font-size: var(--sp-font-size-200);
+    font-weight: var(--sp-font-weight-regular);
+    line-height: var(--sp-line-height-100);
+    color: var(--sp-text-primary);
+    background: var(--sp-background-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ═══════════════════════════════════════════
+   FOCUS MANAGEMENT
+   ═══════════════════════════════════════════ */
+:focus {
+    outline: none;
+}
+
+:focus-visible {
+    outline: none;
+    box-shadow: var(--sp-shadow-focus);
+}
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR STYLING
+   ═══════════════════════════════════════════ */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--sp-background-base);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--sp-gray-400);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--sp-gray-500);
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* ═══════════════════════════════════════════
+   SELECTION
+   ═══════════════════════════════════════════ */
+::selection {
+    background: var(--sp-blue-500);
+    color: white;
+}
+
+/* ═══════════════════════════════════════════
+   UTILITY CLASSES
+   ═══════════════════════════════════════════ */
+
+/* Text Colors */
+.sp-text-primary { color: var(--sp-text-primary); }
+.sp-text-secondary { color: var(--sp-text-secondary); }
+.sp-text-tertiary { color: var(--sp-text-tertiary); }
+.sp-text-disabled { color: var(--sp-text-disabled); }
+.sp-text-positive { color: var(--sp-positive); }
+.sp-text-negative { color: var(--sp-negative); }
+.sp-text-warning { color: var(--sp-warning); }
+.sp-text-info { color: var(--sp-info); }
+
+/* Background Colors */
+.sp-bg-base { background: var(--sp-background-base); }
+.sp-bg-layer-1 { background: var(--sp-background-layer-1); }
+.sp-bg-layer-2 { background: var(--sp-background-layer-2); }
+.sp-bg-layer-3 { background: var(--sp-background-layer-3); }
+
+/* Spacing */
+.sp-mt-100 { margin-top: var(--sp-spacing-100); }
+.sp-mt-200 { margin-top: var(--sp-spacing-200); }
+.sp-mt-300 { margin-top: var(--sp-spacing-300); }
+.sp-mt-400 { margin-top: var(--sp-spacing-400); }
+
+.sp-mb-100 { margin-bottom: var(--sp-spacing-100); }
+.sp-mb-200 { margin-bottom: var(--sp-spacing-200); }
+.sp-mb-300 { margin-bottom: var(--sp-spacing-300); }
+.sp-mb-400 { margin-bottom: var(--sp-spacing-400); }
+
+.sp-p-100 { padding: var(--sp-spacing-100); }
+.sp-p-200 { padding: var(--sp-spacing-200); }
+.sp-p-300 { padding: var(--sp-spacing-300); }
+.sp-p-400 { padding: var(--sp-spacing-400); }
+
+/* Flex Utilities */
+.sp-flex { display: flex; }
+.sp-flex-col { flex-direction: column; }
+.sp-flex-wrap { flex-wrap: wrap; }
+.sp-items-center { align-items: center; }
+.sp-justify-center { justify-content: center; }
+.sp-justify-between { justify-content: space-between; }
+.sp-gap-100 { gap: var(--sp-spacing-100); }
+.sp-gap-200 { gap: var(--sp-spacing-200); }
+.sp-gap-300 { gap: var(--sp-spacing-300); }
+
+/* Border Radius */
+.sp-rounded-sm { border-radius: var(--sp-radius-sm); }
+.sp-rounded-md { border-radius: var(--sp-radius-md); }
+.sp-rounded-lg { border-radius: var(--sp-radius-lg); }
+.sp-rounded-full { border-radius: var(--sp-radius-full); }
+
+/* Visibility */
+.sp-hidden { display: none !important; }
+.sp-visible { visibility: visible; }
+.sp-invisible { visibility: hidden; }
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════ */
+@keyframes sp-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes sp-fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes sp-slide-up {
+    from { 
+        opacity: 0; 
+        transform: translateY(8px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+@keyframes sp-slide-down {
+    from { 
+        opacity: 0; 
+        transform: translateY(-8px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+@keyframes sp-scale-in {
+    from { 
+        opacity: 0; 
+        transform: scale(0.95); 
+    }
+    to { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+}
+
+@keyframes sp-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes sp-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Animation Classes */
+.sp-animate-fade-in { animation: sp-fade-in var(--sp-transition-normal); }
+.sp-animate-slide-up { animation: sp-slide-up var(--sp-transition-normal); }
+.sp-animate-slide-down { animation: sp-slide-down var(--sp-transition-normal); }
+.sp-animate-scale-in { animation: sp-scale-in var(--sp-transition-normal); }
+.sp-animate-spin { animation: sp-spin 1s linear infinite; }
+.sp-animate-pulse { animation: sp-pulse 2s ease-in-out infinite; }
+
+/* ═══════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════ */
+
+/* Screen Reader Only */
+.sp-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Skip Link */
+.sp-skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--sp-blue-500);
+    color: white;
+    padding: var(--sp-spacing-200) var(--sp-spacing-300);
+    z-index: var(--sp-z-toast);
+    transition: top var(--sp-transition-fast);
+}
+
+.sp-skip-link:focus {
+    top: 0;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High Contrast */
+@media (prefers-contrast: high) {
+    :root {
+        --sp-border-default: var(--sp-gray-500);
+        --sp-border-hover: var(--sp-gray-600);
+    }
+}

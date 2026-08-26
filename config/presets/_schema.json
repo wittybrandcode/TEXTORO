@@ -1,0 +1,138 @@
+{
+  "_comment": "TEXTORO Presets Schema - v2.9.1",
+  "_description": "This file documents the structure of preset JSON files",
+  
+  "common": {
+    "required": ["name", "category"],
+    "optional": ["id", "icon", "description", "builtin", "author", "created"],
+    "fields": {
+      "name": "string - اسم البريست (مطلوب)",
+      "category": "string - type|box|mix|motion|toro (مطلوب)",
+      "id": "string - معرف فريد (اختياري)",
+      "icon": "string - أيقونة emoji (اختياري)",
+      "description": "string - وصف البريست (اختياري)",
+      "builtin": "boolean - هل هو مدمج (اختياري، افتراضي: false)",
+      "author": "string - اسم المؤلف (اختياري)",
+      "created": "string - تاريخ الإنشاء ISO (اختياري)"
+    }
+  },
+
+  "type": {
+    "required": ["name", "category", "values"],
+    "values": {
+      "twAuto": "boolean - تشغيل تلقائي (مطلوب)",
+      "twReverse": "boolean - وضع الحذف",
+      "randomSpeed": "number 0-100 - سرعة عشوائية",
+      "showCursor": "boolean - إظهار المؤشر (مطلوب)",
+      "cursorBefore": "boolean - المؤشر قبل النص",
+      "cursorColor": "array [R,G,B] 0-1 - لون المؤشر",
+      "cursorSpacing": "number 0-50 - المسافة",
+      "blinkSpeed": "number 1-10 - سرعة الوميض (مطلوب)",
+      "blinkInHold": "boolean - الوميض أثناء الثبات",
+      "boxRTL": "boolean - اتجاه RTL",
+      "inStart": "number - بداية الظهور (ثواني)",
+      "inEnd": "number - نهاية الظهور (ثواني)",
+      "outStart": "number|null - بداية الاختفاء (null = بدون)",
+      "outEnd": "number|null - نهاية الاختفاء",
+      "blinkStart": "number - بداية الوميض",
+      "blinkEnd": "number - نهاية الوميض"
+    }
+  },
+
+  "box": {
+    "required": ["name", "category", "values"],
+    "values": {
+      "paddingLeft": "number 0-200 - الحشو الأيسر (مطلوب)",
+      "paddingRight": "number 0-200 - الحشو الأيمن (مطلوب)",
+      "paddingTop": "number 0-200 - الحشو العلوي (مطلوب)",
+      "paddingBottom": "number 0-200 - الحشو السفلي (مطلوب)",
+      "use4Corners": "boolean - استخدام 4 زوايا مختلفة",
+      "cornerRadius": "number 0-500 - نصف قطر الزوايا (موحد)",
+      "cornerTL": "number 0-500 - الزاوية العلوية اليسرى",
+      "cornerTR": "number 0-500 - الزاوية العلوية اليمنى",
+      "cornerBR": "number 0-500 - الزاوية السفلية اليمنى",
+      "cornerBL": "number 0-500 - الزاوية السفلية اليسرى",
+      "strokeWidth": "number 0-50 - سمك الحدود",
+      "strokeOpacity": "number 0-100 - شفافية الحدود",
+      "strokeColor": "array [R,G,B] 0-1 - لون الحدود",
+      "strokeDash": "number 0-100 - طول الشرطة",
+      "strokeGap": "number 0-100 - الفجوة",
+      "fillOpacity": "number 0-100 - شفافية التعبئة",
+      "fillColor": "array [R,G,B] 0-1 - لون التعبئة",
+      "trimStart": "number 0-100 - بداية القص",
+      "trimEnd": "number 0-100 - نهاية القص",
+      "trimOffset": "number -360 to 360 - إزاحة القص",
+      "pathOffset": "number - إزاحة المسار",
+      "applyTextColor": "boolean - تطبيق لون النص",
+      "textColor": "array [R,G,B] 0-1 - لون النص",
+      "lockBoxSize": "boolean - قفل الحجم"
+    }
+  },
+
+  "mix": {
+    "required": ["name", "category"],
+    "optional": ["type", "box"],
+    "description": "Mix presets contain nested type and/or box objects",
+    "structure": {
+      "type": "object - نفس هيكل values في type preset",
+      "box": "object - نفس هيكل values في box preset"
+    }
+  },
+
+  "motion": {
+    "required": ["name", "category", "values"],
+    "values": {
+      "inStart": "number - بداية الدخول (ثواني)",
+      "inEnd": "number - نهاية الدخول (ثواني)",
+      "outEnable": "boolean - تفعيل الخروج",
+      "outStart": "number - بداية الخروج (ثواني)",
+      "outEnd": "number - نهاية الخروج (ثواني)",
+      "syncMode": "number 0|1 - وضع المزامنة",
+      "animatePosition": "boolean - تفعيل حركة الموقع",
+      "posFromX": "number -500 to 500 - إزاحة X البدائية",
+      "posFromY": "number -500 to 500 - إزاحة Y البدائية",
+      "posToX": "number -500 to 500 - إزاحة X النهائية",
+      "posToY": "number -500 to 500 - إزاحة Y النهائية",
+      "posOutFromX": "number - إزاحة X بداية الخروج",
+      "posOutFromY": "number - إزاحة Y بداية الخروج",
+      "posOutToX": "number - إزاحة X نهاية الخروج",
+      "posOutToY": "number - إزاحة Y نهاية الخروج",
+      "animateScale": "boolean - تفعيل حركة الحجم",
+      "scaleFrom": "number 0-200 - الحجم البدائي %",
+      "scaleTo": "number 0-200 - الحجم النهائي %",
+      "scaleOutFrom": "number - حجم بداية الخروج",
+      "scaleOutTo": "number - حجم نهاية الخروج",
+      "animateRotation": "boolean - تفعيل حركة الدوران",
+      "rotFrom": "number -360 to 360 - الدوران البدائي",
+      "rotTo": "number -360 to 360 - الدوران النهائي",
+      "rotOutFrom": "number - دوران بداية الخروج",
+      "rotOutTo": "number - دوران نهاية الخروج",
+      "animateOpacity": "boolean - تفعيل حركة الشفافية",
+      "opacityFrom": "number 0-100 - الشفافية البدائية",
+      "opacityTo": "number 0-100 - الشفافية النهائية",
+      "opacityOutFrom": "number - شفافية بداية الخروج",
+      "opacityOutTo": "number - شفافية نهاية الخروج",
+      "easingType": "number 0-6 - نوع التسهيل",
+      "easingStrength": "number 0-200 - قوة التسهيل"
+    },
+    "easingTypes": {
+      "0": "Linear - خطي",
+      "1": "Ease Out - تباطؤ في النهاية",
+      "2": "Ease In - تباطؤ في البداية",
+      "3": "Ease In Out - تباطؤ في البداية والنهاية",
+      "4": "Bounce - ارتداد",
+      "5": "Elastic - مرن",
+      "6": "Spring - زنبركي"
+    }
+  },
+
+  "toro": {
+    "required": ["name", "category", "values"],
+    "description": "TORO presets - القالب الشامل (Type + Box + Motion)",
+    "values": {
+      "type": "object - نفس هيكل values في type preset",
+      "box": "object - نفس هيكل values في box preset",
+      "motion": "object - نفس هيكل values في motion preset"
+    }
+  }
+}

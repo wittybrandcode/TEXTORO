@@ -1,0 +1,12 @@
+{
+  "versions": {
+    "cursor/blink": "v1.0",
+    "box/path4corners": "v1.0",
+    "typewriter/sourceText": "v1.4"
+  },
+  "fallback": "v1.0",
+  "changelog": {
+    "v1.4": "Live Text Mode - edit text directly on the layer / Premiere Essential Graphics (Mogrt-ready)",
+    "v1.3": "RTL Improvements - Smart Direction, Word Mode for Arabic, ZWJ Support"
+  }
+}

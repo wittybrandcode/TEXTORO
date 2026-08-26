@@ -1,0 +1,332 @@
+/* ============================================
+   TEXTORO - Spectrum Tabs
+   Adobe Spectrum Tab Navigation
+   ============================================ */
+
+/* ═══════════════════════════════════════════
+   TABS CONTAINER
+   ═══════════════════════════════════════════ */
+.sp-tabs {
+    display: flex;
+    background: var(--sp-background-layer-1);
+    border-bottom: 1px solid var(--sp-border-default);
+    padding: 0 var(--sp-spacing-200);
+    position: sticky;
+    top: 0;
+    z-index: var(--sp-z-sticky);
+}
+
+/* ═══════════════════════════════════════════
+   INDIVIDUAL TAB
+   ═══════════════════════════════════════════ */
+.sp-tab {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-spacing-50);
+    padding: var(--sp-spacing-200) var(--sp-spacing-100);
+    background: transparent;
+    border: none;
+    color: var(--sp-tab-text);
+    font-family: var(--sp-font-family);
+    font-size: var(--sp-font-size-75);
+    font-weight: var(--sp-font-weight-semibold);
+    text-transform: none;
+    cursor: pointer;
+    transition: color var(--sp-transition-fast);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Tab Icon */
+.sp-tab-icon {
+    font-size: var(--sp-icon-size-sm);
+    transition: color var(--sp-transition-fast);
+}
+
+/* Tab Label */
+.sp-tab-label {
+    white-space: nowrap;
+}
+
+/* Hover State */
+.sp-tab:hover {
+    color: var(--sp-tab-text-hover);
+}
+
+/* Active/Selected State */
+.sp-tab.active,
+.sp-tab[aria-selected="true"] {
+    color: var(--sp-tab-text-selected);
+}
+
+/* Selection Indicator */
+.sp-tab::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: transparent;
+    transition: background var(--sp-transition-fast);
+}
+
+.sp-tab.active::after,
+.sp-tab[aria-selected="true"]::after {
+    background: var(--sp-tab-indicator);
+}
+
+/* Focus State */
+.sp-tab:focus-visible {
+    background: rgba(38, 128, 235, 0.1);
+}
+
+/* Disabled State */
+.sp-tab:disabled,
+.sp-tab.disabled {
+    opacity: var(--sp-opacity-disabled);
+    cursor: not-allowed;
+}
+
+/* ═══════════════════════════════════════════
+   COMPACT TABS (Icon Only)
+   ═══════════════════════════════════════════ */
+.sp-tabs-compact .sp-tab {
+    padding: var(--sp-spacing-200);
+}
+
+.sp-tabs-compact .sp-tab-label {
+    display: none;
+}
+
+.sp-tabs-compact .sp-tab-icon {
+    font-size: var(--sp-icon-size-md);
+}
+
+/* ═══════════════════════════════════════════
+   HORIZONTAL TABS (Default)
+   ═══════════════════════════════════════════ */
+.sp-tabs-horizontal {
+    flex-direction: row;
+}
+
+/* ═══════════════════════════════════════════
+   VERTICAL TABS
+   ═══════════════════════════════════════════ */
+.sp-tabs-vertical {
+    flex-direction: column;
+    border-bottom: none;
+    border-right: 1px solid var(--sp-border-default);
+    padding: var(--sp-spacing-200) 0;
+}
+
+.sp-tabs-vertical .sp-tab {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: var(--sp-spacing-200) var(--sp-spacing-300);
+}
+
+.sp-tabs-vertical .sp-tab::after {
+    top: 0;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    width: 2px;
+    height: auto;
+}
+
+/* ═══════════════════════════════════════════
+   QUIET TABS (No Background)
+   ═══════════════════════════════════════════ */
+.sp-tabs-quiet {
+    background: transparent;
+    border-bottom: none;
+}
+
+.sp-tabs-quiet .sp-tab::after {
+    height: 3px;
+    border-radius: 2px 2px 0 0;
+}
+
+/* ═══════════════════════════════════════════
+   EMPHASIZED TABS
+   ═══════════════════════════════════════════ */
+.sp-tabs-emphasized .sp-tab.active {
+    background: rgba(38, 128, 235, 0.1);
+}
+
+/* ═══════════════════════════════════════════
+   TAB PANELS
+   ═══════════════════════════════════════════ */
+.sp-tab-panels {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.sp-tab-panel {
+    display: none;
+    padding: var(--sp-spacing-300);
+    animation: sp-tab-fade-in 150ms ease;
+}
+
+.sp-tab-panel.active,
+.sp-tab-panel[aria-hidden="false"] {
+    display: block;
+}
+
+@keyframes sp-tab-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ═══════════════════════════════════════════
+   SUB-TABS (Secondary Navigation)
+   ═══════════════════════════════════════════ */
+.sp-subtabs {
+    display: flex;
+    gap: var(--sp-spacing-75);
+    padding: var(--sp-spacing-200) 0;
+    margin-bottom: var(--sp-spacing-200);
+}
+
+.sp-subtab {
+    padding: var(--sp-spacing-100) var(--sp-spacing-200);
+    background: var(--sp-gray-200);
+    border: 1px solid var(--sp-border-default);
+    border-radius: var(--sp-radius-md);
+    color: var(--sp-text-secondary);
+    font-size: var(--sp-font-size-100);
+    font-weight: var(--sp-font-weight-semibold);
+    cursor: pointer;
+    transition: all var(--sp-transition-fast);
+}
+
+.sp-subtab:hover {
+    background: var(--sp-gray-300);
+    color: var(--sp-text-primary);
+}
+
+.sp-subtab.active {
+    background: var(--sp-blue-500);
+    border-color: var(--sp-blue-500);
+    color: white;
+}
+
+/* IN/OUT Subtabs (Special) */
+.sp-subtab[data-tab="in"].active {
+    background: var(--sp-green-500);
+    border-color: var(--sp-green-500);
+}
+
+.sp-subtab[data-tab="out"].active {
+    background: var(--sp-orange-500);
+    border-color: var(--sp-orange-500);
+}
+
+/* ═══════════════════════════════════════════
+   FILTER TABS (Presets Panel)
+   ═══════════════════════════════════════════ */
+.sp-filter-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-spacing-75);
+    padding: var(--sp-spacing-200) 0;
+}
+
+.sp-filter-tab {
+    flex: 1;
+    min-width: 40px;
+    padding: var(--sp-spacing-100) var(--sp-spacing-200);
+    background: var(--sp-gray-200);
+    border: 1px solid var(--sp-border-default);
+    border-radius: var(--sp-radius-md);
+    color: var(--sp-text-secondary);
+    font-size: var(--sp-font-size-75);
+    font-weight: var(--sp-font-weight-semibold);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--sp-transition-fast);
+}
+
+.sp-filter-tab:hover {
+    background: var(--sp-gray-300);
+    color: var(--sp-text-primary);
+}
+
+.sp-filter-tab.active {
+    background: var(--sp-blue-500);
+    border-color: var(--sp-blue-500);
+    color: white;
+}
+
+/* Special Filter Tabs */
+.sp-filter-tab.toro {
+    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+    border-color: #ff6b35;
+    color: white;
+    font-weight: var(--sp-font-weight-bold);
+}
+
+.sp-filter-tab.toro:hover {
+    background: linear-gradient(135deg, #ff8555 0%, #ffa73e 100%);
+}
+
+.sp-filter-tab.toro.active {
+    box-shadow: 0 0 8px rgba(255, 107, 53, 0.5);
+}
+
+.sp-filter-tab.fav {
+    min-width: 32px;
+    flex: 0;
+}
+
+.sp-filter-tab.fav.active {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    border-color: #FFD700;
+    color: #333;
+}
+
+/* ═══════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════ */
+.sp-tabs[role="tablist"] {
+    /* Ensure proper ARIA structure */
+}
+
+.sp-tab[role="tab"] {
+    /* Tab role styling */
+}
+
+.sp-tab-panel[role="tabpanel"] {
+    /* Panel role styling */
+}
+
+/* Keyboard Navigation */
+.sp-tab:focus {
+    outline: none;
+}
+
+.sp-tab:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--sp-blue-500);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .sp-tab,
+    .sp-tab::after,
+    .sp-tab-panel {
+        transition: none;
+        animation: none;
+    }
+}

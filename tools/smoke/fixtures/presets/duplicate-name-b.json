@@ -1,0 +1,11 @@
+{
+  "id": "dup_b_002",
+  "name": "Duplicate Test",
+  "icon": "🎬",
+  "category": "type",
+  "values": {
+    "inStart": 1,
+    "inEnd": 2,
+    "showCursor": false
+  }
+}

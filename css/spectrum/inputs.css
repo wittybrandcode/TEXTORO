@@ -1,0 +1,514 @@
+/* ============================================
+   TEXTORO - Spectrum Input Fields
+   Adobe Spectrum Form Controls
+   ============================================ */
+
+/* ═══════════════════════════════════════════
+   TEXT INPUT
+   ═══════════════════════════════════════════ */
+.sp-textfield {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-spacing-75);
+}
+
+.sp-textfield-input {
+    height: var(--sp-component-height-md);
+    padding: 0 var(--sp-spacing-200);
+    background: var(--sp-field-background);
+    border: 1px solid var(--sp-field-border);
+    border-radius: var(--sp-radius-md);
+    color: var(--sp-field-text);
+    font-family: var(--sp-font-family);
+    font-size: var(--sp-font-size-200);
+    line-height: 1;
+    transition: 
+        border-color var(--sp-transition-fast),
+        box-shadow var(--sp-transition-fast);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.sp-textfield-input:hover {
+    border-color: var(--sp-field-border-hover);
+}
+
+.sp-textfield-input:focus {
+    border-color: var(--sp-field-border-focus);
+    box-shadow: 0 0 0 1px var(--sp-field-border-focus);
+}
+
+.sp-textfield-input::placeholder {
+    color: var(--sp-field-text-placeholder);
+}
+
+.sp-textfield-input:disabled {
+    opacity: var(--sp-opacity-disabled);
+    cursor: not-allowed;
+}
+
+/* ═══════════════════════════════════════════
+   TEXTAREA
+   ═══════════════════════════════════════════ */
+.sp-textarea {
+    min-height: 60px;
+    padding: var(--sp-spacing-200);
+    background: var(--sp-field-background);
+    border: 1px solid var(--sp-field-border);
+    border-radius: var(--sp-radius-md);
+    color: var(--sp-field-text);
+    font-family: var(--sp-font-family);
+    font-size: var(--sp-font-size-200);
+    line-height: var(--sp-line-height-200);
+    resize: vertical;
+    transition: 
+        border-color var(--sp-transition-fast),
+        box-shadow var(--sp-transition-fast);
+    outline: none;
+}
+
+.sp-textarea:hover {
+    border-color: var(--sp-field-border-hover);
+}
+
+.sp-textarea:focus {
+    border-color: var(--sp-field-border-focus);
+    box-shadow: 0 0 0 1px var(--sp-field-border-focus);
+}
+
+.sp-textarea::placeholder {
+    color: var(--sp-field-text-placeholder);
+}
+
+/* ═══════════════════════════════════════════
+   LABEL
+   ═══════════════════════════════════════════ */
+.sp-label {
+    font-size: var(--sp-font-size-100);
+    font-weight: var(--sp-font-weight-medium);
+    color: var(--sp-text-secondary);
+}
+
+.sp-label-required::after {
+    content: ' *';
+    color: var(--sp-negative);
+}
+
+/* ═══════════════════════════════════════════
+   HELP TEXT
+   ═══════════════════════════════════════════ */
+.sp-helptext {
+    font-size: var(--sp-font-size-75);
+    color: var(--sp-text-tertiary);
+}
+
+.sp-helptext-negative {
+    color: var(--sp-negative);
+}
+
+/* ═══════════════════════════════════════════
+   CHECKBOX
+   ═══════════════════════════════════════════ */
+.sp-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-spacing-200);
+    cursor: pointer;
+    user-select: none;
+}
+
+.sp-checkbox input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.sp-checkbox-box {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    background: transparent;
+    border: 2px solid var(--sp-checkbox-border);
+    border-radius: var(--sp-radius-sm);
+    position: relative;
+    transition: all var(--sp-transition-fast);
+}
+
+.sp-checkbox:hover .sp-checkbox-box {
+    border-color: var(--sp-checkbox-border-hover);
+}
+
+.sp-checkbox input:checked + .sp-checkbox-box {
+    background: var(--sp-checkbox-checked-bg);
+    border-color: var(--sp-checkbox-checked-border);
+}
+
+/* Checkmark */
+.sp-checkbox input:checked + .sp-checkbox-box::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 0px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--sp-checkbox-checkmark);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    animation: sp-check-pop 150ms ease;
+}
+
+@keyframes sp-check-pop {
+    0% { transform: scale(0) rotate(45deg); }
+    50% { transform: scale(1.2) rotate(45deg); }
+    100% { transform: scale(1) rotate(45deg); }
+}
+
+/* Focus */
+.sp-checkbox input:focus-visible + .sp-checkbox-box {
+    box-shadow: var(--sp-shadow-focus);
+}
+
+/* Disabled */
+.sp-checkbox.disabled,
+.sp-checkbox input:disabled + .sp-checkbox-box {
+    opacity: var(--sp-opacity-disabled);
+    cursor: not-allowed;
+}
+
+.sp-checkbox-label {
+    font-size: var(--sp-font-size-100);
+    color: var(--sp-text-primary);
+}
+
+/* ═══════════════════════════════════════════
+   RADIO BUTTON
+   ═══════════════════════════════════════════ */
+.sp-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-spacing-200);
+    cursor: pointer;
+    user-select: none;
+}
+
+.sp-radio input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.sp-radio-circle {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    background: transparent;
+    border: 2px solid var(--sp-gray-400);
+    border-radius: 50%;
+    position: relative;
+    transition: all var(--sp-transition-fast);
+}
+
+.sp-radio:hover .sp-radio-circle {
+    border-color: var(--sp-blue-500);
+}
+
+.sp-radio input:checked + .sp-radio-circle {
+    border-color: var(--sp-blue-500);
+}
+
+.sp-radio input:checked + .sp-radio-circle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: var(--sp-blue-500);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: sp-radio-pop 150ms ease;
+}
+
+@keyframes sp-radio-pop {
+    0% { transform: translate(-50%, -50%) scale(0); }
+    50% { transform: translate(-50%, -50%) scale(1.2); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ═══════════════════════════════════════════
+   SWITCH / TOGGLE
+   ═══════════════════════════════════════════ */
+.sp-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-spacing-200);
+    cursor: pointer;
+    user-select: none;
+}
+
+.sp-switch input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.sp-switch-track {
+    width: 26px;
+    height: 14px;
+    background: var(--sp-gray-400);
+    border-radius: 7px;
+    position: relative;
+    transition: background var(--sp-transition-fast);
+}
+
+.sp-switch-handle {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    transition: transform var(--sp-transition-fast);
+    box-shadow: var(--sp-shadow-sm);
+}
+
+.sp-switch input:checked + .sp-switch-track {
+    background: var(--sp-blue-500);
+}
+
+.sp-switch input:checked + .sp-switch-track .sp-switch-handle {
+    transform: translateX(12px);
+}
+
+/* ═══════════════════════════════════════════
+   SELECT / PICKER
+   ═══════════════════════════════════════════ */
+.sp-picker {
+    position: relative;
+    display: inline-flex;
+    min-width: 100px;
+}
+
+.sp-picker-select {
+    width: 100%;
+    height: var(--sp-component-height-md);
+    padding: 0 28px 0 var(--sp-spacing-200);
+    background: var(--sp-field-background);
+    border: 1px solid var(--sp-field-border);
+    border-radius: var(--sp-radius-md);
+    color: var(--sp-field-text);
+    font-family: var(--sp-font-family);
+    font-size: var(--sp-font-size-200);
+    cursor: pointer;
+    transition: 
+        border-color var(--sp-transition-fast),
+        box-shadow var(--sp-transition-fast);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.sp-picker-select:hover {
+    border-color: var(--sp-field-border-hover);
+}
+
+.sp-picker-select:focus {
+    border-color: var(--sp-field-border-focus);
+    box-shadow: 0 0 0 1px var(--sp-field-border-focus);
+}
+
+/* Dropdown Arrow */
+.sp-picker::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--sp-text-secondary);
+    pointer-events: none;
+}
+
+.sp-picker-select option {
+    background: var(--sp-gray-200);
+    color: var(--sp-text-primary);
+    padding: var(--sp-spacing-100);
+}
+
+/* ═══════════════════════════════════════════
+   SLIDER / RANGE
+   ═══════════════════════════════════════════ */
+.sp-slider {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-spacing-200);
+}
+
+.sp-slider-track {
+    flex: 1;
+    height: 4px;
+    background: var(--sp-gray-300);
+    border-radius: 2px;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.sp-slider-track::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--sp-blue-500);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform var(--sp-transition-fast);
+    box-shadow: var(--sp-shadow-sm);
+}
+
+.sp-slider-track::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.sp-slider-track::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--sp-blue-500);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.sp-slider-value {
+    min-width: 32px;
+    font-size: var(--sp-font-size-100);
+    color: var(--sp-text-secondary);
+    text-align: right;
+}
+
+/* ═══════════════════════════════════════════
+   COLOR PICKER
+   ═══════════════════════════════════════════ */
+.sp-color {
+    width: 28px;
+    height: 24px;
+    padding: 2px;
+    background: var(--sp-field-background);
+    border: 1px solid var(--sp-field-border);
+    border-radius: var(--sp-radius-sm);
+    cursor: pointer;
+    transition: 
+        border-color var(--sp-transition-fast),
+        transform var(--sp-transition-fast);
+}
+
+.sp-color:hover {
+    border-color: var(--sp-blue-500);
+    transform: scale(1.05);
+}
+
+.sp-color::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.sp-color::-webkit-color-swatch {
+    border: none;
+    border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════
+   FIELD GROUP (Label + Input + Help)
+   ═══════════════════════════════════════════ */
+.sp-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-spacing-75);
+}
+
+.sp-field-row {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-spacing-200);
+}
+
+.sp-field-row .sp-label {
+    min-width: 60px;
+    flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════
+   VALIDATION STATES
+   ═══════════════════════════════════════════ */
+
+/* Invalid */
+.sp-textfield-input.invalid,
+.sp-textarea.invalid,
+.sp-picker-select.invalid {
+    border-color: var(--sp-negative);
+}
+
+.sp-textfield-input.invalid:focus,
+.sp-textarea.invalid:focus,
+.sp-picker-select.invalid:focus {
+    box-shadow: 0 0 0 1px var(--sp-negative);
+}
+
+/* Valid */
+.sp-textfield-input.valid,
+.sp-textarea.valid,
+.sp-picker-select.valid {
+    border-color: var(--sp-positive);
+}
+
+.sp-textfield-input.valid:focus,
+.sp-textarea.valid:focus,
+.sp-picker-select.valid:focus {
+    box-shadow: 0 0 0 1px var(--sp-positive);
+}
+
+/* ═══════════════════════════════════════════
+   SIZE VARIANTS
+   ═══════════════════════════════════════════ */
+
+/* Small */
+.sp-textfield-input.sp-input-sm,
+.sp-picker-select.sp-input-sm {
+    height: var(--sp-component-height-sm);
+    font-size: var(--sp-font-size-100);
+}
+
+/* Large */
+.sp-textfield-input.sp-input-lg,
+.sp-picker-select.sp-input-lg {
+    height: var(--sp-component-height-lg);
+    font-size: var(--sp-font-size-300);
+}
+
+/* ═══════════════════════════════════════════
+   QUIET VARIANT (Minimal Border)
+   ═══════════════════════════════════════════ */
+.sp-textfield-input.sp-input-quiet,
+.sp-picker-select.sp-input-quiet {
+    background: transparent;
+    border-color: transparent;
+    border-bottom-color: var(--sp-gray-400);
+    border-radius: 0;
+}
+
+.sp-textfield-input.sp-input-quiet:hover,
+.sp-picker-select.sp-input-quiet:hover {
+    border-bottom-color: var(--sp-gray-500);
+}
+
+.sp-textfield-input.sp-input-quiet:focus,
+.sp-picker-select.sp-input-quiet:focus {
+    border-bottom-color: var(--sp-blue-500);
+    box-shadow: none;
+}

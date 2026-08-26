@@ -1,0 +1,30 @@
+{
+  "name": "No Cursor",
+  "icon": "👁️",
+  "category": "type",
+  "description": "ظهور بدون مؤشر",
+  "builtin": true,
+  "values": {
+    "twAuto": true,
+    "twReverse": false,
+    "wordMode": false,
+    "randomSpeed": 0,
+    "showCursor": false,
+    "cursorBefore": false,
+    "cursorType": 0,
+    "cursorColor": [1, 1, 1],
+    "cursorSpacing": 0,
+    "blinkSpeed": 2,
+    "blinkInHold": false,
+    "boxRTL": false,
+    "textColor": [1, 1, 1],
+    "easingType": 1,
+    "easingStrength": 100,
+    "inStart": 0.5,
+    "inEnd": 2.5,
+    "outStart": 5.0,
+    "outEnd": 6.0,
+    "blinkStart": 0,
+    "blinkEnd": 0
+  }
+}

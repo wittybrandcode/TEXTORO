@@ -1,0 +1,521 @@
+{
+  "$schema": "./_schema.json",
+  "category": "motion",
+  "version": "1.0.0",
+  "description": "Motion Controllers - متحكمات الحركة",
+  "sourceFile": "host/modules/MotionManager.jsx",
+  "sourceLines": "142-196",
+  "controllersCount": 34,
+
+  "groups": {
+    "timing": {
+      "label": "التوقيت",
+      "labelEn": "Timing",
+      "order": 1,
+      "controllers": ["Motion In Start", "Motion In End", "Motion Out Start", "Motion Out End", "Motion Sync Mode"]
+    },
+    "positionIn": {
+      "label": "الموقع - دخول",
+      "labelEn": "Position - In",
+      "order": 2,
+      "controllers": ["Animate Position", "Pos From X", "Pos From Y", "Pos To X", "Pos To Y"]
+    },
+    "positionOut": {
+      "label": "الموقع - خروج",
+      "labelEn": "Position - Out",
+      "order": 3,
+      "controllers": ["Pos Link Mode", "Pos Out From X", "Pos Out From Y", "Pos Out To X", "Pos Out To Y"]
+    },
+    "scaleIn": {
+      "label": "الحجم - دخول",
+      "labelEn": "Scale - In",
+      "order": 4,
+      "controllers": ["Animate Scale", "Scale From", "Scale To"]
+    },
+    "scaleOut": {
+      "label": "الحجم - خروج",
+      "labelEn": "Scale - Out",
+      "order": 5,
+      "controllers": ["Scale Link Mode", "Scale Out From", "Scale Out To"]
+    },
+    "rotationIn": {
+      "label": "الدوران - دخول",
+      "labelEn": "Rotation - In",
+      "order": 6,
+      "controllers": ["Animate Rotation", "Rot From", "Rot To"]
+    },
+    "rotationOut": {
+      "label": "الدوران - خروج",
+      "labelEn": "Rotation - Out",
+      "order": 7,
+      "controllers": ["Rot Link Mode", "Rot Out From", "Rot Out To"]
+    },
+    "opacityIn": {
+      "label": "الشفافية - دخول",
+      "labelEn": "Opacity - In",
+      "order": 8,
+      "controllers": ["Animate Opacity", "Opacity From", "Opacity To"]
+    },
+    "opacityOut": {
+      "label": "الشفافية - خروج",
+      "labelEn": "Opacity - Out",
+      "order": 9,
+      "controllers": ["Opacity Link Mode", "Opacity Out From", "Opacity Out To"]
+    },
+    "easing": {
+      "label": "التسهيل",
+      "labelEn": "Easing",
+      "order": 10,
+      "controllers": ["Motion Easing Type", "Motion Easing Strength"]
+    }
+  },
+
+  "controllers": {
+    "Motion In Start": {
+      "type": "slider",
+      "default": 0,
+      "min": 0,
+      "max": 30,
+      "unit": "seconds",
+      "group": "timing",
+      "description": "بداية حركة الدخول",
+      "descriptionEn": "Motion in start time",
+      "expressionRef": "effect(\"Motion In Start\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"],
+      "usedInShared": ["timing"]
+    },
+    "Motion In End": {
+      "type": "slider",
+      "default": 1,
+      "min": 0,
+      "max": 30,
+      "unit": "seconds",
+      "group": "timing",
+      "description": "نهاية حركة الدخول",
+      "descriptionEn": "Motion in end time",
+      "expressionRef": "effect(\"Motion In End\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"],
+      "usedInShared": ["timing"]
+    },
+    "Motion Out Start": {
+      "type": "slider",
+      "default": -1,
+      "min": -1,
+      "max": 30,
+      "unit": "seconds",
+      "group": "timing",
+      "description": "بداية حركة الخروج (-1 = معطل)",
+      "descriptionEn": "Motion out start time (-1 = disabled)",
+      "expressionRef": "effect(\"Motion Out Start\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"],
+      "usedInShared": ["timing"]
+    },
+    "Motion Out End": {
+      "type": "slider",
+      "default": -1,
+      "min": -1,
+      "max": 30,
+      "unit": "seconds",
+      "group": "timing",
+      "description": "نهاية حركة الخروج",
+      "descriptionEn": "Motion out end time",
+      "expressionRef": "effect(\"Motion Out End\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"],
+      "usedInShared": ["timing"]
+    },
+    "Motion Sync Mode": {
+      "type": "slider",
+      "default": 0,
+      "values": [0, 1],
+      "valueLabels": {
+        "0": "Manual",
+        "1": "Markers (Typewriter)"
+      },
+      "group": "timing",
+      "description": "وضع المزامنة",
+      "descriptionEn": "Sync mode",
+      "expressionRef": "effect(\"Motion Sync Mode\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"],
+      "usedInShared": ["timing"]
+    },
+    "Animate Position": {
+      "type": "checkbox",
+      "default": false,
+      "group": "positionIn",
+      "description": "تفعيل حركة الموقع",
+      "descriptionEn": "Enable position animation",
+      "expressionRef": "effect(\"Animate Position\")(\"Checkbox\")",
+      "usedInExpressions": ["motion/position"]
+    },
+    "Pos From X": {
+      "type": "slider",
+      "default": 0,
+      "min": -500,
+      "max": 500,
+      "unit": "pixels",
+      "group": "positionIn",
+      "description": "إزاحة X البدائية",
+      "descriptionEn": "Initial X offset",
+      "expressionRef": "effect(\"Pos From X\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position"]
+    },
+    "Pos From Y": {
+      "type": "slider",
+      "default": 0,
+      "min": -500,
+      "max": 500,
+      "unit": "pixels",
+      "group": "positionIn",
+      "description": "إزاحة Y البدائية",
+      "descriptionEn": "Initial Y offset",
+      "expressionRef": "effect(\"Pos From Y\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position"]
+    },
+    "Pos To X": {
+      "type": "slider",
+      "default": 0,
+      "min": -500,
+      "max": 500,
+      "unit": "pixels",
+      "group": "positionIn",
+      "description": "إزاحة X النهائية",
+      "descriptionEn": "Final X offset",
+      "expressionRef": "effect(\"Pos To X\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position"]
+    },
+    "Pos To Y": {
+      "type": "slider",
+      "default": 0,
+      "min": -500,
+      "max": 500,
+      "unit": "pixels",
+      "group": "positionIn",
+      "description": "إزاحة Y النهائية",
+      "descriptionEn": "Final Y offset",
+      "expressionRef": "effect(\"Pos To Y\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position"]
+    },
+    "Pos Link Mode": {
+      "type": "slider",
+      "default": 0,
+      "values": [0, 1],
+      "valueLabels": {
+        "0": "Linked (عكس IN)",
+        "1": "Independent (مستقل)"
+      },
+      "group": "positionOut",
+      "description": "وضع ربط الخروج",
+      "descriptionEn": "Out link mode",
+      "expressionRef": "effect(\"Pos Link Mode\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position"]
+    },
+    "Pos Out From X": {
+      "type": "slider",
+      "default": 0,
+      "min": -500,
+      "max": 500,
+      "unit": "pixels",
+      "group": "positionOut",
+      "description": "إزاحة X بداية الخروج",
+      "descriptionEn": "Out start X offset",
+      "expressionRef": "effect(\"Pos Out From X\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position"],
+      "condition": "Pos Link Mode == 1"
+    },
+    "Pos Out From Y": {
+      "type": "slider",
+      "default": 0,
+      "min": -500,
+      "max": 500,
+      "unit": "pixels",
+      "group": "positionOut",
+      "expressionRef": "effect(\"Pos Out From Y\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position"],
+      "condition": "Pos Link Mode == 1"
+    },
+    "Pos Out To X": {
+      "type": "slider",
+      "default": 0,
+      "min": -500,
+      "max": 500,
+      "unit": "pixels",
+      "group": "positionOut",
+      "expressionRef": "effect(\"Pos Out To X\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position"],
+      "condition": "Pos Link Mode == 1"
+    },
+    "Pos Out To Y": {
+      "type": "slider",
+      "default": 0,
+      "min": -500,
+      "max": 500,
+      "unit": "pixels",
+      "group": "positionOut",
+      "expressionRef": "effect(\"Pos Out To Y\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position"],
+      "condition": "Pos Link Mode == 1"
+    },
+    "Animate Scale": {
+      "type": "checkbox",
+      "default": false,
+      "group": "scaleIn",
+      "description": "تفعيل حركة الحجم",
+      "descriptionEn": "Enable scale animation",
+      "expressionRef": "effect(\"Animate Scale\")(\"Checkbox\")",
+      "usedInExpressions": ["motion/scale"]
+    },
+    "Scale From": {
+      "type": "slider",
+      "default": 100,
+      "min": 0,
+      "max": 200,
+      "unit": "percent",
+      "group": "scaleIn",
+      "description": "الحجم البدائي",
+      "descriptionEn": "Initial scale",
+      "expressionRef": "effect(\"Scale From\")(\"Slider\").value",
+      "usedInExpressions": ["motion/scale"]
+    },
+    "Scale To": {
+      "type": "slider",
+      "default": 100,
+      "min": 0,
+      "max": 200,
+      "unit": "percent",
+      "group": "scaleIn",
+      "description": "الحجم النهائي",
+      "descriptionEn": "Final scale",
+      "expressionRef": "effect(\"Scale To\")(\"Slider\").value",
+      "usedInExpressions": ["motion/scale"]
+    },
+    "Scale Link Mode": {
+      "type": "slider",
+      "default": 0,
+      "values": [0, 1],
+      "valueLabels": {"0": "Linked", "1": "Independent"},
+      "group": "scaleOut",
+      "expressionRef": "effect(\"Scale Link Mode\")(\"Slider\").value",
+      "usedInExpressions": ["motion/scale"]
+    },
+    "Scale Out From": {
+      "type": "slider",
+      "default": 100,
+      "min": 0,
+      "max": 200,
+      "unit": "percent",
+      "group": "scaleOut",
+      "expressionRef": "effect(\"Scale Out From\")(\"Slider\").value",
+      "usedInExpressions": ["motion/scale"],
+      "condition": "Scale Link Mode == 1"
+    },
+    "Scale Out To": {
+      "type": "slider",
+      "default": 100,
+      "min": 0,
+      "max": 200,
+      "unit": "percent",
+      "group": "scaleOut",
+      "expressionRef": "effect(\"Scale Out To\")(\"Slider\").value",
+      "usedInExpressions": ["motion/scale"],
+      "condition": "Scale Link Mode == 1"
+    },
+    "Animate Rotation": {
+      "type": "checkbox",
+      "default": false,
+      "group": "rotationIn",
+      "description": "تفعيل حركة الدوران",
+      "descriptionEn": "Enable rotation animation",
+      "expressionRef": "effect(\"Animate Rotation\")(\"Checkbox\")",
+      "usedInExpressions": ["motion/rotation"]
+    },
+    "Rot From": {
+      "type": "slider",
+      "default": 0,
+      "min": -360,
+      "max": 360,
+      "unit": "degrees",
+      "group": "rotationIn",
+      "description": "الدوران البدائي",
+      "descriptionEn": "Initial rotation",
+      "expressionRef": "effect(\"Rot From\")(\"Slider\").value",
+      "usedInExpressions": ["motion/rotation"]
+    },
+    "Rot To": {
+      "type": "slider",
+      "default": 0,
+      "min": -360,
+      "max": 360,
+      "unit": "degrees",
+      "group": "rotationIn",
+      "description": "الدوران النهائي",
+      "descriptionEn": "Final rotation",
+      "expressionRef": "effect(\"Rot To\")(\"Slider\").value",
+      "usedInExpressions": ["motion/rotation"]
+    },
+    "Rot Link Mode": {
+      "type": "slider",
+      "default": 0,
+      "values": [0, 1],
+      "valueLabels": {"0": "Linked", "1": "Independent"},
+      "group": "rotationOut",
+      "expressionRef": "effect(\"Rot Link Mode\")(\"Slider\").value",
+      "usedInExpressions": ["motion/rotation"]
+    },
+    "Rot Out From": {
+      "type": "slider",
+      "default": 0,
+      "min": -360,
+      "max": 360,
+      "unit": "degrees",
+      "group": "rotationOut",
+      "expressionRef": "effect(\"Rot Out From\")(\"Slider\").value",
+      "usedInExpressions": ["motion/rotation"],
+      "condition": "Rot Link Mode == 1"
+    },
+    "Rot Out To": {
+      "type": "slider",
+      "default": 0,
+      "min": -360,
+      "max": 360,
+      "unit": "degrees",
+      "group": "rotationOut",
+      "expressionRef": "effect(\"Rot Out To\")(\"Slider\").value",
+      "usedInExpressions": ["motion/rotation"],
+      "condition": "Rot Link Mode == 1"
+    },
+    "Animate Opacity": {
+      "type": "checkbox",
+      "default": false,
+      "group": "opacityIn",
+      "description": "تفعيل حركة الشفافية",
+      "descriptionEn": "Enable opacity animation",
+      "expressionRef": "effect(\"Animate Opacity\")(\"Checkbox\")",
+      "usedInExpressions": ["motion/opacity"]
+    },
+    "Opacity From": {
+      "type": "slider",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "unit": "percent",
+      "group": "opacityIn",
+      "description": "الشفافية البدائية",
+      "descriptionEn": "Initial opacity",
+      "expressionRef": "effect(\"Opacity From\")(\"Slider\").value",
+      "usedInExpressions": ["motion/opacity"]
+    },
+    "Opacity To": {
+      "type": "slider",
+      "default": 100,
+      "min": 0,
+      "max": 100,
+      "unit": "percent",
+      "group": "opacityIn",
+      "description": "الشفافية النهائية",
+      "descriptionEn": "Final opacity",
+      "expressionRef": "effect(\"Opacity To\")(\"Slider\").value",
+      "usedInExpressions": ["motion/opacity"]
+    },
+    "Opacity Link Mode": {
+      "type": "slider",
+      "default": 0,
+      "values": [0, 1],
+      "valueLabels": {"0": "Linked", "1": "Independent"},
+      "group": "opacityOut",
+      "expressionRef": "effect(\"Opacity Link Mode\")(\"Slider\").value",
+      "usedInExpressions": ["motion/opacity"]
+    },
+    "Opacity Out From": {
+      "type": "slider",
+      "default": 100,
+      "min": 0,
+      "max": 100,
+      "unit": "percent",
+      "group": "opacityOut",
+      "expressionRef": "effect(\"Opacity Out From\")(\"Slider\").value",
+      "usedInExpressions": ["motion/opacity"],
+      "condition": "Opacity Link Mode == 1"
+    },
+    "Opacity Out To": {
+      "type": "slider",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "unit": "percent",
+      "group": "opacityOut",
+      "expressionRef": "effect(\"Opacity Out To\")(\"Slider\").value",
+      "usedInExpressions": ["motion/opacity"],
+      "condition": "Opacity Link Mode == 1"
+    },
+    "Motion Easing Type": {
+      "type": "slider",
+      "default": 1,
+      "min": 0,
+      "max": 6,
+      "values": [0, 1, 2, 3, 4, 5, 6],
+      "valueLabels": {
+        "0": "Linear",
+        "1": "Ease Out",
+        "2": "Ease In",
+        "3": "Ease In Out",
+        "4": "Bounce",
+        "5": "Elastic",
+        "6": "Spring"
+      },
+      "group": "easing",
+      "description": "نوع التسهيل",
+      "descriptionEn": "Easing type",
+      "expressionRef": "effect(\"Motion Easing Type\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"],
+      "usedInShared": ["timing"]
+    },
+    "Motion Easing Strength": {
+      "type": "slider",
+      "default": 100,
+      "min": 0,
+      "max": 200,
+      "unit": "percent",
+      "group": "easing",
+      "description": "قوة التسهيل",
+      "descriptionEn": "Easing strength",
+      "expressionRef": "effect(\"Motion Easing Strength\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"]
+    }
+  },
+
+  "sharedCode": {
+    "easing": {
+      "currentConstant": "EASE_VAL_CODE",
+      "description": "دالة easeVal - 7 أنواع تسهيل",
+      "code": "function easeVal(p,eT){if(eT==0)return p;if(eT==1)return 1-Math.pow(1-p,2);if(eT==2)return Math.pow(p,2);if(eT==3)return p<0.5?2*p*p:1-Math.pow(-2*p+2,2)/2;if(eT==4){var n=7.5625,d=2.75;if(p<1/d)return n*p*p;if(p<2/d)return n*(p-=1.5/d)*p+0.75;if(p<2.5/d)return n*(p-=2.25/d)*p+0.9375;return n*(p-=2.625/d)*p+0.984375;}if(eT==5)return p==0?0:p==1?1:Math.pow(2,-10*p)*Math.sin((p*10-0.75)*2.094)+1;if(eT==6)return 1+2.7*Math.pow(p-1,3)+1.7*Math.pow(p-1,2);return p;}"
+    },
+    "timing": {
+      "currentConstant": "TIMING_SYNC_CODE",
+      "description": "كود قراءة التوقيت من Controllers و Markers",
+      "code": "var inS=effect(\"Motion In Start\")(\"Slider\").value;var inE=effect(\"Motion In End\")(\"Slider\").value;var outS=effect(\"Motion Out Start\")(\"Slider\").value;var outE=effect(\"Motion Out End\")(\"Slider\").value;var syncMode=0;try{syncMode=effect(\"Motion Sync Mode\")(\"Slider\").value;}catch(e){}if(syncMode==1&&thisLayer.marker.numKeys>0){var m=thisLayer.marker;for(var i=1;i<=m.numKeys;i++){var c=m.key(i).comment,mt=m.key(i).time-inPoint;if(c==\"IN_START\")inS=mt;else if(c==\"IN_END\")inE=mt;else if(c==\"OUT_START\")outS=mt;else if(c==\"OUT_END\")outE=mt;}}var eT=effect(\"Motion Easing Type\")(\"Slider\").value;var t=time-inPoint;"
+    }
+  },
+
+  "transformProperties": {
+    "position": {
+      "aeProperty": "ADBE Position",
+      "expression": "motion/position",
+      "shared": ["easing", "timing"]
+    },
+    "scale": {
+      "aeProperty": "ADBE Scale",
+      "expression": "motion/scale",
+      "shared": ["easing", "timing"]
+    },
+    "rotation": {
+      "aeProperty": "ADBE Rotate Z",
+      "expression": "motion/rotation",
+      "shared": ["easing", "timing"]
+    },
+    "opacity": {
+      "aeProperty": "ADBE Opacity",
+      "expression": "motion/opacity",
+      "shared": ["easing", "timing"]
+    }
+  }
+}

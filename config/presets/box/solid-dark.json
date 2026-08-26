@@ -1,0 +1,31 @@
+{
+  "name": "Solid Dark",
+  "icon": "⬛",
+  "category": "box",
+  "description": "صندوق داكن صلب",
+  "builtin": true,
+  "values": {
+    "paddingLeft": 30,
+    "paddingRight": 30,
+    "paddingTop": 15,
+    "paddingBottom": 15,
+    "use4Corners": false,
+    "cornerRadius": 8,
+    "cornerTL": 8,
+    "cornerTR": 8,
+    "cornerBL": 8,
+    "cornerBR": 8,
+    "strokeWidth": 0,
+    "strokeOpacity": 0,
+    "strokeColor": [1, 1, 1],
+    "strokeDash": 0,
+    "strokeGap": 0,
+    "fillOpacity": 90,
+    "fillColor": [0.1, 0.1, 0.1],
+    "trimStart": 0,
+    "trimEnd": 100,
+    "trimOffset": 0,
+    "pathOffset": 0,
+    "lockBoxSize": true
+  }
+}

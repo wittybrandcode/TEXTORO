@@ -1,0 +1,31 @@
+{
+  "name": "Outline White",
+  "icon": "⬜",
+  "category": "box",
+  "description": "إطار أبيض بدون تعبئة",
+  "builtin": true,
+  "values": {
+    "paddingLeft": 25,
+    "paddingRight": 25,
+    "paddingTop": 12,
+    "paddingBottom": 12,
+    "use4Corners": false,
+    "cornerRadius": 6,
+    "cornerTL": 6,
+    "cornerTR": 6,
+    "cornerBL": 6,
+    "cornerBR": 6,
+    "strokeWidth": 2,
+    "strokeOpacity": 100,
+    "strokeColor": [1, 1, 1],
+    "strokeDash": 0,
+    "strokeGap": 0,
+    "fillOpacity": 0,
+    "fillColor": [0, 0, 0],
+    "trimStart": 0,
+    "trimEnd": 100,
+    "trimOffset": 0,
+    "pathOffset": 0,
+    "lockBoxSize": true
+  }
+}

@@ -1,0 +1,1114 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="ltr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<title>TEXTORO</title>
+<link rel="stylesheet" href="css/fontawesome/all.min.css?v=6.4.0-local">
+<link rel="stylesheet" href="css/spectrum-bundle.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app">
+<!-- HEADER -->
+<header class="header" title="TEXTORO - Typewriter Animation Plugin">
+<div><span class="logo">TEXTORO</span><span class="ver" id="verBadge" title="Current version - Spectrum UI">v1.0.0</span></div>
+</header>
+
+<!-- TABS -->
+<nav class="tabs">
+<button class="tab active" data-tab="type" title="Typewriter settings - text animation"><i class="fa-solid fa-keyboard"></i>Type</button>
+<button class="tab" data-tab="box" title="Box settings - background shape"><i class="fa-solid fa-square"></i>Box</button>
+<button class="tab" data-tab="presets" title="Arena — حلبة الثور (Presets library)"><i class="fa-solid fa-grip"></i>Arena</button>
+<button class="tab" data-tab="soga" title="Live edit - modify selected layer properties"><i class="fa-solid fa-sliders"></i>Soga</button>
+<button class="tab" data-tab="markers" title="Markers manager - batch edit timing"><i class="fa-solid fa-tags"></i>Markers</button>
+<button class="tab" data-tab="motion" title="Motion animation - animate layer as whole"><i class="fa-solid fa-wind"></i>Motion</button>
+<button class="tab" data-tab="settings" title="Settings and preferences"><i class="fa-solid fa-gear"></i></button>
+</nav>
+
+<!-- CONTENT -->
+<main class="content">
+
+<!-- TYPE PANEL -->
+<section class="panel active" id="panel-type">
+<!-- Text Section -->
+<div class="soga-box">
+<div class="soga-title" title="Text input"><i class="fa-solid fa-text-width"></i></div>
+<textarea id="txtInput" class="ta" placeholder="أدخل النص هنا..." title="Enter text to animate" rows="2"></textarea>
+<div class="row-flex mt-6">
+<div class="tg">
+<button class="tb active" id="btnLTR" title="Left to Right"><i class="fa-solid fa-arrow-right"></i> EN</button>
+<button class="tb" id="btnRTL" title="Right to Left"><i class="fa-solid fa-arrow-left"></i> ع</button>
+</div>
+<div class="spacer"></div>
+<button class="ib" id="btnGetText" title="Get text from layer"><i class="fa-solid fa-download"></i></button>
+<button class="ib" id="btnUpdateText" title="Update layer text"><i class="fa-solid fa-upload"></i></button>
+</div>
+</div>
+
+<!-- Timing Section -->
+<div class="soga-box">
+<div class="soga-title" title="Animation timing"><i class="fa-solid fa-stopwatch"></i></div>
+<div class="row-2">
+<div class="field-group in-group">
+<span class="field-tag in" title="IN Animation"><i class="fa-solid fa-right-to-bracket"></i></span>
+<div class="nw" title="IN Start"><input type="number" id="numInStart" class="ni" value="2" step="0.1" min="0"></div>
+<span class="field-sep">→</span>
+<div class="nw" title="IN End"><input type="number" id="numInEnd" class="ni" value="3" step="0.1" min="0"></div>
+</div>
+<div class="field-group out-group">
+<span class="field-tag out" title="OUT Animation"><i class="fa-solid fa-right-from-bracket"></i></span>
+<div class="nw" title="OUT Start"><input type="number" id="numOutStart" class="ni" value="6" step="0.1" min="0"></div>
+<span class="field-sep">→</span>
+<div class="nw" title="OUT End"><input type="number" id="numOutEnd" class="ni" value="7" step="0.1" min="0"></div>
+</div>
+</div>
+<div class="row-flex mt-6">
+<label class="ck" title="Disable OUT animation"><input type="checkbox" id="chkNoOut"><span class="cb"></span><span class="cl"><i class="fa-solid fa-eye-slash"></i></span></label>
+</div>
+</div>
+
+<!-- Cursor Section - Collapsible -->
+<div class="collapsible-header collapsed" id="type-cursor-header" title="Cursor settings">
+<i class="fa-solid fa-i-cursor"></i>
+<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
+</div>
+<div class="collapsible-content collapsed" id="type-cursor-content">
+<div class="row-2">
+<div class="field-row">
+<label class="ck" title="Show cursor"><input type="checkbox" id="chkCursor" checked><span class="cb"></span><span class="cl"><i class="fa-solid fa-eye"></i></span></label>
+<label class="ck" title="Cursor before text"><input type="checkbox" id="chkCursorBefore"><span class="cb"></span><span class="cl"><i class="fa-solid fa-arrow-left"></i></span></label>
+</div>
+<div class="field-row">
+<select id="selCursorType" class="sel sel-sm" title="Cursor style">
+<option value="0">|</option>
+<option value="1">_</option>
+<option value="2">█</option>
+<option value="3">▌</option>
+<option value="4">▎</option>
+<option value="5">●</option>
+<option value="6">◆</option>
+<option value="custom">✎</option>
+</select>
+<input type="text" id="txtCustomCursor" class="ti ti-xs" style="width:32px;display:none" placeholder="▶" maxlength="2">
+<input type="color" id="colorCursor" class="ci" value="#ffffff" title="Cursor color">
+</div>
+</div>
+<div class="row-2 mt-6">
+<div class="field-row">
+<i class="fa-solid fa-arrows-left-right field-icon" title="Spacing"></i>
+<div class="nw"><input type="number" id="numCursorSpacing" class="ni" value="1" step="1" min="0"></div>
+</div>
+<div class="field-row">
+<i class="fa-solid fa-bolt field-icon" title="Blink speed"></i>
+<div class="nw"><input type="number" id="numBlinkSpeed" class="ni" value="2" step="0.5" min="0.5"></div>
+<span class="unit">Hz</span>
+</div>
+</div>
+<div class="row-2 mt-6">
+<div class="field-group">
+<i class="fa-solid fa-lightbulb field-icon" title="Blink period"></i>
+<div class="nw" title="Blink start"><input type="number" id="numBlinkStart" class="ni" value="1" step="0.1" min="0"></div>
+<span class="field-sep">→</span>
+<div class="nw" title="Blink end"><input type="number" id="numBlinkEnd" class="ni" value="10" step="0.1" min="0"></div>
+</div>
+<label class="ck" title="Blink during hold"><input type="checkbox" id="chkBlinkInHold" checked><span class="cb"></span><span class="cl"><i class="fa-solid fa-pause"></i></span></label>
+</div>
+</div>
+
+<!-- Advanced Section - Collapsible -->
+<div class="collapsible-header collapsed" id="type-advanced-header" title="Advanced options">
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
+</div>
+<div class="collapsible-content collapsed" id="type-advanced-content">
+<div class="row-2">
+<label class="ck" title="Reverse typing"><input type="checkbox" id="chkReverse"><span class="cb"></span><span class="cl"><i class="fa-solid fa-rotate-left"></i></span></label>
+<label class="ck" title="Word by word"><input type="checkbox" id="chkWordMode"><span class="cb"></span><span class="cl"><i class="fa-solid fa-font"></i></span></label>
+</div>
+<div class="row-2 mt-6">
+<div class="field-row">
+<i class="fa-solid fa-shuffle field-icon" title="Random speed"></i>
+<input type="range" id="rangeRandom" class="sl" value="0" min="0" max="100">
+<span class="sv" id="valRandom">0%</span>
+</div>
+<div class="field-row">
+<label class="ck" title="Custom text color"><input type="checkbox" id="chkTextColor" checked><span class="cb"></span><span class="cl"><i class="fa-solid fa-paintbrush"></i></span></label>
+<input type="color" id="colorText" class="ci" value="#ffffff" title="Text color">
+</div>
+</div>
+<div class="row-2 mt-6">
+<div class="field-row">
+<i class="fa-solid fa-bezier-curve field-icon" title="Easing"></i>
+<select id="selEasingType" class="sel sel-sm" title="Easing type">
+<option value="0">Linear</option>
+<option value="1" selected>Out</option>
+<option value="2">In</option>
+<option value="3">In-Out</option>
+</select>
+</div>
+<div class="field-row">
+<div class="nw"><input type="number" id="numEasingStrength" class="ni" value="100" step="10" min="0" max="100" title="Easing strength"></div>
+<span class="unit">%</span>
+</div>
+</div>
+</div>
+
+<!-- Multi-lines Section - Collapsible -->
+<div class="collapsible-header collapsed" id="type-multilines-header" title="Multi-line settings">
+<i class="fa-solid fa-layer-group"></i>
+<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
+</div>
+<div class="collapsible-content collapsed" id="type-multilines-content">
+<div class="row-2">
+<div class="field-row">
+<i class="fa-solid fa-arrows-up-down field-icon" title="Line spacing"></i>
+<div class="nw"><input type="number" id="numLineSpacing" class="ni" value="10" step="5" min="0"></div>
+</div>
+<div class="field-row">
+<i class="fa-solid fa-clock field-icon" title="Stagger delay"></i>
+<div class="nw"><input type="number" id="numStagger" class="ni" value="0.5" step="0.1" min="0"></div>
+<span class="unit">s</span>
+</div>
+</div>
+<div class="row-flex mt-6">
+<div class="tg">
+<button class="tb" id="btnAlignLeft" title="Align left"><i class="fa-solid fa-align-left"></i></button>
+<button class="tb active" id="btnAlignCenter" title="Align center"><i class="fa-solid fa-align-center"></i></button>
+<button class="tb" id="btnAlignRight" title="Align right"><i class="fa-solid fa-align-right"></i></button>
+</div>
+<div class="spacer"></div>
+<label class="ck" title="Delete original layer"><input type="checkbox" id="chkDeleteOriginal"><span class="cb"></span><span class="cl"><i class="fa-solid fa-trash-can"></i></span></label>
+</div>
+</div>
+</section>
+
+<!-- BOX PANEL -->
+<section class="panel" id="panel-box">
+<!-- Padding Section - 4 in row -->
+<div class="soga-box">
+<div class="soga-title" title="Box padding"><i class="fa-solid fa-up-down-left-right"></i></div>
+<div class="row-4">
+<div class="field-mini"><i class="fa-solid fa-arrow-left" title="Left"></i><div class="nw"><input type="number" id="numPadL" class="ni" value="40" step="5" min="0"></div></div>
+<div class="field-mini"><i class="fa-solid fa-arrow-right" title="Right"></i><div class="nw"><input type="number" id="numPadR" class="ni" value="40" step="5" min="0"></div></div>
+<div class="field-mini"><i class="fa-solid fa-arrow-up" title="Top"></i><div class="nw"><input type="number" id="numPadT" class="ni" value="20" step="5" min="0"></div></div>
+<div class="field-mini"><i class="fa-solid fa-arrow-down" title="Bottom"></i><div class="nw"><input type="number" id="numPadB" class="ni" value="20" step="5" min="0"></div></div>
+</div>
+</div>
+
+<!-- Corner Section -->
+<div class="soga-box">
+<div class="soga-title" title="Corner radius"><i class="fa-solid fa-border-top-left"></i></div>
+<div class="row-flex">
+<label class="ck" title="Individual corners"><input type="checkbox" id="chk4Corners"><span class="cb"></span><span class="cl"><i class="fa-solid fa-border-all"></i></span></label>
+<div class="spacer"></div>
+<div id="singleCornerRow" class="field-row">
+<div class="nw"><input type="number" id="numCorner" class="ni" value="15" step="1" min="0" title="Corner radius"></div>
+</div>
+</div>
+<div id="fourCornersRow" class="row-4 mt-6" style="display:none">
+<div class="field-mini"><span title="Top-Left">TL</span><div class="nw"><input type="number" id="numCornerTL" class="ni" value="15" step="1" min="0"></div></div>
+<div class="field-mini"><span title="Top-Right">TR</span><div class="nw"><input type="number" id="numCornerTR" class="ni" value="15" step="1" min="0"></div></div>
+<div class="field-mini"><span title="Bottom-Left">BL</span><div class="nw"><input type="number" id="numCornerBL" class="ni" value="15" step="1" min="0"></div></div>
+<div class="field-mini"><span title="Bottom-Right">BR</span><div class="nw"><input type="number" id="numCornerBR" class="ni" value="15" step="1" min="0"></div></div>
+</div>
+</div>
+
+<!-- Stroke Section - Collapsible -->
+<div class="collapsible-header collapsed" id="box-stroke-header" title="Stroke settings">
+<i class="fa-solid fa-pen-nib"></i>
+<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
+</div>
+<div class="collapsible-content collapsed" id="box-stroke-content">
+<div class="row-2">
+<div class="field-row">
+<i class="fa-solid fa-ruler field-icon" title="Width"></i>
+<div class="nw"><input type="number" id="numStrokeW" class="ni" value="2" step="1" min="0"></div>
+</div>
+<div class="field-row">
+<i class="fa-solid fa-eye field-icon" title="Opacity"></i>
+<div class="nw"><input type="number" id="numStrokeOp" class="ni" value="100" step="5" min="0" max="100"></div>
+<span class="unit">%</span>
+<input type="color" id="colorStroke" class="ci" value="#ffffff" title="Stroke color">
+</div>
+</div>
+<div class="row-2 mt-6">
+<div class="field-row">
+<i class="fa-solid fa-grip-lines field-icon" title="Dash"></i>
+<div class="nw"><input type="number" id="numStrokeDash" class="ni" value="0" step="5" min="0"></div>
+</div>
+<div class="field-row">
+<i class="fa-solid fa-arrows-left-right field-icon" title="Gap"></i>
+<div class="nw"><input type="number" id="numStrokeGap" class="ni" value="0" step="5" min="0"></div>
+</div>
+</div>
+</div>
+
+<!-- Fill Section - Collapsible -->
+<div class="collapsible-header collapsed" id="box-fill-header" title="Fill settings">
+<i class="fa-solid fa-fill-drip"></i>
+<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
+</div>
+<div class="collapsible-content collapsed" id="box-fill-content">
+<div class="row-2">
+<div class="field-row">
+<i class="fa-solid fa-eye field-icon" title="Opacity"></i>
+<div class="nw"><input type="number" id="numFillOp" class="ni" value="100" step="5" min="0" max="100"></div>
+<span class="unit">%</span>
+</div>
+<div class="field-row">
+<input type="color" id="colorFill" class="ci" value="#3366e6" title="Fill color">
+</div>
+</div>
+</div>
+
+<!-- Trim Paths Section - Collapsible -->
+<div class="collapsible-header collapsed" id="box-trim-header" title="Trim paths">
+<i class="fa-solid fa-scissors"></i>
+<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
+</div>
+<div class="collapsible-content collapsed" id="box-trim-content">
+<div class="row-2">
+<div class="field-row">
+<i class="fa-solid fa-play field-icon" title="Start"></i>
+<div class="nw"><input type="number" id="numTrimStart" class="ni" value="0" step="1" min="0" max="100"></div>
+<span class="unit">%</span>
+</div>
+<div class="field-row">
+<i class="fa-solid fa-stop field-icon" title="End"></i>
+<div class="nw"><input type="number" id="numTrimEnd" class="ni" value="100" step="1" min="0" max="100"></div>
+<span class="unit">%</span>
+</div>
+</div>
+<div class="row-2 mt-6">
+<div class="field-row">
+<i class="fa-solid fa-arrows-rotate field-icon" title="Offset"></i>
+<div class="nw"><input type="number" id="numTrimOffset" class="ni" value="0" step="1" min="-100" max="100"></div>
+<span class="unit">°</span>
+</div>
+</div>
+</div>
+
+<!-- Options Section - Collapsible -->
+<div class="collapsible-header collapsed" id="box-options-header" title="Options">
+<i class="fa-solid fa-sliders"></i>
+<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
+</div>
+<div class="collapsible-content collapsed" id="box-options-content">
+<div class="row-2">
+<div class="field-row">
+<i class="fa-solid fa-expand field-icon" title="Path offset"></i>
+<div class="nw"><input type="number" id="numPathOffset" class="ni" value="0" step="1" min="-50" max="50"></div>
+</div>
+<label class="ck" title="Lock box size"><input type="checkbox" id="chkLockSize" checked><span class="cb"></span><span class="cl"><i class="fa-solid fa-lock"></i></span></label>
+</div>
+</div>
+</section>
+
+<!-- PRESETS PANEL (formerly Arena) -->
+<section class="panel" id="panel-presets">
+<!-- Filter Buttons -->
+<div class="presets-filter">
+<button class="filter-btn active" data-filter="all" title="Show all presets">All</button>
+<button class="filter-btn toro" data-filter="toro" title="🐂 TORO - Complete templates (Type+Box+Motion)">🐂 Toro</button>
+<button class="filter-btn" data-filter="type" title="Typewriter presets">Type</button>
+<button class="filter-btn" data-filter="box" title="Box presets">Box</button>
+<button class="filter-btn" data-filter="mix" title="Combined presets">Mix</button>
+<button class="filter-btn" data-filter="motion-full" title="Motion presets (IN+OUT)">Motion</button>
+<button class="filter-btn fav" data-filter="favorites" title="⭐ Favorite presets">⭐</button>
+</div>
+
+<!-- Search Bar -->
+<div class="presets-search">
+<i class="fa-solid fa-search presets-search-icon"></i>
+<input type="text" id="presetsSearchInput" class="ti" placeholder="Search presets..." title="Search presets by name">
+<button class="ib presets-search-clear" id="presetsSearchClear" title="Clear search" style="display:none"><i class="fa-solid fa-xmark"></i></button>
+<select id="presetsSortSelect" class="sel presets-sort" title="Sort presets">
+<option value="name-asc">Name A-Z</option>
+<option value="name-desc">Name Z-A</option>
+<option value="category">Category</option>
+<option value="favorites">Favorites First</option>
+</select>
+<button class="ib" id="presetsRefreshBtn" title="Refresh presets"><i class="fa-solid fa-sync"></i></button>
+</div>
+
+<!-- Motion Sync Option (visible only for motion-full filter) -->
+<div class="presets-motion-options" id="presetsMotionOptions" style="display:none">
+<label class="ck" title="Use timing from layer markers (IN_START, IN_END, OUT_START, OUT_END)">
+<input type="checkbox" id="presetsMotionSync">
+<span class="cb"><i class="fa-solid fa-check"></i></span>
+<span class="cl"><i class="fa-solid fa-tags"></i> Sync with Markers</span>
+</label>
+</div>
+
+<!-- Presets List -->
+<div class="presets-list" id="presetsListContainer">
+<!-- Dynamically populated -->
+</div>
+
+<!-- Action Buttons -->
+<div class="presets-actions">
+<button class="btn-s" id="openPresetsFolderBtn" title="Open presets folder"><i class="fa-solid fa-folder-open"></i> Open Folder</button>
+</div>
+</section>
+
+<!-- SOGA PANEL -->
+<section class="panel" id="panel-soga">
+<!-- Layer Header -->
+<div class="soga-header" title="Selected layer information">
+<div class="soga-icon" title="Layer type"><i class="fa-solid fa-layer-group"></i></div>
+<span class="soga-name" id="sogaLayerName" title="Layer name">No Selection</span>
+<span id="sogaLayerType"></span>
+<button class="ib" id="btnSogaRefresh" title="Refresh values from layer"><i class="fa-solid fa-sync"></i></button>
+</div>
+
+<!-- TYPEWRITER SECTION -->
+<div id="sogaTypewriter" class="soga-box" style="display:none">
+<div class="soga-title"><i class="fa-solid fa-keyboard"></i> Typewriter</div>
+<table class="soga-table">
+<tr>
+<td class="soga-td-lbl" title="Typewriter animation progress (0-100%)">Progress</td>
+<td class="soga-td-input"><div class="nw"><input type="number" id="sogaTwProgress" class="ni" value="0" step="1" min="0" max="100" title="Animation progress percentage"></div></td>
+<td class="soga-td-unit">%</td>
+<td class="soga-td-chk"><label class="ck" title="Auto-animate based on markers"><input type="checkbox" id="sogaTwAuto" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Auto</span></label></td>
+<td class="soga-td-chk"><label class="ck" title="Reverse typing direction (delete effect)"><input type="checkbox" id="sogaTwReverse"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Rev</span></label></td>
+<td class="soga-td-chk"><label class="ck" title="Type word by word"><input type="checkbox" id="sogaWordMode"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Word</span></label></td>
+</tr>
+<tr>
+<td class="soga-td-lbl" title="Random speed variation (0-100%)">Random</td>
+<td class="soga-td-input"><div class="nw"><input type="number" id="sogaRandomSpeed" class="ni" value="0" step="5" min="0" max="100" title="Randomize typing speed"></div></td>
+<td class="soga-td-unit">%</td>
+<td class="soga-td-chk"><label class="ck" title="Show/hide cursor"><input type="checkbox" id="sogaShowCursor" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Cursor</span></label></td>
+<td class="soga-td-chk"><label class="ck" title="Place cursor before text"><input type="checkbox" id="sogaCursorBefore"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Before</span></label></td>
+</tr>
+<tr>
+<td class="soga-td-lbl" title="Space between cursor and text">Space</td>
+<td class="soga-td-input"><div class="nw"><input type="number" id="sogaCursorSpacing" class="ni" value="0" step="1" min="0" title="Cursor spacing in pixels"></div></td>
+<td class="soga-td-unit">px</td>
+<td class="soga-td-chk"><label class="ck" title="Keep cursor blinking during hold"><input type="checkbox" id="sogaBlinkInHold" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Hold</span></label></td>
+<td class="soga-td-chk"><label class="ck" title="Right-to-Left text direction"><input type="checkbox" id="sogaBoxRTL"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">RTL</span></label></td>
+</tr>
+<tr>
+<td class="soga-td-lbl" title="Cursor blink speed (blinks per second)">Blink</td>
+<td class="soga-td-input"><div class="nw"><input type="number" id="sogaBlinkSpeed" class="ni" value="2" step="0.5" min="0.5" title="Blinks per second"></div></td>
+<td class="soga-td-unit">Hz</td>
+<td class="soga-td-lbl" style="text-align:right" title="Cursor color">Cursor</td>
+<td class="soga-td-color"><input type="color" id="sogaCursorColor" class="ci" value="#ffffff" title="Choose cursor color"></td>
+</tr>
+<tr>
+<td colspan="3"></td>
+<td class="soga-td-lbl" style="text-align:right" title="Text color">Text</td>
+<td class="soga-td-color"><input type="color" id="sogaTextColor" class="ci" value="#ffffff" title="Choose text color"></td>
+</tr>
+<tr>
+<td class="soga-td-lbl" title="Animation easing curve">Easing</td>
+<td colspan="2">
+<select id="sogaEasingType" class="sel" style="width:90px" title="Choose easing type">
+<option value="0">Linear</option>
+<option value="1">Ease Out</option>
+<option value="2">Ease In</option>
+<option value="3">Ease In-Out</option>
+</select>
+</td>
+<td class="soga-td-input"><div class="nw"><input type="number" id="sogaEasingStrength" class="ni" value="100" step="10" min="0" max="100" title="Easing strength (0-100%)"></div></td>
+<td class="soga-td-unit">%</td>
+</tr>
+</table>
+</div>
+
+<!-- BOX SECTION -->
+<div id="sogaBox" class="soga-box" style="display:none">
+<div class="soga-title"><i class="fa-solid fa-square"></i> Box</div>
+
+<!-- Padding -->
+<div class="soga-group">
+<div class="soga-group-title" title="Box padding around text">Padding</div>
+<table class="soga-table-4">
+<tr>
+<td title="Left padding"><i class="fa-solid fa-arrow-left"></i></td><td><div class="nw"><input type="number" id="sogaPadL" class="ni" value="40" step="5" min="0" title="Left padding (px)"></div></td>
+<td title="Right padding"><i class="fa-solid fa-arrow-right"></i></td><td><div class="nw"><input type="number" id="sogaPadR" class="ni" value="40" step="5" min="0" title="Right padding (px)"></div></td>
+<td title="Top padding"><i class="fa-solid fa-arrow-up"></i></td><td><div class="nw"><input type="number" id="sogaPadT" class="ni" value="20" step="5" min="0" title="Top padding (px)"></div></td>
+<td title="Bottom padding"><i class="fa-solid fa-arrow-down"></i></td><td><div class="nw"><input type="number" id="sogaPadB" class="ni" value="20" step="5" min="0" title="Bottom padding (px)"></div></td>
+</tr>
+</table>
+</div>
+
+<!-- Corner -->
+<div class="soga-group">
+<div class="soga-group-title" title="Corner radius for each corner">Corner</div>
+<table class="soga-table-4" id="soga4CornersRow">
+<tr>
+<td class="soga-mini-lbl" title="Top-Left corner">TL</td><td><div class="nw"><input type="number" id="sogaCornerTL" class="ni" value="15" step="1" min="0" title="Top-Left radius"></div></td>
+<td class="soga-mini-lbl" title="Top-Right corner">TR</td><td><div class="nw"><input type="number" id="sogaCornerTR" class="ni" value="15" step="1" min="0" title="Top-Right radius"></div></td>
+<td class="soga-mini-lbl" title="Bottom-Left corner">BL</td><td><div class="nw"><input type="number" id="sogaCornerBL" class="ni" value="15" step="1" min="0" title="Bottom-Left radius"></div></td>
+<td class="soga-mini-lbl" title="Bottom-Right corner">BR</td><td><div class="nw"><input type="number" id="sogaCornerBR" class="ni" value="15" step="1" min="0" title="Bottom-Right radius"></div></td>
+</tr>
+</table>
+<div id="sogaSingleCornerRow" style="display:none"><span title="Uniform corner radius">Radius</span><div class="nw"><input type="number" id="sogaCorner" class="ni" value="15" step="1" min="0" title="Corner radius (px)"></div></div>
+</div>
+
+<!-- Stroke -->
+<div class="soga-group">
+<div class="soga-group-title" title="Box border/stroke settings">Stroke</div>
+<table class="soga-table-props">
+<tr>
+<td class="soga-prop-lbl" title="Stroke thickness">Width</td>
+<td class="soga-prop-lbl" title="Stroke opacity (0-100%)">Opacity</td>
+<td class="soga-prop-lbl" title="Stroke color">Color</td>
+<td class="soga-prop-lbl" title="Dash length for dashed stroke">Dash</td>
+<td class="soga-prop-lbl" title="Gap between dashes">Gap</td>
+</tr>
+<tr>
+<td><div class="nw"><input type="number" id="sogaStrokeW" class="ni" value="2" step="1" min="0" title="Stroke width (px)"></div></td>
+<td><div class="nw"><input type="number" id="sogaStrokeOp" class="ni" value="100" step="5" min="0" max="100" title="Stroke opacity %"></div></td>
+<td><input type="color" id="sogaStrokeColor" class="ci" value="#ffffff" title="Choose stroke color"></td>
+<td><div class="nw"><input type="number" id="sogaStrokeDash" class="ni" value="0" step="5" min="0" title="Dash length (px)"></div></td>
+<td><div class="nw"><input type="number" id="sogaStrokeGap" class="ni" value="0" step="5" min="0" title="Gap between dashes (px)"></div></td>
+</tr>
+</table>
+</div>
+
+<!-- Fill -->
+<div class="soga-group">
+<div class="soga-group-title" title="Box fill/background settings">Fill</div>
+<table class="soga-table-props">
+<tr>
+<td class="soga-prop-lbl" title="Fill opacity (0-100%)">Opacity</td>
+<td class="soga-prop-lbl" title="Fill color">Color</td>
+<td></td>
+<td class="soga-prop-lbl" style="text-align:right" colspan="2"><label class="ck" title="Lock box size (prevent auto-resize)"><input type="checkbox" id="sogaLockSize"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl"><i class="fa-solid fa-lock"></i> Lock</span></label></td>
+</tr>
+<tr>
+<td><div class="nw"><input type="number" id="sogaFillOp" class="ni" value="100" step="5" min="0" max="100" title="Fill opacity %"></div></td>
+<td><input type="color" id="sogaFillColor" class="ci" value="#3366e6" title="Choose fill color"></td>
+<td colspan="3"></td>
+</tr>
+</table>
+</div>
+</div>
+
+<!-- MOTION SECTION -->
+<div id="sogaMotion" class="soga-box" style="display:none">
+<div class="soga-title">
+<i class="fa-solid fa-wind"></i> Motion
+<button class="soga-title-btn" id="btnSogaSaveMotion" title="Save current Motion settings as preset"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+</div>
+
+<!-- Timing -->
+<div class="soga-group">
+<div class="soga-group-title">Timing</div>
+<table class="soga-table-4">
+<tr>
+<td>In</td>
+<td><div class="nw"><input type="number" id="sogaMotionInStart" class="ni" value="0" step="0.1" min="0" title="IN Start"></div></td>
+<td>→</td>
+<td><div class="nw"><input type="number" id="sogaMotionInEnd" class="ni" value="1" step="0.1" min="0" title="IN End"></div></td>
+<td class="soga-td-unit">s</td>
+</tr>
+<tr>
+<td>Out</td>
+<td><div class="nw"><input type="number" id="sogaMotionOutStart" class="ni" value="-1" step="0.1" title="OUT Start (-1=off)"></div></td>
+<td>→</td>
+<td><div class="nw"><input type="number" id="sogaMotionOutEnd" class="ni" value="-1" step="0.1" title="OUT End (-1=off)"></div></td>
+<td class="soga-td-unit">s</td>
+</tr>
+<tr>
+<td colspan="5">
+<label class="ck" title="Sync timing with Typewriter markers"><input type="checkbox" id="sogaMotionSyncEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl"><i class="fa-solid fa-link"></i> Sync with Typewriter</span></label>
+</td>
+</tr>
+</table>
+</div>
+
+<!-- IN/OUT Tabs -->
+<div class="soga-motion-tabs">
+<button class="soga-motion-tab active" data-tab="in" title="IN animation values"><i class="fa-solid fa-arrow-right-to-bracket"></i> IN</button>
+<button class="soga-motion-tab" data-tab="out" title="OUT animation values"><i class="fa-solid fa-arrow-right-from-bracket"></i> OUT</button>
+</div>
+
+<!-- IN Tab Content -->
+<div class="soga-motion-content" id="sogaMotionInContent">
+<!-- Position IN -->
+<div class="soga-group">
+<div class="soga-group-title"><label class="ck"><input type="checkbox" id="sogaMotionPosEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Position</span></label></div>
+<table class="soga-table-4">
+<tr>
+<td>From</td>
+<td><div class="nw"><input type="number" id="sogaMotionPosFromX" class="ni" value="0" step="10" title="From X"></div></td>
+<td><div class="nw"><input type="number" id="sogaMotionPosFromY" class="ni" value="0" step="10" title="From Y"></div></td>
+</tr>
+<tr>
+<td>To</td>
+<td><div class="nw"><input type="number" id="sogaMotionPosToX" class="ni" value="0" step="10" title="To X"></div></td>
+<td><div class="nw"><input type="number" id="sogaMotionPosToY" class="ni" value="0" step="10" title="To Y"></div></td>
+</tr>
+</table>
+</div>
+
+<!-- Scale & Rotation & Opacity IN -->
+<div class="soga-group">
+<table class="soga-table">
+<tr>
+<td><label class="ck"><input type="checkbox" id="sogaMotionScaleEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Scale</span></label></td>
+<td><div class="nw"><input type="number" id="sogaMotionScaleFrom" class="ni" value="100" step="10" min="0" title="Scale From %"></div></td>
+<td>→</td>
+<td><div class="nw"><input type="number" id="sogaMotionScaleTo" class="ni" value="100" step="10" min="0" title="Scale To %"></div></td>
+<td class="soga-td-unit">%</td>
+</tr>
+<tr>
+<td><label class="ck"><input type="checkbox" id="sogaMotionRotEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Rotation</span></label></td>
+<td><div class="nw"><input type="number" id="sogaMotionRotFrom" class="ni" value="0" step="15" title="Rotation From °"></div></td>
+<td>→</td>
+<td><div class="nw"><input type="number" id="sogaMotionRotTo" class="ni" value="0" step="15" title="Rotation To °"></div></td>
+<td class="soga-td-unit">°</td>
+</tr>
+<tr>
+<td><label class="ck"><input type="checkbox" id="sogaMotionOpacityEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Opacity</span></label></td>
+<td><div class="nw"><input type="number" id="sogaMotionOpacityFrom" class="ni" value="0" step="10" min="0" max="100" title="Opacity From %"></div></td>
+<td>→</td>
+<td><div class="nw"><input type="number" id="sogaMotionOpacityTo" class="ni" value="100" step="10" min="0" max="100" title="Opacity To %"></div></td>
+<td class="soga-td-unit">%</td>
+</tr>
+</table>
+</div>
+</div>
+
+<!-- OUT Tab Content -->
+<div class="soga-motion-content" id="sogaMotionOutContent" style="display:none">
+<!-- Position OUT -->
+<div class="soga-group">
+<div class="soga-group-title"><i class="fa-solid fa-arrows-up-down-left-right"></i> Position OUT</div>
+<table class="soga-table-4">
+<tr>
+<td>From</td>
+<td><div class="nw"><input type="number" id="sogaMotionPosOutFromX" class="ni" value="0" step="10" title="OUT From X"></div></td>
+<td><div class="nw"><input type="number" id="sogaMotionPosOutFromY" class="ni" value="0" step="10" title="OUT From Y"></div></td>
+</tr>
+<tr>
+<td>To</td>
+<td><div class="nw"><input type="number" id="sogaMotionPosOutToX" class="ni" value="0" step="10" title="OUT To X"></div></td>
+<td><div class="nw"><input type="number" id="sogaMotionPosOutToY" class="ni" value="0" step="10" title="OUT To Y"></div></td>
+</tr>
+</table>
+</div>
+
+<!-- Scale & Rotation & Opacity OUT -->
+<div class="soga-group">
+<table class="soga-table">
+<tr>
+<td class="soga-td-lbl"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> Scale</td>
+<td><div class="nw"><input type="number" id="sogaMotionScaleOutFrom" class="ni" value="100" step="10" min="0" title="Scale OUT From %"></div></td>
+<td>→</td>
+<td><div class="nw"><input type="number" id="sogaMotionScaleOutTo" class="ni" value="100" step="10" min="0" title="Scale OUT To %"></div></td>
+<td class="soga-td-unit">%</td>
+</tr>
+<tr>
+<td class="soga-td-lbl"><i class="fa-solid fa-rotate"></i> Rotation</td>
+<td><div class="nw"><input type="number" id="sogaMotionRotOutFrom" class="ni" value="0" step="15" title="Rotation OUT From °"></div></td>
+<td>→</td>
+<td><div class="nw"><input type="number" id="sogaMotionRotOutTo" class="ni" value="0" step="15" title="Rotation OUT To °"></div></td>
+<td class="soga-td-unit">°</td>
+</tr>
+<tr>
+<td class="soga-td-lbl"><i class="fa-solid fa-eye"></i> Opacity</td>
+<td><div class="nw"><input type="number" id="sogaMotionOpacityOutFrom" class="ni" value="100" step="10" min="0" max="100" title="Opacity OUT From %"></div></td>
+<td>→</td>
+<td><div class="nw"><input type="number" id="sogaMotionOpacityOutTo" class="ni" value="0" step="10" min="0" max="100" title="Opacity OUT To %"></div></td>
+<td class="soga-td-unit">%</td>
+</tr>
+</table>
+</div>
+</div>
+
+<!-- Easing -->
+<div class="soga-group">
+<div class="soga-group-title">Easing</div>
+<table class="soga-table">
+<tr>
+<td>
+<select id="sogaMotionEasingType" class="sel" style="width:100px" title="Easing type">
+<option value="0">Linear</option>
+<option value="1" selected>Ease Out</option>
+<option value="2">Ease In</option>
+<option value="3">Ease In-Out</option>
+<option value="4">Bounce</option>
+<option value="5">Elastic</option>
+<option value="6">Spring</option>
+</select>
+</td>
+<td class="soga-td-lbl">Strength</td>
+<td><div class="nw"><input type="number" id="sogaMotionEasingStrength" class="ni" value="100" step="10" min="0" max="200" title="Easing strength %"></div></td>
+<td class="soga-td-unit">%</td>
+</tr>
+</table>
+</div>
+</div>
+
+<!-- Empty State -->
+<div class="soga-empty" id="sogaEmpty" title="Select a layer to edit its properties"><i class="fa-solid fa-mouse-pointer"></i><p>Select a text layer with Typewriter or Box</p></div>
+</section>
+
+<!-- MARKERS PANEL -->
+<section class="panel" id="panel-markers">
+
+<!-- Filter Section -->
+<div class="soga-box">
+<div class="soga-title"><i class="fa-solid fa-filter"></i> Filter by Type</div>
+<div class="markers-filters" id="markersFilters">
+<label class="ck markers-filter-ck"><input type="checkbox" id="filterInStart" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl" style="color:#4CAF50">IN_START</span></label>
+<label class="ck markers-filter-ck"><input type="checkbox" id="filterInEnd" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl" style="color:#4CAF50">IN_END</span></label>
+<label class="ck markers-filter-ck"><input type="checkbox" id="filterOutStart" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl" style="color:#f44336">OUT_START</span></label>
+<label class="ck markers-filter-ck"><input type="checkbox" id="filterOutEnd" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl" style="color:#f44336">OUT_END</span></label>
+<label class="ck markers-filter-ck"><input type="checkbox" id="filterBlinkStart" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl" style="color:#4CAF50">BLINK_START</span></label>
+<label class="ck markers-filter-ck"><input type="checkbox" id="filterBlinkEnd" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl" style="color:#4CAF50">BLINK_END</span></label>
+</div>
+</div>
+
+<!-- Markers Table -->
+<div class="soga-box">
+<div class="soga-title"><i class="fa-solid fa-list"></i> Markers <span id="markersCount" style="opacity:0.6">(0)</span></div>
+<div class="markers-table-wrap">
+<table class="markers-table" id="markersTable">
+<thead>
+<tr>
+<th style="width:30px"><input type="checkbox" id="markersSelectAll" title="Select All"></th>
+<th style="width:120px">Layer</th>
+<th style="width:80px">Type</th>
+<th style="width:70px">Time</th>
+</tr>
+</thead>
+<tbody id="markersTableBody">
+</tbody>
+</table>
+</div>
+<div class="markers-info">Selected: <span id="markersSelectedCount">0</span></div>
+<div class="markers-quick-select">
+<button class="btn-qs" id="btnSelectLayer" title="Select markers of AE selected layers"><i class="fa-solid fa-layer-group"></i> Layer</button>
+<button class="btn-qs" id="btnSelectInvert" title="Invert current selection"><i class="fa-solid fa-rotate"></i> Invert</button>
+<button class="btn-qs" id="btnSelectNone" title="Clear all selection"><i class="fa-solid fa-xmark"></i> None</button>
+</div>
+</div>
+
+<!-- Operations -->
+<div class="soga-box">
+<div class="soga-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Operations</div>
+<div class="markers-ops">
+<div class="markers-op-row">
+<span class="markers-op-lbl">Offset</span>
+<button class="btn-pm btn-minus" id="btnOffsetMinus" title="Decrease 1 second"><i class="fa-solid fa-minus"></i></button>
+<div class="nw"><input type="text" id="markersOffset" class="ni time-input" value="1:00" title="Offset (s:f)" placeholder="0:00"></div>
+<button class="btn-pm btn-plus" id="btnOffsetPlus" title="Increase 1 second"><i class="fa-solid fa-plus"></i></button>
+<span class="markers-op-unit">s:f</span>
+<div class="op-btns-group">
+<button class="btn-op btn-op-minus" id="btnMarkersOffsetMinus" title="Offset markers backward">M-</button>
+<button class="btn-op btn-op-plus" id="btnMarkersOffsetPlus" title="Offset markers forward">M+</button>
+<button class="btn-op btn-op-minus btn-layer" id="btnLayersOffsetMinus" title="Offset layers backward">L-</button>
+<button class="btn-op btn-op-plus btn-layer" id="btnLayersOffsetPlus" title="Offset layers forward">L+</button>
+</div>
+</div>
+<div class="markers-op-row">
+<span class="markers-op-lbl">Stagger</span>
+<button class="btn-pm btn-minus" id="btnStaggerMinus" title="Decrease 1 second"><i class="fa-solid fa-minus"></i></button>
+<div class="nw"><input type="text" id="markersStagger" class="ni time-input" value="1:00" title="Stagger delay (s:f)" placeholder="0:00"></div>
+<button class="btn-pm btn-plus" id="btnStaggerPlus" title="Increase 1 second"><i class="fa-solid fa-plus"></i></button>
+<span class="markers-op-unit">s:f</span>
+<select id="markersStaggerOrder" class="sel-sm" title="Stagger order"><option value="asc">↓</option><option value="desc">↑</option><option value="random">🎲</option></select>
+<div class="op-btns-group">
+<button class="btn-op btn-op-minus" id="btnMarkersStaggerMinus" title="Stagger markers backward">M-</button>
+<button class="btn-op btn-op-plus" id="btnMarkersStaggerPlus" title="Stagger markers forward">M+</button>
+<button class="btn-op btn-op-minus btn-layer" id="btnLayersStaggerMinus" title="Stagger layers backward">L-</button>
+<button class="btn-op btn-op-plus btn-layer" id="btnLayersStaggerPlus" title="Stagger layers forward">L+</button>
+</div>
+</div>
+<div class="markers-op-row">
+<span class="markers-op-lbl">Align</span>
+<button class="btn-pm btn-minus" id="btnAlignMinus" title="Decrease 1 second"><i class="fa-solid fa-minus"></i></button>
+<div class="nw"><input type="text" id="markersAlignTime" class="ni time-input" value="5:00" title="Align time (s:f)" placeholder="0:00"></div>
+<button class="btn-pm btn-plus" id="btnAlignPlus" title="Increase 1 second"><i class="fa-solid fa-plus"></i></button>
+<span class="markers-op-unit">s:f</span>
+<div class="op-btns-group">
+<button class="btn-op btn-op-plus" id="btnMarkersAlign" title="Align markers to time">M</button>
+<button class="btn-op btn-op-plus btn-layer" id="btnLayersAlign" title="Align layers to time">L</button>
+</div>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- MOTION PANEL -->
+<section class="panel" id="panel-motion">
+<!-- Timing Section -->
+<div class="soga-box">
+<div class="soga-title" title="Animation timing"><i class="fa-solid fa-stopwatch"></i> Timing</div>
+<div class="soga-group">
+<div class="soga-group-title"><i class="fa-solid fa-right-to-bracket"></i> Animate In</div>
+<table class="soga-table-4">
+<tr>
+<td title="Start time"><i class="fa-solid fa-hourglass-start"></i></td>
+<td><div class="nw"><input type="number" id="motionInStart" class="ni" value="0" step="0.1" min="0" title="Motion In start (seconds)"></div></td>
+<td title="End time"><i class="fa-solid fa-hourglass-end"></i></td>
+<td><div class="nw"><input type="number" id="motionInEnd" class="ni" value="1" step="0.1" min="0" title="Motion In end (seconds)"></div></td>
+<td class="soga-td-unit">s</td>
+</tr>
+</table>
+</div>
+<div class="soga-group">
+<div class="soga-group-title"><i class="fa-solid fa-right-from-bracket"></i> Animate Out</div>
+<table class="soga-table-4">
+<tr>
+<td><label class="ck" title="Enable exit animation"><input type="checkbox" id="motionOutEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Enable</span></label></td>
+<td title="Start time"><i class="fa-solid fa-hourglass-start"></i></td>
+<td><div class="nw"><input type="number" id="motionOutStart" class="ni" value="4" step="0.1" min="0" title="Motion Out start (seconds)"></div></td>
+<td title="End time"><i class="fa-solid fa-hourglass-end"></i></td>
+<td><div class="nw"><input type="number" id="motionOutEnd" class="ni" value="5" step="0.1" min="0" title="Motion Out end (seconds)"></div></td>
+<td class="soga-td-unit">s</td>
+</tr>
+</table>
+</div>
+<div class="soga-group">
+<div class="soga-group-title">
+<label class="ck" title="Sync Motion timing with Typewriter markers"><input type="checkbox" id="motionSyncEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl"><i class="fa-solid fa-link"></i> Sync with Typewriter</span></label>
+</div>
+</div>
+</div>
+
+<!-- Position Section -->
+<div class="soga-box">
+<div class="soga-title" title="Position animation"><i class="fa-solid fa-arrows-up-down-left-right"></i> Position</div>
+<table class="soga-table">
+<tr>
+<td><label class="ck" title="Enable position animation"><input type="checkbox" id="motionPosEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Enable</span></label></td>
+<td colspan="3"></td>
+<td><button class="link-btn linked" id="motionPosLink" title="Link/Unlink OUT values"><i class="fa-solid fa-link"></i></button></td>
+</tr>
+<tr class="motion-in-row">
+<td class="soga-td-lbl"><span class="row-tag in">IN</span> From X</td>
+<td><div class="nw"><input type="number" id="motionPosFromX" class="ni" value="0" step="10" title="IN Start X offset"></div></td>
+<td class="soga-td-lbl">Y</td>
+<td><div class="nw"><input type="number" id="motionPosFromY" class="ni" value="0" step="10" title="IN Start Y offset"></div></td>
+</tr>
+<tr class="motion-in-row">
+<td class="soga-td-lbl">To X</td>
+<td><div class="nw"><input type="number" id="motionPosToX" class="ni" value="0" step="10" title="IN End X offset"></div></td>
+<td class="soga-td-lbl">Y</td>
+<td><div class="nw"><input type="number" id="motionPosToY" class="ni" value="0" step="10" title="IN End Y offset"></div></td>
+</tr>
+<tr class="motion-out-row" id="motionPosOutRow1" style="display:none">
+<td class="soga-td-lbl"><span class="row-tag out">OUT</span> From X</td>
+<td><div class="nw"><input type="number" id="motionPosOutFromX" class="ni" value="0" step="10" title="OUT Start X offset"></div></td>
+<td class="soga-td-lbl">Y</td>
+<td><div class="nw"><input type="number" id="motionPosOutFromY" class="ni" value="0" step="10" title="OUT Start Y offset"></div></td>
+</tr>
+<tr class="motion-out-row" id="motionPosOutRow2" style="display:none">
+<td class="soga-td-lbl">To X</td>
+<td><div class="nw"><input type="number" id="motionPosOutToX" class="ni" value="0" step="10" title="OUT End X offset"></div></td>
+<td class="soga-td-lbl">Y</td>
+<td><div class="nw"><input type="number" id="motionPosOutToY" class="ni" value="0" step="10" title="OUT End Y offset"></div></td>
+</tr>
+</table>
+</div>
+
+<!-- Scale Section -->
+<div class="soga-box">
+<div class="soga-title" title="Scale animation"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> Scale</div>
+<table class="soga-table">
+<tr class="motion-in-row">
+<td><label class="ck" title="Enable scale animation"><input type="checkbox" id="motionScaleEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Enable</span></label></td>
+<td class="soga-td-lbl"><span class="row-tag in">IN</span> From</td>
+<td><div class="nw"><input type="number" id="motionScaleFrom" class="ni" value="100" step="10" min="0" max="200" title="IN Start scale %"></div></td>
+<td class="soga-td-unit">%</td>
+<td class="soga-td-lbl">To</td>
+<td><div class="nw"><input type="number" id="motionScaleTo" class="ni" value="100" step="10" min="0" max="200" title="IN End scale %"></div></td>
+<td class="soga-td-unit">%</td>
+<td><button class="link-btn linked" id="motionScaleLink" title="Link/Unlink OUT values"><i class="fa-solid fa-link"></i></button></td>
+</tr>
+<tr class="motion-out-row" id="motionScaleOutRow" style="display:none">
+<td></td>
+<td class="soga-td-lbl"><span class="row-tag out">OUT</span> From</td>
+<td><div class="nw"><input type="number" id="motionScaleOutFrom" class="ni" value="100" step="10" min="0" max="200" title="OUT Start scale %"></div></td>
+<td class="soga-td-unit">%</td>
+<td class="soga-td-lbl">To</td>
+<td><div class="nw"><input type="number" id="motionScaleOutTo" class="ni" value="100" step="10" min="0" max="200" title="OUT End scale %"></div></td>
+<td class="soga-td-unit">%</td>
+</tr>
+</table>
+</div>
+
+<!-- Rotation Section -->
+<div class="soga-box">
+<div class="soga-title" title="Rotation animation"><i class="fa-solid fa-rotate"></i> Rotation</div>
+<table class="soga-table">
+<tr class="motion-in-row">
+<td><label class="ck" title="Enable rotation animation"><input type="checkbox" id="motionRotEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Enable</span></label></td>
+<td class="soga-td-lbl"><span class="row-tag in">IN</span> From</td>
+<td><div class="nw"><input type="number" id="motionRotFrom" class="ni" value="0" step="15" min="-360" max="360" title="IN Start rotation °"></div></td>
+<td class="soga-td-unit">°</td>
+<td class="soga-td-lbl">To</td>
+<td><div class="nw"><input type="number" id="motionRotTo" class="ni" value="0" step="15" min="-360" max="360" title="IN End rotation °"></div></td>
+<td class="soga-td-unit">°</td>
+<td><button class="link-btn linked" id="motionRotLink" title="Link/Unlink OUT values"><i class="fa-solid fa-link"></i></button></td>
+</tr>
+<tr class="motion-out-row" id="motionRotOutRow" style="display:none">
+<td></td>
+<td class="soga-td-lbl"><span class="row-tag out">OUT</span> From</td>
+<td><div class="nw"><input type="number" id="motionRotOutFrom" class="ni" value="0" step="15" min="-360" max="360" title="OUT Start rotation °"></div></td>
+<td class="soga-td-unit">°</td>
+<td class="soga-td-lbl">To</td>
+<td><div class="nw"><input type="number" id="motionRotOutTo" class="ni" value="0" step="15" min="-360" max="360" title="OUT End rotation °"></div></td>
+<td class="soga-td-unit">°</td>
+</tr>
+</table>
+</div>
+
+<!-- Opacity Section -->
+<div class="soga-box">
+<div class="soga-title" title="Opacity animation"><i class="fa-solid fa-eye"></i> Opacity</div>
+<table class="soga-table">
+<tr class="motion-in-row">
+<td><label class="ck" title="Enable opacity animation"><input type="checkbox" id="motionOpacityEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Enable</span></label></td>
+<td class="soga-td-lbl"><span class="row-tag in">IN</span> From</td>
+<td><div class="nw"><input type="number" id="motionOpacityFrom" class="ni" value="0" step="10" min="0" max="100" title="IN Start opacity %"></div></td>
+<td class="soga-td-unit">%</td>
+<td class="soga-td-lbl">To</td>
+<td><div class="nw"><input type="number" id="motionOpacityTo" class="ni" value="100" step="10" min="0" max="100" title="IN End opacity %"></div></td>
+<td class="soga-td-unit">%</td>
+<td><button class="link-btn linked" id="motionOpacityLink" title="Link/Unlink OUT values"><i class="fa-solid fa-link"></i></button></td>
+</tr>
+<tr class="motion-out-row" id="motionOpacityOutRow" style="display:none">
+<td></td>
+<td class="soga-td-lbl"><span class="row-tag out">OUT</span> From</td>
+<td><div class="nw"><input type="number" id="motionOpacityOutFrom" class="ni" value="100" step="10" min="0" max="100" title="OUT Start opacity %"></div></td>
+<td class="soga-td-unit">%</td>
+<td class="soga-td-lbl">To</td>
+<td><div class="nw"><input type="number" id="motionOpacityOutTo" class="ni" value="0" step="10" min="0" max="100" title="OUT End opacity %"></div></td>
+<td class="soga-td-unit">%</td>
+</tr>
+</table>
+</div>
+
+<!-- Easing Section -->
+<div class="soga-box">
+<div class="soga-title" title="Easing curve"><i class="fa-solid fa-bezier-curve"></i> Easing</div>
+<table class="soga-table">
+<tr>
+<td class="soga-td-lbl">Type</td>
+<td colspan="2">
+<select id="motionEasingType" class="sel" style="width:100px" title="Easing type">
+<option value="0">Linear</option>
+<option value="1" selected>Ease Out</option>
+<option value="2">Ease In</option>
+<option value="3">Ease In-Out</option>
+<option value="4">Bounce</option>
+<option value="5">Elastic</option>
+<option value="6">Spring</option>
+</select>
+</td>
+<td class="soga-td-lbl">Strength</td>
+<td><div class="nw"><input type="number" id="motionEasingStrength" class="ni" value="100" step="10" min="0" max="200" title="Easing strength %"></div></td>
+<td class="soga-td-unit">%</td>
+</tr>
+</table>
+</div>
+
+<!-- Multi-layer Section -->
+<div class="soga-box" id="motionMultiLayer" style="display:none">
+<div class="soga-title" title="Multi-layer settings"><i class="fa-solid fa-layer-group"></i> Multi-layer</div>
+<table class="soga-table">
+<tr>
+<td class="soga-td-lbl">Stagger</td>
+<td><div class="nw"><input type="number" id="motionStagger" class="ni" value="0.2" step="0.1" min="0" title="Delay between layers (seconds)"></div></td>
+<td class="soga-td-unit">s</td>
+<td><span id="motionLayerCount" style="opacity:0.6"></span></td>
+</tr>
+</table>
+</div>
+
+<!-- Presets Section -->
+<div class="soga-box">
+<div class="soga-title" title="Quick presets"><i class="fa-solid fa-wand-magic-sparkles"></i> Quick Presets</div>
+
+<!-- IN/OUT Sub-tabs -->
+<div class="motion-presets-tabs">
+<button class="preset-tab active" data-tab="in" title="Select IN preset (entrance animation)">
+<i class="fa-solid fa-arrow-right-to-bracket"></i> IN
+</button>
+<button class="preset-tab" data-tab="out" title="Select OUT preset (exit animation)">
+<i class="fa-solid fa-arrow-right-from-bracket"></i> OUT
+</button>
+</div>
+
+<!-- Presets Grid - Generated dynamically from JSON files -->
+<div class="motion-presets-grid" id="motionPresetsGrid">
+<!-- Buttons will be generated by MotionPanel.js -->
+<div class="presets-loading"><i class="fa-solid fa-spinner fa-spin"></i> Loading presets...</div>
+</div>
+
+<!-- Selection Summary -->
+<div class="motion-presets-summary">
+<span class="preset-selection">
+<span class="in-label">IN:</span> <span id="selectedInPreset">None</span>
+<span class="separator">|</span>
+<span class="out-label">OUT:</span> <span id="selectedOutPreset">None</span>
+</span>
+<button class="btn-xs" id="btnClearPresets" title="Clear selections"><i class="fa-solid fa-xmark"></i></button>
+</div>
+</div>
+</section>
+
+<!-- SETTINGS PANEL -->
+<section class="panel" id="panel-settings">
+<!-- Presets Folder Section -->
+<div class="soga-box">
+<div class="soga-title" title="Custom presets folder location"><i class="fa-solid fa-folder-open"></i> Presets Folder</div>
+<table class="soga-table">
+<tr>
+<td colspan="5">
+<div class="row" style="margin:0">
+<input type="text" id="txtPresetsPath" class="ti" readonly placeholder="Click Browse..." title="Path to custom presets folder">
+<button class="btn-s" id="btnBrowsePresets" title="Browse for presets folder"><i class="fa-solid fa-folder-open"></i></button>
+</div>
+</td>
+</tr>
+<tr>
+<td colspan="5"><div class="path-status" id="pathStatus" title="Folder status"><i class="fa-solid fa-triangle-exclamation"></i> No folder selected</div></td>
+</tr>
+</table>
+</div>
+
+<!-- Expression Versions Section -->
+<div class="soga-box">
+<div class="soga-title" title="Select expression versions for each module"><i class="fa-solid fa-code"></i> Expression Versions</div>
+<table class="soga-table">
+<tr>
+<td class="soga-td-lbl" title="Typewriter expression version">Typewriter</td>
+<td colspan="4"><select id="selExprTypewriter" class="sel" title="Select typewriter expression version"><option value="v1.0">v1.0 (stable)</option></select></td>
+</tr>
+<tr>
+<td class="soga-td-lbl" title="Cursor expression version">Cursor</td>
+<td colspan="4"><select id="selExprCursor" class="sel" title="Select cursor expression version"><option value="v1.0">v1.0 (stable)</option></select></td>
+</tr>
+<tr>
+<td class="soga-td-lbl" title="Box expression version">Box</td>
+<td colspan="4"><select id="selExprBox" class="sel" title="Select box expression version"><option value="v1.0">v1.0 (stable)</option></select></td>
+</tr>
+</table>
+<div class="expr-note" title="Important note"><i class="fa-solid fa-info-circle"></i> Reload panel after changing versions</div>
+</div>
+
+<!-- About Section -->
+<div class="soga-box">
+<div class="soga-title" title="Plugin information"><i class="fa-solid fa-info-circle"></i> About</div>
+<table class="soga-table">
+<tr>
+<td class="soga-td-lbl" title="Current version">Version</td>
+<td title="Plugin version number"><strong id="aboutVersion">v1.0.0</strong></td>
+</tr>
+<tr>
+<td class="soga-td-lbl" title="Build date">Build</td>
+<td title="Release date">December 2024</td>
+</tr>
+</table>
+</div>
+
+<!-- Maintenance Section -->
+<div class="soga-box">
+<div class="soga-title" title="Maintenance tools"><i class="fa-solid fa-broom"></i> Maintenance</div>
+<div class="row">
+<button class="btn-s" id="btnClearCache" title="Clear cached data and settings"><i class="fa-solid fa-trash"></i> Clear Cache</button>
+<button class="btn-s" id="btnReloadPanel" title="Reload the panel interface"><i class="fa-solid fa-sync"></i> Reload</button>
+</div>
+</div>
+</section>
+
+</main>
+
+<!-- ACTION BAR -->
+<div class="action-bar" title="Status and actions">
+<div class="status" title="Current status"><i class="fa-solid fa-circle-check"></i><span id="status">Ready</span></div>
+<div class="actions" id="actionBtns" title="Available actions"></div>
+</div>
+</div>
+
+<!-- TOOLTIP -->
+<div id="tooltip" class="tt" role="tooltip"></div>
+
+<!-- CONTEXT MENU -->
+<div class="ctx" id="ctx"></div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="inputModal" style="display:none">
+<div class="modal modal-small">
+<div class="modal-header"><span id="inputModalTitle">Enter Value</span><button class="btn-close" id="btnCloseInput" title="Close dialog">×</button></div>
+<div class="modal-content">
+<div class="row"><label id="inputModalLabel">Name:</label><input type="text" id="inputModalValue" class="ti" title="Enter a value"></div>
+<div class="row" id="inputModalIconRow" style="display:none"><label>Icon:</label><input type="text" id="inputModalIcon" class="ti" style="width:50px" maxlength="2" title="Enter an emoji or symbol"></div>
+</div>
+<div class="modal-footer">
+<button class="btn-s" id="btnInputCancel" title="Cancel and close">Cancel</button>
+<button class="btn-s btn-primary" id="btnInputOK" title="Confirm and save">OK</button>
+</div>
+</div>
+</div>
+
+<div class="modal-overlay" id="confirmModal" style="display:none">
+<div class="modal modal-small">
+<div class="modal-header"><span id="confirmModalTitle">Confirm</span><button class="btn-close" id="btnCloseConfirm" title="Close dialog">×</button></div>
+<div class="modal-content"><p id="confirmModalMessage" class="confirm-message">Are you sure?</p></div>
+<div class="modal-footer">
+<button class="btn-s" id="btnConfirmCancel" title="Cancel action">Cancel</button>
+<button class="btn-s btn-danger" id="btnConfirmOK" title="Confirm deletion">Delete</button>
+</div>
+</div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="js/CSInterface.js"></script>
+
+<!-- Core Modules -->
+<script src="js/core/Config.js?v=1.0.0"></script>
+<script src="js/core/Utils.js?v=1.0.0"></script>
+<script src="js/core/ErrorHandler.js?v=1.0.0"></script>
+<script src="js/core/HostBridge.js?v=1.0.0"></script>
+
+<!-- State Modules -->
+<script src="js/state/Defaults.js?v=1.0.0"></script>
+<script src="js/state/StateManager.js?v=1.0.0"></script>
+<script src="js/state/SelectionMonitor.js?v=1.0.0"></script>
+
+<!-- Time Module -->
+<script src="js/time/TimeUtils.js?v=1.0.0"></script>
+
+<!-- UI Modules -->
+<script src="js/ui/StatusBar.js?v=1.0.0"></script>
+<script src="js/ui/TabManager.js?v=1.0.0"></script>
+<script src="js/ui/ActionBar.js?v=1.0.0"></script>
+<script src="js/ui/CollapsibleSection.js?v=1.0.0"></script>
+<script src="js/ui/Modals.js?v=1.0.0"></script>
+<script src="js/ui/NumberSpinners.js?v=1.0.0"></script>
+<script src="js/ui/ContextMenu.js?v=1.0.0"></script>
+<script src="js/ui/Tooltip.js?v=1.0.0"></script>
+
+<!-- Operations Modules -->
+<script src="js/operations/MarkersOps.js?v=1.0.0"></script>
+<script src="js/operations/LayersOps.js?v=1.0.0"></script>
+<script src="js/operations/PresetsOps.js?v=1.0.0"></script>
+
+<!-- Panel Modules -->
+<script src="js/panels/TypewriterPanel.js?v=1.0.0"></script>
+<script src="js/panels/BoxPanel.js?v=1.0.0"></script>
+<script src="js/panels/SogaPanel.js?v=1.0.0"></script>
+<script src="js/panels/MarkersPanel.js?v=1.0.0"></script>
+<script src="js/panels/PresetsPanel.js?v=1.0.0"></script>
+<script src="js/panels/MotionPanel.js?v=1.0.0"></script>
+<script src="js/panels/SettingsPanel.js?v=1.0.0"></script>
+<script src="js/panels/MultiLinesPanel.js?v=1.0.0"></script>
+
+<!-- Legacy Aliases (for backward compatibility) -->
+<script src="js/legacy/aliases.js?v=1.0.0"></script>
+
+<!-- Main Entry Point -->
+<script src="js/main-entry.js?v=1.0.0"></script>
+</body>
+</html>
+
+

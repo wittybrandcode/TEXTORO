@@ -1,0 +1,30 @@
+{
+  "name": "Classic",
+  "icon": "⌨️",
+  "category": "type",
+  "description": "كتابة كلاسيكية مع مؤشر",
+  "builtin": true,
+  "values": {
+    "twAuto": true,
+    "twReverse": false,
+    "wordMode": false,
+    "randomSpeed": 0,
+    "showCursor": true,
+    "cursorBefore": false,
+    "cursorType": 0,
+    "cursorColor": [1, 1, 1],
+    "cursorSpacing": 2,
+    "blinkSpeed": 2,
+    "blinkInHold": true,
+    "boxRTL": false,
+    "textColor": [1, 1, 1],
+    "easingType": 1,
+    "easingStrength": 100,
+    "inStart": 0.5,
+    "inEnd": 3.0,
+    "outStart": 6.0,
+    "outEnd": 7.5,
+    "blinkStart": 0,
+    "blinkEnd": 10
+  }
+}

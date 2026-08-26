@@ -1,0 +1,502 @@
+/* ============================================
+   TEXTORO - Spectrum Components
+   Adobe Spectrum Dark Theme Components
+   ============================================ */
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--spectrum-font-family);
+    font-size: var(--spectrum-font-size-md);
+    color: var(--spectrum-text-primary);
+    background: var(--spectrum-bg-base);
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════════
+   LAYOUT - Panel Structure
+   ═══════════════════════════════════════════ */
+.sp-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.sp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spectrum-spacing-200) var(--spectrum-spacing-300);
+    background: var(--spectrum-bg-layer-2);
+    border-bottom: 1px solid var(--spectrum-border-default);
+}
+
+.sp-logo {
+    font-size: var(--spectrum-font-size-lg);
+    font-weight: 600;
+    color: var(--spectrum-text-primary);
+    letter-spacing: 0.5px;
+}
+
+.sp-version {
+    font-size: var(--spectrum-font-size-xs);
+    color: var(--spectrum-text-tertiary);
+    margin-left: var(--spectrum-spacing-200);
+}
+
+.sp-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spectrum-spacing-300);
+}
+
+.sp-footer {
+    padding: var(--spectrum-spacing-200) var(--spectrum-spacing-300);
+    background: var(--spectrum-bg-layer-1);
+    border-top: 1px solid var(--spectrum-border-default);
+    font-size: var(--spectrum-font-size-sm);
+    color: var(--spectrum-text-secondary);
+}
+
+/* ═══════════════════════════════════════════
+   TABS
+   ═══════════════════════════════════════════ */
+.sp-tabs {
+    display: flex;
+    background: var(--spectrum-bg-layer-1);
+    border-bottom: 1px solid var(--spectrum-border-default);
+}
+
+.sp-tab {
+    flex: 1;
+    padding: var(--spectrum-spacing-200) var(--spectrum-spacing-300);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--spectrum-text-secondary);
+    font-size: var(--spectrum-font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--spectrum-transition-fast);
+}
+
+.sp-tab:hover {
+    color: var(--spectrum-text-primary);
+    background: var(--spectrum-surface-hover);
+}
+
+.sp-tab.active {
+    color: var(--spectrum-accent-default);
+    border-bottom-color: var(--spectrum-accent-default);
+}
+
+/* ═══════════════════════════════════════════
+   SECTIONS
+   ═══════════════════════════════════════════ */
+.sp-section {
+    margin-bottom: var(--spectrum-spacing-400);
+}
+
+.sp-section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spectrum-spacing-200);
+    margin-bottom: var(--spectrum-spacing-300);
+    padding-bottom: var(--spectrum-spacing-100);
+    border-bottom: 1px solid var(--spectrum-border-default);
+    font-size: var(--spectrum-font-size-sm);
+    font-weight: 600;
+    color: var(--spectrum-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sp-section-title svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════
+   FORM ROWS
+   ═══════════════════════════════════════════ */
+.sp-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spectrum-spacing-200);
+    margin-bottom: var(--spectrum-spacing-200);
+}
+
+.sp-row-full {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spectrum-spacing-100);
+    margin-bottom: var(--spectrum-spacing-200);
+}
+
+.sp-label {
+    min-width: 60px;
+    font-size: var(--spectrum-font-size-sm);
+    color: var(--spectrum-text-secondary);
+}
+
+.sp-unit {
+    font-size: var(--spectrum-font-size-xs);
+    color: var(--spectrum-text-tertiary);
+    min-width: 24px;
+}
+
+/* ═══════════════════════════════════════════
+   BUTTONS
+   ═══════════════════════════════════════════ */
+.sp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spectrum-spacing-100);
+    height: var(--spectrum-component-height-md);
+    padding: 0 var(--spectrum-spacing-300);
+    background: var(--spectrum-surface-default);
+    border: 1px solid var(--spectrum-border-default);
+    border-radius: var(--spectrum-radius-md);
+    color: var(--spectrum-text-primary);
+    font-size: var(--spectrum-font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--spectrum-transition-fast);
+}
+
+.sp-btn:hover {
+    background: var(--spectrum-surface-hover);
+    border-color: var(--spectrum-border-hover);
+}
+
+.sp-btn:active {
+    background: var(--spectrum-surface-active);
+}
+
+.sp-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--spectrum-accent-default);
+}
+
+.sp-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Button Variants */
+.sp-btn-primary {
+    background: var(--spectrum-accent-default);
+    border-color: var(--spectrum-accent-default);
+    color: white;
+}
+
+.sp-btn-primary:hover {
+    background: var(--spectrum-accent-hover);
+    border-color: var(--spectrum-accent-hover);
+}
+
+.sp-btn-primary:active {
+    background: var(--spectrum-accent-active);
+}
+
+.sp-btn-danger {
+    background: transparent;
+    border-color: var(--spectrum-negative);
+    color: var(--spectrum-negative);
+}
+
+.sp-btn-danger:hover {
+    background: var(--spectrum-negative);
+    color: white;
+}
+
+.sp-btn-icon {
+    width: var(--spectrum-component-height-md);
+    padding: 0;
+}
+
+.sp-btn-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Toggle Button Group */
+.sp-btn-group {
+    display: flex;
+    gap: 0;
+}
+
+.sp-btn-group .sp-btn-toggle {
+    border-radius: 0;
+    border-right-width: 0;
+}
+
+.sp-btn-group .sp-btn-toggle:first-child {
+    border-radius: var(--spectrum-radius-md) 0 0 var(--spectrum-radius-md);
+}
+
+.sp-btn-group .sp-btn-toggle:last-child {
+    border-radius: 0 var(--spectrum-radius-md) var(--spectrum-radius-md) 0;
+    border-right-width: 1px;
+}
+
+.sp-btn-toggle {
+    min-width: 36px;
+    height: var(--spectrum-component-height-sm);
+    padding: 0 var(--spectrum-spacing-200);
+    background: var(--spectrum-surface-default);
+    border: 1px solid var(--spectrum-border-default);
+    color: var(--spectrum-text-secondary);
+    font-size: var(--spectrum-font-size-sm);
+    cursor: pointer;
+    transition: all var(--spectrum-transition-fast);
+}
+
+.sp-btn-toggle:hover {
+    background: var(--spectrum-surface-hover);
+    color: var(--spectrum-text-primary);
+}
+
+.sp-btn-toggle.active {
+    background: var(--spectrum-accent-default);
+    border-color: var(--spectrum-accent-default);
+    color: white;
+}
+
+/* ═══════════════════════════════════════════
+   INPUTS
+   ═══════════════════════════════════════════ */
+.sp-input {
+    flex: 1;
+    height: var(--spectrum-component-height-sm);
+    padding: 0 var(--spectrum-spacing-200);
+    background: var(--spectrum-bg-layer-1);
+    border: 1px solid var(--spectrum-border-default);
+    border-radius: var(--spectrum-radius-md);
+    color: var(--spectrum-text-primary);
+    font-size: var(--spectrum-font-size-sm);
+    font-family: inherit;
+    transition: all var(--spectrum-transition-fast);
+}
+
+.sp-input:hover {
+    border-color: var(--spectrum-border-hover);
+}
+
+.sp-input:focus {
+    outline: none;
+    border-color: var(--spectrum-accent-default);
+    box-shadow: 0 0 0 1px var(--spectrum-accent-default);
+}
+
+.sp-input:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.sp-input::placeholder {
+    color: var(--spectrum-text-tertiary);
+}
+
+/* Number Input */
+.sp-input-number {
+    width: 60px;
+    flex: none;
+    text-align: center;
+}
+
+/* Text Input Full Width */
+.sp-input-text {
+    width: 100%;
+}
+
+/* ═══════════════════════════════════════════
+   CHECKBOX
+   ═══════════════════════════════════════════ */
+.sp-checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--spectrum-spacing-200);
+    cursor: pointer;
+    user-select: none;
+}
+
+.sp-checkbox input {
+    display: none;
+}
+
+.sp-checkbox-box {
+    width: 14px;
+    height: 14px;
+    background: var(--spectrum-bg-layer-1);
+    border: 1px solid var(--spectrum-border-default);
+    border-radius: var(--spectrum-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--spectrum-transition-fast);
+}
+
+.sp-checkbox:hover .sp-checkbox-box {
+    border-color: var(--spectrum-border-hover);
+}
+
+.sp-checkbox input:checked + .sp-checkbox-box {
+    background: var(--spectrum-accent-default);
+    border-color: var(--spectrum-accent-default);
+}
+
+.sp-checkbox input:checked + .sp-checkbox-box::after {
+    content: '';
+    width: 8px;
+    height: 5px;
+    border: 2px solid white;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg) translateY(-1px);
+}
+
+.sp-checkbox-label {
+    font-size: var(--spectrum-font-size-sm);
+    color: var(--spectrum-text-primary);
+}
+
+/* ═══════════════════════════════════════════
+   SLIDER
+   ═══════════════════════════════════════════ */
+.sp-slider {
+    flex: 1;
+    height: 4px;
+    background: var(--spectrum-bg-layer-1);
+    border-radius: 2px;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.sp-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--spectrum-accent-default);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform var(--spectrum-transition-fast);
+}
+
+.sp-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.sp-slider-value {
+    min-width: 36px;
+    text-align: right;
+    font-size: var(--spectrum-font-size-sm);
+    color: var(--spectrum-text-secondary);
+}
+
+/* ═══════════════════════════════════════════
+   COLOR PICKER
+   ═══════════════════════════════════════════ */
+.sp-color {
+    width: 28px;
+    height: 24px;
+    padding: 2px;
+    background: var(--spectrum-bg-layer-1);
+    border: 1px solid var(--spectrum-border-default);
+    border-radius: var(--spectrum-radius-sm);
+    cursor: pointer;
+}
+
+.sp-color::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.sp-color::-webkit-color-swatch {
+    border: none;
+    border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════
+   TIMING GROUP
+   ═══════════════════════════════════════════ */
+.sp-timing-group {
+    background: var(--spectrum-bg-layer-1);
+    border: 1px solid var(--spectrum-border-default);
+    border-radius: var(--spectrum-radius-md);
+    padding: var(--spectrum-spacing-200);
+    margin-bottom: var(--spectrum-spacing-200);
+}
+
+.sp-timing-label {
+    font-size: var(--spectrum-font-size-xs);
+    color: var(--spectrum-text-tertiary);
+    margin-bottom: var(--spectrum-spacing-100);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* ═══════════════════════════════════════════
+   ACTION BUTTONS ROW
+   ═══════════════════════════════════════════ */
+.sp-actions {
+    display: flex;
+    gap: var(--spectrum-spacing-200);
+    margin-top: var(--spectrum-spacing-400);
+    padding-top: var(--spectrum-spacing-300);
+    border-top: 1px solid var(--spectrum-border-default);
+}
+
+.sp-actions .sp-btn {
+    flex: 1;
+}
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════ */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--spectrum-bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--spectrum-surface-hover);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--spectrum-surface-active);
+}
+
+/* ═══════════════════════════════════════════
+   ICONS (SVG Inline)
+   ═══════════════════════════════════════════ */
+.sp-icon {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+.sp-icon-sm {
+    width: 12px;
+    height: 12px;
+}
+
+.sp-icon-lg {
+    width: 20px;
+    height: 20px;
+}

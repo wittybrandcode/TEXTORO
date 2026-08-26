@@ -1,0 +1,221 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "textoro-controllers-schema",
+  "title": "TEXTORO Controllers Schema",
+  "description": "مخطط التحقق من ملفات Controllers - JSON Schema for TEXTORO Controller definitions",
+  "version": "1.0.0",
+
+  "definitions": {
+    "controllerType": {
+      "type": "string",
+      "enum": ["slider", "checkbox", "color", "point", "dropdown"],
+      "description": "نوع المتحكم"
+    },
+
+    "sliderController": {
+      "type": "object",
+      "required": ["type", "default"],
+      "properties": {
+        "type": { "const": "slider" },
+        "default": { "type": "number" },
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "unit": { 
+          "type": "string",
+          "enum": ["pixels", "percent", "seconds", "degrees", "speed", "spaces"]
+        },
+        "values": {
+          "type": "array",
+          "items": { "type": "number" },
+          "description": "القيم المحددة (للـ dropdown-style sliders)"
+        },
+        "valueLabels": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "تسميات القيم"
+        },
+        "group": { "type": "string" },
+        "description": { "type": "string" },
+        "descriptionEn": { "type": "string" },
+        "expressionRef": { "type": "string" },
+        "usedInExpressions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "usedInShared": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "condition": { "type": "string" },
+        "dynamic": { "type": "boolean" },
+        "note": { "type": "string" }
+      }
+    },
+
+    "checkboxController": {
+      "type": "object",
+      "required": ["type", "default"],
+      "properties": {
+        "type": { "const": "checkbox" },
+        "default": { "type": "boolean" },
+        "group": { "type": "string" },
+        "description": { "type": "string" },
+        "descriptionEn": { "type": "string" },
+        "expressionRef": { "type": "string" },
+        "usedInExpressions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "conditional": { "type": "boolean" }
+      }
+    },
+
+    "colorController": {
+      "type": "object",
+      "required": ["type", "default"],
+      "properties": {
+        "type": { "const": "color" },
+        "default": {
+          "type": "array",
+          "items": { "type": "number", "minimum": 0, "maximum": 1 },
+          "minItems": 3,
+          "maxItems": 4,
+          "description": "RGB or RGBA values (0-1)"
+        },
+        "defaultHex": { 
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "group": { "type": "string" },
+        "description": { "type": "string" },
+        "descriptionEn": { "type": "string" },
+        "expressionRef": { "type": "string" },
+        "usedInExpressions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "conditional": { "type": "boolean" }
+      }
+    },
+
+    "controller": {
+      "oneOf": [
+        { "$ref": "#/definitions/sliderController" },
+        { "$ref": "#/definitions/checkboxController" },
+        { "$ref": "#/definitions/colorController" }
+      ]
+    },
+
+    "group": {
+      "type": "object",
+      "required": ["label", "order", "controllers"],
+      "properties": {
+        "label": { "type": "string", "description": "التسمية بالعربية" },
+        "labelEn": { "type": "string", "description": "التسمية بالإنجليزية" },
+        "order": { "type": "integer", "minimum": 1 },
+        "controllers": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "conditional": { "type": "boolean" },
+        "condition": { "type": "string" }
+      }
+    }
+  },
+
+  "type": "object",
+  "required": ["category", "version", "controllers"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "category": {
+      "type": "string",
+      "enum": ["typewriter", "box", "motion", "shared"],
+      "description": "فئة المتحكمات"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "description": { "type": "string" },
+    "sourceFile": { "type": "string" },
+    "sourceLines": { "type": "string" },
+    "controllersCount": { "type": "integer", "minimum": 0 },
+
+    "groups": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/definitions/group" }
+    },
+
+    "controllers": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/definitions/controller" },
+      "description": "المتحكمات - الأسماء يجب أن تطابق الكود تماماً"
+    },
+
+    "sharedCode": {
+      "type": "object",
+      "description": "الكود المشترك المستخدم في Expressions",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "currentConstant": { "type": "string" },
+          "description": { "type": "string" },
+          "code": { "type": "string" }
+        }
+      }
+    },
+
+    "markers": {
+      "type": "object",
+      "description": "تعريفات Markers المستخدمة",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "format": { "type": "string" },
+          "description": { "type": "string" },
+          "time": { "type": "number" },
+          "labelColor": { "type": "integer" },
+          "optional": { "type": "boolean" },
+          "condition": { "type": "string" }
+        }
+      }
+    },
+
+    "animators": {
+      "type": "object",
+      "description": "Text Animators المستخدمة",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "description": { "type": "string" },
+          "conditional": { "type": "boolean" },
+          "condition": { "type": "string" },
+          "selector": { "type": "object" },
+          "properties": { "type": "object" }
+        }
+      }
+    },
+
+    "transformProperties": {
+      "type": "object",
+      "description": "خصائص Transform المستخدمة",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "aeProperty": { "type": "string" },
+          "expression": { "type": "string" },
+          "shared": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+
+    "shapeExpressions": {
+      "type": "object",
+      "description": "Expressions للـ Shape properties",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}

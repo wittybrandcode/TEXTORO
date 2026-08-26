@@ -1,0 +1,353 @@
+/* ============================================
+   TEXTORO - Spectrum Number Stepper
+   Professional Number Input with Arrows
+   ============================================ */
+
+/* ═══════════════════════════════════════════
+   NUMBER STEPPER - Main Container
+   ═══════════════════════════════════════════ */
+.sp-stepper {
+    display: inline-flex;
+    align-items: stretch;
+    height: 28px;
+    min-width: 80px;
+    max-width: 100px;
+    background: var(--sp-gray-100, #252525);
+    border: 1px solid var(--sp-gray-300, #3a3a3a);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 130ms ease, box-shadow 130ms ease;
+    position: relative;
+}
+
+/* Hover State */
+.sp-stepper:hover {
+    border-color: var(--sp-gray-400, #4a4a4a);
+}
+
+/* Focus State */
+.sp-stepper:focus-within {
+    border-color: var(--sp-blue-500, #2680eb);
+    box-shadow: 0 0 0 1px var(--sp-blue-500, #2680eb);
+}
+
+/* Disabled State */
+.sp-stepper.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════
+   STEPPER BUTTONS (Arrows)
+   ═══════════════════════════════════════════ */
+.sp-stepper-btn {
+    width: 24px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--sp-gray-200, #2d2d2d);
+    border: none;
+    color: var(--sp-gray-600, #7c7c7c);
+    cursor: pointer;
+    transition: all 100ms ease;
+    padding: 0;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Decrement Button (Left) */
+.sp-stepper-btn.decrement {
+    border-right: 1px solid var(--sp-gray-300, #3a3a3a);
+}
+
+/* Increment Button (Right) */
+.sp-stepper-btn.increment {
+    border-left: 1px solid var(--sp-gray-300, #3a3a3a);
+}
+
+/* Button Hover */
+.sp-stepper-btn:hover {
+    background: var(--sp-blue-500, #2680eb);
+    color: white;
+}
+
+/* Button Active */
+.sp-stepper-btn:active {
+    background: var(--sp-blue-600, #1473e6);
+    transform: scale(0.95);
+}
+
+/* Button Focus */
+.sp-stepper-btn:focus-visible {
+    background: var(--sp-blue-500, #2680eb);
+    color: white;
+}
+
+/* ═══════════════════════════════════════════
+   STEPPER ICONS (SVG Arrows)
+   ═══════════════════════════════════════════ */
+.sp-stepper-icon {
+    width: 10px;
+    height: 10px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+/* Alternative: Font Awesome Icons */
+.sp-stepper-btn i {
+    font-size: 9px;
+    line-height: 1;
+}
+
+/* ═══════════════════════════════════════════
+   STEPPER INPUT FIELD
+   ═══════════════════════════════════════════ */
+.sp-stepper-input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0 4px;
+    background: transparent;
+    border: none;
+    color: var(--sp-gray-900, #e5e5e5);
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    text-align: center;
+    outline: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    
+    /* Tabular numbers for alignment */
+    font-variant-numeric: tabular-nums;
+}
+
+/* Hide native spinners */
+.sp-stepper-input::-webkit-outer-spin-button,
+.sp-stepper-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+/* Placeholder */
+.sp-stepper-input::placeholder {
+    color: var(--sp-gray-500, #5c5c5c);
+}
+
+/* Selection */
+.sp-stepper-input::selection {
+    background: var(--sp-blue-500, #2680eb);
+    color: white;
+}
+
+/* ═══════════════════════════════════════════
+   SIZE VARIANTS
+   ═══════════════════════════════════════════ */
+
+/* Small */
+.sp-stepper.sp-stepper-sm {
+    height: 24px;
+    min-width: 70px;
+    max-width: 85px;
+}
+
+.sp-stepper.sp-stepper-sm .sp-stepper-btn {
+    width: 20px;
+}
+
+.sp-stepper.sp-stepper-sm .sp-stepper-input {
+    font-size: 11px;
+}
+
+.sp-stepper.sp-stepper-sm .sp-stepper-icon {
+    width: 8px;
+    height: 8px;
+}
+
+/* Large */
+.sp-stepper.sp-stepper-lg {
+    height: 32px;
+    min-width: 90px;
+    max-width: 120px;
+}
+
+.sp-stepper.sp-stepper-lg .sp-stepper-btn {
+    width: 28px;
+}
+
+.sp-stepper.sp-stepper-lg .sp-stepper-input {
+    font-size: 13px;
+}
+
+.sp-stepper.sp-stepper-lg .sp-stepper-icon {
+    width: 12px;
+    height: 12px;
+}
+
+/* ═══════════════════════════════════════════
+   QUIET VARIANT (Minimal Border)
+   ═══════════════════════════════════════════ */
+.sp-stepper.sp-stepper-quiet {
+    background: transparent;
+    border-color: transparent;
+}
+
+.sp-stepper.sp-stepper-quiet:hover {
+    background: var(--sp-gray-100, #252525);
+    border-color: var(--sp-gray-300, #3a3a3a);
+}
+
+.sp-stepper.sp-stepper-quiet:focus-within {
+    background: var(--sp-gray-100, #252525);
+    border-color: var(--sp-blue-500, #2680eb);
+}
+
+.sp-stepper.sp-stepper-quiet .sp-stepper-btn {
+    background: transparent;
+}
+
+/* ═══════════════════════════════════════════
+   WITH UNIT LABEL
+   ═══════════════════════════════════════════ */
+.sp-stepper-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sp-stepper-unit {
+    font-size: 10px;
+    color: var(--sp-gray-600, #7c7c7c);
+    min-width: 16px;
+}
+
+/* ═══════════════════════════════════════════
+   VALIDATION STATES
+   ═══════════════════════════════════════════ */
+
+/* Invalid */
+.sp-stepper.invalid {
+    border-color: var(--sp-red-500, #d7373f);
+}
+
+.sp-stepper.invalid:focus-within {
+    box-shadow: 0 0 0 1px var(--sp-red-500, #d7373f);
+}
+
+/* Valid */
+.sp-stepper.valid {
+    border-color: var(--sp-green-500, #2d9d78);
+}
+
+.sp-stepper.valid:focus-within {
+    box-shadow: 0 0 0 1px var(--sp-green-500, #2d9d78);
+}
+
+/* ═══════════════════════════════════════════
+   KEYBOARD INTERACTION HINTS
+   ═══════════════════════════════════════════ */
+.sp-stepper[data-keyboard-hint]::after {
+    content: attr(data-keyboard-hint);
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    color: var(--sp-gray-500, #5c5c5c);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 150ms ease;
+}
+
+.sp-stepper:focus-within[data-keyboard-hint]::after {
+    opacity: 1;
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════ */
+
+/* Value Change Animation */
+@keyframes sp-stepper-pulse {
+    0% { background-color: var(--sp-gray-100, #252525); }
+    50% { background-color: var(--sp-blue-700, #0d66d0); }
+    100% { background-color: var(--sp-gray-100, #252525); }
+}
+
+.sp-stepper.value-changed .sp-stepper-input {
+    animation: sp-stepper-pulse 300ms ease;
+}
+
+/* Button Press Animation */
+@keyframes sp-stepper-press {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.sp-stepper-btn.pressed {
+    animation: sp-stepper-press 100ms ease;
+}
+
+/* ═══════════════════════════════════════════
+   DRAG TO CHANGE VALUE (Scrubbing)
+   ═══════════════════════════════════════════ */
+.sp-stepper.scrubbing {
+    cursor: ew-resize;
+}
+
+.sp-stepper.scrubbing .sp-stepper-input {
+    cursor: ew-resize;
+    user-select: none;
+}
+
+/* Scrub indicator */
+.sp-stepper.scrubbing::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(38, 128, 235, 0.1) 50%, 
+        transparent 100%);
+    pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════ */
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .sp-stepper {
+        border-width: 2px;
+    }
+    
+    .sp-stepper:focus-within {
+        box-shadow: 0 0 0 2px var(--sp-blue-500, #2680eb);
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .sp-stepper,
+    .sp-stepper-btn,
+    .sp-stepper-input {
+        transition: none;
+    }
+    
+    .sp-stepper.value-changed .sp-stepper-input,
+    .sp-stepper-btn.pressed {
+        animation: none;
+    }
+}

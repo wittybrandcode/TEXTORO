@@ -1,0 +1,26 @@
+# Adobe / CEP
+*.log
+*.aep
+*.aepx
+*.prproj
+Adobe After Effects Auto-Save/
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+# User presets - keep builtins, ignore user index backups and temp files
+config/presets/*/_index.json.bak-*
+tools/tmp/
+tmp/
+# Smoke fixtures backups
+tools/smoke/fixtures/presets/*.bak-*
+# Node
+node_modules/
+package-lock.json
+# Env
+.env
+.env.local
+# Build
+dist/
+build/
+*.zip

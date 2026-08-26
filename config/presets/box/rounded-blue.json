@@ -1,0 +1,31 @@
+{
+  "name": "Rounded Blue",
+  "icon": "🔵",
+  "category": "box",
+  "description": "صندوق أزرق مستدير",
+  "builtin": true,
+  "values": {
+    "paddingLeft": 35,
+    "paddingRight": 35,
+    "paddingTop": 18,
+    "paddingBottom": 18,
+    "use4Corners": false,
+    "cornerRadius": 25,
+    "cornerTL": 25,
+    "cornerTR": 25,
+    "cornerBL": 25,
+    "cornerBR": 25,
+    "strokeWidth": 0,
+    "strokeOpacity": 0,
+    "strokeColor": [1, 1, 1],
+    "strokeDash": 0,
+    "strokeGap": 0,
+    "fillOpacity": 100,
+    "fillColor": [0.2, 0.4, 0.9],
+    "trimStart": 0,
+    "trimEnd": 100,
+    "trimOffset": 0,
+    "pathOffset": 0,
+    "lockBoxSize": true
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "version": "1.0.0",
+  "name": "TEXTORO Expressions Registry",
+  "description": "سجل كل الـ Expressions المستخدمة في TEXTORO",
+  "generatedAt": "2024-12-31",
+
+  "shared": {
+    "easing": {
+      "file": "host/expressions/shared/easing.js",
+      "description": "دالة easeVal للتسهيل - 7 أنواع",
+      "version": "1.0.0",
+      "usedBy": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"]
+    },
+    "timing": {
+      "file": "host/expressions/shared/timing.js",
+      "description": "كود قراءة التوقيت والـ Sync من Markers",
+      "version": "1.0.0",
+      "usedBy": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"],
+      "controllers": ["Motion In Start", "Motion In End", "Motion Out Start", "Motion Out End", "Motion Sync Mode", "Motion Easing Type"],
+      "markers": ["IN_START", "IN_END", "OUT_START", "OUT_END"]
+    }
+  },
+
+  "expressions": {
+    "typewriter/sourceText": {
+      "file": "host/expressions/typewriter/v1.3/sourceText.js",
+      "activeVersion": "v1.3",
+      "description": "Expression النص مع دعم RTL والكلمات",
+      "shared": []
+    },
+    "cursor/blink": {
+      "file": "host/expressions/cursor/v1.0/blink.js",
+      "activeVersion": "v1.0",
+      "description": "وميض المؤشر",
+      "shared": []
+    },
+    "cursor/range": {
+      "file": "host/expressions/cursor/v1.0/range.js",
+      "activeVersion": "v1.0",
+      "description": "نطاق المؤشر (الحرف الأخير)",
+      "shared": []
+    },
+    "box/path4corners": {
+      "file": "host/expressions/box/v1.0/path4corners.js",
+      "activeVersion": "v1.0",
+      "description": "مسار Bezier للزوايا الأربع",
+      "shared": []
+    },
+    "box/size": {
+      "file": "host/expressions/box/v1.0/size.js",
+      "activeVersion": "v1.0",
+      "description": "حجم الصندوق مع Padding",
+      "shared": []
+    },
+    "box/position": {
+      "file": "host/expressions/box/v1.0/position.js",
+      "activeVersion": "v1.0",
+      "description": "موضع الصندوق",
+      "shared": []
+    },
+    "motion/position": {
+      "file": "host/expressions/motion/v1.0/position.js",
+      "activeVersion": "v1.0",
+      "description": "حركة الموقع IN/OUT",
+      "shared": ["easing", "timing"]
+    },
+    "motion/scale": {
+      "file": "host/expressions/motion/v1.0/scale.js",
+      "activeVersion": "v1.0",
+      "description": "حركة الحجم IN/OUT",
+      "shared": ["easing", "timing"]
+    },
+    "motion/rotation": {
+      "file": "host/expressions/motion/v1.0/rotation.js",
+      "activeVersion": "v1.0",
+      "description": "حركة الدوران IN/OUT",
+      "shared": ["easing", "timing"]
+    },
+    "motion/opacity": {
+      "file": "host/expressions/motion/v1.0/opacity.js",
+      "activeVersion": "v1.0",
+      "description": "حركة الشفافية IN/OUT",
+      "shared": ["easing", "timing"]
+    }
+  }
+}

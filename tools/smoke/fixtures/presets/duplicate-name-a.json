@@ -1,0 +1,10 @@
+{
+  "id": "dup_a_001",
+  "name": "Duplicate Test",
+  "icon": "📄",
+  "category": "type",
+  "values": {
+    "inStart": 0,
+    "inEnd": 1
+  }
+}

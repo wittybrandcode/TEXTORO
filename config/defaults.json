@@ -1,0 +1,85 @@
+{
+  "version": "1.0",
+  "description": "TEXTORO Default Values - القيم الافتراضية",
+
+  "type": {
+    "_comment": "Type Tab - تبويب الكتابة",
+
+    "direction": "ltr",
+
+    "timing": {
+      "inStart": 2,
+      "inEnd": 3,
+      "outStart": 6,
+      "outEnd": 7,
+      "noOut": false
+    },
+
+    "cursor": {
+      "show": true,
+      "beforeText": false,
+      "color": "#ffffff",
+      "spacing": 1,
+      "blinkSpeed": 2
+    },
+
+    "blinkTiming": {
+      "start": 1,
+      "end": 10,
+      "inHold": true
+    },
+
+    "advanced": {
+      "reverse": false,
+      "randomSpeed": 0
+    }
+  },
+
+  "box": {
+    "_comment": "Box Tab - تبويب الصندوق",
+
+    "padding": {
+      "left": 40,
+      "right": 40,
+      "top": 20,
+      "bottom": 20
+    },
+
+    "corner": {
+      "use4Corners": false,
+      "radius": 15,
+      "topLeft": 15,
+      "topRight": 15,
+      "bottomLeft": 15,
+      "bottomRight": 15
+    },
+
+    "stroke": {
+      "width": 2,
+      "opacity": 100,
+      "color": "#ffffff",
+      "dash": 0,
+      "gap": 0
+    },
+
+    "fill": {
+      "opacity": 100,
+      "color": "#3366e6"
+    },
+
+    "textColor": {
+      "apply": true,
+      "color": "#ffffff"
+    },
+
+    "trim": {
+      "start": 0,
+      "end": 100,
+      "offset": 0
+    },
+
+    "pathOffset": 0,
+
+    "lockSize": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Sharp Corners",
+  "icon": "🔲",
+  "category": "box",
+  "description": "صندوق بزوايا حادة",
+  "builtin": true,
+  "values": {
+    "paddingLeft": 30,
+    "paddingRight": 30,
+    "paddingTop": 15,
+    "paddingBottom": 15,
+    "use4Corners": false,
+    "cornerRadius": 0,
+    "cornerTL": 0,
+    "cornerTR": 0,
+    "cornerBL": 0,
+    "cornerBR": 0,
+    "strokeWidth": 2,
+    "strokeOpacity": 100,
+    "strokeColor": [1, 1, 1],
+    "strokeDash": 0,
+    "strokeGap": 0,
+    "fillOpacity": 80,
+    "fillColor": [0.15, 0.15, 0.15],
+    "trimStart": 0,
+    "trimEnd": 100,
+    "trimOffset": 0,
+    "pathOffset": 0,
+    "lockBoxSize": true
+  }
+}

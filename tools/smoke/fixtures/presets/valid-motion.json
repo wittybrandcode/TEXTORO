@@ -1,0 +1,15 @@
+{
+  "id": "valid_motion_001",
+  "name": "Valid Motion Test",
+  "icon": "🎬",
+  "category": "motion",
+  "values": {
+    "inStart": 0,
+    "inEnd": 1,
+    "outStart": 2,
+    "outEnd": 3,
+    "animatePosition": true,
+    "posFromX": 0,
+    "posToX": 100
+  }
+}

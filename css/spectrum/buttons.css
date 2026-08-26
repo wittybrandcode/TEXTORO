@@ -1,0 +1,388 @@
+/* ============================================
+   TEXTORO - Spectrum Buttons
+   Adobe Spectrum Button System
+   ============================================ */
+
+/* ═══════════════════════════════════════════
+   BASE BUTTON
+   ═══════════════════════════════════════════ */
+.sp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-spacing-100);
+    height: var(--sp-component-height-md);
+    padding: 0 var(--sp-spacing-300);
+    background: var(--sp-button-secondary-bg);
+    border: 1px solid var(--sp-button-secondary-border);
+    border-radius: var(--sp-radius-md);
+    color: var(--sp-button-secondary-text);
+    font-family: var(--sp-font-family);
+    font-size: var(--sp-font-size-200);
+    font-weight: var(--sp-font-weight-medium);
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition: 
+        background var(--sp-transition-fast),
+        border-color var(--sp-transition-fast),
+        color var(--sp-transition-fast),
+        box-shadow var(--sp-transition-fast);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Hover */
+.sp-btn:hover {
+    background: var(--sp-button-secondary-bg-hover);
+    border-color: var(--sp-gray-500);
+}
+
+/* Active */
+.sp-btn:active {
+    background: var(--sp-gray-300);
+}
+
+/* Focus */
+.sp-btn:focus-visible {
+    box-shadow: var(--sp-shadow-focus);
+}
+
+/* Disabled */
+.sp-btn:disabled,
+.sp-btn.disabled {
+    opacity: var(--sp-opacity-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════
+   PRIMARY BUTTON (CTA)
+   ═══════════════════════════════════════════ */
+.sp-btn-primary,
+.sp-btn-cta {
+    background: var(--sp-button-primary-bg);
+    border-color: var(--sp-button-primary-bg);
+    color: var(--sp-button-primary-text);
+}
+
+.sp-btn-primary:hover,
+.sp-btn-cta:hover {
+    background: var(--sp-button-primary-bg-hover);
+    border-color: var(--sp-button-primary-bg-hover);
+}
+
+.sp-btn-primary:active,
+.sp-btn-cta:active {
+    background: var(--sp-button-primary-bg-active);
+    border-color: var(--sp-button-primary-bg-active);
+}
+
+/* ═══════════════════════════════════════════
+   SECONDARY BUTTON (Default)
+   ═══════════════════════════════════════════ */
+.sp-btn-secondary {
+    background: transparent;
+    border-color: var(--sp-gray-400);
+    color: var(--sp-gray-800);
+}
+
+.sp-btn-secondary:hover {
+    background: var(--sp-gray-200);
+    border-color: var(--sp-gray-500);
+}
+
+/* ═══════════════════════════════════════════
+   NEGATIVE BUTTON (Danger)
+   ═══════════════════════════════════════════ */
+.sp-btn-negative,
+.sp-btn-danger {
+    background: transparent;
+    border-color: var(--sp-negative);
+    color: var(--sp-negative);
+}
+
+.sp-btn-negative:hover,
+.sp-btn-danger:hover {
+    background: var(--sp-negative);
+    border-color: var(--sp-negative);
+    color: white;
+}
+
+.sp-btn-negative:active,
+.sp-btn-danger:active {
+    background: var(--sp-red-600);
+}
+
+/* ═══════════════════════════════════════════
+   POSITIVE BUTTON (Success)
+   ═══════════════════════════════════════════ */
+.sp-btn-positive,
+.sp-btn-success {
+    background: var(--sp-positive);
+    border-color: var(--sp-positive);
+    color: white;
+}
+
+.sp-btn-positive:hover,
+.sp-btn-success:hover {
+    background: var(--sp-positive-hover);
+    border-color: var(--sp-positive-hover);
+}
+
+/* ═══════════════════════════════════════════
+   WARNING BUTTON
+   ═══════════════════════════════════════════ */
+.sp-btn-warning {
+    background: var(--sp-warning);
+    border-color: var(--sp-warning);
+    color: white;
+}
+
+.sp-btn-warning:hover {
+    background: var(--sp-warning-hover);
+    border-color: var(--sp-warning-hover);
+}
+
+/* ═══════════════════════════════════════════
+   QUIET BUTTON (No Border)
+   ═══════════════════════════════════════════ */
+.sp-btn-quiet {
+    background: transparent;
+    border-color: transparent;
+    color: var(--sp-text-secondary);
+}
+
+.sp-btn-quiet:hover {
+    background: var(--sp-gray-200);
+    color: var(--sp-text-primary);
+}
+
+.sp-btn-quiet.sp-btn-primary {
+    color: var(--sp-blue-500);
+}
+
+.sp-btn-quiet.sp-btn-primary:hover {
+    background: rgba(38, 128, 235, 0.1);
+}
+
+/* ═══════════════════════════════════════════
+   ICON BUTTON
+   ═══════════════════════════════════════════ */
+.sp-btn-icon {
+    width: var(--sp-component-height-md);
+    padding: 0;
+}
+
+.sp-btn-icon svg,
+.sp-btn-icon i {
+    width: var(--sp-icon-size-md);
+    height: var(--sp-icon-size-md);
+    font-size: var(--sp-icon-size-md);
+}
+
+/* ═══════════════════════════════════════════
+   SIZE VARIANTS
+   ═══════════════════════════════════════════ */
+
+/* Extra Small */
+.sp-btn-xs {
+    height: var(--sp-component-height-xs);
+    padding: 0 var(--sp-spacing-100);
+    font-size: var(--sp-font-size-75);
+    border-radius: var(--sp-radius-sm);
+}
+
+.sp-btn-xs.sp-btn-icon {
+    width: var(--sp-component-height-xs);
+}
+
+/* Small */
+.sp-btn-sm {
+    height: var(--sp-component-height-sm);
+    padding: 0 var(--sp-spacing-200);
+    font-size: var(--sp-font-size-100);
+}
+
+.sp-btn-sm.sp-btn-icon {
+    width: var(--sp-component-height-sm);
+}
+
+/* Large */
+.sp-btn-lg {
+    height: var(--sp-component-height-lg);
+    padding: 0 var(--sp-spacing-400);
+    font-size: var(--sp-font-size-300);
+}
+
+.sp-btn-lg.sp-btn-icon {
+    width: var(--sp-component-height-lg);
+}
+
+/* Extra Large */
+.sp-btn-xl {
+    height: var(--sp-component-height-xl);
+    padding: 0 var(--sp-spacing-500);
+    font-size: var(--sp-font-size-400);
+}
+
+.sp-btn-xl.sp-btn-icon {
+    width: var(--sp-component-height-xl);
+}
+
+/* ═══════════════════════════════════════════
+   BUTTON GROUP
+   ═══════════════════════════════════════════ */
+.sp-btn-group {
+    display: inline-flex;
+    gap: 0;
+}
+
+.sp-btn-group .sp-btn {
+    border-radius: 0;
+    margin-left: -1px;
+}
+
+.sp-btn-group .sp-btn:first-child {
+    margin-left: 0;
+    border-radius: var(--sp-radius-md) 0 0 var(--sp-radius-md);
+}
+
+.sp-btn-group .sp-btn:last-child {
+    border-radius: 0 var(--sp-radius-md) var(--sp-radius-md) 0;
+}
+
+.sp-btn-group .sp-btn:only-child {
+    border-radius: var(--sp-radius-md);
+}
+
+/* ═══════════════════════════════════════════
+   TOGGLE BUTTON
+   ═══════════════════════════════════════════ */
+.sp-btn-toggle {
+    background: var(--sp-gray-200);
+    border-color: var(--sp-gray-300);
+    color: var(--sp-text-secondary);
+}
+
+.sp-btn-toggle:hover {
+    background: var(--sp-gray-300);
+    color: var(--sp-text-primary);
+}
+
+.sp-btn-toggle.active,
+.sp-btn-toggle[aria-pressed="true"] {
+    background: var(--sp-blue-500);
+    border-color: var(--sp-blue-500);
+    color: white;
+}
+
+.sp-btn-toggle.active:hover,
+.sp-btn-toggle[aria-pressed="true"]:hover {
+    background: var(--sp-blue-400);
+    border-color: var(--sp-blue-400);
+}
+
+/* ═══════════════════════════════════════════
+   ACTION BUTTON (For Action Bar)
+   ═══════════════════════════════════════════ */
+.sp-action-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: var(--sp-gray-200);
+    border: 1px solid var(--sp-gray-300);
+    border-radius: var(--sp-radius-lg);
+    color: var(--sp-text-primary);
+    cursor: pointer;
+    transition: all var(--sp-transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sp-action-btn:hover {
+    background: var(--sp-gray-300);
+    border-color: var(--sp-gray-400);
+    transform: translateY(-2px);
+    box-shadow: var(--sp-shadow-md);
+}
+
+.sp-action-btn:active {
+    transform: translateY(0);
+}
+
+.sp-action-btn svg,
+.sp-action-btn i {
+    font-size: 18px;
+}
+
+/* Primary Action */
+.sp-action-btn-primary {
+    background: var(--sp-blue-500);
+    border-color: var(--sp-blue-500);
+    color: white;
+}
+
+.sp-action-btn-primary:hover {
+    background: var(--sp-blue-400);
+    border-color: var(--sp-blue-400);
+}
+
+/* TORO Special Button */
+.sp-action-btn-toro {
+    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+    border-color: #ff6b35;
+    color: white;
+    font-weight: 700;
+}
+
+.sp-action-btn-toro:hover {
+    background: linear-gradient(135deg, #ff8555 0%, #ffa73e 100%);
+}
+
+/* ═══════════════════════════════════════════
+   LOADING STATE
+   ═══════════════════════════════════════════ */
+.sp-btn.loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+}
+
+.sp-btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: sp-btn-spin 0.6s linear infinite;
+}
+
+.sp-btn-primary.loading::after,
+.sp-btn-cta.loading::after {
+    border-color: white;
+    border-right-color: transparent;
+}
+
+@keyframes sp-btn-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+    .sp-btn {
+        transition: none;
+    }
+    
+    .sp-btn.loading::after {
+        animation: none;
+    }
+}

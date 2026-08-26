@@ -1,0 +1,410 @@
+{
+  "$schema": "./_schema.json",
+  "category": "box",
+  "version": "1.0.0",
+  "description": "Box Controllers - متحكمات الصندوق",
+  "sourceFile": "host/modules/BoxManager.jsx",
+  "sourceLines": "181-270",
+  "controllersCount": 26,
+
+  "groups": {
+    "padding": {
+      "label": "الحشو",
+      "labelEn": "Padding",
+      "order": 1,
+      "controllers": ["Padding Left", "Padding Right", "Padding Top", "Padding Bottom"]
+    },
+    "corner": {
+      "label": "الزوايا",
+      "labelEn": "Corners",
+      "order": 2,
+      "controllers": ["Corner Radius", "Corner TL", "Corner TR", "Corner BR", "Corner BL"]
+    },
+    "stroke": {
+      "label": "الحدود",
+      "labelEn": "Stroke",
+      "order": 3,
+      "controllers": ["Stroke Width", "Stroke Opacity", "Stroke Color", "Stroke Dash", "Stroke Gap"]
+    },
+    "fill": {
+      "label": "التعبئة",
+      "labelEn": "Fill",
+      "order": 4,
+      "controllers": ["Fill Opacity", "Fill Color"]
+    },
+    "textColor": {
+      "label": "لون النص",
+      "labelEn": "Text Color",
+      "order": 5,
+      "controllers": ["Text Color"],
+      "conditional": true,
+      "condition": "applyTextColor == true"
+    },
+    "trim": {
+      "label": "القص",
+      "labelEn": "Trim",
+      "order": 6,
+      "controllers": ["Trim Start", "Trim End", "Trim Offset", "Path Offset"]
+    },
+    "lock": {
+      "label": "القفل",
+      "labelEn": "Lock",
+      "order": 7,
+      "controllers": ["Lock Box Size", "Locked Width", "Locked Height", "Locked Left", "Locked Top", "Locked Right"]
+    }
+  },
+
+  "controllers": {
+    "Padding Left": {
+      "type": "slider",
+      "default": 40,
+      "min": 0,
+      "max": 200,
+      "unit": "pixels",
+      "group": "padding",
+      "description": "الحشو الأيسر",
+      "descriptionEn": "Left padding",
+      "expressionRef": "parent.effect(\"Padding Left\")(\"Slider\")",
+      "usedInExpressions": ["box/path4corners", "box/size", "box/position"]
+    },
+    "Padding Right": {
+      "type": "slider",
+      "default": 40,
+      "min": 0,
+      "max": 200,
+      "unit": "pixels",
+      "group": "padding",
+      "description": "الحشو الأيمن",
+      "descriptionEn": "Right padding",
+      "expressionRef": "parent.effect(\"Padding Right\")(\"Slider\")",
+      "usedInExpressions": ["box/path4corners", "box/size", "box/position"]
+    },
+    "Padding Top": {
+      "type": "slider",
+      "default": 20,
+      "min": 0,
+      "max": 200,
+      "unit": "pixels",
+      "group": "padding",
+      "description": "الحشو العلوي",
+      "descriptionEn": "Top padding",
+      "expressionRef": "parent.effect(\"Padding Top\")(\"Slider\")",
+      "usedInExpressions": ["box/path4corners", "box/size", "box/position"]
+    },
+    "Padding Bottom": {
+      "type": "slider",
+      "default": 20,
+      "min": 0,
+      "max": 200,
+      "unit": "pixels",
+      "group": "padding",
+      "description": "الحشو السفلي",
+      "descriptionEn": "Bottom padding",
+      "expressionRef": "parent.effect(\"Padding Bottom\")(\"Slider\")",
+      "usedInExpressions": ["box/path4corners", "box/size", "box/position"]
+    },
+    "Corner Radius": {
+      "type": "slider",
+      "default": 15,
+      "min": 0,
+      "max": 500,
+      "unit": "pixels",
+      "group": "corner",
+      "description": "نصف قطر الزوايا (موحد)",
+      "descriptionEn": "Corner radius (unified)",
+      "expressionRef": "parent.effect(\"Corner Radius\")(\"Slider\")",
+      "usedInExpressions": ["box/rectPath (simple mode)"],
+      "condition": "use4Corners == false"
+    },
+    "Corner TL": {
+      "type": "slider",
+      "default": 15,
+      "min": 0,
+      "max": 500,
+      "unit": "pixels",
+      "group": "corner",
+      "description": "الزاوية العلوية اليسرى",
+      "descriptionEn": "Top-left corner",
+      "expressionRef": "parent.effect(\"Corner TL\")(\"Slider\")",
+      "usedInExpressions": ["box/path4corners"],
+      "condition": "use4Corners == true"
+    },
+    "Corner TR": {
+      "type": "slider",
+      "default": 15,
+      "min": 0,
+      "max": 500,
+      "unit": "pixels",
+      "group": "corner",
+      "description": "الزاوية العلوية اليمنى",
+      "descriptionEn": "Top-right corner",
+      "expressionRef": "parent.effect(\"Corner TR\")(\"Slider\")",
+      "usedInExpressions": ["box/path4corners"],
+      "condition": "use4Corners == true"
+    },
+    "Corner BR": {
+      "type": "slider",
+      "default": 15,
+      "min": 0,
+      "max": 500,
+      "unit": "pixels",
+      "group": "corner",
+      "description": "الزاوية السفلية اليمنى",
+      "descriptionEn": "Bottom-right corner",
+      "expressionRef": "parent.effect(\"Corner BR\")(\"Slider\")",
+      "usedInExpressions": ["box/path4corners"],
+      "condition": "use4Corners == true"
+    },
+    "Corner BL": {
+      "type": "slider",
+      "default": 15,
+      "min": 0,
+      "max": 500,
+      "unit": "pixels",
+      "group": "corner",
+      "description": "الزاوية السفلية اليسرى",
+      "descriptionEn": "Bottom-left corner",
+      "expressionRef": "parent.effect(\"Corner BL\")(\"Slider\")",
+      "usedInExpressions": ["box/path4corners"],
+      "condition": "use4Corners == true"
+    },
+    "Stroke Width": {
+      "type": "slider",
+      "default": 2,
+      "min": 0,
+      "max": 50,
+      "unit": "pixels",
+      "group": "stroke",
+      "description": "سمك الحدود",
+      "descriptionEn": "Stroke width",
+      "expressionRef": "parent.effect(\"Stroke Width\")(\"Slider\")",
+      "usedInExpressions": ["box shape stroke"]
+    },
+    "Stroke Opacity": {
+      "type": "slider",
+      "default": 100,
+      "min": 0,
+      "max": 100,
+      "unit": "percent",
+      "group": "stroke",
+      "description": "شفافية الحدود",
+      "descriptionEn": "Stroke opacity",
+      "expressionRef": "parent.effect(\"Stroke Opacity\")(\"Slider\")",
+      "usedInExpressions": ["box/hideWhenEmpty"]
+    },
+    "Stroke Color": {
+      "type": "color",
+      "default": [1, 1, 1],
+      "defaultHex": "#FFFFFF",
+      "group": "stroke",
+      "description": "لون الحدود",
+      "descriptionEn": "Stroke color",
+      "expressionRef": "parent.effect(\"Stroke Color\")(\"Color\")",
+      "usedInExpressions": ["box shape stroke"]
+    },
+    "Stroke Dash": {
+      "type": "slider",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "unit": "pixels",
+      "group": "stroke",
+      "description": "طول الشرطة",
+      "descriptionEn": "Dash length",
+      "expressionRef": "parent.effect(\"Stroke Dash\")(\"Slider\")",
+      "usedInExpressions": ["box shape dashes"]
+    },
+    "Stroke Gap": {
+      "type": "slider",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "unit": "pixels",
+      "group": "stroke",
+      "description": "الفجوة بين الشرطات",
+      "descriptionEn": "Gap between dashes",
+      "expressionRef": "parent.effect(\"Stroke Gap\")(\"Slider\")",
+      "usedInExpressions": ["box shape dashes"]
+    },
+    "Fill Opacity": {
+      "type": "slider",
+      "default": 100,
+      "min": 0,
+      "max": 100,
+      "unit": "percent",
+      "group": "fill",
+      "description": "شفافية التعبئة",
+      "descriptionEn": "Fill opacity",
+      "expressionRef": "parent.effect(\"Fill Opacity\")(\"Slider\")",
+      "usedInExpressions": ["box/hideWhenEmpty"]
+    },
+    "Fill Color": {
+      "type": "color",
+      "default": [0.2, 0.4, 0.9],
+      "defaultHex": "#3366E6",
+      "group": "fill",
+      "description": "لون التعبئة",
+      "descriptionEn": "Fill color",
+      "expressionRef": "parent.effect(\"Fill Color\")(\"Color\")",
+      "usedInExpressions": ["box shape fill"]
+    },
+    "Text Color": {
+      "type": "color",
+      "default": [1, 1, 1],
+      "defaultHex": "#FFFFFF",
+      "group": "textColor",
+      "description": "لون النص",
+      "descriptionEn": "Text color",
+      "expressionRef": "effect(\"Text Color\")(\"Color\")",
+      "usedInExpressions": ["Color Control animator"],
+      "conditional": true
+    },
+    "Trim Start": {
+      "type": "slider",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "unit": "percent",
+      "group": "trim",
+      "description": "بداية القص",
+      "descriptionEn": "Trim start",
+      "expressionRef": "parent.effect(\"Trim Start\")(\"Slider\")",
+      "usedInExpressions": ["box trim paths"]
+    },
+    "Trim End": {
+      "type": "slider",
+      "default": 100,
+      "min": 0,
+      "max": 100,
+      "unit": "percent",
+      "group": "trim",
+      "description": "نهاية القص",
+      "descriptionEn": "Trim end",
+      "expressionRef": "parent.effect(\"Trim End\")(\"Slider\")",
+      "usedInExpressions": ["box trim paths"]
+    },
+    "Trim Offset": {
+      "type": "slider",
+      "default": 0,
+      "min": -100,
+      "max": 100,
+      "unit": "percent",
+      "group": "trim",
+      "description": "إزاحة القص",
+      "descriptionEn": "Trim offset",
+      "expressionRef": "parent.effect(\"Trim Offset\")(\"Slider\")",
+      "usedInExpressions": ["box trim paths"]
+    },
+    "Path Offset": {
+      "type": "slider",
+      "default": 0,
+      "min": -100,
+      "max": 100,
+      "unit": "pixels",
+      "group": "trim",
+      "description": "إزاحة المسار",
+      "descriptionEn": "Path offset",
+      "expressionRef": "parent.effect(\"Path Offset\")(\"Slider\")",
+      "usedInExpressions": ["box offset paths"]
+    },
+    "Lock Box Size": {
+      "type": "checkbox",
+      "default": false,
+      "group": "lock",
+      "description": "قفل حجم الصندوق",
+      "descriptionEn": "Lock box size",
+      "expressionRef": "parent.effect(\"Lock Box Size\")(\"Checkbox\")",
+      "usedInExpressions": ["box/size (optional)", "box/position (optional)"]
+    },
+    "Locked Width": {
+      "type": "slider",
+      "default": 0,
+      "min": 0,
+      "max": 2000,
+      "unit": "pixels",
+      "group": "lock",
+      "description": "العرض المقفل",
+      "descriptionEn": "Locked width",
+      "expressionRef": "parent.effect(\"Locked Width\")(\"Slider\")",
+      "dynamic": true,
+      "note": "يُحسب تلقائياً من sourceRectAtTime"
+    },
+    "Locked Height": {
+      "type": "slider",
+      "default": 0,
+      "min": 0,
+      "max": 2000,
+      "unit": "pixels",
+      "group": "lock",
+      "description": "الارتفاع المقفل",
+      "descriptionEn": "Locked height",
+      "expressionRef": "parent.effect(\"Locked Height\")(\"Slider\")",
+      "dynamic": true
+    },
+    "Locked Left": {
+      "type": "slider",
+      "default": 0,
+      "min": -2000,
+      "max": 2000,
+      "unit": "pixels",
+      "group": "lock",
+      "description": "الحد الأيسر المقفل",
+      "descriptionEn": "Locked left",
+      "expressionRef": "parent.effect(\"Locked Left\")(\"Slider\")",
+      "dynamic": true
+    },
+    "Locked Top": {
+      "type": "slider",
+      "default": 0,
+      "min": -2000,
+      "max": 2000,
+      "unit": "pixels",
+      "group": "lock",
+      "description": "الحد العلوي المقفل",
+      "descriptionEn": "Locked top",
+      "expressionRef": "parent.effect(\"Locked Top\")(\"Slider\")",
+      "dynamic": true
+    },
+    "Locked Right": {
+      "type": "slider",
+      "default": 0,
+      "min": -2000,
+      "max": 2000,
+      "unit": "pixels",
+      "group": "lock",
+      "description": "الحد الأيمن المقفل",
+      "descriptionEn": "Locked right",
+      "expressionRef": "parent.effect(\"Locked Right\")(\"Slider\")",
+      "dynamic": true
+    }
+  },
+
+  "shapeExpressions": {
+    "fillOpacity": "box/hideWhenEmpty with Fill Opacity",
+    "strokeOpacity": "box/hideWhenEmpty with Stroke Opacity",
+    "fillColor": "parent.effect(\"Fill Color\")(\"Color\")",
+    "strokeColor": "parent.effect(\"Stroke Color\")(\"Color\")",
+    "strokeWidth": "Math.max(0, parent.effect(\"Stroke Width\")(\"Slider\"))",
+    "trimStart": "parent.effect(\"Trim Start\")(\"Slider\")",
+    "trimEnd": "parent.effect(\"Trim End\")(\"Slider\")",
+    "trimOffset": "parent.effect(\"Trim Offset\")(\"Slider\") * 360 / 100",
+    "pathOffset": "parent.effect(\"Path Offset\")(\"Slider\")",
+    "dashLength": "parent.effect(\"Stroke Dash\")(\"Slider\")",
+    "gapLength": "var g = parent.effect(\"Stroke Gap\")(\"Slider\"); g > 0 ? g : parent.effect(\"Stroke Dash\")(\"Slider\")"
+  },
+
+  "animators": {
+    "Color Control": {
+      "description": "Animator للتحكم في لون النص",
+      "conditional": true,
+      "condition": "applyTextColor == true",
+      "selector": {
+        "start": 0,
+        "end": "100 or cursor/range (if cursor exists)"
+      },
+      "properties": {
+        "fillColor": "effect(\"Text Color\")(\"Color\")"
+      }
+    }
+  }
+}

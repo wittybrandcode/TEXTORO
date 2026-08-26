@@ -1,0 +1,301 @@
+/* ============================================
+   TEXTORO - Spectrum Accordion
+   Adobe Spectrum Collapsible Sections
+   ============================================ */
+
+/* ═══════════════════════════════════════════
+   ACCORDION CONTAINER
+   ═══════════════════════════════════════════ */
+.sp-accordion {
+    border: 1px solid var(--sp-border-default);
+    border-radius: var(--sp-radius-lg);
+    overflow: hidden;
+    margin-bottom: var(--sp-spacing-200);
+    background: var(--sp-background-layer-1);
+}
+
+/* Multiple accordions stacked */
+.sp-accordion + .sp-accordion {
+    margin-top: calc(var(--sp-spacing-200) * -1);
+    border-top: none;
+    border-radius: 0 0 var(--sp-radius-lg) var(--sp-radius-lg);
+}
+
+.sp-accordion:first-child {
+    border-radius: var(--sp-radius-lg) var(--sp-radius-lg) 0 0;
+}
+
+.sp-accordion:last-child {
+    border-radius: 0 0 var(--sp-radius-lg) var(--sp-radius-lg);
+}
+
+.sp-accordion:only-child {
+    border-radius: var(--sp-radius-lg);
+}
+
+/* ═══════════════════════════════════════════
+   ACCORDION HEADER
+   ═══════════════════════════════════════════ */
+.sp-accordion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-spacing-200);
+    width: 100%;
+    padding: var(--sp-spacing-200) var(--sp-spacing-300);
+    background: var(--sp-background-layer-2);
+    border: none;
+    color: var(--sp-text-primary);
+    font-family: var(--sp-font-family);
+    font-size: var(--sp-font-size-100);
+    font-weight: var(--sp-font-weight-semibold);
+    text-align: left;
+    cursor: pointer;
+    transition: background var(--sp-transition-fast);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.sp-accordion-header:hover {
+    background: var(--sp-surface-hover);
+}
+
+.sp-accordion-header:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--sp-blue-500);
+}
+
+/* Header Icon */
+.sp-accordion-header-icon {
+    font-size: var(--sp-icon-size-sm);
+    color: var(--sp-blue-500);
+    flex-shrink: 0;
+}
+
+/* Header Title */
+.sp-accordion-header-title {
+    flex: 1;
+}
+
+/* Chevron Icon */
+.sp-accordion-chevron {
+    font-size: var(--sp-font-size-75);
+    color: var(--sp-text-tertiary);
+    transition: transform var(--sp-transition-normal);
+    flex-shrink: 0;
+}
+
+.sp-accordion.open .sp-accordion-chevron {
+    transform: rotate(180deg);
+}
+
+/* ═══════════════════════════════════════════
+   ACCORDION CONTENT
+   ═══════════════════════════════════════════ */
+.sp-accordion-content {
+    padding: var(--sp-spacing-300);
+    background: var(--sp-background-layer-1);
+    border-top: 1px solid var(--sp-border-default);
+    overflow: hidden;
+    animation: sp-accordion-open 200ms ease;
+}
+
+.sp-accordion.closed .sp-accordion-content {
+    display: none;
+}
+
+@keyframes sp-accordion-open {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ═══════════════════════════════════════════
+   SECTION BOX (Alternative Style)
+   ═══════════════════════════════════════════ */
+.sp-section-box {
+    background: var(--sp-background-layer-1);
+    border: 1px solid var(--sp-border-default);
+    border-radius: var(--sp-radius-lg);
+    padding: var(--sp-spacing-300);
+    margin-bottom: var(--sp-spacing-200);
+    transition: border-color var(--sp-transition-fast);
+}
+
+.sp-section-box:hover {
+    border-color: var(--sp-border-hover);
+}
+
+/* Section Title */
+.sp-section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-spacing-200);
+    margin-bottom: var(--sp-spacing-200);
+    padding-bottom: var(--sp-spacing-200);
+    border-bottom: 1px solid var(--sp-border-default);
+    font-size: var(--sp-font-size-100);
+    font-weight: var(--sp-font-weight-semibold);
+    color: var(--sp-blue-500);
+}
+
+.sp-section-title-icon {
+    font-size: var(--sp-icon-size-sm);
+    opacity: 0.9;
+}
+
+/* ═══════════════════════════════════════════
+   COLLAPSIBLE HEADER (Standalone)
+   ═══════════════════════════════════════════ */
+.sp-collapsible-header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-spacing-200);
+    padding: var(--sp-spacing-200) var(--sp-spacing-300);
+    background: var(--sp-background-layer-2);
+    border: 1px solid var(--sp-border-default);
+    border-radius: var(--sp-radius-lg);
+    color: var(--sp-blue-500);
+    font-size: var(--sp-font-size-100);
+    font-weight: var(--sp-font-weight-semibold);
+    cursor: pointer;
+    transition: all var(--sp-transition-fast);
+    user-select: none;
+    margin-bottom: var(--sp-spacing-200);
+}
+
+.sp-collapsible-header:hover {
+    background: var(--sp-surface-hover);
+}
+
+.sp-collapsible-header.expanded {
+    border-radius: var(--sp-radius-lg) var(--sp-radius-lg) 0 0;
+    margin-bottom: 0;
+}
+
+.sp-collapsible-header .sp-accordion-chevron {
+    margin-left: auto;
+}
+
+.sp-collapsible-header.expanded .sp-accordion-chevron {
+    transform: rotate(180deg);
+}
+
+/* Collapsible Content */
+.sp-collapsible-content {
+    background: var(--sp-background-layer-1);
+    border: 1px solid var(--sp-border-default);
+    border-top: none;
+    border-radius: 0 0 var(--sp-radius-lg) var(--sp-radius-lg);
+    padding: var(--sp-spacing-300);
+    margin-bottom: var(--sp-spacing-200);
+    overflow: hidden;
+    animation: sp-accordion-open 200ms ease;
+}
+
+.sp-collapsible-content.collapsed {
+    display: none;
+}
+
+/* ═══════════════════════════════════════════
+   GROUP WITHIN SECTION
+   ═══════════════════════════════════════════ */
+.sp-group {
+    margin-bottom: var(--sp-spacing-200);
+}
+
+.sp-group:last-child {
+    margin-bottom: 0;
+}
+
+.sp-group-title {
+    font-size: var(--sp-font-size-75);
+    font-weight: var(--sp-font-weight-semibold);
+    color: var(--sp-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--sp-spacing-100);
+}
+
+/* ═══════════════════════════════════════════
+   QUIET ACCORDION (Minimal Style)
+   ═══════════════════════════════════════════ */
+.sp-accordion-quiet {
+    border: none;
+    background: transparent;
+}
+
+.sp-accordion-quiet .sp-accordion-header {
+    background: transparent;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.sp-accordion-quiet .sp-accordion-header:hover {
+    background: transparent;
+    color: var(--sp-blue-500);
+}
+
+.sp-accordion-quiet .sp-accordion-content {
+    border-top: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* ═══════════════════════════════════════════
+   COMPACT ACCORDION
+   ═══════════════════════════════════════════ */
+.sp-accordion-compact .sp-accordion-header {
+    padding: var(--sp-spacing-100) var(--sp-spacing-200);
+    font-size: var(--sp-font-size-75);
+}
+
+.sp-accordion-compact .sp-accordion-content {
+    padding: var(--sp-spacing-200);
+}
+
+/* ═══════════════════════════════════════════
+   NESTED ACCORDIONS
+   ═══════════════════════════════════════════ */
+.sp-accordion .sp-accordion {
+    margin: var(--sp-spacing-200) 0;
+    border-radius: var(--sp-radius-md);
+}
+
+.sp-accordion .sp-accordion .sp-accordion-header {
+    background: var(--sp-background-layer-3);
+    font-size: var(--sp-font-size-75);
+}
+
+/* ═══════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════ */
+.sp-accordion-header[aria-expanded="true"] .sp-accordion-chevron {
+    transform: rotate(180deg);
+}
+
+.sp-accordion-header[aria-expanded="false"] + .sp-accordion-content {
+    display: none;
+}
+
+/* Keyboard Navigation */
+.sp-accordion-header:focus {
+    outline: none;
+}
+
+.sp-accordion-header:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--sp-blue-500);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .sp-accordion-chevron,
+    .sp-accordion-content {
+        transition: none;
+        animation: none;
+    }
+}

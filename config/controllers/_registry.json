@@ -1,0 +1,147 @@
+{
+  "$schema": "./_schema.json",
+  "version": "1.1.0",
+  "name": "TEXTORO Controllers Registry",
+  "description": "السجل المركزي لكل المتحكمات والـ Expressions",
+  "generatedAt": "2024-12-31",
+  "lastUpdated": "2024-12-31",
+  "generatedFrom": [
+    "host/modules/TypewriterManager.jsx",
+    "host/modules/BoxManager.jsx", 
+    "host/modules/MotionManager.jsx",
+    "host/expressions/**/*.js"
+  ],
+
+  "statistics": {
+    "totalControllers": 75,
+    "totalExpressions": 11,
+    "totalSharedCode": 2,
+    "categories": {
+      "typewriter": 15,
+      "box": 26,
+      "motion": 34
+    },
+    "integrationStatus": {
+      "typewriter": "✅ Smart Fallback (v1.4.0)",
+      "box": "✅ Smart Fallback (v1.5.0)",
+      "motion": "✅ Smart Fallback (v2.4.0)"
+    }
+  },
+
+  "categories": {
+    "typewriter": {
+      "file": "typewriter.json",
+      "description": "متحكمات تأثير الآلة الكاتبة",
+      "sourceFile": "host/modules/TypewriterManager.jsx",
+      "controllersCount": 15
+    },
+    "box": {
+      "file": "box.json",
+      "description": "متحكمات الصندوق",
+      "sourceFile": "host/modules/BoxManager.jsx",
+      "controllersCount": 26
+    },
+    "motion": {
+      "file": "motion.json",
+      "description": "متحكمات الحركة",
+      "sourceFile": "host/modules/MotionManager.jsx",
+      "controllersCount": 34
+    }
+  },
+
+  "sharedCode": {
+    "easing": {
+      "file": "host/expressions/shared/easing.js",
+      "description": "دالة easeVal للتسهيل - 7 أنواع",
+      "status": "✅ created",
+      "usedBy": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"],
+      "duplicateCount": 8,
+      "estimatedSavings": "~3200 chars"
+    },
+    "timing": {
+      "file": "host/expressions/shared/timing.js",
+      "description": "كود قراءة التوقيت والـ Sync من Markers",
+      "status": "✅ created",
+      "usedBy": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"],
+      "duplicateCount": 8,
+      "estimatedSavings": "~4000 chars"
+    }
+  },
+
+  "expressions": {
+    "typewriter/sourceText": {
+      "file": "host/expressions/typewriter/v1.3/sourceText.js",
+      "versions": ["v1.0", "v1.3"],
+      "activeVersion": "v1.3",
+      "description": "Expression النص مع دعم RTL والكلمات"
+    },
+    "cursor/blink": {
+      "file": "host/expressions/cursor/v1.0/blink.js",
+      "versions": ["v1.0"],
+      "activeVersion": "v1.0",
+      "description": "وميض المؤشر"
+    },
+    "cursor/range": {
+      "file": "host/expressions/cursor/v1.0/range.js",
+      "versions": ["v1.0"],
+      "activeVersion": "v1.0",
+      "description": "نطاق المؤشر (الحرف الأخير)"
+    },
+    "box/path4corners": {
+      "file": "host/expressions/box/v1.0/path4corners.js",
+      "versions": ["v1.0"],
+      "activeVersion": "v1.0",
+      "description": "مسار Bezier للزوايا الأربع"
+    },
+    "box/size": {
+      "file": "host/expressions/box/v1.0/size.js",
+      "versions": ["v1.0"],
+      "activeVersion": "v1.0",
+      "description": "حجم الصندوق مع Padding"
+    },
+    "box/position": {
+      "file": "host/expressions/box/v1.0/position.js",
+      "versions": ["v1.0"],
+      "activeVersion": "v1.0",
+      "description": "موضع الصندوق"
+    },
+    "box/hideWhenEmpty": {
+      "file": "host/expressions/box/v1.0/hideWhenEmpty.js",
+      "versions": ["v1.0"],
+      "activeVersion": "v1.0",
+      "description": "إخفاء الصندوق عند فراغ النص"
+    },
+    "motion/position": {
+      "file": "host/expressions/motion/v1.0/position.js",
+      "versions": ["v1.0"],
+      "activeVersion": "v1.0",
+      "currentLocation": "MotionManager.jsx:_getMotionPositionExprV2()",
+      "shared": ["easing", "timing"],
+      "description": "حركة الموقع IN/OUT"
+    },
+    "motion/scale": {
+      "file": "host/expressions/motion/v1.0/scale.js",
+      "versions": ["v1.0"],
+      "activeVersion": "v1.0",
+      "currentLocation": "MotionManager.jsx:_getMotionScaleExprV2()",
+      "shared": ["easing", "timing"],
+      "description": "حركة الحجم IN/OUT"
+    },
+    "motion/rotation": {
+      "file": "host/expressions/motion/v1.0/rotation.js",
+      "versions": ["v1.0"],
+      "activeVersion": "v1.0",
+      "currentLocation": "MotionManager.jsx:_getMotionRotationExprV2()",
+      "shared": ["easing", "timing"],
+      "description": "حركة الدوران IN/OUT"
+    },
+    "motion/opacity": {
+      "file": "host/expressions/motion/v1.0/opacity.js",
+      "versions": ["v1.0"],
+      "activeVersion": "v1.0",
+      "currentLocation": "MotionManager.jsx:_getMotionOpacityExprV2()",
+      "shared": ["easing", "timing"],
+      "description": "حركة الشفافية IN/OUT"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "traversal_001",
+  "name": "Traversal Test",
+  "icon": "📄",
+  "category": "../../outside",
+  "values": {
+    "inStart": 0,
+    "inEnd": 1
+  }
+}

@@ -1,0 +1,16 @@
+# Auto-detect and normalize line endings
+* text=auto eol=lf
+# Host scripts must stay UTF-8 (Arabic comments) and LF
+*.jsx text eol=lf working-tree-encoding=UTF-8
+*.js  text eol=lf working-tree-encoding=UTF-8
+*.json text eol=lf working-tree-encoding=UTF-8
+*.html text eol=lf working-tree-encoding=UTF-8
+*.css text eol=lf working-tree-encoding=UTF-8
+*.xml text eol=lf working-tree-encoding=UTF-8
+*.md  text eol=lf working-tree-encoding=UTF-8
+# Binaries
+*.png binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.aep binary
