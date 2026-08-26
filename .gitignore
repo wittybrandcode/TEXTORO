@@ -20,6 +20,10 @@ package-lock.json
 # Env
 .env
 .env.local
+# Backup / duplicate files with spaces
+*OLD*
+*TITOUF*
+*copy.json
 # Build
 dist/
 build/
