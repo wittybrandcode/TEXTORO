@@ -19,7 +19,7 @@ const path = require('path');
 
 const APPLY = process.argv.includes('--apply');
 const ROOT = path.join(__dirname, '..');
-const TEXT_EXTS = ['.js', '.jsx', '.json', '.css', '.html', '.xml'];
+const TEXT_EXTS = ['.js', '.jsx', '.json', '.css', '.html', '.xml', '.md'];
 const SKIP_DIRS = new Set(['webfonts', 'fontawesome', 'node_modules', '.git']);
 const MAX_PASSES = 6;
 

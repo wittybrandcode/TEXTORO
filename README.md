@@ -3,22 +3,22 @@
 <div align="center">
 
 ```
-â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
-â•‘                                                                              â•‘
-â•‘   â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—â–ˆâ–ˆâ•—  â–ˆâ–ˆâ•—â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—  â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—               â•‘
-â•‘   â•šâ•â•â–ˆâ–ˆâ•”â•â•â•â–ˆâ–ˆâ•”â•â•â•â•â•â•šâ–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â•â•šâ•â•â–ˆâ–ˆâ•”â•â•â•â–ˆâ–ˆâ•”â•â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â•â•â•â–ˆâ–ˆâ•—              â•‘
-â•‘      â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—   â•šâ–ˆâ–ˆâ–ˆâ•”â•    â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘              â•‘
-â•‘      â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•”â•â•â•   â–ˆâ–ˆâ•”â–ˆâ–ˆâ•—    â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘â–ˆâ–ˆâ•”â•â•â–ˆâ–ˆâ•—â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ•‘              â•‘
-â•‘      â–ˆâ–ˆâ•‘   â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•—â–ˆâ–ˆâ•”â• â–ˆâ–ˆâ•—   â–ˆâ–ˆâ•‘   â•šâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•‘  â–ˆâ–ˆâ•‘â•šâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ•”â•              â•‘
-â•‘      â•šâ•â•   â•šâ•â•â•â•â•â•â•â•šâ•â•  â•šâ•â•   â•šâ•â•    â•šâ•â•â•â•â•â• â•šâ•â•  â•šâ•â• â•šâ•â•â•â•â•â•              â•‘
-â•‘                                                                              â•‘
-â•‘                    Professional Text Animation for AE                        â•‘
-â•‘                                                                              â•‘
-â• â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•£
-â•‘  Version: 1.0.0                    â”‚  Platform: After Effects CC 2020+       â•‘
-â•‘  Architecture: Modular (11 modules)â”‚  Languages: Arabic/English (RTL/LTR)    â•‘
-â•‘  Last Updated: December 27, 2024   â”‚  License: Proprietary                   â•‘
-â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║   ████████╗███████╗██╗  ██╗████████╗ ██████╗ ██████╗  ██████╗               ║
+║   ╚══██╔══╝██╔════╝╚██╗██╔╝╚══██╔══╝██╔═══██╗██╔══██╗██╔═══██╗              ║
+║      ██║   █████╗   ╚███╔╝    ██║   ██║   ██║██████╔╝██║   ██║              ║
+║      ██║   ██╔══╝   ██╔██╗    ██║   ██║   ██║██╔══██╗██║   ██║              ║
+║      ██║   ███████╗██╔╝ ██╗   ██║   ╚██████╔╝██║  ██║╚██████╔╝              ║
+║      ╚═╝   ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝ ╚═════╝              ║
+║                                                                              ║
+║                    Professional Text Animation for AE                        ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  Version: 1.0.0                    │  Platform: After Effects CC 2020+       ║
+║  Architecture: Modular (11 modules)│  Languages: Arabic/English (RTL/LTR)    ║
+║  Last Updated: December 27, 2024   │  License: Proprietary                   ║
+╚══════════════════════════════════════════════════════════════════════════════╝
 ```
 
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)]()
@@ -27,15 +27,15 @@
 
 </div>
 
-## ðŸŽ¯ Overview
+## 🎯 Overview
 
 TEXTORO is a professional Adobe After Effects extension that creates stunning typewriter text animations with customizable cursor effects and dynamic background boxes. It supports both LTR (English) and RTL (Arabic) text directions.
 
-## âœ¨ Key Features
+## ✨ Key Features
 
 | Feature | Description |
 |---------|-------------|
-| **ðŸ‚ TORO Templates** | Complete templates (Type + Box + Motion) in one click! |
+| **🐂 TORO Templates** | Complete templates (Type + Box + Motion) in one click! |
 | **Typewriter Effect** | Character-by-character text reveal with timing control |
 | **Cursor Animation** | 7 built-in cursor styles + custom cursor support |
 | **Dynamic Box** | Auto-sizing background box with 4 independent corners |
@@ -45,7 +45,7 @@ TEXTORO is a professional Adobe After Effects extension that creates stunning ty
 | **Live Editing (Soga)** | Real-time property editing without re-applying |
 | **Frame-Based Time** | Precise timing in `seconds.frames` format |
 
-## ðŸ“ Installation
+## 📁 Installation
 
 1. Copy the `TEXTORO` folder to:
    ```
@@ -61,11 +61,11 @@ TEXTORO is a professional Adobe After Effects extension that creates stunning ty
 
 4. Open: `Window > Extensions > TEXTORO`
 
-## ðŸŽ›ï¸ Panel Tabs
+## 🎛️ Panel Tabs
 
 ### Type Tab
 Configure typewriter animation settings:
-- **Direction**: English (LTR) / Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© (RTL)
+- **Direction**: English (LTR) / العربية (RTL)
 - **Timing**: In Start/End, Out Start/End
 - **Cursor**: Style, Color, Spacing, Blink Speed
 - **Advanced**: Reverse mode, Random speed
@@ -96,7 +96,7 @@ Configure extension options:
 - Custom presets folder
 - Expression version management
 
-## â±ï¸ Frame-Based Time System
+## ⏱️ Frame-Based Time System
 
 TEXTORO uses a unique `seconds.frames` format for precise timing:
 
@@ -113,11 +113,11 @@ TEXTORO uses a unique `seconds.frames` format for precise timing:
 - Spinner buttons for fine control
 - Automatic FPS detection from composition
 
-## ðŸ“– Documentation
+## 📖 Documentation
 
 | Document | Description |
 |----------|-------------|
-| [MODULAR_ARCHITECTURE.md](docs/MODULAR_ARCHITECTURE.md) | ðŸ†• Modular architecture guide |
+| [MODULAR_ARCHITECTURE.md](docs/MODULAR_ARCHITECTURE.md) | 🆕 Modular architecture guide |
 | [TECHNICAL_ANALYSIS.md](docs/TECHNICAL_ANALYSIS.md) | Architecture & code structure |
 | [API_REFERENCE.md](docs/API_REFERENCE.md) | Function reference |
 | [EXPRESSIONS_REFERENCE.md](docs/EXPRESSIONS_REFERENCE.md) | Expression system |
@@ -125,51 +125,51 @@ TEXTORO uses a unique `seconds.frames` format for precise timing:
 | [UI_HOST_CONTRACT.md](docs/UI_HOST_CONTRACT.md) | UI/Backend contract |
 | [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Problem solving guide |
 
-## ðŸ”§ Project Structure
+## 🔧 Project Structure
 
 ```
 TEXTORO/
-â”œâ”€â”€ index.html              # Main UI
-â”œâ”€â”€ css/
-â”‚   â”œâ”€â”€ style.css          # Main styles
-â”‚   â””â”€â”€ spectrum-*.css     # Adobe Spectrum
-â”œâ”€â”€ js/
-â”‚   â”œâ”€â”€ main.js            # UI logic (~5000 lines)
-â”‚   â””â”€â”€ CSInterface.js     # CEP interface
-â”œâ”€â”€ host/
-â”‚   â”œâ”€â”€ index.jsx          # Main loader (~60 lines)
-â”‚   â”œâ”€â”€ index OLD.jsx      # Original backup
-â”‚   â”œâ”€â”€ _test_integration.jsx # Integration tests
-â”‚   â””â”€â”€ modules/           # ðŸ†• Modular Architecture
-â”‚       â”œâ”€â”€ Config.jsx           # Settings & constants
-â”‚       â”œâ”€â”€ Utilities.jsx        # Helper functions
-â”‚       â”œâ”€â”€ ExpressionLoader.jsx # Expression system
-â”‚       â”œâ”€â”€ TypewriterManager.jsx # Typewriter effect
-â”‚       â”œâ”€â”€ BoxManager.jsx       # Box effect
-â”‚       â”œâ”€â”€ MultiLinesManager.jsx # Multi-line support
-â”‚       â”œâ”€â”€ SogaManager.jsx      # Live editing
-â”‚       â”œâ”€â”€ LayerOperations.jsx  # Layer operations
-â”‚       â”œâ”€â”€ PresetManager.jsx    # Preset management
-â”‚       â””â”€â”€ ImportExport.jsx     # Import/Export
-â”‚   â””â”€â”€ expressions/
-â”‚       â”œâ”€â”€ _config.json   # Version config
-â”‚       â”œâ”€â”€ typewriter/v1.0-v1.3/
-â”‚       â”œâ”€â”€ cursor/v1.0/
-â”‚       â””â”€â”€ box/v1.0/
-â”œâ”€â”€ config/
-â”‚   â”œâ”€â”€ defaults.json      # Default values
-â”‚   â””â”€â”€ presets/
-â”‚       â”œâ”€â”€ toro/          # Complete templates
-â”‚       â”œâ”€â”€ type/          # Typewriter presets
-â”‚       â”œâ”€â”€ box/           # Box presets
-â”‚       â”œâ”€â”€ mix/           # Combined presets
-â”‚       â””â”€â”€ motion/        # Motion presets
-â”œâ”€â”€ CSXS/
-â”‚   â””â”€â”€ manifest.xml       # CEP manifest
-â””â”€â”€ docs/                   # Documentation
+├── index.html              # Main UI
+├── css/
+│   ├── style.css          # Main styles
+│   └── spectrum-*.css     # Adobe Spectrum
+├── js/
+│   ├── main.js            # UI logic (~5000 lines)
+│   └── CSInterface.js     # CEP interface
+├── host/
+│   ├── index.jsx          # Main loader (~60 lines)
+│   ├── index OLD.jsx      # Original backup
+│   ├── _test_integration.jsx # Integration tests
+│   └── modules/           # 🆕 Modular Architecture
+│       ├── Config.jsx           # Settings & constants
+│       ├── Utilities.jsx        # Helper functions
+│       ├── ExpressionLoader.jsx # Expression system
+│       ├── TypewriterManager.jsx # Typewriter effect
+│       ├── BoxManager.jsx       # Box effect
+│       ├── MultiLinesManager.jsx # Multi-line support
+│       ├── SogaManager.jsx      # Live editing
+│       ├── LayerOperations.jsx  # Layer operations
+│       ├── PresetManager.jsx    # Preset management
+│       └── ImportExport.jsx     # Import/Export
+│   └── expressions/
+│       ├── _config.json   # Version config
+│       ├── typewriter/v1.0-v1.3/
+│       ├── cursor/v1.0/
+│       └── box/v1.0/
+├── config/
+│   ├── defaults.json      # Default values
+│   └── presets/
+│       ├── toro/          # Complete templates
+│       ├── type/          # Typewriter presets
+│       ├── box/           # Box presets
+│       ├── mix/           # Combined presets
+│       └── motion/        # Motion presets
+├── CSXS/
+│   └── manifest.xml       # CEP manifest
+└── docs/                   # Documentation
 ```
 
-## ðŸŽ¨ Effect Controls
+## 🎨 Effect Controls
 
 ### Typewriter Controls (11)
 | Control | Type | Description |
@@ -199,7 +199,7 @@ TEXTORO/
 | Fill Color | Color | Background color |
 | Lock Box Size | Checkbox | Prevent size changes |
 
-## ðŸ·ï¸ Marker System
+## 🏷️ Marker System
 
 TEXTORO uses layer markers for timing:
 
@@ -216,25 +216,25 @@ TEXTORO uses layer markers for timing:
 
 **Important:** Markers must be in chronological order with no overlapping times.
 
-## âš¡ Quick Start
+## ⚡ Quick Start
 
 1. **Create Text Layer**: Type your text in After Effects
 2. **Select Layer**: Click on the text layer
 3. **Open TEXTORO**: Window > Extensions > TEXTORO
 4. **Configure**: Set timing and cursor options
-5. **Apply**: Click the âœ“ button
+5. **Apply**: Click the ✓ button
 
-## ðŸ”„ Version History
+## 🔄 Version History
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 3.2.1 | Dec 2024 | ðŸ—ï¸ Modular Architecture: 10 independent modules, Box 4-corners fix |
-| 3.2.0 | Dec 2024 | ðŸŒ RTL Improvements: Smart Direction, Arabic Word Mode, ZWJ Support |
-| 3.1.3 | Dec 2024 | ðŸ”§ Fix: Motion Presets now work correctly with Soga editing |
-| 3.1.2 | Dec 2024 | ðŸ”§ Fix: Soga Motion editing now works properly |
-| 3.1.1 | Dec 2024 | ðŸ”§ Bug fixes: Box height, Soga Motion editing |
+| 3.2.1 | Dec 2024 | 🏗️ Modular Architecture: 10 independent modules, Box 4-corners fix |
+| 3.2.0 | Dec 2024 | 🌍 RTL Improvements: Smart Direction, Arabic Word Mode, ZWJ Support |
+| 3.1.3 | Dec 2024 | 🔧 Fix: Motion Presets now work correctly with Soga editing |
+| 3.1.2 | Dec 2024 | 🔧 Fix: Soga Motion editing now works properly |
+| 3.1.1 | Dec 2024 | 🔧 Bug fixes: Box height, Soga Motion editing |
 | 3.1.0 | Dec 2024 | 23 New Presets, Favorites & Sort in Presets Hub, Motion in Soga |
-| 3.0.0 | Dec 2024 | ðŸ‚ TORO Templates, Presets Hub unified, Bug fixes |
+| 3.0.0 | Dec 2024 | 🐂 TORO Templates, Presets Hub unified, Bug fixes |
 | 2.9.0 | Dec 2024 | JSON Presets System - Auto-discovery, Motion presets JSON |
 | 2.8.0 | Dec 2024 | Presets IN/OUT Tabs, Independent OUT Animation, 12 Motion Presets |
 | 2.7.0 | Dec 2024 | Motion Tab, Easing Controls, Expression v1.2 |
@@ -243,27 +243,27 @@ TEXTORO uses layer markers for timing:
 | 2.5 | Dec 2024 | Multi-lines support, Soga live editing, Markers management |
 | 1.0 | Nov 2024 | Initial stable release |
 
-## ðŸ†• Latest Updates (v3.2.0)
+## 🆕 Latest Updates (v3.2.0)
 
-### ðŸŒ RTL Improvements (ØªØ­Ø³ÙŠÙ†Ø§Øª Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©)
-- **Smart Direction Detection**: Ø§ÙƒØªØ´Ø§Ù Ø§ØªØ¬Ø§Ù‡ Ø§Ù„Ù†Øµ ØªÙ„Ù‚Ø§Ø¦ÙŠØ§Ù‹ (Ø¹Ø±Ø¨ÙŠ/Ø¥Ù†Ø¬Ù„ÙŠØ²ÙŠ)
-  - ÙŠÙØ­Øµ Ø£ÙˆÙ„ 50 Ø­Ø±Ù Ù„ØªØ­Ø¯ÙŠØ¯ Ø§Ù„Ø§ØªØ¬Ø§Ù‡ Ø§Ù„Ø³Ø§Ø¦Ø¯
-  - ÙŠØ¯Ø¹Ù… Unicode ranges Ù„Ù„Ø¹Ø±Ø¨ÙŠØ© ÙˆØ§Ù„Ø¹Ø±Ø¨ÙŠØ© Ø§Ù„Ù…ÙˆØ³Ø¹Ø©
-- **Arabic Word Mode**: ÙˆØ¶Ø¹ Ø§Ù„ÙƒÙ„Ù…Ø§Øª Ù„Ù„Ù†Øµ Ø§Ù„Ø¹Ø±Ø¨ÙŠ
-  - Ø¨Ø¯Ù„Ø§Ù‹ Ù…Ù† Ø­Ø±Ù Ø¨Ø­Ø±ÙØŒ ÙŠØ¸Ù‡Ø± ÙƒÙ„Ù…Ø© Ø¨ÙƒÙ„Ù…Ø©
-  - ÙŠØ­Ø§ÙØ¸ Ø¹Ù„Ù‰ Ø§ØªØµØ§Ù„ Ø§Ù„Ø­Ø±ÙˆÙ Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© (Ligatures)
-- **Zero-Width Joiner (ZWJ)**: Ù„Ù„Ù†Øµ Ø§Ù„Ù…Ø®ØªÙ„Ø·
-  - ÙŠØ¶ÙŠÙ ZWJ Ø¨Ø¹Ø¯ Ø§Ù„Ø­Ø±ÙˆÙ Ø§Ù„Ù…ØªØµÙ„Ø©
-  - ÙŠØ­Ø§ÙØ¸ Ø¹Ù„Ù‰ Ø´ÙƒÙ„ Ø§Ù„Ø­Ø±Ù Ø§Ù„ØµØ­ÙŠØ­
-- **Auto Cursor Position**: ØªÙØ¹ÙŠÙ„ Ù…ÙˆØ¶Ø¹ Ø§Ù„Ù…Ø¤Ø´Ø± ØªÙ„Ù‚Ø§Ø¦ÙŠØ§Ù‹
-  - Ø¹Ù†Ø¯ Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©ØŒ ÙŠÙÙØ¹Ù‘Ù„ "Cursor Before Text" ØªÙ„Ù‚Ø§Ø¦ÙŠØ§Ù‹
-  - Ø§Ù„Ù…Ø¤Ø´Ø± ÙŠØ¸Ù‡Ø± Ø¹Ù„Ù‰ Ø§Ù„ÙŠØ³Ø§Ø± (Ù†Ù‡Ø§ÙŠØ© Ø§Ù„ÙƒØªØ§Ø¨Ø© Ù„Ù„Ø¹Ø±Ø¨ÙŠØ©)
-- **Mixed Text Support**: Ø¯Ø¹Ù… Ø§Ù„Ù†Øµ Ø§Ù„Ù…Ø®ØªÙ„Ø·
-  - ÙŠØ¹Ù…Ù„ Ù…Ø¹ Ù†ØµÙˆØµ ØªØ­ØªÙˆÙŠ Ø¹Ø±Ø¨ÙŠ ÙˆØ¥Ù†Ø¬Ù„ÙŠØ²ÙŠ Ù…Ø¹Ø§Ù‹
-- **Expression v1.3**: Ù†Ø³Ø®Ø© Ø¬Ø¯ÙŠØ¯Ø© Ù…Ù† sourceText Expression
-  - Ø¯ÙˆØ§Ù„ Ø¬Ø¯ÙŠØ¯Ø©: `isArabicChar()`, `isConnectingChar()`, `detectTextDirection()`, `addZWJ()`
+### 🌍 RTL Improvements (تحسينات العربية)
+- **Smart Direction Detection**: اكتشاف اتجاه النص تلقائياً (عربي/إنجليزي)
+  - يفحص أول 50 حرف لتحديد الاتجاه السائد
+  - يدعم Unicode ranges للعربية والعربية الموسعة
+- **Arabic Word Mode**: وضع الكلمات للنص العربي
+  - بدلاً من حرف بحرف، يظهر كلمة بكلمة
+  - يحافظ على اتصال الحروف العربية (Ligatures)
+- **Zero-Width Joiner (ZWJ)**: للنص المختلط
+  - يضيف ZWJ بعد الحروف المتصلة
+  - يحافظ على شكل الحرف الصحيح
+- **Auto Cursor Position**: تفعيل موضع المؤشر تلقائياً
+  - عند اختيار العربية، يُفعّل "Cursor Before Text" تلقائياً
+  - المؤشر يظهر على اليسار (نهاية الكتابة للعربية)
+- **Mixed Text Support**: دعم النص المختلط
+  - يعمل مع نصوص تحتوي عربي وإنجليزي معاً
+- **Expression v1.3**: نسخة جديدة من sourceText Expression
+  - دوال جديدة: `isArabicChar()`, `isConnectingChar()`, `detectTextDirection()`, `addZWJ()`
 
-### ðŸ”§ Previous Fixes (v3.1.1-3.1.3)
+### 🔧 Previous Fixes (v3.1.1-3.1.3)
 - **Motion Presets Fix**: Fixed issue where Motion presets (Pop, Bounce, etc.) weren't working correctly with Soga editing
 - **Box Height Fix**: Fixed issue where box didn't respect text height during Typewriter animation
 - **Soga Motion Fix**: Fixed Motion editing in Soga tab after applying Motion presets
@@ -280,7 +280,7 @@ TEXTORO uses layer markers for timing:
 - **TORO**: Arabic News, YouTube Intro, Minimal Modern
 
 ### Presets Hub UX Improvements
-- **â­ Favorites System**: Mark your favorite presets with a star
+- **⭐ Favorites System**: Mark your favorite presets with a star
 - **Sort Options**: Sort by Name (A-Z/Z-A), Category, or Favorites First
 - **Enhanced Tooltips**: Preview preset properties on hover
 
@@ -291,20 +291,20 @@ TEXTORO uses layer markers for timing:
 
 ---
 
-## ðŸ‚ TORO - Complete Templates
+## 🐂 TORO - Complete Templates
 
-> **TORO** = **T**ype + B**O**x + Motion = Ø§Ù„Ø«ÙˆØ± Ø§Ù„ÙƒØ§Ù…Ù„!
+> **TORO** = **T**ype + B**O**x + Motion = الثور الكامل!
 
-- **One-Click Magic**: Ù†Øµ ÙƒØ§Ù…Ù„ Ù…Ø¹ ØµÙ†Ø¯ÙˆÙ‚ ÙˆØ­Ø±ÙƒØ© Ø¨Ù†Ù‚Ø±Ø© ÙˆØ§Ø­Ø¯Ø©
+- **One-Click Magic**: نص كامل مع صندوق وحركة بنقرة واحدة
 - **5 Builtin Templates**: Minimal Fade, Arabic Classic, Bounce Pop, Professional Intro, Slide Elegant
-- **Save Your Own**: Ø§Ø­ÙØ¸ Ù‚ÙˆØ§Ù„Ø¨Ùƒ Ø§Ù„Ø®Ø§ØµØ©
-- **RTL Support**: Ø¯Ø¹Ù… ÙƒØ§Ù…Ù„ Ù„Ù„Ø¹Ø±Ø¨ÙŠØ©
+- **Save Your Own**: احفظ قوالبك الخاصة
+- **RTL Support**: دعم كامل للعربية
 
 ### Presets Hub
-- **Unified Panel**: ÙƒÙ„ Ø§Ù„Ø¨Ø±ÙŠØ³Ø§Øª ÙÙŠ Ù…ÙƒØ§Ù† ÙˆØ§Ø­Ø¯
+- **Unified Panel**: كل البريسات في مكان واحد
 - **6 Categories**: Toro, Type, Box, Mix, Motion
-- **Filter & Search**: ÙÙ„ØªØ±Ø© ÙˆØ¨Ø­Ø« Ø³Ø±ÙŠØ¹
-- **Quick Apply**: ØªØ·Ø¨ÙŠÙ‚ Ø¨Ù†Ù‚Ø±Ø© ÙˆØ§Ø­Ø¯Ø©
+- **Filter & Search**: فلترة وبحث سريع
+- **Quick Apply**: تطبيق بنقرة واحدة
 
 ### Bug Fixes
 - Fixed: TypeError when applying presets
@@ -312,18 +312,18 @@ TEXTORO uses layer markers for timing:
 - Improved: Error handling and validation
 
 ### Documentation
-- [ðŸ‚ TORO Guide](docs/presets/TORO.md) - Ø¯Ù„ÙŠÙ„ Ø§Ù„Ù‚ÙˆØ§Ù„Ø¨ Ø§Ù„Ø´Ø§Ù…Ù„Ø©
-- [ðŸ“– Presets Guide](docs/presets/README.md) - Ø¯Ù„ÙŠÙ„ Ø´Ø§Ù…Ù„ Ù„Ø¥Ù†Ø´Ø§Ø¡ Ø§Ù„Ø¨Ø±ÙŠØ³Ø§Øª
-- [ðŸ“ Type Presets](docs/presets/TYPE_PRESETS.md)
-- [ðŸ“¦ Box Presets](docs/presets/BOX_PRESETS.md)
-- [ðŸŽ¨ Mix Presets](docs/presets/MIX_PRESETS.md)
-- [ðŸŽ¬ Motion Presets](docs/presets/MOTION_PRESETS.md)
+- [🐂 TORO Guide](docs/presets/TORO.md) - دليل القوالب الشاملة
+- [📖 Presets Guide](docs/presets/README.md) - دليل شامل لإنشاء البريسات
+- [📝 Type Presets](docs/presets/TYPE_PRESETS.md)
+- [📦 Box Presets](docs/presets/BOX_PRESETS.md)
+- [🎨 Mix Presets](docs/presets/MIX_PRESETS.md)
+- [🎬 Motion Presets](docs/presets/MOTION_PRESETS.md)
 
-## ðŸ“ License
+## 📝 License
 
-TEXTORO Â© 2024 - All Rights Reserved
+TEXTORO © 2024 - All Rights Reserved
 
 ---
 
-**Made with â¤ï¸ for Motion Designers**
+**Made with ❤️ for Motion Designers**
 

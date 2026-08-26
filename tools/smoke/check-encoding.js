@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..', '..');
-const TEXT_EXTS = ['.js', '.jsx', '.json', '.css', '.html', '.xml'];
+const TEXT_EXTS = ['.js', '.jsx', '.json', '.css', '.html', '.xml', '.md'];
 const SKIP_DIRS = new Set(['webfonts', 'fontawesome', 'node_modules', '.git']);
 
 const decoder = new TextDecoder('utf-8', { fatal: true });
