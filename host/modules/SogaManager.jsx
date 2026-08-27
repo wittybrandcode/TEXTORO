@@ -146,6 +146,23 @@ function _getHardcodedDefaults(category) {
     return {};
 }
 
+// P1-3: Fast map helpers - O(m) once instead of O(fields*m)
+function _getSliderValueFast(map, name, def) {
+    var c = map[name];
+    if (!c) return def;
+    try { return c.property(1).value; } catch (e) { return def; }
+}
+function _getCheckboxValueFast(map, name, def) {
+    var c = map[name];
+    if (!c) return def;
+    try { return c.property(1).value === 1; } catch (e) { return def; }
+}
+function _getColorValueFast(map, name, def) {
+    var c = map[name];
+    if (!c) return def;
+    try { return c.property(1).value; } catch (e) { return def; }
+}
+
 // ═══════════════════════════════════════════════════════════════════
 // READ EFFECT VALUES
 // ═══════════════════════════════════════════════════════════════════
@@ -264,52 +281,53 @@ function _readBoxValues(fx) {
 
 function _readMotionValues(fx) {
     var d = _getDefaultsWithFallback("motion");
+    var map = getEffectControlMap(fx);
     return {
         // Timing
-        inStart: _getSliderValue(fx, "Motion In Start", d["Motion In Start"]),
-        inEnd: _getSliderValue(fx, "Motion In End", d["Motion In End"]),
-        outStart: _getSliderValue(fx, "Motion Out Start", d["Motion Out Start"]),
-        outEnd: _getSliderValue(fx, "Motion Out End", d["Motion Out End"]),
-        syncMode: _getSliderValue(fx, "Motion Sync Mode", d["Motion Sync Mode"]),
+        inStart: _getSliderValueFast(map, "Motion In Start", d["Motion In Start"]),
+        inEnd: _getSliderValueFast(map, "Motion In End", d["Motion In End"]),
+        outStart: _getSliderValueFast(map, "Motion Out Start", d["Motion Out Start"]),
+        outEnd: _getSliderValueFast(map, "Motion Out End", d["Motion Out End"]),
+        syncMode: _getSliderValueFast(map, "Motion Sync Mode", d["Motion Sync Mode"]),
         // Position IN
-        animatePosition: _getCheckboxValue(fx, "Animate Position", d["Animate Position"]),
-        posFromX: _getSliderValue(fx, "Pos From X", d["Pos From X"]),
-        posFromY: _getSliderValue(fx, "Pos From Y", d["Pos From Y"]),
-        posToX: _getSliderValue(fx, "Pos To X", d["Pos To X"]),
-        posToY: _getSliderValue(fx, "Pos To Y", d["Pos To Y"]),
+        animatePosition: _getCheckboxValueFast(map, "Animate Position", d["Animate Position"]),
+        posFromX: _getSliderValueFast(map, "Pos From X", d["Pos From X"]),
+        posFromY: _getSliderValueFast(map, "Pos From Y", d["Pos From Y"]),
+        posToX: _getSliderValueFast(map, "Pos To X", d["Pos To X"]),
+        posToY: _getSliderValueFast(map, "Pos To Y", d["Pos To Y"]),
         // Position OUT
-        posLinkMode: _getSliderValue(fx, "Pos Link Mode", d["Pos Link Mode"]),
-        posOutFromX: _getSliderValue(fx, "Pos Out From X", d["Pos Out From X"]),
-        posOutFromY: _getSliderValue(fx, "Pos Out From Y", d["Pos Out From Y"]),
-        posOutToX: _getSliderValue(fx, "Pos Out To X", d["Pos Out To X"]),
-        posOutToY: _getSliderValue(fx, "Pos Out To Y", d["Pos Out To Y"]),
+        posLinkMode: _getSliderValueFast(map, "Pos Link Mode", d["Pos Link Mode"]),
+        posOutFromX: _getSliderValueFast(map, "Pos Out From X", d["Pos Out From X"]),
+        posOutFromY: _getSliderValueFast(map, "Pos Out From Y", d["Pos Out From Y"]),
+        posOutToX: _getSliderValueFast(map, "Pos Out To X", d["Pos Out To X"]),
+        posOutToY: _getSliderValueFast(map, "Pos Out To Y", d["Pos Out To Y"]),
         // Scale IN
-        animateScale: _getCheckboxValue(fx, "Animate Scale", d["Animate Scale"]),
-        scaleFrom: _getSliderValue(fx, "Scale From", d["Scale From"]),
-        scaleTo: _getSliderValue(fx, "Scale To", d["Scale To"]),
+        animateScale: _getCheckboxValueFast(map, "Animate Scale", d["Animate Scale"]),
+        scaleFrom: _getSliderValueFast(map, "Scale From", d["Scale From"]),
+        scaleTo: _getSliderValueFast(map, "Scale To", d["Scale To"]),
         // Scale OUT
-        scaleLinkMode: _getSliderValue(fx, "Scale Link Mode", d["Scale Link Mode"]),
-        scaleOutFrom: _getSliderValue(fx, "Scale Out From", d["Scale Out From"]),
-        scaleOutTo: _getSliderValue(fx, "Scale Out To", d["Scale Out To"]),
+        scaleLinkMode: _getSliderValueFast(map, "Scale Link Mode", d["Scale Link Mode"]),
+        scaleOutFrom: _getSliderValueFast(map, "Scale Out From", d["Scale Out From"]),
+        scaleOutTo: _getSliderValueFast(map, "Scale Out To", d["Scale Out To"]),
         // Rotation IN
-        animateRotation: _getCheckboxValue(fx, "Animate Rotation", d["Animate Rotation"]),
-        rotFrom: _getSliderValue(fx, "Rot From", d["Rot From"]),
-        rotTo: _getSliderValue(fx, "Rot To", d["Rot To"]),
+        animateRotation: _getCheckboxValueFast(map, "Animate Rotation", d["Animate Rotation"]),
+        rotFrom: _getSliderValueFast(map, "Rot From", d["Rot From"]),
+        rotTo: _getSliderValueFast(map, "Rot To", d["Rot To"]),
         // Rotation OUT
-        rotLinkMode: _getSliderValue(fx, "Rot Link Mode", d["Rot Link Mode"]),
-        rotOutFrom: _getSliderValue(fx, "Rot Out From", d["Rot Out From"]),
-        rotOutTo: _getSliderValue(fx, "Rot Out To", d["Rot Out To"]),
+        rotLinkMode: _getSliderValueFast(map, "Rot Link Mode", d["Rot Link Mode"]),
+        rotOutFrom: _getSliderValueFast(map, "Rot Out From", d["Rot Out From"]),
+        rotOutTo: _getSliderValueFast(map, "Rot Out To", d["Rot Out To"]),
         // Opacity IN
-        animateOpacity: _getCheckboxValue(fx, "Animate Opacity", d["Animate Opacity"]),
-        opacityFrom: _getSliderValue(fx, "Opacity From", d["Opacity From"]),
-        opacityTo: _getSliderValue(fx, "Opacity To", d["Opacity To"]),
+        animateOpacity: _getCheckboxValueFast(map, "Animate Opacity", d["Animate Opacity"]),
+        opacityFrom: _getSliderValueFast(map, "Opacity From", d["Opacity From"]),
+        opacityTo: _getSliderValueFast(map, "Opacity To", d["Opacity To"]),
         // Opacity OUT
-        opacityLinkMode: _getSliderValue(fx, "Opacity Link Mode", d["Opacity Link Mode"]),
-        opacityOutFrom: _getSliderValue(fx, "Opacity Out From", d["Opacity Out From"]),
-        opacityOutTo: _getSliderValue(fx, "Opacity Out To", d["Opacity Out To"]),
+        opacityLinkMode: _getSliderValueFast(map, "Opacity Link Mode", d["Opacity Link Mode"]),
+        opacityOutFrom: _getSliderValueFast(map, "Opacity Out From", d["Opacity Out From"]),
+        opacityOutTo: _getSliderValueFast(map, "Opacity Out To", d["Opacity Out To"]),
         // Easing
-        easingType: _getSliderValue(fx, "Motion Easing Type", d["Motion Easing Type"]),
-        easingStrength: _getSliderValue(fx, "Motion Easing Strength", d["Motion Easing Strength"])
+        easingType: _getSliderValueFast(map, "Motion Easing Type", d["Motion Easing Type"]),
+        easingStrength: _getSliderValueFast(map, "Motion Easing Strength", d["Motion Easing Strength"])
     };
 }
 
@@ -599,7 +617,7 @@ function _setColorValue(fx, name, value) {
             } else if (typeof value === "string") {
                 rgbValue = hexToRgb(value);
             } else {
-                $.writeln("[TEXTORO] _setColorValue: Unknown value type for " + name);
+                if (CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Unknown value type for " + name);
                 return;
             }
             
@@ -609,10 +627,10 @@ function _setColorValue(fx, name, value) {
             }
             
             addColor(fx, name, rgbValue);
-            $.writeln("[TEXTORO] _setColorValue: Created missing control: " + name + " = [" + rgbValue.join(", ") + "]");
+            if (CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Created missing control: " + name + " = [" + rgbValue.join(", ") + "]");
             return;
         } catch(e) {
-            $.writeln("[TEXTORO] _setColorValue: Control not found and cannot create: " + name + " - " + e.toString());
+            if (CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Control not found and cannot create: " + name + " - " + e.toString());
             return;
         }
     }
@@ -628,7 +646,7 @@ function _setColorValue(fx, name, value) {
             // القيمة hex string مثل "#ffffff"
             rgbValue = hexToRgb(value);
         } else {
-            $.writeln("[TEXTORO] _setColorValue: Unknown value type for " + name);
+            if (CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Unknown value type for " + name);
             return;
         }
         
@@ -641,7 +659,7 @@ function _setColorValue(fx, name, value) {
         ctrl.property(1).setValue(rgbValue);
         if (CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Set " + name + " = [" + rgbValue.join(", ") + "]");
     } catch(e) {
-        $.writeln("[TEXTORO] _setColorValue ERROR: " + name + " - " + e.toString());
+        if (CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue ERROR: " + name + " - " + e.toString());
     }
 }
 
@@ -655,7 +673,7 @@ function _ensureMotionControl(fx, name, value, defaultVal, type) {
             else addSlider(fx, name, finalValue);
         if (CONFIG.DEBUG) $.writeln("[TEXTORO] _ensureMotionControl: Created " + name + " = " + finalValue);
         } catch(e) {
-            $.writeln("[TEXTORO] _ensureMotionControl ERROR creating " + name + ": " + e.toString());
+            if (CONFIG.DEBUG) $.writeln("[TEXTORO] _ensureMotionControl ERROR creating " + name + ": " + e.toString());
         }
     } else {
         try {
@@ -663,7 +681,7 @@ function _ensureMotionControl(fx, name, value, defaultVal, type) {
             else ctrl.property(1).setValue(finalValue);
         if (CONFIG.DEBUG) $.writeln("[TEXTORO] _ensureMotionControl: Updated " + name + " = " + finalValue);
         } catch(e) {
-            $.writeln("[TEXTORO] _ensureMotionControl ERROR updating " + name + ": " + e.toString());
+            if (CONFIG.DEBUG) $.writeln("[TEXTORO] _ensureMotionControl ERROR updating " + name + ": " + e.toString());
         }
     }
 }

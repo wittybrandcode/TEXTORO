@@ -28,17 +28,8 @@ TEXTORO.Config = {
         SEARCH_DEBOUNCE_DELAY: 200
     },
     
-    /** أنواع الـ Markers المعروفة */
-    MARKER_TYPES: ['IN_START', 'IN_END', 'OUT_START', 'OUT_END', 'BLINK_START', 'BLINK_END'],
-    
     /** فئات البريسات */
-    PRESET_CATEGORIES: ['toro', 'type', 'box', 'mix', 'motion-full'],
-    
-    /** فئات البريسات للعرض في Presets Hub (motion-full بدلاً من motion) */
-    PRESET_HUB_CATEGORIES: ['toro', 'type', 'box', 'mix', 'motion-full'],
-    
-    /** فئة بريسات Motion البسيطة (للاستخدام في تبويب Motion فقط) */
-    MOTION_SIMPLE_CATEGORY: 'motion'
+    PRESET_CATEGORIES: ['toro', 'type', 'box', 'mix', 'motion-full']
 };
 
 /**

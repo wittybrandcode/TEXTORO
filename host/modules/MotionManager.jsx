@@ -295,9 +295,9 @@ function _applyMotion(layer, opts) {
     // ═══════════════════════════════════════════════════════════════
     var useControllerManager = false;
     if (typeof createControllersFromRegistry === "function") {
-        $.writeln("[TEXTORO] Attempting ControllerManager for motion...");
+        if (CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager for motion...");
         useControllerManager = createControllersFromRegistry(layer, "motion", controllerValues);
-        $.writeln("[TEXTORO] ControllerManager result: " + useControllerManager);
+        if (CONFIG.DEBUG) $.writeln("[TEXTORO] ControllerManager result: " + useControllerManager);
     }
     
     // Fallback إذا فشل ControllerManager
@@ -409,7 +409,7 @@ function _removeMotion(layer) {
     // ═══════════════════════════════════════════════════════════════
     var removed = false;
     if (typeof removeControllersFromRegistry === "function") {
-        $.writeln("[TEXTORO] Attempting ControllerManager to remove motion controllers...");
+        if (CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager to remove motion controllers...");
         removed = removeControllersFromRegistry(layer, "motion");
     }
     

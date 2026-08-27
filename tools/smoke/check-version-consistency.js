@@ -42,10 +42,29 @@ else versions['Config.jsx'] = vJsx[1];
 const html = read('index.html');
 const busters = [...html.matchAll(/src="js\/[^"]*\?v=([\d.]+)"/g)].map(m => m[1]);
 const uniqBusters = [...new Set(busters)];
-if (uniqBusters.length > 1) errors.push(`index.html: mixed cache-busters [${uniqBusters.join(', ')}]`);
+if (busters.length === 0) errors.push('index.html: no cache-busters found (expected ?v= on js/ scripts)');
+else if (uniqBusters.length > 1) errors.push(`index.html: mixed cache-busters [${uniqBusters.join(', ')}]`);
 if (uniqBusters.length === 1) versions['cache-buster'] = uniqBusters[0];
 const badge = html.match(/id="verBadge"[^>]*>v([^<]+)</);
 if (badge) versions['verBadge'] = badge[1];
+
+// 4b. CONFIG_MODULE_VERSION must equal CONFIG.VERSION (internal drift)
+const cfgModuleVer = cfgJsx.match(/CONFIG_MODULE_VERSION\s*=\s*"([^"]+)"/);
+if (cfgModuleVer) {
+    // Track but don't compare to truth directly - check separately
+    if (cfgModuleVer[1] !== versions['Config.jsx']) {
+        errors.push(`Config.jsx: CONFIG_MODULE_VERSION="${cfgModuleVer[1]}" != CONFIG.VERSION="${versions['Config.jsx']}" (internal drift)`);
+    }
+}
+
+// 4c. AE_MIN_VERSION vs manifest Host Version
+const aeMin = cfgJsx.match(/AE_MIN_VERSION\s*=\s*([\d.]+)/);
+const hostVer = manifest.match(/<Host Name="AEFT" Version="\[([\d.]+),/);
+if (aeMin && hostVer) {
+    if (aeMin[1] !== hostVer[1]) {
+        errors.push(`AE version drift: Config.jsx AE_MIN_VERSION=${aeMin[1]} vs manifest Host ${hostVer[1]} (should match)`);
+    }
+}
 
 // --- Compare against source of truth ---
 const truth = versions['manifest.bundle'];

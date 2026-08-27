@@ -20,6 +20,25 @@ TEXTORO.HostBridge = (function() {
     var TAG_BOOT_OK = '__TX_BOOT_OK__';
     var TAG_BOOT_ERR = '__TX_BOOT_ERR__';
 
+    // P0-2: Allowlist - prevents arbitrary HostBridge code execution
+    var ALLOWED_HOST_FUNCS = {
+        'loadPresets':1, 'getPreset':1, 'savePreset':1, 'deletePreset':1, 'renamePreset':1,
+        'applyPreset':1, 'applyMotionPreset':1, 'applyMotion':1, 'removeMotion':1,
+        'createBox':1, 'removeBox':1, 'hasBox':1, 'getAllTextoroLayers':1,
+        'applyTypewriter':1, 'removeTypewriter':1, 'getLayerText':1, 'updateLayerText':1, 'hasTypewriter':1,
+        'getLayerEffectValues':1, 'setLayerEffectValues':1, 'setLayerEffectValuesMulti':1,
+        'getMultiSelectionInfo':1, 'getSelectionInfo':1, 'getCompInfo':1,
+        'collectTextoroMarkers':1, 'offsetTextoroMarkers':1, 'staggerTextoroMarkers':1, 'alignTextoroMarkers':1, 'deleteTextoroMarkers':1,
+        'offsetSelectedLayers':1, 'staggerSelectedLayers':1, 'alignSelectedLayers':1,
+        'splitTextToLayers':1, 'splitAndApply':1, 'applyTypewriterMulti':1, 'createBoxMulti':1,
+        'getMotionSelectionCount':1, 'getMotionValuesForPreset':1, 'getToroValuesForPreset':1, 'getLayerValuesForPreset':1,
+        'getAvailableVersionsJS':1, 'setActiveVersionJS':1, 'clearExpressionCache':1,
+        'getPresetsPathSetting':1, 'setPresetsPathSetting':1, 'browseForPresetsFolder':1, 'openPresetsFolder':1,
+        'exportPreset':1, 'exportAllPresets':1, 'importPresets':1, 'importPresetFromPath':1, 'exportPresetByFileName':1,
+        'createNewTextLayer':1, 'debugExtensionPath':1, 'repairPresetIndex':1
+    };
+    var FUNC_NAME_RE = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
+
     function esc(str) {
         return String(str)
             .replace(/\\/g, '\\\\')
@@ -104,6 +123,10 @@ TEXTORO.HostBridge = (function() {
     }
 
     function buildInvokeScript(funcName, argsStr) {
+        if (!FUNC_NAME_RE.test(funcName) || !ALLOWED_HOST_FUNCS[funcName]) {
+            var safeFn = esc(funcName);
+            return "(function(){return '" + TAG_ERR + "' + 'Host function not allowed: ' + '" + safeFn + "';})()";
+        }
         var fn = esc(funcName);
         var payload = esc(argsStr);
 
@@ -111,20 +134,12 @@ TEXTORO.HostBridge = (function() {
             "var __fn='" + fn + "';" +
             "var __payload='" + payload + "';" +
             "var __res;" +
-            "var __callErr='';" +
             "if(typeof $!=='undefined'&&$.global&&typeof $.global[__fn]==='function'){" +
             "__res=$.global[__fn](__payload);" +
             "}else if(typeof this[__fn]==='function'){" +
             "__res=this[__fn](__payload);" +
             "}else{" +
-            "try{__res=eval(__fn + \"('\" + __payload + \"')\");}catch(__e1){__callErr=__e1.toString();}" +
-            "}" +
-            "if(__callErr){" +
-            "var __msg=String(__callErr);" +
-            "if(__msg.indexOf('is undefined')!==-1||__msg.indexOf('undefined is not')!==-1||__msg.indexOf('not a function')!==-1){" +
             "return '" + TAG_ERR + "' + 'Host function not found: ' + __fn;" +
-            "}" +
-            "return '" + TAG_ERR + "' + 'Host exception: ' + __msg;" +
             "}" +
             "if(__res===undefined||__res===null||__res===''){" +
             "return '" + TAG_ERR + "' + 'Host returned empty: ' + __fn;" +
@@ -323,18 +338,6 @@ TEXTORO.HostBridge = (function() {
         invoke(true, null);
     }
 
-    function runAsync(funcName, args) {
-        return new Promise(function(resolve, reject) {
-            run(funcName, args, function(res) {
-                if (res.success) {
-                    resolve(res);
-                } else {
-                    reject(new Error(res.error || 'Unknown error'));
-                }
-            });
-        });
-    }
-
     function getCS() {
         if (!cs) init();
         return cs;
@@ -364,7 +367,6 @@ TEXTORO.HostBridge = (function() {
     return {
         init: init,
         run: run,
-        runAsync: runAsync,
         getCS: getCS,
         getSystemInfo: getSystemInfo
     };

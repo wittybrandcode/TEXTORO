@@ -32,7 +32,7 @@ $.writeln("[TEXTORO] Loading Utilities module...");
  */
 function success(msg, data) {
     var result = { success: true, message: msg };
-    if (data) result.data = data;
+    if (data !== undefined && data !== null) result.data = data;
     return JSON.stringify(result);
 }
 
@@ -272,6 +272,19 @@ function findEffectControl(fx, name) {
         if (fx.property(i).name === name) return fx.property(i);
     }
     return null;
+}
+
+function getEffectControlMap(fx) {
+    var map = {};
+    for (var i = 1; i <= fx.numProperties; i++) {
+        var prop = fx.property(i);
+        try { map[prop.name] = prop; } catch (e) {}
+    }
+    return map;
+}
+
+function findEffectControlFast(map, name) {
+    return map[name] || null;
 }
 
 /**

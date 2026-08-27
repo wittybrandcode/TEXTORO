@@ -102,8 +102,8 @@ function loadControllerRegistry(forceReload) {
             return _getDefaultRegistry();
         }
         
-        registryFile.open("r");
         registryFile.encoding = "UTF-8";
+        registryFile.open("r");
         var content = registryFile.read();
         registryFile.close();
         
@@ -125,6 +125,11 @@ function loadControllerRegistry(forceReload) {
  * @returns {Object} بيانات الفئة
  */
 function loadCategoryControllers(category) {
+    var _allowedCtrlCats = {typewriter:1, box:1, motion:1};
+    if (!_allowedCtrlCats[category]) {
+        $.writeln("[TEXTORO] loadCategoryControllers - unsupported category: " + category);
+        return null;
+    }
     if (_controllerCache[category]) return _controllerCache[category];
     
     try {
@@ -136,8 +141,8 @@ function loadCategoryControllers(category) {
             return null;
         }
         
-        file.open("r");
         file.encoding = "UTF-8";
+        file.open("r");
         var content = file.read();
         file.close();
         
@@ -346,8 +351,8 @@ function loadSharedExpression(name) {
             return "";
         }
         
-        file.open("r");
         file.encoding = "UTF-8";
+        file.open("r");
         var content = file.read();
         file.close();
         
@@ -378,8 +383,8 @@ function loadMotionExpression(name) {
             return "";
         }
         
-        file.open("r");
         file.encoding = "UTF-8";
+        file.open("r");
         var content = file.read();
         file.close();
         

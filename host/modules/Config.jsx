@@ -214,7 +214,7 @@ if (typeof JSON.parse !== "function") {
 // VERSION COMPATIBILITY - توافق الإصدارات
 // ═══════════════════════════════════════════════════════════════════
 
-var AE_MIN_VERSION = 13.0;  // CC 2016
+var AE_MIN_VERSION = 17.0;  // CC 2020 - matches manifest Host 17.0
 var AE_MAX_VERSION = 99.9;
 
 /**
@@ -333,7 +333,6 @@ var CONFIG = {
 
 var BOX_CONFIG = {
     // ثوابت الرسم
-    BEZIER_K: 0.5523,  // Circle approximation for rounded corners
     LABEL_BOX: 9,      // Purple label for box layers
     
     // القيم الافتراضية - C-05: المصدر الوحيد للحقيقة (كانت متضاربة في 3 أماكن)
@@ -360,7 +359,7 @@ var BOX_CONFIG = {
 
 // علامة تثبت أن الوحدة تم تحميلها
 var CONFIG_MODULE_LOADED = true;
-var CONFIG_MODULE_VERSION = "1.1.0";
+var CONFIG_MODULE_VERSION = "1.0.0";
 
 // فحص التوافق عند التحميل
 var _aeCompatCheck = checkAECompatibility();

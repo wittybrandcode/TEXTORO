@@ -149,6 +149,16 @@ function loadExprConfig(forceReload) {
  */
 function loadExpression(category, name, version) {
     $.writeln("[TEXTORO] loadExpression called: " + category + "/" + name);
+    var _allowedCats = {typewriter:1, cursor:1, box:1};
+    var _allowedNames = {sourceText:1, range:1, blink:1, path4corners:1, size:1, position:1, hideWhenEmpty:1};
+    if (!_allowedCats[category] || !_allowedNames[name]) {
+        $.writeln("[TEXTORO] loadExpression - unsupported category/name: " + category + "/" + name);
+        return "";
+    }
+    if (version && !/^v\d+\.\d+$/.test(version)) {
+        $.writeln("[TEXTORO] loadExpression - invalid version: " + version);
+        return "";
+    }
     
     var config = loadExprConfig();
     var key = category + "/" + name;

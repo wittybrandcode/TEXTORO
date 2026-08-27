@@ -269,7 +269,7 @@ function _applyTypewriter(textLayer, opts) {
     // ─────────────────────────────────────────────────────────────
     // Effect Controls - استخدام ControllerManager مع Fallback ذكي
     // ─────────────────────────────────────────────────────────────
-    $.writeln("[TEXTORO] Creating typewriter controllers...");
+    if (CONFIG.DEBUG) $.writeln("[TEXTORO] Creating typewriter controllers...");
     
     // تحضير القيم للـ Controllers
     var controllerValues = {
@@ -320,7 +320,7 @@ function _applyTypewriter(textLayer, opts) {
         addSlider(fx, "Easing Strength", opts.easingStrength || 100);
     }
     
-    $.writeln("[TEXTORO] Typewriter controllers created successfully");
+    if (CONFIG.DEBUG) $.writeln("[TEXTORO] Typewriter controllers created successfully");
     
     // ─────────────────────────────────────────────────────────────
     // Markers
@@ -379,7 +379,7 @@ function _removeTypewriter(textLayer) {
     // ═══════════════════════════════════════════════════════════════
     var removed = false;
     if (typeof removeControllersFromRegistry === "function") {
-        $.writeln("[TEXTORO] Attempting ControllerManager to remove typewriter controllers...");
+        if (CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager to remove typewriter controllers...");
         removed = removeControllersFromRegistry(textLayer, "typewriter");
     }
     

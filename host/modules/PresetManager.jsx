@@ -42,6 +42,7 @@ function _loadSettings() {
     try {
         var settingsFile = new File(_getSettingsFilePath());
         if (settingsFile.exists) {
+            settingsFile.encoding = "UTF-8";
             settingsFile.open("r");
             var content = settingsFile.read();
             settingsFile.close();
@@ -62,6 +63,7 @@ function _saveSettings(settings) {
         }
         
         var settingsFile = new File(_getSettingsFilePath());
+        settingsFile.encoding = "UTF-8";
         settingsFile.open("w");
         settingsFile.write(JSON.stringify(settings, null, 2));
         settingsFile.close();
@@ -297,6 +299,14 @@ function loadPresetSafe(file) {
  * تحميل Preset بواسطة اسم الملف (Auto-Discovery)
  */
 function _loadPresetByFileName(category, fileName) {
+    if (!_isAllowedPresetCategory(category)) {
+        $.writeln("[TEXTORO] _loadPresetByFileName - unsupported category: " + category);
+        return null;
+    }
+    if (!_isSafePresetFileName(fileName)) {
+        $.writeln("[TEXTORO] _loadPresetByFileName - unsafe fileName: " + fileName);
+        return null;
+    }
     // البحث في البريسات المدمجة أولاً
     var builtinPath = getBuiltinPresetsPath() + category + "/" + fileName;
     var builtinFile = new File(builtinPath);
@@ -509,6 +519,9 @@ function loadPresets(optsJSON) {
         
         if (!category) {
             return error("No category provided");
+        }
+        if (!_isAllowedPresetCategory(category)) {
+            return error("Unsupported preset category: " + category);
         }
         
         // التحقق من الـ Cache أولاً
@@ -739,6 +752,7 @@ function getPreset(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var category = opts.category;
+        if (!_isAllowedPresetCategory(category)) return error("Unsupported preset category: " + category);
         var id = opts.id;
         
         var fileName = null;
@@ -1039,6 +1053,7 @@ function renamePreset(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var category = opts.category;
+        if (!_isAllowedPresetCategory(category)) return error("Unsupported preset category: " + category);
         var id = opts.id;
         var newName = opts.newName;
         
