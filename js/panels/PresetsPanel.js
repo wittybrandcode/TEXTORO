@@ -126,11 +126,15 @@ TEXTORO.Panels.Presets = (function() {
      * تحميل المفضلة من localStorage
      */
     function loadFavorites() {
-        try {
-            var stored = localStorage.getItem('textoro_favorites');
-            favorites = stored ? JSON.parse(stored) : [];
-        } catch(e) {
-            favorites = [];
+        if (TEXTORO.State && TEXTORO.State.Manager) {
+            favorites = TEXTORO.State.Manager.get('favorites', []);
+        } else {
+            try {
+                var stored = localStorage.getItem('textoro_favorites');
+                favorites = stored ? JSON.parse(stored) : [];
+            } catch(e) {
+                favorites = [];
+            }
         }
     }
     
@@ -138,10 +142,14 @@ TEXTORO.Panels.Presets = (function() {
      * حفظ المفضلة
      */
     function saveFavorites() {
-        try {
-            localStorage.setItem('textoro_favorites', JSON.stringify(favorites));
-        } catch(e) {
-            TEXTORO.error('Error saving favorites');
+        if (TEXTORO.State && TEXTORO.State.Manager) {
+            TEXTORO.State.Manager.set('favorites', favorites);
+        } else {
+            try {
+                localStorage.setItem('textoro_favorites', JSON.stringify(favorites));
+            } catch(e) {
+                TEXTORO.error('Error saving favorites');
+            }
         }
     }
     

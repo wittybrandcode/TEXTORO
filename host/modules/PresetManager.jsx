@@ -617,6 +617,9 @@ function getPresetList(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var category = opts.category;
+        if (!_isAllowedPresetCategory(category)) {
+            return error("Unsupported preset category: " + category);
+        }
         var allPresets = [];
         
         // 1. الـ Presets المدمجة
@@ -680,7 +683,7 @@ function getPresetList(optsJSON) {
 function getAllPresets() {
     try {
         var allPresets = [];
-        var categories = ["toro", "type", "box", "mix", "motion"];
+        var categories = ["toro", "type", "box", "mix", "motion", "motion-full"];
         
         for (var c = 0; c < categories.length; c++) {
             var category = categories[c];

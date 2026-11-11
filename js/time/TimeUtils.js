@@ -156,13 +156,36 @@ TEXTORO.Time = (function() {
     
     /**
      * الحصول على قيمة الوقت بالثواني من خانة إدخال
-     * @param {string} inputId
+     * يدعم صيغة s:f (ثواني:فريمات) أو ثواني.فريمات (sf) أو رقم عادي
+     * @param {string|HTMLElement} inputId
+     * @param {number} [defaultVal=0]
      * @returns {number}
      */
-    function getInputSeconds(inputId) {
-        var input = document.getElementById(inputId);
-        if (!input) return 0;
-        return toSeconds(input.value);
+    function getInputSeconds(inputId, defaultVal) {
+        var def = (typeof defaultVal === 'number') ? defaultVal : 0;
+        var input = typeof inputId === 'string' ? document.getElementById(inputId) : inputId;
+        if (!input) return def;
+        
+        var value = input.value;
+        if (value === '' || value === undefined || value === null) return def;
+        
+        if (String(value).indexOf(':') !== -1) {
+            return toSeconds(value);
+        }
+        
+        var sfValue = parseFloat(value);
+        if (isNaN(sfValue)) return def;
+        
+        var currentFps = fps || 25;
+        var seconds = Math.floor(sfValue);
+        var frames = Math.round((sfValue - seconds) * 100);
+        
+        while (frames >= currentFps) {
+            seconds++;
+            frames -= currentFps;
+        }
+        
+        return seconds + (frames / currentFps);
     }
     
     /**

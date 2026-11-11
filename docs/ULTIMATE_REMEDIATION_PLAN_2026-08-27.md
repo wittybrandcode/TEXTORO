@@ -134,11 +134,11 @@ file.encoding = "UTF-8"; file.open("r"); // لا عكس
 | P1-2 | فحص إصدارات صارم + `?v=` | `tools/smoke/check-version-consistency.js:43` | 1 س | ✅ | 2026-08-27 |
 | P1-3 | `fxMap` + تغليف `$.writeln` | `host/modules/Utilities.jsx:270` `host/modules/SogaManager.jsx:213` | 3 س | ✅ | 2026-08-27 |
 | P1-4 | حذف/اعتماد كود ميت | `js/ui/SpectrumStepper.js` `js/ui/Tooltip.js` | 2 س | ✅ | 2026-08-27 |
-| P2-1 | توحيد التكرار | `js/panels/TypewriterPanel.js:153` `js/core/Utils.js:13` | 3 س | ⬜ | |
-| P2-2 | تنظيف `window.*` | `js/legacy/aliases.js:21` | 1 س | ⬜ | |
-| P2-3 | دمج الحالة | `js/panels/PresetsPanel.js:130` | 2 س | ⬜ | |
-| P2-4 | إظهار الأخطاء | `js/panels/SogaPanel.js:140` | 1 س | ⬜ | |
-| P2-5 | توحيد فئات البريسات | `host/modules/PresetManager.jsx:669` | 30 د | ⬜ | |
+| P2-1 | توحيد التكرار (TimeUtils, hexToRgb, 4-corners) | `js/panels/TypewriterPanel.js` `js/core/Utils.js` `host/modules/BoxManager.jsx` | 3 س | ✅ | 2026-11-11 |
+| P2-2 | تنظيف `window.*` والمحددات الحية | `js/legacy/aliases.js:21` `js/state/SelectionMonitor.js:161` | 1 س | ✅ | 2026-11-11 |
+| P2-3 | دمج الحالة وإدارة المفضلة والمسح | `js/state/StateManager.js` `js/panels/PresetsPanel.js` `js/panels/SettingsPanel.js` | 2 س | ✅ | 2026-11-11 |
+| P2-4 | صمود الأخطاء ومنع الابتلاع الصامت | `js/state/SelectionMonitor.js:22` `js/panels/SogaPanel.js:140` | 1 س | ✅ | 2026-11-11 |
+| P2-5 | توحيد فئات البريسات وفحص allowlist | `host/modules/PresetManager.jsx:619,683` | 30 د | ✅ | 2026-11-11 |
 
 **إجمالي تقديري:** `v1.0.2` = يومان، `v1.0.3` = يوم، `v1.1.0` = يومان.
 

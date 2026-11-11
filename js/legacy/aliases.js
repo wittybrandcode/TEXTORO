@@ -18,10 +18,21 @@
     // ═══════════════════════════════════════════════════════════════════
     
     /** @deprecated Use TEXTORO.Config.DEBUG */
-    window.DEBUG = TEXTORO.Config.DEBUG;
-    
-    /** @deprecated Use TEXTORO.Config.TIMING */
-    window.TIMING = TEXTORO.Config.TIMING;
+    try {
+        Object.defineProperty(window, 'DEBUG', {
+            get: function() { return TEXTORO.Config ? TEXTORO.Config.DEBUG : false; },
+            set: function(v) { if (TEXTORO.Config) TEXTORO.Config.DEBUG = v; },
+            configurable: true
+        });
+        Object.defineProperty(window, 'TIMING', {
+            get: function() { return TEXTORO.Config ? TEXTORO.Config.TIMING : false; },
+            set: function(v) { if (TEXTORO.Config) TEXTORO.Config.TIMING = v; },
+            configurable: true
+        });
+    } catch(e) {
+        window.DEBUG = (TEXTORO.Config && TEXTORO.Config.DEBUG);
+        window.TIMING = (TEXTORO.Config && TEXTORO.Config.TIMING);
+    }
     
     /** @deprecated Use TEXTORO.log() */
     window.debugLog = function(msg) {

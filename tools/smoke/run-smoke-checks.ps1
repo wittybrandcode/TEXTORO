@@ -36,4 +36,8 @@ Write-Host '[SMOKE] Running host global collision checks...'
 node "$PSScriptRoot/check-host-global-collisions.js"
 if ($LASTEXITCODE -ne 0) { throw 'Host global collision check failed.' }
 
+Write-Host '[SMOKE] Running File.encoding order checks...'
+node "$PSScriptRoot/check-encoding-order.js"
+if ($LASTEXITCODE -ne 0) { throw 'Encoding order check failed.' }
+
 Write-Host '[SMOKE] ALL CHECKS PASSED'

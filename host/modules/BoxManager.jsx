@@ -414,7 +414,7 @@ function _create4CornersBox(rectContents) {
 'var outT = [[0, 0], [rTR*k, 0], [0, 0], [0, rBR*k], [0, 0], [-rBL*k, 0], [0, 0], [0, -rTL*k]];\n' +
 'createPath(pts, inT, outT, true);';
     
-    rectContents.property(1).property("Path").expression = pathExpr;
+    rectContents.property(1).property("Path").expression = (typeof buildBoxPathExpr === "function" && buildBoxPathExpr()) ? buildBoxPathExpr() : pathExpr;
 }
 
 function _createSimpleBox(rectContents) {

@@ -667,23 +667,13 @@ TEXTORO.Panels.Soga = (function() {
         if (el && rgbArray) el.value = rgbToHex(rgbArray);
     }
     
-    // C-02: توحيد المحولات على TEXTORO.Utils (كانت مكررة محلياً)
+    // C-02: توحيد المحولات على TEXTORO.Utils
     function rgbToHex(rgb) {
-        if (!rgb || !rgb.length) return '#ffffff';
-        var r = Math.round((rgb[0] || 0) * 255);
-        var g = Math.round((rgb[1] || 0) * 255);
-        var b = Math.round((rgb[2] || 0) * 255);
-        return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        return (TEXTORO.Utils && TEXTORO.Utils.rgbToHex) ? TEXTORO.Utils.rgbToHex(rgb) : '#ffffff';
     }
 
     function hexToRgb(hex) {
-        if (!hex) return [1, 1, 1];
-        hex = String(hex).replace('#', '');
-        var r = parseInt(hex.substring(0, 2), 16) / 255;
-        var g = parseInt(hex.substring(2, 4), 16) / 255;
-        var b = parseInt(hex.substring(4, 6), 16) / 255;
-        if (isNaN(r) || isNaN(g) || isNaN(b)) return [1, 1, 1];
-        return [r, g, b];
+        return (TEXTORO.Utils && TEXTORO.Utils.hexToRgb) ? TEXTORO.Utils.hexToRgb(hex) : [1, 1, 1];
     }
     
     // Public API

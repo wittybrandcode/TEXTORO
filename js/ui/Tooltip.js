@@ -1,21 +1,20 @@
 /**
  * TEXTORO - Smart Tooltip System
- * Single DOM element, 400ms delay, smart positioning
- * @version 1.0.0
+ * Single DOM element, 400ms delay, smart positioning, ES5 & XSS safe
+ * @version 1.0.1
  */
-const Tooltip = (function() {
+var Tooltip = (function() {
     'use strict';
     
-    let el = null;
-    let showTimer = null;
-    let currentTarget = null;
-    const DELAY = 400; // ms before showing
+    var el = null;
+    var showTimer = null;
+    var currentTarget = null;
+    var DELAY = 400; // ms before showing
     
     /**
      * Initialize tooltip system
      */
     function init() {
-        // Create or get tooltip element
         el = document.getElementById('tooltip');
         if (!el) {
             el = document.createElement('div');
@@ -31,20 +30,31 @@ const Tooltip = (function() {
         document.addEventListener('scroll', hide, true);
         document.addEventListener('click', hide);
         
-        console.log('[Tooltip] Initialized');
+        if (typeof TEXTORO !== 'undefined' && TEXTORO.log) {
+            TEXTORO.log('[Tooltip] Initialized');
+        }
     }
     
     /**
      * Handle mouse over - start delay timer
      */
     function handleMouseOver(e) {
-        const target = e.target.closest('[data-tip]');
+        var target = e.target.closest('[data-tip], [title]');
         if (!target || target === currentTarget) return;
+        
+        // Migrate native title to data-tip so the OS tooltip doesn't clash
+        if (target.hasAttribute('title')) {
+            var nativeTitle = target.getAttribute('title');
+            if (nativeTitle) {
+                target.setAttribute('data-tip', nativeTitle);
+            }
+            target.removeAttribute('title');
+        }
         
         currentTarget = target;
         clearTimeout(showTimer);
         
-        showTimer = setTimeout(() => {
+        showTimer = setTimeout(function() {
             show(target);
         }, DELAY);
     }
@@ -53,7 +63,7 @@ const Tooltip = (function() {
      * Handle mouse out - cancel timer and hide
      */
     function handleMouseOut(e) {
-        const target = e.target.closest('[data-tip]');
+        var target = e.target.closest('[data-tip]');
         if (!target) return;
         
         clearTimeout(showTimer);
@@ -67,13 +77,23 @@ const Tooltip = (function() {
      * Show tooltip for target element
      */
     function show(target) {
-        const text = target.getAttribute('data-tip');
-        const key = target.getAttribute('data-key');
+        var text = target.getAttribute('data-tip');
+        var key = target.getAttribute('data-key');
         
         if (!text) return;
         
-        // Build content
-        el.innerHTML = text + (key ? `<span class="tt-key">${key}</span>` : '');
+        // Build content securely without innerHTML
+        while (el.firstChild) {
+            el.removeChild(el.firstChild);
+        }
+        el.appendChild(document.createTextNode(text));
+        
+        if (key) {
+            var keySpan = document.createElement('span');
+            keySpan.className = 'tt-key';
+            keySpan.textContent = key;
+            el.appendChild(keySpan);
+        }
         
         // Make visible to measure
         el.style.visibility = 'hidden';
@@ -81,12 +101,12 @@ const Tooltip = (function() {
         el.classList.remove('show', 'pos-top', 'pos-bottom');
         
         // Get dimensions
-        const rect = target.getBoundingClientRect();
-        const ttRect = el.getBoundingClientRect();
+        var rect = target.getBoundingClientRect();
+        var ttRect = el.getBoundingClientRect();
         
         // Calculate position
-        let top = rect.top - ttRect.height - 8;
-        let left = rect.left + (rect.width / 2) - (ttRect.width / 2);
+        var top = rect.top - ttRect.height - 8;
+        var left = rect.left + (rect.width / 2) - (ttRect.width / 2);
         
         // Flip if too high
         if (top < 8) {
@@ -105,9 +125,13 @@ const Tooltip = (function() {
         el.style.visibility = 'visible';
         
         // Show with animation
-        requestAnimationFrame(() => {
+        if (typeof requestAnimationFrame === 'function') {
+            requestAnimationFrame(function() {
+                el.classList.add('show');
+            });
+        } else {
             el.classList.add('show');
-        });
+        }
     }
     
     /**
@@ -129,8 +153,19 @@ const Tooltip = (function() {
         show(element);
     }
     
-    return { init, show, hide, showFor };
+    return {
+        init: init,
+        show: show,
+        hide: hide,
+        showFor: showFor
+    };
 })();
+
+// Attach to TEXTORO namespace if available
+if (typeof TEXTORO !== 'undefined') {
+    TEXTORO.UI = TEXTORO.UI || {};
+    TEXTORO.UI.Tooltip = Tooltip;
+}
 
 // Auto-init when DOM ready
 if (document.readyState === 'loading') {

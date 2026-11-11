@@ -6,6 +6,19 @@ All notable changes to TEXTORO are documented in this file.
 
 ## [Unreleased]
 
+### 🧹 Cleanup, Parity & Quality Hardening — 2026-11-11
+- **Repo & Extension Parity**: Full cleanup of CEP installed extension matching git repository (removed dead code `SpectrumStepper.js`, removed duplicate `TITOUF copy.json`, cleaned 59 obsolete draft documents).
+- **P2-5 Presets Category Parity**: Included `motion-full` category in `getAllPresets()` and added strict allowlist validation to `getPresetList()`.
+- **P2-1 Logic Duplication**:
+  - Unified `getTimeNum` across `TypewriterPanel` and `MultiLinesPanel` onto `TEXTORO.Time.getInputSeconds` with full support for `s:f`, `sf`, and numeric formats.
+  - Unified color converters `hexToRgb` and `rgbToHex` in `TEXTORO.Utils` with strict ES5/ES3 compatibility (removing ES2017 `padStart`), delegating from `SogaPanel`.
+  - Unified box path expression generation in `BoxManager.jsx` using `buildBoxPathExpr()`.
+- **P2-2 Scope & Aliases**: Configured live property descriptors for `window.DEBUG` and `window.TIMING` to reflect `TEXTORO.Config` changes dynamically; scoped compatibility aliases in `SelectionMonitor.js`.
+- **P2-3 Unified State & Storage**: Migrated `textoro_favorites` into `TEXTORO_UI_STATE` inside `StateManager`; updated Settings panel to clear both host expression cache and UI localStorage state simultaneously.
+- **P2-4 Error Resilience**: Added failure threshold and backoff in `SelectionMonitor.js` to prevent silent high-frequency failure logs while keeping the UI responsive.
+- **Tooltip Modernization**: Enhanced `Tooltip.js` to automatically support all 283 `title` attributes with styled Spectrum tooltips, converted rendering to `textContent` for full XSS safety, and ensured ES5 runtime compatibility.
+- **Smoke Gate #10**: Added `tools/smoke/check-encoding-order.js` to ensure `file.encoding = "UTF-8"` strictly precedes `file.open()` calls in all host scripts.
+
 ### 🔒 Security — Presets Hardening — 2026-08-26
 - Hardened preset import, export, save, and delete against path traversal via category/filename allowlist and validated helpers.
 - Preset display in Motion/Presets panels now uses DOM text APIs and validated icon classes.

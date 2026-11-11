@@ -27,6 +27,7 @@ TEXTORO.State.Manager = (function() {
         },
         presetsFilter: 'all',
         presetsSort: 'name-asc',
+        favorites: [],
         markersFilters: {
             IN_START: true,
             IN_END: true,
@@ -155,6 +156,7 @@ TEXTORO.State.Manager = (function() {
         set: set,
         get: get,
         reset: reset,
+        clearAll: clearAll,
         // Aliases
         setState: set,
         getValue: get,

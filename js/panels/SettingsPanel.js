@@ -29,9 +29,12 @@ TEXTORO.Panels.Settings = (function() {
         var btnClearCache = document.getElementById('btnClearCache');
         if (btnClearCache) {
             btnClearCache.addEventListener('click', function() {
+                if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.clearAll === 'function') {
+                    TEXTORO.State.Manager.clearAll();
+                }
                 TEXTORO.HostBridge.run('clearExpressionCache', null, function(res) {
                     if (res && res.success) {
-                        TEXTORO.UI.StatusBar.success('Cache cleared!');
+                        TEXTORO.UI.StatusBar.success('Cache & UI state cleared!');
                     } else {
                         TEXTORO.UI.StatusBar.error('Failed to clear cache: ' + formatHostError(res));
                     }

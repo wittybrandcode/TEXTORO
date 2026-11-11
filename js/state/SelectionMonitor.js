@@ -14,6 +14,7 @@ TEXTORO.State.SelectionMonitor = (function() {
     var lastSelection = null;
     var lastSelectedLayer = null;
     var callbacks = [];
+    var consecutiveErrors = 0;
     
     /**
      * فحص التحديد الحالي

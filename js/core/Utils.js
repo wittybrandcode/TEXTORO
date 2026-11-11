@@ -12,10 +12,11 @@ TEXTORO.Utils = {
      */
     hexToRgb: function(hex) {
         if (!hex) return [1, 1, 1];
-        hex = hex.replace('#', '');
+        hex = String(hex).replace('#', '');
         var r = parseInt(hex.substring(0, 2), 16) / 255;
         var g = parseInt(hex.substring(2, 4), 16) / 255;
         var b = parseInt(hex.substring(4, 6), 16) / 255;
+        if (isNaN(r) || isNaN(g) || isNaN(b)) return [1, 1, 1];
         return [r, g, b];
     },
     
@@ -25,11 +26,11 @@ TEXTORO.Utils = {
      * @returns {string} hex color
      */
     rgbToHex: function(rgb) {
-        if (!rgb || rgb.length < 3) return '#FFFFFF';
-        var r = Math.round(rgb[0] * 255).toString(16).padStart(2, '0');
-        var g = Math.round(rgb[1] * 255).toString(16).padStart(2, '0');
-        var b = Math.round(rgb[2] * 255).toString(16).padStart(2, '0');
-        return '#' + r.toUpperCase() + g.toUpperCase() + b.toUpperCase();
+        if (!rgb || !rgb.length) return '#FFFFFF';
+        var r = Math.round((rgb[0] || 0) * 255);
+        var g = Math.round((rgb[1] || 0) * 255);
+        var b = Math.round((rgb[2] || 0) * 255);
+        return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
     },
     
     /**

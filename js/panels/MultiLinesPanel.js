@@ -14,31 +14,7 @@ TEXTORO.Panels.MultiLines = (function() {
      * يدعم صيغة s:f (ثواني:فريمات) أو رقم عادي
      */
     function getTimeNum(inputId, defaultVal) {
-        var input = document.getElementById(inputId);
-        if (!input) return defaultVal;
-        
-        var value = input.value;
-        
-        // إذا كانت القيمة تحتوي على : استخدم TEXTORO.Time.toSeconds
-        if (String(value).indexOf(':') !== -1) {
-            return TEXTORO.Time.toSeconds(value);
-        }
-        
-        // وإلا استخدم sfToSeconds للتوافق مع الصيغة القديمة (ثواني.فريمات)
-        var sfValue = parseFloat(value);
-        if (isNaN(sfValue)) sfValue = defaultVal;
-        
-        var fps = TEXTORO.Time.getFPS() || 25;
-        var seconds = Math.floor(sfValue);
-        var frames = Math.round((sfValue - seconds) * 100);
-        
-        // تصحيح الفريمات الزائدة
-        while (frames >= fps) {
-            seconds++;
-            frames -= fps;
-        }
-        
-        return seconds + (frames / fps);
+        return TEXTORO.Time.getInputSeconds(inputId, defaultVal);
     }
     
     /**
