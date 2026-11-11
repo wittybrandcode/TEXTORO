@@ -17,6 +17,10 @@
 
 $.writeln("[TEXTORO] Loading SogaManager module...");
 
+var CONFIG = (typeof $.global !== "undefined" && $.global.CONFIG) ? $.global.CONFIG : (typeof CONFIG !== "undefined" ? CONFIG : { DEBUG: false, TEXT: { RTL: "", LTR: "" } });
+var BOX_CONFIG = (typeof $.global !== "undefined" && $.global.BOX_CONFIG) ? $.global.BOX_CONFIG : (typeof BOX_CONFIG !== "undefined" ? BOX_CONFIG : {});
+
+
 // Module load flag
 var SOGAMANAGER_MODULE_LOADED = true;
 
@@ -531,7 +535,7 @@ function setLayerEffectValuesMulti(optsJSON) {
             
             // تحديث قيم Motion إذا كان موجوداً
             var hasMT = typeof hasMotion === "function" ? hasMotion(layer) : false;
-            if (CONFIG.DEBUG) $.writeln("[TEXTORO Soga] hasMotion: " + hasMT + ", opts.motion: " + (opts.motion ? "yes" : "no"));
+            if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO Soga] hasMotion: " + hasMT + ", opts.motion: " + (opts.motion ? "yes" : "no"));
             if (hasMT && opts.motion) {
                 $.writeln("[TEXTORO Soga] Motion OUT values: posLinkMode=" + opts.motion.posLinkMode);
                 _writeMotionValues(fx, opts.motion);
@@ -617,7 +621,7 @@ function _setColorValue(fx, name, value) {
             } else if (typeof value === "string") {
                 rgbValue = hexToRgb(value);
             } else {
-                if (CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Unknown value type for " + name);
+                if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Unknown value type for " + name);
                 return;
             }
             
@@ -627,10 +631,10 @@ function _setColorValue(fx, name, value) {
             }
             
             addColor(fx, name, rgbValue);
-            if (CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Created missing control: " + name + " = [" + rgbValue.join(", ") + "]");
+            if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Created missing control: " + name + " = [" + rgbValue.join(", ") + "]");
             return;
         } catch(e) {
-            if (CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Control not found and cannot create: " + name + " - " + e.toString());
+            if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Control not found and cannot create: " + name + " - " + e.toString());
             return;
         }
     }
@@ -646,7 +650,7 @@ function _setColorValue(fx, name, value) {
             // القيمة hex string مثل "#ffffff"
             rgbValue = hexToRgb(value);
         } else {
-            if (CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Unknown value type for " + name);
+            if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Unknown value type for " + name);
             return;
         }
         
@@ -657,9 +661,9 @@ function _setColorValue(fx, name, value) {
         }
         
         ctrl.property(1).setValue(rgbValue);
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Set " + name + " = [" + rgbValue.join(", ") + "]");
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue: Set " + name + " = [" + rgbValue.join(", ") + "]");
     } catch(e) {
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue ERROR: " + name + " - " + e.toString());
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] _setColorValue ERROR: " + name + " - " + e.toString());
     }
 }
 
@@ -671,17 +675,17 @@ function _ensureMotionControl(fx, name, value, defaultVal, type) {
         try {
             if (type === "checkbox") addCheckbox(fx, name, finalValue);
             else addSlider(fx, name, finalValue);
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] _ensureMotionControl: Created " + name + " = " + finalValue);
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] _ensureMotionControl: Created " + name + " = " + finalValue);
         } catch(e) {
-            if (CONFIG.DEBUG) $.writeln("[TEXTORO] _ensureMotionControl ERROR creating " + name + ": " + e.toString());
+            if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] _ensureMotionControl ERROR creating " + name + ": " + e.toString());
         }
     } else {
         try {
             if (type === "checkbox") ctrl.property(1).setValue(finalValue ? 1 : 0);
             else ctrl.property(1).setValue(finalValue);
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] _ensureMotionControl: Updated " + name + " = " + finalValue);
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] _ensureMotionControl: Updated " + name + " = " + finalValue);
         } catch(e) {
-            if (CONFIG.DEBUG) $.writeln("[TEXTORO] _ensureMotionControl ERROR updating " + name + ": " + e.toString());
+            if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] _ensureMotionControl ERROR updating " + name + ": " + e.toString());
         }
     }
 }

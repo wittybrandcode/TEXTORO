@@ -22,6 +22,10 @@ var MOTIONMANAGER_MODULE_LOADED = true;
 
 $.writeln("[TEXTORO] Loading MotionManager module...");
 
+var CONFIG = (typeof $.global !== "undefined" && $.global.CONFIG) ? $.global.CONFIG : (typeof CONFIG !== "undefined" ? CONFIG : { DEBUG: false, TEXT: { RTL: "", LTR: "" } });
+var BOX_CONFIG = (typeof $.global !== "undefined" && $.global.BOX_CONFIG) ? $.global.BOX_CONFIG : (typeof BOX_CONFIG !== "undefined" ? BOX_CONFIG : {});
+
+
 // ═══════════════════════════════════════════════════════════════════
 // CONSTANTS
 // ═══════════════════════════════════════════════════════════════════
@@ -295,9 +299,9 @@ function _applyMotion(layer, opts) {
     // ═══════════════════════════════════════════════════════════════
     var useControllerManager = false;
     if (typeof createControllersFromRegistry === "function") {
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager for motion...");
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager for motion...");
         useControllerManager = createControllersFromRegistry(layer, "motion", controllerValues);
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] ControllerManager result: " + useControllerManager);
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] ControllerManager result: " + useControllerManager);
     }
     
     // Fallback إذا فشل ControllerManager
@@ -409,7 +413,7 @@ function _removeMotion(layer) {
     // ═══════════════════════════════════════════════════════════════
     var removed = false;
     if (typeof removeControllersFromRegistry === "function") {
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager to remove motion controllers...");
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager to remove motion controllers...");
         removed = removeControllersFromRegistry(layer, "motion");
     }
     

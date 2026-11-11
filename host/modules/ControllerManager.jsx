@@ -17,6 +17,10 @@ var CONTROLLERMANAGER_MODULE_LOADED = true;
 
 $.writeln("[TEXTORO] Loading ControllerManager module...");
 
+var CONFIG = (typeof $.global !== "undefined" && $.global.CONFIG) ? $.global.CONFIG : (typeof CONFIG !== "undefined" ? CONFIG : { DEBUG: false, TEXT: { RTL: "", LTR: "" } });
+var BOX_CONFIG = (typeof $.global !== "undefined" && $.global.BOX_CONFIG) ? $.global.BOX_CONFIG : (typeof BOX_CONFIG !== "undefined" ? BOX_CONFIG : {});
+
+
 // ═══════════════════════════════════════════════════════════════════
 // CACHE & STATE
 // ═══════════════════════════════════════════════════════════════════

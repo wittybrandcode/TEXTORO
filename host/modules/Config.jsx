@@ -265,6 +265,7 @@ function checkAECompatibility() {
 // ═══════════════════════════════════════════════════════════════════
 
 var CONFIG = {
+    DEBUG: false,
     SCRIPT_NAME: "TEXTORO",
     VERSION: "1.0.0",
     
@@ -367,6 +368,14 @@ if (!_aeCompatCheck.compatible) {
     $.writeln("[TEXTORO] WARNING: " + _aeCompatCheck.message);
 } else {
     $.writeln("[TEXTORO] AE Version: " + _aeCompatCheck.versionStr);
+}
+
+
+// Expose core configs to $.global for ExtendScript cross-module & bridge safety
+if (typeof $ !== "undefined" && $.global) {
+    $.global.CONFIG = CONFIG;
+    $.global.BOX_CONFIG = BOX_CONFIG;
+    $.global.CONFIG_MODULE_LOADED = CONFIG_MODULE_LOADED;
 }
 
 $.writeln("[TEXTORO] Config module loaded!");

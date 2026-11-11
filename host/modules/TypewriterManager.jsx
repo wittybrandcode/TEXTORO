@@ -19,6 +19,10 @@ var TYPEWRITERMANAGER_MODULE_LOADED = true;
 
 $.writeln("[TEXTORO] Loading TypewriterManager module...");
 
+var CONFIG = (typeof $.global !== "undefined" && $.global.CONFIG) ? $.global.CONFIG : (typeof CONFIG !== "undefined" ? CONFIG : { DEBUG: false, TEXT: { RTL: "", LTR: "" } });
+var BOX_CONFIG = (typeof $.global !== "undefined" && $.global.BOX_CONFIG) ? $.global.BOX_CONFIG : (typeof BOX_CONFIG !== "undefined" ? BOX_CONFIG : {});
+
+
 // ═══════════════════════════════════════════════════════════════════
 // TYPEWRITER PUBLIC API - الواجهة العامة
 // ═══════════════════════════════════════════════════════════════════
@@ -269,7 +273,7 @@ function _applyTypewriter(textLayer, opts) {
     // ─────────────────────────────────────────────────────────────
     // Effect Controls - استخدام ControllerManager مع Fallback ذكي
     // ─────────────────────────────────────────────────────────────
-    if (CONFIG.DEBUG) $.writeln("[TEXTORO] Creating typewriter controllers...");
+    if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Creating typewriter controllers...");
     
     // تحضير القيم للـ Controllers
     var controllerValues = {
@@ -294,9 +298,9 @@ function _applyTypewriter(textLayer, opts) {
     // محاولة استخدام ControllerManager
     var useControllerManager = false;
     if (typeof createControllersFromRegistry === "function") {
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager for typewriter...");
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager for typewriter...");
         useControllerManager = createControllersFromRegistry(textLayer, "typewriter", controllerValues);
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] ControllerManager result: " + useControllerManager);
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] ControllerManager result: " + useControllerManager);
     }
     
     // Fallback إذا فشل ControllerManager
@@ -320,7 +324,7 @@ function _applyTypewriter(textLayer, opts) {
         addSlider(fx, "Easing Strength", opts.easingStrength || 100);
     }
     
-    if (CONFIG.DEBUG) $.writeln("[TEXTORO] Typewriter controllers created successfully");
+    if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Typewriter controllers created successfully");
     
     // ─────────────────────────────────────────────────────────────
     // Markers
@@ -379,7 +383,7 @@ function _removeTypewriter(textLayer) {
     // ═══════════════════════════════════════════════════════════════
     var removed = false;
     if (typeof removeControllersFromRegistry === "function") {
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager to remove typewriter controllers...");
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager to remove typewriter controllers...");
         removed = removeControllersFromRegistry(textLayer, "typewriter");
     }
     

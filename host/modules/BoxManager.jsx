@@ -19,6 +19,10 @@ var BOXMANAGER_MODULE_LOADED = true;
 
 $.writeln("[TEXTORO] Loading BoxManager module...");
 
+var CONFIG = (typeof $.global !== "undefined" && $.global.CONFIG) ? $.global.CONFIG : (typeof CONFIG !== "undefined" ? CONFIG : { DEBUG: false, TEXT: { RTL: "", LTR: "" } });
+var BOX_CONFIG = (typeof $.global !== "undefined" && $.global.BOX_CONFIG) ? $.global.BOX_CONFIG : (typeof BOX_CONFIG !== "undefined" ? BOX_CONFIG : {});
+
+
 // ═══════════════════════════════════════════════════════════════════
 // LAYER ID SYSTEM - الدوال موجودة في Utilities.jsx
 // generateBaseId, parseLayerName, buildLayerName, getBaseId,
@@ -118,15 +122,15 @@ function removeBox() {
 function hasBox(layer, comp) {
     if (!layer || !comp) return false;
 
-    if (CONFIG.DEBUG) $.writeln("[TEXTORO] hasBox called - layer: " + layer.name);
+    if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] hasBox called - layer: " + layer.name);
 
     // Method 1: التحقق من اسم الطبقة (الطريقة الجديدة)
     var status = getLayerStatus(layer);
-    if (CONFIG.DEBUG) $.writeln("[TEXTORO] hasBox - status.hasBox: " + status.hasBox);
+    if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] hasBox - status.hasBox: " + status.hasBox);
     if (status.hasBox) {
         var baseId = getBaseId(layer);
         var boxLayer = findBoxLayerById(comp, baseId);
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] hasBox - baseId: " + baseId + ", boxLayer found: " + (boxLayer ? "yes" : "no"));
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] hasBox - baseId: " + baseId + ", boxLayer found: " + (boxLayer ? "yes" : "no"));
         if (baseId && boxLayer) return true;
     }
     
@@ -148,7 +152,7 @@ function hasBox(layer, comp) {
                 }
             }
             // F-09: تحكمات بلا طبقة = صندوق شبح (حُذف الشيب لاير يدوياً)
-            if (CONFIG.DEBUG) $.writeln("[TEXTORO] hasBox - ghost box detected (controls without shape layer)");
+            if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] hasBox - ghost box detected (controls without shape layer)");
             return false;
         }
     }
@@ -160,13 +164,13 @@ function hasBox(layer, comp) {
         for (var j = 1; j <= comp.numLayers; j++) {
             var ol = comp.layer(j);
             if (ol.name === oldBoxName && ol.parent === layer) {
-                if (CONFIG.DEBUG) $.writeln("[TEXTORO] hasBox - Found old-style box: " + ol.name);
+                if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] hasBox - Found old-style box: " + ol.name);
                 return true;
             }
         }
     }
     
-    if (CONFIG.DEBUG) $.writeln("[TEXTORO] hasBox - No box found");
+    if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] hasBox - No box found");
     return false;
 }
 
@@ -184,7 +188,7 @@ function _createBox(textLayer, comp, opts) {
     // ربط الـ Box بطبقة النص - مهم جداً للـ Expressions
     try {
         shapeLayer.parent = textLayer;
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] Box parented to: " + textLayer.name);
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Box parented to: " + textLayer.name);
     } catch(e) {
         $.writeln("[TEXTORO] ERROR: Could not parent box: " + e.toString());
     }
@@ -195,7 +199,7 @@ function _createBox(textLayer, comp, opts) {
     // ─────────────────────────────────────────────────────────────
     // Effect Controls - استخدام ControllerManager مع Fallback ذكي
     // ─────────────────────────────────────────────────────────────
-    if (CONFIG.DEBUG) $.writeln("[TEXTORO] Creating box controllers...");
+    if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Creating box controllers...");
     
     // تحضير القيم للـ Controllers - C-05: الافتراضيات من BOX_CONFIG.DEFAULTS
     var controllerValues = {
@@ -240,9 +244,9 @@ function _createBox(textLayer, comp, opts) {
     // محاولة استخدام ControllerManager
     var useControllerManager = false;
     if (typeof createControllersFromRegistry === "function") {
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager for box...");
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager for box...");
         useControllerManager = createControllersFromRegistry(textLayer, "box", controllerValues);
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] ControllerManager result: " + useControllerManager);
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] ControllerManager result: " + useControllerManager);
     }
     
     // Fallback إذا فشل ControllerManager
@@ -483,7 +487,7 @@ function _removeBox(textLayer, comp) {
     // ═══════════════════════════════════════════════════════════════
     var removed = false;
     if (typeof removeControllersFromRegistry === "function") {
-        if (CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager to remove box controllers...");
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Attempting ControllerManager to remove box controllers...");
         removed = removeControllersFromRegistry(textLayer, "box");
     }
     
