@@ -148,6 +148,19 @@ TEXTORO.State.Manager = (function() {
         save();
     }
     
+    /**
+     * مسح كل البيانات المخزنة محلياً
+     */
+    function clearAll() {
+        try {
+            localStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem('textoro_favorites');
+            currentState = JSON.parse(JSON.stringify(defaultState));
+        } catch (e) {
+            TEXTORO.error('Failed to clear UI storage: ' + e.message);
+        }
+    }
+    
     // Public API
     return {
         load: load,

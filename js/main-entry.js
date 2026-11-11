@@ -109,39 +109,53 @@
      */
     function initUIComponents() {
         // StatusBar
-        if (TEXTORO.UI && TEXTORO.UI.StatusBar) {
-            TEXTORO.UI.StatusBar.init();
-        }
+        try {
+            if (TEXTORO.UI && TEXTORO.UI.StatusBar) {
+                TEXTORO.UI.StatusBar.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init StatusBar: ' + e.message); }
         
         // TabManager
-        if (TEXTORO.UI && TEXTORO.UI.TabManager) {
-            TEXTORO.UI.TabManager.init();
-        }
+        try {
+            if (TEXTORO.UI && TEXTORO.UI.TabManager) {
+                TEXTORO.UI.TabManager.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init TabManager: ' + e.message); }
         
         // ActionBar
-        if (TEXTORO.UI && TEXTORO.UI.ActionBar) {
-            TEXTORO.UI.ActionBar.init();
-        }
+        try {
+            if (TEXTORO.UI && TEXTORO.UI.ActionBar) {
+                TEXTORO.UI.ActionBar.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init ActionBar: ' + e.message); }
         
         // CollapsibleSections
-        if (TEXTORO.UI && TEXTORO.UI.CollapsibleSection) {
-            TEXTORO.UI.CollapsibleSection.initAll();
-        }
+        try {
+            if (TEXTORO.UI && TEXTORO.UI.CollapsibleSection) {
+                TEXTORO.UI.CollapsibleSection.initAll();
+            }
+        } catch(e) { TEXTORO.error('Failed to init CollapsibleSection: ' + e.message); }
         
         // Modals
-        if (TEXTORO.UI && TEXTORO.UI.Modals) {
-            TEXTORO.UI.Modals.init();
-        }
+        try {
+            if (TEXTORO.UI && TEXTORO.UI.Modals) {
+                TEXTORO.UI.Modals.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init Modals: ' + e.message); }
         
         // NumberSpinners
-        if (TEXTORO.UI && TEXTORO.UI.NumberSpinners) {
-            TEXTORO.UI.NumberSpinners.init();
-        }
+        try {
+            if (TEXTORO.UI && TEXTORO.UI.NumberSpinners) {
+                TEXTORO.UI.NumberSpinners.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init NumberSpinners: ' + e.message); }
         
         // ContextMenu
-        if (TEXTORO.UI && TEXTORO.UI.ContextMenu) {
-            TEXTORO.UI.ContextMenu.init();
-        }
+        try {
+            if (TEXTORO.UI && TEXTORO.UI.ContextMenu) {
+                TEXTORO.UI.ContextMenu.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init ContextMenu: ' + e.message); }
     }
     
     /**
@@ -149,44 +163,60 @@
      */
     function initPanels() {
         // Typewriter Panel
-        if (TEXTORO.Panels && TEXTORO.Panels.Typewriter) {
-            TEXTORO.Panels.Typewriter.init();
-        }
+        try {
+            if (TEXTORO.Panels && TEXTORO.Panels.Typewriter) {
+                TEXTORO.Panels.Typewriter.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init TypewriterPanel: ' + e.message); }
         
         // Box Panel
-        if (TEXTORO.Panels && TEXTORO.Panels.Box) {
-            TEXTORO.Panels.Box.init();
-        }
+        try {
+            if (TEXTORO.Panels && TEXTORO.Panels.Box) {
+                TEXTORO.Panels.Box.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init BoxPanel: ' + e.message); }
         
         // Soga Panel
-        if (TEXTORO.Panels && TEXTORO.Panels.Soga) {
-            TEXTORO.Panels.Soga.init();
-        }
+        try {
+            if (TEXTORO.Panels && TEXTORO.Panels.Soga) {
+                TEXTORO.Panels.Soga.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init SogaPanel: ' + e.message); }
         
         // Markers Panel
-        if (TEXTORO.Panels && TEXTORO.Panels.Markers) {
-            TEXTORO.Panels.Markers.init();
-        }
+        try {
+            if (TEXTORO.Panels && TEXTORO.Panels.Markers) {
+                TEXTORO.Panels.Markers.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init MarkersPanel: ' + e.message); }
         
         // Presets Panel
-        if (TEXTORO.Panels && TEXTORO.Panels.Presets) {
-            TEXTORO.Panels.Presets.init();
-        }
+        try {
+            if (TEXTORO.Panels && TEXTORO.Panels.Presets) {
+                TEXTORO.Panels.Presets.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init PresetsPanel: ' + e.message); }
         
         // Motion Panel
-        if (TEXTORO.Panels && TEXTORO.Panels.Motion) {
-            TEXTORO.Panels.Motion.init();
-        }
+        try {
+            if (TEXTORO.Panels && TEXTORO.Panels.Motion) {
+                TEXTORO.Panels.Motion.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init MotionPanel: ' + e.message); }
         
         // Settings Panel
-        if (TEXTORO.Panels && TEXTORO.Panels.Settings) {
-            TEXTORO.Panels.Settings.init();
-        }
+        try {
+            if (TEXTORO.Panels && TEXTORO.Panels.Settings) {
+                TEXTORO.Panels.Settings.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init SettingsPanel: ' + e.message); }
         
         // MultiLines Panel
-        if (TEXTORO.Panels && TEXTORO.Panels.MultiLines) {
-            TEXTORO.Panels.MultiLines.init();
-        }
+        try {
+            if (TEXTORO.Panels && TEXTORO.Panels.MultiLines) {
+                TEXTORO.Panels.MultiLines.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init MultiLinesPanel: ' + e.message); }
     }
     
     /**

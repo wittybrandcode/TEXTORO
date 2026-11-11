@@ -31,7 +31,9 @@ TEXTORO.UI.CollapsibleSection = (function() {
         sections[config.id] = section;
         
         // تحميل الحالة المحفوظة
-        var savedState = TEXTORO.State.Manager.get('collapsedSections.' + config.id);
+        var savedState = (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.get === 'function')
+            ? TEXTORO.State.Manager.get('collapsedSections.' + config.id)
+            : undefined;
         var isCollapsed = savedState !== undefined ? savedState : section.defaultCollapsed;
         
         // تطبيق الحالة الأولية
@@ -93,7 +95,9 @@ TEXTORO.UI.CollapsibleSection = (function() {
         }
         
         // حفظ الحالة
-        TEXTORO.State.Manager.set('collapsedSections.' + id, false);
+        if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') {
+            TEXTORO.State.Manager.set('collapsedSections.' + id, false);
+        }
         
         if (animate !== false) {
             section.content.style.maxHeight = section.content.scrollHeight + 'px';
@@ -128,7 +132,9 @@ TEXTORO.UI.CollapsibleSection = (function() {
         }
         
         // حفظ الحالة
-        TEXTORO.State.Manager.set('collapsedSections.' + id, true);
+        if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') {
+            TEXTORO.State.Manager.set('collapsedSections.' + id, true);
+        }
         
         if (animate !== false) {
             section.content.style.maxHeight = '0';

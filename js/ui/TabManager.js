@@ -35,7 +35,9 @@ TEXTORO.UI.TabManager = (function() {
         activeTab = tabName;
         
         // حفظ الحالة
-        TEXTORO.State.Manager.set('activeTab', tabName);
+        if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') {
+            TEXTORO.State.Manager.set('activeTab', tabName);
+        }
         
         // تحديث ActionBar
         if (TEXTORO.UI.ActionBar && TEXTORO.UI.ActionBar.update) {
@@ -112,7 +114,14 @@ TEXTORO.UI.TabManager = (function() {
         });
         
         // استعادة التبويب المحفوظ
-        var saved = TEXTORO.State.Manager.get('activeTab', 'type');
+        var saved = 'type';
+        if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.get === 'function') {
+            try {
+                saved = TEXTORO.State.Manager.get('activeTab', 'type') || 'type';
+            } catch(e) {
+                saved = 'type';
+            }
+        }
         switchTo(saved);
         
         TEXTORO.log('TabManager initialized');

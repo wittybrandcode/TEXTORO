@@ -37,8 +37,8 @@ TEXTORO.Panels.Presets = (function() {
         loadFavorites();
         
         // استعادة الإعدادات
-        currentFilter = TEXTORO.State.Manager.get('presetsFilter', 'all');
-        currentSort = TEXTORO.State.Manager.get('presetsSort', 'name-asc');
+        currentFilter = (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.get === 'function') ? TEXTORO.State.Manager.get('presetsFilter', 'all') : 'all';
+        currentSort = (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.get === 'function') ? TEXTORO.State.Manager.get('presetsSort', 'name-asc') : 'name-asc';
         
         if (elements.sortSelect) {
             elements.sortSelect.value = currentSort;
@@ -52,7 +52,7 @@ TEXTORO.Panels.Presets = (function() {
                 });
                 this.classList.add('active');
                 currentFilter = this.dataset.filter;
-                TEXTORO.State.Manager.set('presetsFilter', currentFilter);
+                if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') TEXTORO.State.Manager.set('presetsFilter', currentFilter);
                 
                 // إظهار/إخفاء خيارات Motion
                 updateMotionOptionsVisibility();
@@ -71,7 +71,7 @@ TEXTORO.Panels.Presets = (function() {
         if (elements.sortSelect) {
             elements.sortSelect.addEventListener('change', function() {
                 currentSort = this.value;
-                TEXTORO.State.Manager.set('presetsSort', currentSort);
+                if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') TEXTORO.State.Manager.set('presetsSort', currentSort);
                 render();
             });
         }

@@ -1,4 +1,4 @@
-﻿$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Stop'
 
 Write-Host '[SMOKE] Running UI syntax checks...'
 node "$PSScriptRoot/check-ui-syntax.js"

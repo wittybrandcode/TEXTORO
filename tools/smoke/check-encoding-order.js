@@ -68,3 +68,4 @@ if (errors.length > 0) {
 } else {
     console.log('[SMOKE][encoding-order] PASS - all File.encoding assignments properly precede open().');
 }
+
