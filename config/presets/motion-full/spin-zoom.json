@@ -31,7 +31,7 @@
     "animateRotation": true,
     "rotFrom": 180,
     "rotTo": 0,
-    "rotLinkMode": 0,
+    "rotLinkMode": 1,
     "rotOutFrom": 0,
     "rotOutTo": -180,
     "animateOpacity": true,

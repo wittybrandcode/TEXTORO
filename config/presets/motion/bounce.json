@@ -3,7 +3,7 @@
   "icon": "🏀",
   "faIcon": "fa-solid fa-basketball",
   "category": "motion",
-  "description": "تكبير مع ارتداد مرن",
+  "description": "تكبير مع ارتداد تصادمي واقعي",
   "builtin": true,
   "values": {
     "inStart": 0,
@@ -40,7 +40,7 @@
     "opacityLinkMode": 0,
     "opacityOutFrom": 100,
     "opacityOutTo": 0,
-    "easingType": 5,
+    "easingType": 4,
     "easingStrength": 100
   }
 }

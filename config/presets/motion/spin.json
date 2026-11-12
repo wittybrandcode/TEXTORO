@@ -3,7 +3,7 @@
   "icon": "🔄",
   "faIcon": "fa-solid fa-rotate",
   "category": "motion",
-  "description": "دوران مع تكبير",
+  "description": "دوران كامل متتابع مع تكبير",
   "builtin": true,
   "values": {
     "inStart": 0,
@@ -31,7 +31,7 @@
     "animateRotation": true,
     "rotFrom": 180,
     "rotTo": 0,
-    "rotLinkMode": 0,
+    "rotLinkMode": 1,
     "rotOutFrom": 0,
     "rotOutTo": -180,
     "animateOpacity": true,

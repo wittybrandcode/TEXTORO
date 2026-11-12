@@ -22,7 +22,6 @@ package-lock.json
 .env.local
 # Backup / duplicate files with spaces
 *OLD*
-*TITOUF*
 *copy.json
 # Build
 dist/

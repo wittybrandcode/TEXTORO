@@ -3,7 +3,7 @@
   "icon": "➡️",
   "faIcon": "fa-solid fa-arrow-right",
   "category": "motion",
-  "description": "حركة لليمين - النص يأتي من اليسار",
+  "description": "حركة لليمين - دخول من اليسار وخروج لليمين",
   "builtin": true,
   "values": {
     "inStart": 0,
@@ -17,7 +17,7 @@
     "posFromY": 0,
     "posToX": 0,
     "posToY": 0,
-    "posLinkMode": 0,
+    "posLinkMode": 1,
     "posOutFromX": 0,
     "posOutFromY": 0,
     "posOutToX": 100,

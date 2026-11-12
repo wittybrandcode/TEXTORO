@@ -853,57 +853,57 @@ function applyMotionPreset(optsJSON) {
                 motionOpts.outEnd = v.outEnd || 5.0;
             }
             
-            // للـ OUT mode، نستخدم قيم IN كـ OUT (عكسها)
+            // للـ OUT mode، نستخدم قيم IN كـ OUT (عكسها) أو قيم OUT المحددة في البريست
             if (mode === 'out') {
                 motionOpts.animatePosition = v.animatePosition || false;
                 motionOpts.animateScale = v.animateScale || false;
                 motionOpts.animateRotation = v.animateRotation || false;
                 motionOpts.animateOpacity = v.animateOpacity || false;
                 
-                // Position: OUT يبدأ من To وينتهي عند From
-                motionOpts.posLinkMode = 1; // Unlinked
-                motionOpts.posOutFromX = v.posToX || 0;
-                motionOpts.posOutFromY = v.posToY || 0;
-                motionOpts.posOutToX = v.posFromX || 0;
-                motionOpts.posOutToY = v.posFromY || 0;
+                // Position: OUT يبدأ من To وينتهي عند From (أو استخدام القيم المخصصة للـ OUT إن وجدت)
+                motionOpts.posLinkMode = v.posLinkMode !== undefined ? v.posLinkMode : 1;
+                motionOpts.posOutFromX = v.posOutFromX !== undefined ? v.posOutFromX : (v.posToX || 0);
+                motionOpts.posOutFromY = v.posOutFromY !== undefined ? v.posOutFromY : (v.posToY || 0);
+                motionOpts.posOutToX = v.posOutToX !== undefined ? v.posOutToX : (v.posFromX || 0);
+                motionOpts.posOutToY = v.posOutToY !== undefined ? v.posOutToY : (v.posFromY || 0);
                 
                 // Scale: OUT يبدأ من To وينتهي عند From
-                motionOpts.scaleLinkMode = 1;
-                motionOpts.scaleOutFrom = v.scaleTo || 100;
-                motionOpts.scaleOutTo = v.scaleFrom || 100;
+                motionOpts.scaleLinkMode = v.scaleLinkMode !== undefined ? v.scaleLinkMode : 1;
+                motionOpts.scaleOutFrom = v.scaleOutFrom !== undefined ? v.scaleOutFrom : (v.scaleTo || 100);
+                motionOpts.scaleOutTo = v.scaleOutTo !== undefined ? v.scaleOutTo : (v.scaleFrom || 100);
                 
                 // Rotation: OUT يبدأ من To وينتهي عند From
-                motionOpts.rotLinkMode = 1;
-                motionOpts.rotOutFrom = v.rotTo || 0;
-                motionOpts.rotOutTo = v.rotFrom || 0;
+                motionOpts.rotLinkMode = v.rotLinkMode !== undefined ? v.rotLinkMode : 1;
+                motionOpts.rotOutFrom = v.rotOutFrom !== undefined ? v.rotOutFrom : (v.rotTo || 0);
+                motionOpts.rotOutTo = v.rotOutTo !== undefined ? v.rotOutTo : (v.rotFrom || 0);
                 
                 // Opacity: OUT يبدأ من To وينتهي عند From
-                motionOpts.opacityLinkMode = 1;
-                motionOpts.opacityOutFrom = v.opacityTo !== undefined ? v.opacityTo : 100;
-                motionOpts.opacityOutTo = v.opacityFrom !== undefined ? v.opacityFrom : 0;
+                motionOpts.opacityLinkMode = v.opacityLinkMode !== undefined ? v.opacityLinkMode : 1;
+                motionOpts.opacityOutFrom = v.opacityOutFrom !== undefined ? v.opacityOutFrom : (v.opacityTo !== undefined ? v.opacityTo : 100);
+                motionOpts.opacityOutTo = v.opacityOutTo !== undefined ? v.opacityOutTo : (v.opacityFrom !== undefined ? v.opacityFrom : 0);
             } else {
                 // BOTH mode - استخدم قيم OUT من الملف إن وجدت
-                if (v.posOutFromX !== undefined || v.posOutToX !== undefined) {
-                    motionOpts.posLinkMode = 1;
-                    motionOpts.posOutFromX = v.posOutFromX !== undefined ? v.posOutFromX : v.posToX || 0;
-                    motionOpts.posOutFromY = v.posOutFromY !== undefined ? v.posOutFromY : v.posToY || 0;
-                    motionOpts.posOutToX = v.posOutToX !== undefined ? v.posOutToX : v.posFromX || 0;
-                    motionOpts.posOutToY = v.posOutToY !== undefined ? v.posOutToY : v.posFromY || 0;
+                if (v.posOutFromX !== undefined || v.posOutToX !== undefined || v.posOutFromY !== undefined || v.posOutToY !== undefined) {
+                    motionOpts.posLinkMode = v.posLinkMode !== undefined ? v.posLinkMode : 1;
+                    motionOpts.posOutFromX = v.posOutFromX !== undefined ? v.posOutFromX : (v.posToX || 0);
+                    motionOpts.posOutFromY = v.posOutFromY !== undefined ? v.posOutFromY : (v.posToY || 0);
+                    motionOpts.posOutToX = v.posOutToX !== undefined ? v.posOutToX : (v.posFromX || 0);
+                    motionOpts.posOutToY = v.posOutToY !== undefined ? v.posOutToY : (v.posFromY || 0);
                 }
                 if (v.scaleOutFrom !== undefined || v.scaleOutTo !== undefined) {
-                    motionOpts.scaleLinkMode = 1;
-                    motionOpts.scaleOutFrom = v.scaleOutFrom !== undefined ? v.scaleOutFrom : v.scaleTo || 100;
-                    motionOpts.scaleOutTo = v.scaleOutTo !== undefined ? v.scaleOutTo : v.scaleFrom || 100;
+                    motionOpts.scaleLinkMode = v.scaleLinkMode !== undefined ? v.scaleLinkMode : 1;
+                    motionOpts.scaleOutFrom = v.scaleOutFrom !== undefined ? v.scaleOutFrom : (v.scaleTo || 100);
+                    motionOpts.scaleOutTo = v.scaleOutTo !== undefined ? v.scaleOutTo : (v.scaleFrom || 100);
                 }
                 if (v.rotOutFrom !== undefined || v.rotOutTo !== undefined) {
-                    motionOpts.rotLinkMode = 1;
-                    motionOpts.rotOutFrom = v.rotOutFrom !== undefined ? v.rotOutFrom : v.rotTo || 0;
-                    motionOpts.rotOutTo = v.rotOutTo !== undefined ? v.rotOutTo : v.rotFrom || 0;
+                    motionOpts.rotLinkMode = v.rotLinkMode !== undefined ? v.rotLinkMode : 1;
+                    motionOpts.rotOutFrom = v.rotOutFrom !== undefined ? v.rotOutFrom : (v.rotTo || 0);
+                    motionOpts.rotOutTo = v.rotOutTo !== undefined ? v.rotOutTo : (v.rotFrom || 0);
                 }
                 if (v.opacityOutFrom !== undefined || v.opacityOutTo !== undefined) {
-                    motionOpts.opacityLinkMode = 1;
-                    motionOpts.opacityOutFrom = v.opacityOutFrom !== undefined ? v.opacityOutFrom : v.opacityTo || 100;
-                    motionOpts.opacityOutTo = v.opacityOutTo !== undefined ? v.opacityOutTo : v.opacityFrom || 0;
+                    motionOpts.opacityLinkMode = v.opacityLinkMode !== undefined ? v.opacityLinkMode : 1;
+                    motionOpts.opacityOutFrom = v.opacityOutFrom !== undefined ? v.opacityOutFrom : (v.opacityTo !== undefined ? v.opacityTo : 100);
+                    motionOpts.opacityOutTo = v.opacityOutTo !== undefined ? v.opacityOutTo : (v.opacityFrom !== undefined ? v.opacityFrom : 0);
                 }
             }
         } else {

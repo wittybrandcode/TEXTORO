@@ -270,6 +270,40 @@ TEXTORO.Panels.Motion = (function() {
     }
     
     /**
+     * ضبط حالة الربط لخاصية معينة (Pos, Scale, Rot, Opacity)
+     */
+    function setLinkState(property, unlinked) {
+        var linkConfigs = {
+            'Pos': ['motionPosOutRow1', 'motionPosOutRow2'],
+            'Scale': ['motionScaleOutRow'],
+            'Rot': ['motionRotOutRow'],
+            'Opacity': ['motionOpacityOutRow']
+        };
+        var btn = document.getElementById('motion' + property + 'Link');
+        if (!btn) return;
+        var rows = linkConfigs[property] || [];
+        if (unlinked) {
+            btn.classList.remove('linked');
+            btn.classList.add('unlinked');
+            btn.innerHTML = '<i class="fa-solid fa-link-slash"></i>';
+            btn.title = 'Click to link OUT with IN (reverse)';
+            rows.forEach(function(rowId) {
+                var row = document.getElementById(rowId);
+                if (row) row.style.display = '';
+            });
+        } else {
+            btn.classList.remove('unlinked');
+            btn.classList.add('linked');
+            btn.innerHTML = '<i class="fa-solid fa-link"></i>';
+            btn.title = 'Click to set independent OUT values';
+            rows.forEach(function(rowId) {
+                var row = document.getElementById(rowId);
+                if (row) row.style.display = 'none';
+            });
+        }
+    }
+    
+    /**
      * التحقق من حالة Unlink
      */
     function isPropertyUnlinked(property) {
@@ -370,13 +404,15 @@ TEXTORO.Panels.Motion = (function() {
             unlinkAllProperties();
             setChecked('motionOutEnable', true);
             
+            var outP = getPresetByIndex(outPreset);
+            var outV = (outP && outP.values) ? outP.values : {};
             var outStartEl = document.getElementById('motionOutStart');
             var outEndEl = document.getElementById('motionOutEnd');
             if (outStartEl && (outStartEl.value === '' || parseFloat(outStartEl.value) < 0)) {
-                outStartEl.value = '4';
+                outStartEl.value = (outV.outStart !== undefined) ? String(outV.outStart) : '4';
             }
             if (outEndEl && (outEndEl.value === '' || parseFloat(outEndEl.value) < 0)) {
-                outEndEl.value = '5';
+                outEndEl.value = (outV.outEnd !== undefined) ? String(outV.outEnd) : '5';
             }
         }
         
@@ -401,6 +437,10 @@ TEXTORO.Panels.Motion = (function() {
         var v = preset.values;
         
         if (target === 'in') {
+            // Timing
+            if (v.inStart !== undefined) setValue('motionInStart', v.inStart);
+            if (v.inEnd !== undefined) setValue('motionInEnd', v.inEnd);
+            
             // IN: تعيين القيم مباشرة من ملف JSON
             setChecked('motionPosEnable', v.animatePosition);
             setValue('motionPosFromX', v.posFromX);
@@ -423,6 +463,10 @@ TEXTORO.Panels.Motion = (function() {
             setValue('motionEasingType', v.easingType);
             setValue('motionEasingStrength', v.easingStrength);
         } else {
+            // Timing
+            if (v.outStart !== undefined) setValue('motionOutStart', v.outStart);
+            if (v.outEnd !== undefined) setValue('motionOutEnd', v.outEnd);
+            
             // OUT: استخدام قيم OUT من الملف أو عكس قيم IN
             setValue('motionPosOutFromX', v.posOutFromX !== undefined ? v.posOutFromX : v.posToX);
             setValue('motionPosOutFromY', v.posOutFromY !== undefined ? v.posOutFromY : v.posToY);
@@ -724,24 +768,36 @@ TEXTORO.Panels.Motion = (function() {
         setValue('motionPosOutFromY', v.posOutFromY);
         setValue('motionPosOutToX', v.posOutToX);
         setValue('motionPosOutToY', v.posOutToY);
+        if (v.posLinkMode !== undefined) {
+            setLinkState('Pos', v.posLinkMode === 1);
+        }
         
         setChecked('motionScaleEnable', v.animateScale);
         setValue('motionScaleFrom', v.scaleFrom);
         setValue('motionScaleTo', v.scaleTo);
         setValue('motionScaleOutFrom', v.scaleOutFrom);
         setValue('motionScaleOutTo', v.scaleOutTo);
+        if (v.scaleLinkMode !== undefined) {
+            setLinkState('Scale', v.scaleLinkMode === 1);
+        }
         
         setChecked('motionRotEnable', v.animateRotation);
         setValue('motionRotFrom', v.rotFrom);
         setValue('motionRotTo', v.rotTo);
         setValue('motionRotOutFrom', v.rotOutFrom);
         setValue('motionRotOutTo', v.rotOutTo);
+        if (v.rotLinkMode !== undefined) {
+            setLinkState('Rot', v.rotLinkMode === 1);
+        }
         
         setChecked('motionOpacityEnable', v.animateOpacity);
         setValue('motionOpacityFrom', v.opacityFrom);
         setValue('motionOpacityTo', v.opacityTo);
         setValue('motionOpacityOutFrom', v.opacityOutFrom);
         setValue('motionOpacityOutTo', v.opacityOutTo);
+        if (v.opacityLinkMode !== undefined) {
+            setLinkState('Opacity', v.opacityLinkMode === 1);
+        }
         
         setValue('motionEasingType', v.easingType);
         setValue('motionEasingStrength', v.easingStrength);
