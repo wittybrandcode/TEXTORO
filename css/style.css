@@ -3563,23 +3563,59 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     color: #ffffff !important;
 }
 
-/* 14. Dark Studio Tooltip (Replaces stark white popup) */
+/* 14. Studio Crisp White Tooltip (White Container, Black Text, Zero Radius) */
 #tooltip,
 .tt {
-    background: #161622 !important;
-    color: #e2e2ec !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    font-size: 10px !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    font-size: 11px !important;
     font-weight: 600 !important;
-    padding: 4px 8px !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.75) !important;
+    line-height: 1.35 !important;
+    padding: 5px 9px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
     border-radius: 0 !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    pointer-events: none !important;
 }
 
 .tt::before {
-    background: #161622 !important;
-    border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+    background: #ffffff !important;
+    border: none !important;
+    width: 8px !important;
+    height: 8px !important;
+}
+
+.tt.pos-top::before {
+    bottom: -4px !important;
+    left: 50% !important;
+    margin-left: -4px !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-left: none !important;
+    border-top: none !important;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+.tt.pos-bottom::before {
+    top: -4px !important;
+    left: 50% !important;
+    margin-left: -4px !important;
+    border-left: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.tt-key {
+    background: rgba(0, 0, 0, 0.08) !important;
+    color: #333333 !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    border-radius: 0 !important;
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
 }
 
 /* 15. Collapsible & Animation Guarantees */
