@@ -191,10 +191,10 @@
 
 <!-- BOX PANEL -->
 <section class="panel" id="panel-box">
-<!-- Padding Section - 4 in row -->
+<!-- Padding Section -->
 <div class="soga-box studio-card">
 <div class="card-header-studio">
-    <span class="card-title-studio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3H3v18h18V3z"></path></svg> Padding (px)</span>
+    <span class="card-title-studio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg> Padding (px)</span>
 </div>
 <div class="metrics-grid-4">
     <div class="precision-input-box" title="Padding Left (px)">
@@ -215,17 +215,17 @@
     </div>
 </div>
 </div>
-</div>
-</div>
 
 <!-- Corner Section -->
-<div class="soga-box">
-<div class="soga-title" title="Corner radius"><i class="fa-solid fa-border-top-left"></i></div>
+<div class="soga-box studio-card">
+<div class="card-header-studio">
+    <span class="card-title-studio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10a6 6 0 0 1 6-6h10"></path></svg> Corner Radius (px)</span>
+</div>
 <div class="row-flex">
-<label class="ck" title="Individual corners"><input type="checkbox" id="chk4Corners"><span class="cb"></span><span class="cl"><i class="fa-solid fa-border-all"></i></span></label>
+<label class="ck" title="Individual corners"><input type="checkbox" id="chk4Corners"><span class="cb"></span><span class="cl">Individual Corners</span></label>
 <div class="spacer"></div>
 <div id="singleCornerRow" class="field-row">
-<div class="nw"><input type="number" id="numCorner" class="ni" value="15" step="1" min="0" title="Corner radius"></div>
+<div class="precision-input-box" style="width:90px" title="Uniform corner radius"><span class="p-label">ALL</span><input type="number" id="numCorner" class="ni" value="15" step="1" min="0"></div>
 </div>
 </div>
 <div id="fourCornersRow" class="metrics-grid-4 mt-6" style="display:none">
@@ -247,100 +247,81 @@
     </div>
 </div>
 </div>
-</div>
 
 <!-- Stroke Section - Collapsible -->
 <div class="collapsible-header collapsed" id="box-stroke-header" title="Stroke settings">
-<i class="fa-solid fa-pen-nib"></i>
-<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
+<div class="collapsible-header-left"><svg class="header-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line></svg><span class="collapsible-title">Stroke & Border</span></div>
+<svg class="collapsible-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
 </div>
 <div class="collapsible-content collapsed" id="box-stroke-content">
 <div class="row-2">
 <div class="field-row">
-<i class="fa-solid fa-ruler field-icon" title="Width"></i>
-<div class="nw"><input type="number" id="numStrokeW" class="ni" value="2" step="1" min="0"></div>
+<div class="precision-input-box" title="Stroke width"><span class="p-label">WIDTH</span><input type="number" id="numStrokeW" class="ni" value="2" step="1" min="0"></div>
 </div>
 <div class="field-row">
-<i class="fa-solid fa-eye field-icon" title="Opacity"></i>
-<div class="nw"><input type="number" id="numStrokeOp" class="ni" value="100" step="5" min="0" max="100"></div>
-<span class="unit">%</span>
+<div class="precision-input-box" title="Stroke opacity"><span class="p-label">OPACITY</span><input type="number" id="numStrokeOp" class="ni" value="100" step="5" min="0" max="100"></div>
 <input type="color" id="colorStroke" class="ci" value="#ffffff" title="Stroke color">
 </div>
 </div>
 <div class="row-2 mt-6">
 <div class="field-row">
-<i class="fa-solid fa-grip-lines field-icon" title="Dash"></i>
-<div class="nw"><input type="number" id="numStrokeDash" class="ni" value="0" step="5" min="0"></div>
+<div class="precision-input-box" title="Dash"><span class="p-label">DASH</span><input type="number" id="numStrokeDash" class="ni" value="0" step="5" min="0"></div>
 </div>
 <div class="field-row">
-<i class="fa-solid fa-arrows-left-right field-icon" title="Gap"></i>
-<div class="nw"><input type="number" id="numStrokeGap" class="ni" value="0" step="5" min="0"></div>
+<div class="precision-input-box" title="Gap"><span class="p-label">GAP</span><input type="number" id="numStrokeGap" class="ni" value="0" step="5" min="0"></div>
 </div>
 </div>
 </div>
 
 <!-- Fill Section - Collapsible -->
 <div class="collapsible-header collapsed" id="box-fill-header" title="Fill settings">
-<i class="fa-solid fa-fill-drip"></i>
-<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
+<div class="collapsible-header-left"><svg class="header-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11l-8-8-8 8"></path><path d="M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"></path></svg><span class="collapsible-title">Fill & Color</span></div>
+<svg class="collapsible-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
 </div>
 <div class="collapsible-content collapsed" id="box-fill-content">
 <div class="row-2">
 <div class="field-row">
-<i class="fa-solid fa-eye field-icon" title="Opacity"></i>
-<div class="nw"><input type="number" id="numFillOp" class="ni" value="100" step="5" min="0" max="100"></div>
-<span class="unit">%</span>
-</div>
-<div class="field-row">
+<div class="precision-input-box" title="Fill opacity"><span class="p-label">OPACITY</span><input type="number" id="numFillOp" class="ni" value="100" step="5" min="0" max="100"></div>
 <input type="color" id="colorFill" class="ci" value="#3366e6" title="Fill color">
 </div>
 </div>
 </div>
 
-<!-- Trim Paths Section - Collapsible -->
+<!-- Trim Section - Collapsible -->
 <div class="collapsible-header collapsed" id="box-trim-header" title="Trim paths">
-<i class="fa-solid fa-scissors"></i>
-<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
+<div class="collapsible-header-left"><svg class="header-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg><span class="collapsible-title">Trim Paths</span></div>
+<svg class="collapsible-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
 </div>
 <div class="collapsible-content collapsed" id="box-trim-content">
 <div class="row-2">
 <div class="field-row">
-<i class="fa-solid fa-play field-icon" title="Start"></i>
-<div class="nw"><input type="number" id="numTrimStart" class="ni" value="0" step="1" min="0" max="100"></div>
-<span class="unit">%</span>
+<div class="precision-input-box" title="Start %"><span class="p-label">START</span><input type="number" id="numTrimStart" class="ni" value="0" step="5" min="0" max="100"></div>
 </div>
 <div class="field-row">
-<i class="fa-solid fa-stop field-icon" title="End"></i>
-<div class="nw"><input type="number" id="numTrimEnd" class="ni" value="100" step="1" min="0" max="100"></div>
-<span class="unit">%</span>
+<div class="precision-input-box" title="End %"><span class="p-label">END</span><input type="number" id="numTrimEnd" class="ni" value="100" step="5" min="0" max="100"></div>
 </div>
 </div>
 <div class="row-2 mt-6">
 <div class="field-row">
-<i class="fa-solid fa-arrows-rotate field-icon" title="Offset"></i>
-<div class="nw"><input type="number" id="numTrimOffset" class="ni" value="0" step="1" min="-100" max="100"></div>
-<span class="unit">°</span>
+<div class="precision-input-box" title="Offset"><span class="p-label">OFFSET</span><input type="number" id="numTrimOffset" class="ni" value="0" step="15" min="0" max="360"></div>
 </div>
 </div>
 </div>
 
 <!-- Options Section - Collapsible -->
 <div class="collapsible-header collapsed" id="box-options-header" title="Options">
-<i class="fa-solid fa-sliders"></i>
-<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
+<div class="collapsible-header-left"><svg class="header-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span class="collapsible-title">Box Options</span></div>
+<svg class="collapsible-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
 </div>
 <div class="collapsible-content collapsed" id="box-options-content">
-<div class="row-2">
-<div class="field-row">
-<i class="fa-solid fa-expand field-icon" title="Path offset"></i>
-<div class="nw"><input type="number" id="numPathOffset" class="ni" value="0" step="1" min="-50" max="50"></div>
-</div>
-<label class="ck" title="Lock box size"><input type="checkbox" id="chkLockSize" checked><span class="cb"></span><span class="cl"><i class="fa-solid fa-lock"></i></span></label>
+<div class="row-flex" style="flex-direction:column;gap:8px;align-items:flex-start">
+<label class="ck" title="Parent box layer to text layer"><input type="checkbox" id="chkParentToText" checked><span class="cb"></span><span class="cl">Parent to Text Layer</span></label>
+<label class="ck" title="Auto resize box with text changes"><input type="checkbox" id="chkAutoResize" checked><span class="cb"></span><span class="cl">Auto-Resize With Text</span></label>
+<label class="ck" title="Hide box when text is empty"><input type="checkbox" id="chkHideEmpty" checked><span class="cb"></span><span class="cl">Hide When Text Empty</span></label>
 </div>
 </div>
 </section>
 
-<!-- PRESETS PANEL (formerly Arena) -->
 <section class="panel" id="panel-presets">
 <!-- Filter Buttons -->
 <div class="presets-filter">
@@ -1042,17 +1023,17 @@
 </div>
 
 <!-- Maintenance Section -->
-<div class="soga-box">
-<div class="soga-title" title="Maintenance tools"><i class="fa-solid fa-broom"></i> Maintenance</div>
-<div class="row">
-<button class="btn-s" id="btnClearCache" title="Clear cached data and settings"><i class="fa-solid fa-trash"></i> Clear Cache</button>
-<button class="btn-s" id="btnReloadPanel" title="Reload the panel interface"><i class="fa-solid fa-sync"></i> Reload</button>
+<div class="soga-box studio-card">
+<div class="card-header-studio">
+    <span class="card-title-studio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg> Maintenance</span>
+</div>
+<div class="row-2">
+<button class="btn-s" id="btnClearCache" title="Clear cached data and settings">Clear Cache</button>
+<button class="btn-s" id="btnReloadPanel" title="Reload the panel interface">Reload</button>
 </div>
 </div>
 </section>
-
 </main>
-
 <!-- ACTION BAR -->
 <div class="action-bar" title="Status and actions">
 <div class="status" title="Current status"><span class="target-indicator-dot" id="statusDot"></span><span id="status">Ready</span></div>
