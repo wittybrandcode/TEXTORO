@@ -31,294 +31,490 @@
 
 <!-- TYPE PANEL -->
 <section class="panel active" id="panel-type">
-<!-- Text Section -->
-<div class="soga-box">
-<div class="soga-title" title="Text input"><i class="fa-solid fa-text-width"></i></div>
-<textarea id="txtInput" class="ta" placeholder="أدخل النص هنا..." title="Enter text to animate" rows="2"></textarea>
-<div class="row-flex mt-6">
-<div class="tg">
-<button class="tb active" id="btnLTR" title="Left to Right"><i class="fa-solid fa-arrow-right"></i> EN</button>
-<button class="tb" id="btnRTL" title="Right to Left"><i class="fa-solid fa-arrow-left"></i> ع</button>
-</div>
-<div class="spacer"></div>
-<button class="ib" id="btnGetText" title="Get text from layer"><i class="fa-solid fa-download"></i></button>
-<button class="ib" id="btnUpdateText" title="Update layer text"><i class="fa-solid fa-upload"></i></button>
-</div>
-</div>
-
-<!-- Timing Section -->
+<!-- 1. Text & Direction -->
 <div class="soga-box studio-card">
-<div class="card-header-studio">
-    <span class="card-title-studio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Timing (seconds)</span>
-</div>
-<div class="metrics-grid-4">
-    <div class="precision-input-box" title="IN Start Time (s)">
-        <span class="p-label">IN S</span>
-        <input type="number" id="numInStart" class="ni" value="2" step="0.1" min="0">
+    <div class="card-header-studio">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>
+            TEXT INPUT & DIRECTION
+        </span>
     </div>
-    <div class="precision-input-box" title="IN End Time (s)">
-        <span class="p-label">IN E</span>
-        <input type="number" id="numInEnd" class="ni" value="3" step="0.1" min="0">
+    <textarea id="txtInput" class="ta studio-textarea" placeholder="...أدخل النص هنا" title="Enter text to animate" rows="2"></textarea>
+    <div class="studio-row-split mt-6">
+        <div class="tg studio-btn-group">
+            <button type="button" class="tb active" id="btnLTR" title="Left to Right">LTR &bull; EN</button>
+            <button type="button" class="tb" id="btnRTL" title="Right to Left">RTL &bull; ع</button>
+        </div>
+        <div class="studio-btn-group">
+            <button type="button" class="square-icon-btn ib" id="btnGetText" title="Get text from active layer">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            </button>
+            <button type="button" class="square-icon-btn ib" id="btnUpdateText" title="Update layer text">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            </button>
+        </div>
     </div>
-    <div class="precision-input-box" title="OUT Start Time (s)">
-        <span class="p-label">OUT S</span>
-        <input type="number" id="numOutStart" class="ni" value="6" step="0.1" min="0">
-    </div>
-    <div class="precision-input-box" title="OUT End Time (s)">
-        <span class="p-label">OUT E</span>
-        <input type="number" id="numOutEnd" class="ni" value="7" step="0.1" min="0">
-    </div>
-</div>
-<div class="row-flex mt-6">
-    <label class="ck" title="Disable OUT animation"><input type="checkbox" id="chkNoOut"><span class="cb"></span><span class="cl">Disable OUT</span></label>
-</div>
 </div>
 
-<!-- Cursor Section - Collapsible -->
-<div class="collapsible-header collapsed" id="type-cursor-header" title="Cursor settings">
-<i class="fa-solid fa-i-cursor"></i>
-<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
-</div>
-<div class="collapsible-content collapsed" id="type-cursor-content">
-<div class="row-2">
-<div class="field-row">
-<label class="ck" title="Show cursor"><input type="checkbox" id="chkCursor" checked><span class="cb"></span><span class="cl"><i class="fa-solid fa-eye"></i></span></label>
-<label class="ck" title="Cursor before text"><input type="checkbox" id="chkCursorBefore"><span class="cb"></span><span class="cl"><i class="fa-solid fa-arrow-left"></i></span></label>
-</div>
-<div class="field-row">
-<select id="selCursorType" class="sel sel-sm" title="Cursor style">
-<option value="0">|</option>
-<option value="1">_</option>
-<option value="2">█</option>
-<option value="3">▌</option>
-<option value="4">▎</option>
-<option value="5">●</option>
-<option value="6">◆</option>
-<option value="custom">✎</option>
-</select>
-<input type="text" id="txtCustomCursor" class="ti ti-xs" style="width:32px;display:none" placeholder="▶" maxlength="2">
-<input type="color" id="colorCursor" class="ci" value="#ffffff" title="Cursor color">
-</div>
-</div>
-<div class="row-2 mt-6">
-<div class="field-row">
-<i class="fa-solid fa-arrows-left-right field-icon" title="Spacing"></i>
-<div class="nw"><input type="number" id="numCursorSpacing" class="ni" value="1" step="1" min="0"></div>
-</div>
-<div class="field-row">
-<i class="fa-solid fa-bolt field-icon" title="Blink speed"></i>
-<div class="nw"><input type="number" id="numBlinkSpeed" class="ni" value="2" step="0.5" min="0.5"></div>
-<span class="unit">Hz</span>
-</div>
-</div>
-<div class="row-2 mt-6">
-<div class="field-group">
-<i class="fa-solid fa-lightbulb field-icon" title="Blink period"></i>
-<div class="nw" title="Blink start"><input type="number" id="numBlinkStart" class="ni" value="1" step="0.1" min="0"></div>
-<span class="field-sep">→</span>
-<div class="nw" title="Blink end"><input type="number" id="numBlinkEnd" class="ni" value="10" step="0.1" min="0"></div>
-</div>
-<label class="ck" title="Blink during hold"><input type="checkbox" id="chkBlinkInHold" checked><span class="cb"></span><span class="cl"><i class="fa-solid fa-pause"></i></span></label>
-</div>
+<!-- 2. Timing Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            TIMING & CUES (SECONDS)
+        </span>
+    </div>
+    <div class="metrics-grid-4">
+        <div class="precision-input-box" title="IN Start Time (s)">
+            <span class="p-label">IN S</span>
+            <input type="number" id="numInStart" class="ni" value="2" step="0.1" min="0">
+            <span class="unit-tag">s</span>
+        </div>
+        <div class="precision-input-box" title="IN End Time (s)">
+            <span class="p-label">IN E</span>
+            <input type="number" id="numInEnd" class="ni" value="3" step="0.1" min="0">
+            <span class="unit-tag">s</span>
+        </div>
+        <div class="precision-input-box" title="OUT Start Time (s)">
+            <span class="p-label">OUT S</span>
+            <input type="number" id="numOutStart" class="ni" value="6" step="0.1" min="0">
+            <span class="unit-tag">s</span>
+        </div>
+        <div class="precision-input-box" title="OUT End Time (s)">
+            <span class="p-label">OUT E</span>
+            <input type="number" id="numOutEnd" class="ni" value="7" step="0.1" min="0">
+            <span class="unit-tag">s</span>
+        </div>
+    </div>
+    <div class="mt-6">
+        <label class="studio-toggle-chip" title="Disable OUT animation">
+            <input type="checkbox" id="chkNoOut">
+            <span class="chip-inner">
+                <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span class="chip-label">DISABLE OUT ANIMATION</span>
+            </span>
+        </label>
+    </div>
 </div>
 
-<!-- Advanced Section - Collapsible -->
-<div class="collapsible-header collapsed" id="type-advanced-header" title="Advanced options">
-<i class="fa-solid fa-wand-magic-sparkles"></i>
-<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
-</div>
-<div class="collapsible-content collapsed" id="type-advanced-content">
-<div class="row-2">
-<label class="ck" title="Reverse typing"><input type="checkbox" id="chkReverse"><span class="cb"></span><span class="cl"><i class="fa-solid fa-rotate-left"></i></span></label>
-<label class="ck" title="Word by word"><input type="checkbox" id="chkWordMode"><span class="cb"></span><span class="cl"><i class="fa-solid fa-font"></i></span></label>
-</div>
-<div class="row-2 mt-6">
-<div class="field-row">
-<i class="fa-solid fa-shuffle field-icon" title="Random speed"></i>
-<input type="range" id="rangeRandom" class="sl" value="0" min="0" max="100">
-<span class="sv" id="valRandom">0%</span>
-</div>
-<div class="field-row">
-<label class="ck" title="Custom text color"><input type="checkbox" id="chkTextColor" checked><span class="cb"></span><span class="cl"><i class="fa-solid fa-paintbrush"></i></span></label>
-<input type="color" id="colorText" class="ci" value="#ffffff" title="Text color">
-</div>
-</div>
-<div class="row-2 mt-6">
-<div class="field-row">
-<i class="fa-solid fa-bezier-curve field-icon" title="Easing"></i>
-<select id="selEasingType" class="sel sel-sm" title="Easing type">
-<option value="0">Linear</option>
-<option value="1" selected>Out</option>
-<option value="2">In</option>
-<option value="3">In-Out</option>
-</select>
-</div>
-<div class="field-row">
-<div class="nw"><input type="number" id="numEasingStrength" class="ni" value="100" step="10" min="0" max="100" title="Easing strength"></div>
-<span class="unit">%</span>
-</div>
-</div>
+<!-- 3. Cursor & Blink Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio" id="type-cursor-header" style="cursor:default">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="4" x2="12" y2="20"></line><line x1="8" y1="4" x2="16" y2="4"></line><line x1="8" y1="20" x2="16" y2="20"></line></svg>
+            CURSOR & BLINK DYNAMICS
+        </span>
+    </div>
+    <div id="type-cursor-content">
+        <div class="metrics-grid-2">
+            <label class="studio-toggle-chip" title="Show animated cursor">
+                <input type="checkbox" id="chkCursor" checked>
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">SHOW CURSOR</span>
+                </span>
+            </label>
+            <label class="studio-toggle-chip" title="Place cursor before text">
+                <input type="checkbox" id="chkCursorBefore">
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">BEFORE TEXT</span>
+                </span>
+            </label>
+        </div>
+        <div class="studio-combo-row mt-6">
+            <div class="precision-select-box" style="flex: 2;">
+                <span class="p-label">STYLE</span>
+                <select id="selCursorType" class="sel" title="Cursor style">
+                    <option value="0">| Bar</option>
+                    <option value="1">_ Underscore</option>
+                    <option value="2">█ Solid Block</option>
+                    <option value="3">▌ Half Block</option>
+                    <option value="4">▎ Thin Block</option>
+                    <option value="5">● Circle Dot</option>
+                    <option value="6">◆ Diamond</option>
+                    <option value="custom">✎ Custom</option>
+                </select>
+                <input type="text" id="txtCustomCursor" class="ti" style="width:36px;display:none" placeholder="▶" maxlength="2">
+            </div>
+            <div class="precision-color-box" style="flex: 1;">
+                <span class="p-label">COLOR</span>
+                <div class="color-picker-wrap">
+                    <input type="color" id="colorCursor" class="ci" value="#ffffff" title="Cursor color">
+                </div>
+            </div>
+        </div>
+        <div class="metrics-grid-2 mt-6">
+            <div class="precision-input-box" title="Cursor Spacing (px)">
+                <span class="p-label">SPACING</span>
+                <input type="number" id="numCursorSpacing" class="ni" value="1" step="1" min="0">
+                <span class="unit-tag">px</span>
+            </div>
+            <div class="precision-input-box" title="Blink Speed (Hz)">
+                <span class="p-label">RATE</span>
+                <input type="number" id="numBlinkSpeed" class="ni" value="2" step="0.5" min="0.5">
+                <span class="unit-tag">Hz</span>
+            </div>
+        </div>
+        <div class="metrics-grid-2 mt-6">
+            <div class="precision-input-box" title="Blink Start Time (s)">
+                <span class="p-label">START</span>
+                <input type="number" id="numBlinkStart" class="ni" value="1" step="0.1" min="0">
+                <span class="unit-tag">s</span>
+            </div>
+            <div class="precision-input-box" title="Blink End Time (s)">
+                <span class="p-label">END</span>
+                <input type="number" id="numBlinkEnd" class="ni" value="10" step="0.1" min="0">
+                <span class="unit-tag">s</span>
+            </div>
+        </div>
+        <div class="mt-6">
+            <label class="studio-toggle-chip" title="Keep cursor blinking during hold pause">
+                <input type="checkbox" id="chkBlinkInHold" checked>
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">BLINK DURING HOLD</span>
+                </span>
+            </label>
+        </div>
+    </div>
 </div>
 
-<!-- Multi-lines Section - Collapsible -->
-<div class="collapsible-header collapsed" id="type-multilines-header" title="Multi-line settings">
-<i class="fa-solid fa-layer-group"></i>
-<i class="fa-solid fa-chevron-down collapsible-chevron"></i>
+<!-- 4. Style & Dynamics Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio" id="type-advanced-header" style="cursor:default">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg>
+            TYPING DYNAMICS & EASING
+        </span>
+    </div>
+    <div id="type-advanced-content">
+        <div class="metrics-grid-2">
+            <label class="studio-toggle-chip" title="Reverse typing effect">
+                <input type="checkbox" id="chkReverse">
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">REVERSE TYPING</span>
+                </span>
+            </label>
+            <label class="studio-toggle-chip" title="Word-by-word reveal">
+                <input type="checkbox" id="chkWordMode">
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">WORD BY WORD</span>
+                </span>
+            </label>
+        </div>
+        <div class="studio-slider-row mt-6" title="Random speed variation (0-100%)">
+            <span class="slider-label">RANDOM SPEED</span>
+            <div class="slider-track-wrap">
+                <input type="range" id="rangeRandom" class="sl" value="0" min="0" max="100">
+            </div>
+            <span class="sv slider-val-badge" id="valRandom">0%</span>
+        </div>
+        <div class="studio-combo-row mt-6">
+            <div style="flex: 2;">
+                <label class="studio-toggle-chip" title="Override text color">
+                    <input type="checkbox" id="chkTextColor" checked>
+                    <span class="chip-inner">
+                        <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span class="chip-label">CUSTOM TEXT COLOR</span>
+                    </span>
+                </label>
+            </div>
+            <div class="precision-color-box" style="flex: 1;">
+                <span class="p-label">COLOR</span>
+                <div class="color-picker-wrap">
+                    <input type="color" id="colorText" class="ci" value="#ffffff" title="Text color">
+                </div>
+            </div>
+        </div>
+        <div class="metrics-grid-2 mt-6">
+            <div class="precision-select-box">
+                <span class="p-label">EASE</span>
+                <select id="selEasingType" class="sel" title="Easing curve">
+                    <option value="0">Linear</option>
+                    <option value="1" selected>Ease Out</option>
+                    <option value="2">Ease In</option>
+                    <option value="3">Ease In-Out</option>
+                </select>
+            </div>
+            <div class="precision-input-box" title="Easing strength (0-100%)">
+                <span class="p-label">POWER</span>
+                <input type="number" id="numEasingStrength" class="ni" value="100" step="10" min="0" max="100">
+                <span class="unit-tag">%</span>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="collapsible-content collapsed" id="type-multilines-content">
-<div class="row-2">
-<div class="field-row">
-<i class="fa-solid fa-arrows-up-down field-icon" title="Line spacing"></i>
-<div class="nw"><input type="number" id="numLineSpacing" class="ni" value="10" step="5" min="0"></div>
-</div>
-<div class="field-row">
-<i class="fa-solid fa-clock field-icon" title="Stagger delay"></i>
-<div class="nw"><input type="number" id="numStagger" class="ni" value="0.5" step="0.1" min="0"></div>
-<span class="unit">s</span>
-</div>
-</div>
-<div class="row-flex mt-6">
-<div class="tg">
-<button class="tb" id="btnAlignLeft" title="Align left"><i class="fa-solid fa-align-left"></i></button>
-<button class="tb active" id="btnAlignCenter" title="Align center"><i class="fa-solid fa-align-center"></i></button>
-<button class="tb" id="btnAlignRight" title="Align right"><i class="fa-solid fa-align-right"></i></button>
-</div>
-<div class="spacer"></div>
-<label class="ck" title="Delete original layer"><input type="checkbox" id="chkDeleteOriginal"><span class="cb"></span><span class="cl"><i class="fa-solid fa-trash-can"></i></span></label>
-</div>
+
+<!-- 5. Multi-line Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio" id="type-multilines-header" style="cursor:default">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            MULTI-LINE & STAGGER
+        </span>
+    </div>
+    <div id="type-multilines-content">
+        <div class="metrics-grid-2">
+            <div class="precision-input-box" title="Line Spacing (px)">
+                <span class="p-label">SPACING</span>
+                <input type="number" id="numLineSpacing" class="ni" value="10" step="5" min="0">
+                <span class="unit-tag">px</span>
+            </div>
+            <div class="precision-input-box" title="Stagger Delay (seconds)">
+                <span class="p-label">STAGGER</span>
+                <input type="number" id="numStagger" class="ni" value="0.5" step="0.1" min="0">
+                <span class="unit-tag">s</span>
+            </div>
+        </div>
+        <div class="studio-row-split mt-6">
+            <div class="tg studio-btn-group">
+                <button type="button" class="tb" id="btnAlignLeft" title="Align Left">LEFT</button>
+                <button type="button" class="tb active" id="btnAlignCenter" title="Align Center">CENTER</button>
+                <button type="button" class="tb" id="btnAlignRight" title="Align Right">RIGHT</button>
+            </div>
+            <label class="studio-toggle-chip" title="Delete original layer upon split">
+                <input type="checkbox" id="chkDeleteOriginal">
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">DEL ORIG</span>
+                </span>
+            </label>
+        </div>
+    </div>
 </div>
 </section>
 
 <!-- BOX PANEL -->
 <section class="panel" id="panel-box">
-<!-- Padding Section -->
+<!-- 1. Padding Section -->
 <div class="soga-box studio-card">
-<div class="card-header-studio">
-    <span class="card-title-studio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg> Padding (px)</span>
-</div>
-<div class="metrics-grid-4">
-    <div class="precision-input-box" title="Padding Left (px)">
-        <span class="p-label">PAD L</span>
-        <input type="number" id="numPadL" class="ni" value="40" step="5" min="0">
+    <div class="card-header-studio">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+            PADDING (PX)
+        </span>
     </div>
-    <div class="precision-input-box" title="Padding Right (px)">
-        <span class="p-label">PAD R</span>
-        <input type="number" id="numPadR" class="ni" value="40" step="5" min="0">
+    <div class="metrics-grid-4">
+        <div class="precision-input-box" title="Padding Left (px)">
+            <span class="p-label">PAD L</span>
+            <input type="number" id="numPadL" class="ni" value="40" step="5" min="0">
+            <span class="unit-tag">px</span>
+        </div>
+        <div class="precision-input-box" title="Padding Right (px)">
+            <span class="p-label">PAD R</span>
+            <input type="number" id="numPadR" class="ni" value="40" step="5" min="0">
+            <span class="unit-tag">px</span>
+        </div>
+        <div class="precision-input-box" title="Padding Top (px)">
+            <span class="p-label">PAD T</span>
+            <input type="number" id="numPadT" class="ni" value="20" step="5" min="0">
+            <span class="unit-tag">px</span>
+        </div>
+        <div class="precision-input-box" title="Padding Bottom (px)">
+            <span class="p-label">PAD B</span>
+            <input type="number" id="numPadB" class="ni" value="20" step="5" min="0">
+            <span class="unit-tag">px</span>
+        </div>
     </div>
-    <div class="precision-input-box" title="Padding Top (px)">
-        <span class="p-label">PAD T</span>
-        <input type="number" id="numPadT" class="ni" value="20" step="5" min="0">
-    </div>
-    <div class="precision-input-box" title="Padding Bottom (px)">
-        <span class="p-label">PAD B</span>
-        <input type="number" id="numPadB" class="ni" value="20" step="5" min="0">
-    </div>
-</div>
 </div>
 
-<!-- Corner Section -->
+<!-- 2. Corner Section -->
 <div class="soga-box studio-card">
-<div class="card-header-studio">
-    <span class="card-title-studio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10a6 6 0 0 1 6-6h10"></path></svg> Corner Radius (px)</span>
-</div>
-<div class="row-flex">
-<label class="ck" title="Individual corners"><input type="checkbox" id="chk4Corners"><span class="cb"></span><span class="cl">Individual Corners</span></label>
-<div class="spacer"></div>
-<div id="singleCornerRow" class="field-row">
-<div class="precision-input-box" style="width:90px" title="Uniform corner radius"><span class="p-label">ALL</span><input type="number" id="numCorner" class="ni" value="15" step="1" min="0"></div>
-</div>
-</div>
-<div id="fourCornersRow" class="metrics-grid-4 mt-6" style="display:none">
-    <div class="precision-input-box" title="Top-Left Corner (px)">
-        <span class="p-label">C-TL</span>
-        <input type="number" id="numCornerTL" class="ni" value="15" step="1" min="0">
+    <div class="card-header-studio">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10a6 6 0 0 1 6-6h10"></path></svg>
+            CORNER RADIUS (PX)
+        </span>
     </div>
-    <div class="precision-input-box" title="Top-Right Corner (px)">
-        <span class="p-label">C-TR</span>
-        <input type="number" id="numCornerTR" class="ni" value="15" step="1" min="0">
+    <div class="studio-row-split">
+        <label class="studio-toggle-chip" title="Toggle individual 4 corners control">
+            <input type="checkbox" id="chk4Corners">
+            <span class="chip-inner">
+                <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span class="chip-label">4 CORNERS MODE</span>
+            </span>
+        </label>
+        <div id="singleCornerRow">
+            <div class="precision-input-box" style="width:120px" title="Uniform corner radius">
+                <span class="p-label">ALL</span>
+                <input type="number" id="numCorner" class="ni" value="15" step="1" min="0">
+                <span class="unit-tag">px</span>
+            </div>
+        </div>
     </div>
-    <div class="precision-input-box" title="Bottom-Left Corner (px)">
-        <span class="p-label">C-BL</span>
-        <input type="number" id="numCornerBL" class="ni" value="15" step="1" min="0">
+    <div id="fourCornersRow" class="metrics-grid-4 mt-6" style="display:none">
+        <div class="precision-input-box" title="Top-Left Corner (px)">
+            <span class="p-label">C-TL</span>
+            <input type="number" id="numCornerTL" class="ni" value="15" step="1" min="0">
+            <span class="unit-tag">px</span>
+        </div>
+        <div class="precision-input-box" title="Top-Right Corner (px)">
+            <span class="p-label">C-TR</span>
+            <input type="number" id="numCornerTR" class="ni" value="15" step="1" min="0">
+            <span class="unit-tag">px</span>
+        </div>
+        <div class="precision-input-box" title="Bottom-Left Corner (px)">
+            <span class="p-label">C-BL</span>
+            <input type="number" id="numCornerBL" class="ni" value="15" step="1" min="0">
+            <span class="unit-tag">px</span>
+        </div>
+        <div class="precision-input-box" title="Bottom-Right Corner (px)">
+            <span class="p-label">C-BR</span>
+            <input type="number" id="numCornerBR" class="ni" value="15" step="1" min="0">
+            <span class="unit-tag">px</span>
+        </div>
     </div>
-    <div class="precision-input-box" title="Bottom-Right Corner (px)">
-        <span class="p-label">C-BR</span>
-        <input type="number" id="numCornerBR" class="ni" value="15" step="1" min="0">
-    </div>
-</div>
 </div>
 
-<!-- Stroke Section - Collapsible -->
-<div class="collapsible-header collapsed" id="box-stroke-header" title="Stroke settings">
-<div class="collapsible-header-left"><svg class="header-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line></svg><span class="collapsible-title">Stroke & Border</span></div>
-<svg class="collapsible-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-</div>
-<div class="collapsible-content collapsed" id="box-stroke-content">
-<div class="row-2">
-<div class="field-row">
-<div class="precision-input-box" title="Stroke width"><span class="p-label">WIDTH</span><input type="number" id="numStrokeW" class="ni" value="2" step="1" min="0"></div>
-</div>
-<div class="field-row">
-<div class="precision-input-box" title="Stroke opacity"><span class="p-label">OPACITY</span><input type="number" id="numStrokeOp" class="ni" value="100" step="5" min="0" max="100"></div>
-<input type="color" id="colorStroke" class="ci" value="#ffffff" title="Stroke color">
-</div>
-</div>
-<div class="row-2 mt-6">
-<div class="field-row">
-<div class="precision-input-box" title="Dash"><span class="p-label">DASH</span><input type="number" id="numStrokeDash" class="ni" value="0" step="5" min="0"></div>
-</div>
-<div class="field-row">
-<div class="precision-input-box" title="Gap"><span class="p-label">GAP</span><input type="number" id="numStrokeGap" class="ni" value="0" step="5" min="0"></div>
-</div>
-</div>
-</div>
-
-<!-- Fill Section - Collapsible -->
-<div class="collapsible-header collapsed" id="box-fill-header" title="Fill settings">
-<div class="collapsible-header-left"><svg class="header-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11l-8-8-8 8"></path><path d="M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"></path></svg><span class="collapsible-title">Fill & Color</span></div>
-<svg class="collapsible-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-</div>
-<div class="collapsible-content collapsed" id="box-fill-content">
-<div class="row-2">
-<div class="field-row">
-<div class="precision-input-box" title="Fill opacity"><span class="p-label">OPACITY</span><input type="number" id="numFillOp" class="ni" value="100" step="5" min="0" max="100"></div>
-<input type="color" id="colorFill" class="ci" value="#3366e6" title="Fill color">
-</div>
-</div>
-</div>
-
-<!-- Trim Section - Collapsible -->
-<div class="collapsible-header collapsed" id="box-trim-header" title="Trim paths">
-<div class="collapsible-header-left"><svg class="header-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg><span class="collapsible-title">Trim Paths</span></div>
-<svg class="collapsible-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-</div>
-<div class="collapsible-content collapsed" id="box-trim-content">
-<div class="row-2">
-<div class="field-row">
-<div class="precision-input-box" title="Start %"><span class="p-label">START</span><input type="number" id="numTrimStart" class="ni" value="0" step="5" min="0" max="100"></div>
-</div>
-<div class="field-row">
-<div class="precision-input-box" title="End %"><span class="p-label">END</span><input type="number" id="numTrimEnd" class="ni" value="100" step="5" min="0" max="100"></div>
-</div>
-</div>
-<div class="row-2 mt-6">
-<div class="field-row">
-<div class="precision-input-box" title="Offset"><span class="p-label">OFFSET</span><input type="number" id="numTrimOffset" class="ni" value="0" step="15" min="0" max="360"></div>
-</div>
-</div>
+<!-- 3. Stroke & Border Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio" id="box-stroke-header" style="cursor:default">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line></svg>
+            STROKE & OUTLINE
+        </span>
+    </div>
+    <div id="box-stroke-content">
+        <div class="metrics-grid-2">
+            <div class="precision-input-box" title="Stroke width (px)">
+                <span class="p-label">WIDTH</span>
+                <input type="number" id="numStrokeW" class="ni" value="2" step="1" min="0">
+                <span class="unit-tag">px</span>
+            </div>
+            <div class="studio-combo-row" style="margin:0;">
+                <div class="precision-input-box" style="flex:2;" title="Stroke opacity (%)">
+                    <span class="p-label">OPACITY</span>
+                    <input type="number" id="numStrokeOp" class="ni" value="100" step="5" min="0" max="100">
+                    <span class="unit-tag">%</span>
+                </div>
+                <div class="precision-color-box" style="flex:1;">
+                    <div class="color-picker-wrap">
+                        <input type="color" id="colorStroke" class="ci" value="#ffffff" title="Stroke color">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="metrics-grid-2 mt-6">
+            <div class="precision-input-box" title="Dash pattern length">
+                <span class="p-label">DASH</span>
+                <input type="number" id="numStrokeDash" class="ni" value="0" step="5" min="0">
+                <span class="unit-tag">px</span>
+            </div>
+            <div class="precision-input-box" title="Gap between dashes">
+                <span class="p-label">GAP</span>
+                <input type="number" id="numStrokeGap" class="ni" value="0" step="5" min="0">
+                <span class="unit-tag">px</span>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Options Section - Collapsible -->
-<div class="collapsible-header collapsed" id="box-options-header" title="Options">
-<div class="collapsible-header-left"><svg class="header-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span class="collapsible-title">Box Options</span></div>
-<svg class="collapsible-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+<!-- 4. Fill & Color Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio" id="box-fill-header" style="cursor:default">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 11l-8-8-8 8"></path><path d="M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"></path></svg>
+            FILL & BACKGROUND
+        </span>
+    </div>
+    <div id="box-fill-content">
+        <div class="metrics-grid-2">
+            <div class="precision-input-box" title="Fill opacity (%)">
+                <span class="p-label">OPACITY</span>
+                <input type="number" id="numFillOp" class="ni" value="100" step="5" min="0" max="100">
+                <span class="unit-tag">%</span>
+            </div>
+            <div class="precision-color-box">
+                <span class="p-label">COLOR</span>
+                <div class="color-picker-wrap">
+                    <input type="color" id="colorFill" class="ci" value="#2563eb" title="Fill color">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="collapsible-content collapsed" id="box-options-content">
-<div class="row-flex" style="flex-direction:column;gap:8px;align-items:flex-start">
-<label class="ck" title="Parent box layer to text layer"><input type="checkbox" id="chkParentToText" checked><span class="cb"></span><span class="cl">Parent to Text Layer</span></label>
-<label class="ck" title="Auto resize box with text changes"><input type="checkbox" id="chkAutoResize" checked><span class="cb"></span><span class="cl">Auto-Resize With Text</span></label>
-<label class="ck" title="Hide box when text is empty"><input type="checkbox" id="chkHideEmpty" checked><span class="cb"></span><span class="cl">Hide When Text Empty</span></label>
+
+<!-- 5. Trim Paths Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio" id="box-trim-header" style="cursor:default">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>
+            TRIM PATHS (ANIMATION)
+        </span>
+    </div>
+    <div id="box-trim-content">
+        <div class="metrics-grid-2">
+            <div class="precision-input-box" title="Trim start %">
+                <span class="p-label">START</span>
+                <input type="number" id="numTrimStart" class="ni" value="0" step="5" min="0" max="100">
+                <span class="unit-tag">%</span>
+            </div>
+            <div class="precision-input-box" title="Trim end %">
+                <span class="p-label">END</span>
+                <input type="number" id="numTrimEnd" class="ni" value="100" step="5" min="0" max="100">
+                <span class="unit-tag">%</span>
+            </div>
+        </div>
+        <div class="metrics-grid-2 mt-6">
+            <div class="precision-input-box" title="Trim offset rotation angle">
+                <span class="p-label">OFFSET</span>
+                <input type="number" id="numTrimOffset" class="ni" value="0" step="15" min="0" max="360">
+                <span class="unit-tag">°</span>
+            </div>
+            <div class="precision-input-box" title="Path expansion / contraction offset">
+                <span class="p-label">PATH OFF</span>
+                <input type="number" id="numPathOffset" class="ni" value="0" step="2">
+                <span class="unit-tag">px</span>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- 6. Box Behavior Options -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio" id="box-options-header" style="cursor:default">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            BOX LAYER BEHAVIOR
+        </span>
+    </div>
+    <div id="box-options-content">
+        <div class="metrics-grid-2">
+            <label class="studio-toggle-chip" title="Parent box layer to text layer">
+                <input type="checkbox" id="chkParentToText" checked>
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">PARENT TO TEXT</span>
+                </span>
+            </label>
+            <label class="studio-toggle-chip" title="Auto resize box with text changes">
+                <input type="checkbox" id="chkAutoResize" checked>
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">AUTO RESIZE</span>
+                </span>
+            </label>
+        </div>
+        <div class="metrics-grid-2 mt-6">
+            <label class="studio-toggle-chip" title="Hide box when text layer is empty">
+                <input type="checkbox" id="chkHideEmpty" checked>
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">HIDE WHEN EMPTY</span>
+                </span>
+            </label>
+            <label class="studio-toggle-chip" title="Lock box size from dynamic expression overrides">
+                <input type="checkbox" id="chkLockSize" checked>
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">LOCK SIZE</span>
+                </span>
+            </label>
+        </div>
+    </div>
 </div>
 </section>
 
@@ -754,216 +950,342 @@
 
 <!-- MOTION PANEL -->
 <section class="panel" id="panel-motion">
-<!-- Timing Section -->
+<!-- 1. Motion Timing -->
 <div class="soga-box studio-card">
-<div class="card-header-studio">
-    <span class="card-title-studio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Motion Timing (seconds)</span>
-</div>
-<div class="metrics-grid-4">
-    <div class="precision-input-box" title="Motion IN Start (s)">
-        <span class="p-label">IN S</span>
-        <input type="number" id="motionInStart" class="ni" value="0" step="0.1" min="0">
+    <div class="card-header-studio">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            MOTION TIMING (SECONDS)
+        </span>
     </div>
-    <div class="precision-input-box" title="Motion IN End (s)">
-        <span class="p-label">IN E</span>
-        <input type="number" id="motionInEnd" class="ni" value="1" step="0.1" min="0">
+    <div class="metrics-grid-4">
+        <div class="precision-input-box" title="Motion IN Start (s)">
+            <span class="p-label">IN S</span>
+            <input type="number" id="motionInStart" class="ni" value="0" step="0.1" min="0">
+            <span class="unit-tag">s</span>
+        </div>
+        <div class="precision-input-box" title="Motion IN End (s)">
+            <span class="p-label">IN E</span>
+            <input type="number" id="motionInEnd" class="ni" value="1" step="0.1" min="0">
+            <span class="unit-tag">s</span>
+        </div>
+        <div class="precision-input-box" title="Motion OUT Start (s)">
+            <span class="p-label">OUT S</span>
+            <input type="number" id="motionOutStart" class="ni" value="4" step="0.1" min="0">
+            <span class="unit-tag">s</span>
+        </div>
+        <div class="precision-input-box" title="Motion OUT End (s)">
+            <span class="p-label">OUT E</span>
+            <input type="number" id="motionOutEnd" class="ni" value="5" step="0.1" min="0">
+            <span class="unit-tag">s</span>
+        </div>
     </div>
-    <div class="precision-input-box" title="Motion OUT Start (s)">
-        <span class="p-label">OUT S</span>
-        <input type="number" id="motionOutStart" class="ni" value="4" step="0.1" min="0">
+    <div class="metrics-grid-2 mt-6">
+        <label class="studio-toggle-chip" title="Enable exit animation">
+            <input type="checkbox" id="motionOutEnable">
+            <span class="chip-inner">
+                <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span class="chip-label">ENABLE OUT</span>
+            </span>
+        </label>
+        <label class="studio-toggle-chip" title="Sync Motion timing with Typewriter markers">
+            <input type="checkbox" id="motionSyncEnable">
+            <span class="chip-inner">
+                <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span class="chip-label">SYNC TYPEWRITER</span>
+            </span>
+        </label>
     </div>
-    <div class="precision-input-box" title="Motion OUT End (s)">
-        <span class="p-label">OUT E</span>
-        <input type="number" id="motionOutEnd" class="ni" value="5" step="0.1" min="0">
+</div>
+
+<!-- 2. Position Animation -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio studio-row-split">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"></polyline><polyline points="9 5 12 2 15 5"></polyline><polyline points="15 19 12 22 9 19"></polyline><polyline points="19 9 22 12 19 15"></polyline><line x1="2" y1="12" x2="22" y2="12"></line><line x1="12" y1="2" x2="12" y2="22"></line></svg>
+            POSITION OFFSET
+        </span>
+        <div class="studio-btn-group">
+            <label class="studio-toggle-chip" title="Enable position animation">
+                <input type="checkbox" id="motionPosEnable">
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">ENABLE</span>
+                </span>
+            </label>
+            <button type="button" class="square-icon-btn link-btn linked" id="motionPosLink" title="Link/Unlink OUT values">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+            </button>
+        </div>
+    </div>
+    <!-- IN Position -->
+    <div class="metrics-grid-4">
+        <div class="precision-input-box" title="IN Start X offset">
+            <span class="p-label">FROM X</span>
+            <input type="number" id="motionPosFromX" class="ni" value="0" step="10">
+            <span class="unit-tag">px</span>
+        </div>
+        <div class="precision-input-box" title="IN Start Y offset">
+            <span class="p-label">FROM Y</span>
+            <input type="number" id="motionPosFromY" class="ni" value="0" step="10">
+            <span class="unit-tag">px</span>
+        </div>
+        <div class="precision-input-box" title="IN End X offset">
+            <span class="p-label">TO X</span>
+            <input type="number" id="motionPosToX" class="ni" value="0" step="10">
+            <span class="unit-tag">px</span>
+        </div>
+        <div class="precision-input-box" title="IN End Y offset">
+            <span class="p-label">TO Y</span>
+            <input type="number" id="motionPosToY" class="ni" value="0" step="10">
+            <span class="unit-tag">px</span>
+        </div>
+    </div>
+    <!-- OUT Position Rows -->
+    <div id="motionPosOutRow1" class="metrics-grid-2 mt-6" style="display:none">
+        <div class="precision-input-box" title="OUT Start X offset">
+            <span class="p-label">OUT FX</span>
+            <input type="number" id="motionPosOutFromX" class="ni" value="0" step="10">
+            <span class="unit-tag">px</span>
+        </div>
+        <div class="precision-input-box" title="OUT Start Y offset">
+            <span class="p-label">OUT FY</span>
+            <input type="number" id="motionPosOutFromY" class="ni" value="0" step="10">
+            <span class="unit-tag">px</span>
+        </div>
+    </div>
+    <div id="motionPosOutRow2" class="metrics-grid-2 mt-4" style="display:none">
+        <div class="precision-input-box" title="OUT End X offset">
+            <span class="p-label">OUT TX</span>
+            <input type="number" id="motionPosOutToX" class="ni" value="0" step="10">
+            <span class="unit-tag">px</span>
+        </div>
+        <div class="precision-input-box" title="OUT End Y offset">
+            <span class="p-label">OUT TY</span>
+            <input type="number" id="motionPosOutToY" class="ni" value="0" step="10">
+            <span class="unit-tag">px</span>
+        </div>
     </div>
 </div>
-<div class="row-flex mt-6">
-    <label class="ck" title="Enable exit animation"><input type="checkbox" id="motionOutEnable"><span class="cb"></span><span class="cl">Enable OUT</span></label>
-    <div class="spacer"></div>
-    <label class="ck" title="Sync Motion timing with Typewriter markers"><input type="checkbox" id="motionSyncEnable"><span class="cb"></span><span class="cl">Sync Typewriter</span></label>
-</div>
+
+<!-- 3. Scale Animation -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio studio-row-split">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+            SCALE ANIMATION
+        </span>
+        <div class="studio-btn-group">
+            <label class="studio-toggle-chip" title="Enable scale animation">
+                <input type="checkbox" id="motionScaleEnable">
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">ENABLE</span>
+                </span>
+            </label>
+            <button type="button" class="square-icon-btn link-btn linked" id="motionScaleLink" title="Link/Unlink OUT values">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+            </button>
+        </div>
+    </div>
+    <!-- IN Scale -->
+    <div class="metrics-grid-2">
+        <div class="precision-input-box" title="IN Start scale %">
+            <span class="p-label">FROM %</span>
+            <input type="number" id="motionScaleFrom" class="ni" value="100" step="10" min="0" max="200">
+            <span class="unit-tag">%</span>
+        </div>
+        <div class="precision-input-box" title="IN End scale %">
+            <span class="p-label">TO %</span>
+            <input type="number" id="motionScaleTo" class="ni" value="100" step="10" min="0" max="200">
+            <span class="unit-tag">%</span>
+        </div>
+    </div>
+    <!-- OUT Scale Row -->
+    <div id="motionScaleOutRow" class="metrics-grid-2 mt-6" style="display:none">
+        <div class="precision-input-box" title="OUT Start scale %">
+            <span class="p-label">OUT FROM</span>
+            <input type="number" id="motionScaleOutFrom" class="ni" value="100" step="10" min="0" max="200">
+            <span class="unit-tag">%</span>
+        </div>
+        <div class="precision-input-box" title="OUT End scale %">
+            <span class="p-label">OUT TO</span>
+            <input type="number" id="motionScaleOutTo" class="ni" value="100" step="10" min="0" max="200">
+            <span class="unit-tag">%</span>
+        </div>
+    </div>
 </div>
 
-<!-- Position Section -->
-<div class="soga-box">
-<div class="soga-title" title="Position animation"><i class="fa-solid fa-arrows-up-down-left-right"></i> Position</div>
-<table class="soga-table">
-<tr>
-<td><label class="ck" title="Enable position animation"><input type="checkbox" id="motionPosEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Enable</span></label></td>
-<td colspan="3"></td>
-<td><button class="link-btn linked" id="motionPosLink" title="Link/Unlink OUT values"><i class="fa-solid fa-link"></i></button></td>
-</tr>
-<tr class="motion-in-row">
-<td class="soga-td-lbl"><span class="row-tag in">IN</span> From X</td>
-<td><div class="nw"><input type="number" id="motionPosFromX" class="ni" value="0" step="10" title="IN Start X offset"></div></td>
-<td class="soga-td-lbl">Y</td>
-<td><div class="nw"><input type="number" id="motionPosFromY" class="ni" value="0" step="10" title="IN Start Y offset"></div></td>
-</tr>
-<tr class="motion-in-row">
-<td class="soga-td-lbl">To X</td>
-<td><div class="nw"><input type="number" id="motionPosToX" class="ni" value="0" step="10" title="IN End X offset"></div></td>
-<td class="soga-td-lbl">Y</td>
-<td><div class="nw"><input type="number" id="motionPosToY" class="ni" value="0" step="10" title="IN End Y offset"></div></td>
-</tr>
-<tr class="motion-out-row" id="motionPosOutRow1" style="display:none">
-<td class="soga-td-lbl"><span class="row-tag out">OUT</span> From X</td>
-<td><div class="nw"><input type="number" id="motionPosOutFromX" class="ni" value="0" step="10" title="OUT Start X offset"></div></td>
-<td class="soga-td-lbl">Y</td>
-<td><div class="nw"><input type="number" id="motionPosOutFromY" class="ni" value="0" step="10" title="OUT Start Y offset"></div></td>
-</tr>
-<tr class="motion-out-row" id="motionPosOutRow2" style="display:none">
-<td class="soga-td-lbl">To X</td>
-<td><div class="nw"><input type="number" id="motionPosOutToX" class="ni" value="0" step="10" title="OUT End X offset"></div></td>
-<td class="soga-td-lbl">Y</td>
-<td><div class="nw"><input type="number" id="motionPosOutToY" class="ni" value="0" step="10" title="OUT End Y offset"></div></td>
-</tr>
-</table>
+<!-- 4. Rotation Animation -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio studio-row-split">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+            ROTATION ANIMATION
+        </span>
+        <div class="studio-btn-group">
+            <label class="studio-toggle-chip" title="Enable rotation animation">
+                <input type="checkbox" id="motionRotEnable">
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">ENABLE</span>
+                </span>
+            </label>
+            <button type="button" class="square-icon-btn link-btn linked" id="motionRotLink" title="Link/Unlink OUT values">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+            </button>
+        </div>
+    </div>
+    <!-- IN Rotation -->
+    <div class="metrics-grid-2">
+        <div class="precision-input-box" title="IN Start rotation angle">
+            <span class="p-label">FROM °</span>
+            <input type="number" id="motionRotFrom" class="ni" value="0" step="15" min="-360" max="360">
+            <span class="unit-tag">°</span>
+        </div>
+        <div class="precision-input-box" title="IN End rotation angle">
+            <span class="p-label">TO °</span>
+            <input type="number" id="motionRotTo" class="ni" value="0" step="15" min="-360" max="360">
+            <span class="unit-tag">°</span>
+        </div>
+    </div>
+    <!-- OUT Rotation Row -->
+    <div id="motionRotOutRow" class="metrics-grid-2 mt-6" style="display:none">
+        <div class="precision-input-box" title="OUT Start rotation angle">
+            <span class="p-label">OUT FROM</span>
+            <input type="number" id="motionRotOutFrom" class="ni" value="0" step="15" min="-360" max="360">
+            <span class="unit-tag">°</span>
+        </div>
+        <div class="precision-input-box" title="OUT End rotation angle">
+            <span class="p-label">OUT TO</span>
+            <input type="number" id="motionRotOutTo" class="ni" value="0" step="15" min="-360" max="360">
+            <span class="unit-tag">°</span>
+        </div>
+    </div>
 </div>
 
-<!-- Scale Section -->
-<div class="soga-box">
-<div class="soga-title" title="Scale animation"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> Scale</div>
-<table class="soga-table">
-<tr class="motion-in-row">
-<td><label class="ck" title="Enable scale animation"><input type="checkbox" id="motionScaleEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Enable</span></label></td>
-<td class="soga-td-lbl"><span class="row-tag in">IN</span> From</td>
-<td><div class="nw"><input type="number" id="motionScaleFrom" class="ni" value="100" step="10" min="0" max="200" title="IN Start scale %"></div></td>
-<td class="soga-td-unit">%</td>
-<td class="soga-td-lbl">To</td>
-<td><div class="nw"><input type="number" id="motionScaleTo" class="ni" value="100" step="10" min="0" max="200" title="IN End scale %"></div></td>
-<td class="soga-td-unit">%</td>
-<td><button class="link-btn linked" id="motionScaleLink" title="Link/Unlink OUT values"><i class="fa-solid fa-link"></i></button></td>
-</tr>
-<tr class="motion-out-row" id="motionScaleOutRow" style="display:none">
-<td></td>
-<td class="soga-td-lbl"><span class="row-tag out">OUT</span> From</td>
-<td><div class="nw"><input type="number" id="motionScaleOutFrom" class="ni" value="100" step="10" min="0" max="200" title="OUT Start scale %"></div></td>
-<td class="soga-td-unit">%</td>
-<td class="soga-td-lbl">To</td>
-<td><div class="nw"><input type="number" id="motionScaleOutTo" class="ni" value="100" step="10" min="0" max="200" title="OUT End scale %"></div></td>
-<td class="soga-td-unit">%</td>
-</tr>
-</table>
+<!-- 5. Opacity Animation -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio studio-row-split">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 0 20Z"></path></svg>
+            OPACITY ANIMATION
+        </span>
+        <div class="studio-btn-group">
+            <label class="studio-toggle-chip" title="Enable opacity animation">
+                <input type="checkbox" id="motionOpacityEnable">
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label">ENABLE</span>
+                </span>
+            </label>
+            <button type="button" class="square-icon-btn link-btn linked" id="motionOpacityLink" title="Link/Unlink OUT values">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+            </button>
+        </div>
+    </div>
+    <!-- IN Opacity -->
+    <div class="metrics-grid-2">
+        <div class="precision-input-box" title="IN Start opacity %">
+            <span class="p-label">FROM %</span>
+            <input type="number" id="motionOpacityFrom" class="ni" value="0" step="10" min="0" max="100">
+            <span class="unit-tag">%</span>
+        </div>
+        <div class="precision-input-box" title="IN End opacity %">
+            <span class="p-label">TO %</span>
+            <input type="number" id="motionOpacityTo" class="ni" value="100" step="10" min="0" max="100">
+            <span class="unit-tag">%</span>
+        </div>
+    </div>
+    <!-- OUT Opacity Row -->
+    <div id="motionOpacityOutRow" class="metrics-grid-2 mt-6" style="display:none">
+        <div class="precision-input-box" title="OUT Start opacity %">
+            <span class="p-label">OUT FROM</span>
+            <input type="number" id="motionOpacityOutFrom" class="ni" value="100" step="10" min="0" max="100">
+            <span class="unit-tag">%</span>
+        </div>
+        <div class="precision-input-box" title="OUT End opacity %">
+            <span class="p-label">OUT TO</span>
+            <input type="number" id="motionOpacityOutTo" class="ni" value="0" step="10" min="0" max="100">
+            <span class="unit-tag">%</span>
+        </div>
+    </div>
 </div>
 
-<!-- Rotation Section -->
-<div class="soga-box">
-<div class="soga-title" title="Rotation animation"><i class="fa-solid fa-rotate"></i> Rotation</div>
-<table class="soga-table">
-<tr class="motion-in-row">
-<td><label class="ck" title="Enable rotation animation"><input type="checkbox" id="motionRotEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Enable</span></label></td>
-<td class="soga-td-lbl"><span class="row-tag in">IN</span> From</td>
-<td><div class="nw"><input type="number" id="motionRotFrom" class="ni" value="0" step="15" min="-360" max="360" title="IN Start rotation °"></div></td>
-<td class="soga-td-unit">°</td>
-<td class="soga-td-lbl">To</td>
-<td><div class="nw"><input type="number" id="motionRotTo" class="ni" value="0" step="15" min="-360" max="360" title="IN End rotation °"></div></td>
-<td class="soga-td-unit">°</td>
-<td><button class="link-btn linked" id="motionRotLink" title="Link/Unlink OUT values"><i class="fa-solid fa-link"></i></button></td>
-</tr>
-<tr class="motion-out-row" id="motionRotOutRow" style="display:none">
-<td></td>
-<td class="soga-td-lbl"><span class="row-tag out">OUT</span> From</td>
-<td><div class="nw"><input type="number" id="motionRotOutFrom" class="ni" value="0" step="15" min="-360" max="360" title="OUT Start rotation °"></div></td>
-<td class="soga-td-unit">°</td>
-<td class="soga-td-lbl">To</td>
-<td><div class="nw"><input type="number" id="motionRotOutTo" class="ni" value="0" step="15" min="-360" max="360" title="OUT End rotation °"></div></td>
-<td class="soga-td-unit">°</td>
-</tr>
-</table>
+<!-- 6. Easing Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20v-6M6 20V10M18 20V4"></path></svg>
+            EASING & DYNAMICS
+        </span>
+    </div>
+    <div class="metrics-grid-2">
+        <div class="precision-select-box">
+            <span class="p-label">CURVE</span>
+            <select id="motionEasingType" class="sel" title="Easing type">
+                <option value="0">Linear</option>
+                <option value="1" selected>Ease Out</option>
+                <option value="2">Ease In</option>
+                <option value="3">Ease In-Out</option>
+                <option value="4">Bounce</option>
+                <option value="5">Elastic</option>
+                <option value="6">Spring</option>
+            </select>
+        </div>
+        <div class="precision-input-box" title="Easing strength %">
+            <span class="p-label">POWER</span>
+            <input type="number" id="motionEasingStrength" class="ni" value="100" step="10" min="0" max="200">
+            <span class="unit-tag">%</span>
+        </div>
+    </div>
 </div>
 
-<!-- Opacity Section -->
-<div class="soga-box">
-<div class="soga-title" title="Opacity animation"><i class="fa-solid fa-eye"></i> Opacity</div>
-<table class="soga-table">
-<tr class="motion-in-row">
-<td><label class="ck" title="Enable opacity animation"><input type="checkbox" id="motionOpacityEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Enable</span></label></td>
-<td class="soga-td-lbl"><span class="row-tag in">IN</span> From</td>
-<td><div class="nw"><input type="number" id="motionOpacityFrom" class="ni" value="0" step="10" min="0" max="100" title="IN Start opacity %"></div></td>
-<td class="soga-td-unit">%</td>
-<td class="soga-td-lbl">To</td>
-<td><div class="nw"><input type="number" id="motionOpacityTo" class="ni" value="100" step="10" min="0" max="100" title="IN End opacity %"></div></td>
-<td class="soga-td-unit">%</td>
-<td><button class="link-btn linked" id="motionOpacityLink" title="Link/Unlink OUT values"><i class="fa-solid fa-link"></i></button></td>
-</tr>
-<tr class="motion-out-row" id="motionOpacityOutRow" style="display:none">
-<td></td>
-<td class="soga-td-lbl"><span class="row-tag out">OUT</span> From</td>
-<td><div class="nw"><input type="number" id="motionOpacityOutFrom" class="ni" value="100" step="10" min="0" max="100" title="OUT Start opacity %"></div></td>
-<td class="soga-td-unit">%</td>
-<td class="soga-td-lbl">To</td>
-<td><div class="nw"><input type="number" id="motionOpacityOutTo" class="ni" value="0" step="10" min="0" max="100" title="OUT End opacity %"></div></td>
-<td class="soga-td-unit">%</td>
-</tr>
-</table>
+<!-- 7. Multi-layer Section -->
+<div class="soga-box studio-card" id="motionMultiLayer" style="display:none">
+    <div class="card-header-studio">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            MULTI-LAYER STAGGER
+        </span>
+    </div>
+    <div class="metrics-grid-2">
+        <div class="precision-input-box" title="Delay between layers (seconds)">
+            <span class="p-label">STAGGER</span>
+            <input type="number" id="motionStagger" class="ni" value="0.2" step="0.1" min="0">
+            <span class="unit-tag">s</span>
+        </div>
+        <div class="precision-input-box">
+            <span class="p-label">LAYERS</span>
+            <span id="motionLayerCount" style="padding-right:10px;font-weight:700;color:#2563eb;"></span>
+        </div>
+    </div>
 </div>
 
-<!-- Easing Section -->
-<div class="soga-box">
-<div class="soga-title" title="Easing curve"><i class="fa-solid fa-bezier-curve"></i> Easing</div>
-<table class="soga-table">
-<tr>
-<td class="soga-td-lbl">Type</td>
-<td colspan="2">
-<select id="motionEasingType" class="sel" style="width:100px" title="Easing type">
-<option value="0">Linear</option>
-<option value="1" selected>Ease Out</option>
-<option value="2">Ease In</option>
-<option value="3">Ease In-Out</option>
-<option value="4">Bounce</option>
-<option value="5">Elastic</option>
-<option value="6">Spring</option>
-</select>
-</td>
-<td class="soga-td-lbl">Strength</td>
-<td><div class="nw"><input type="number" id="motionEasingStrength" class="ni" value="100" step="10" min="0" max="200" title="Easing strength %"></div></td>
-<td class="soga-td-unit">%</td>
-</tr>
-</table>
-</div>
-
-<!-- Multi-layer Section -->
-<div class="soga-box" id="motionMultiLayer" style="display:none">
-<div class="soga-title" title="Multi-layer settings"><i class="fa-solid fa-layer-group"></i> Multi-layer</div>
-<table class="soga-table">
-<tr>
-<td class="soga-td-lbl">Stagger</td>
-<td><div class="nw"><input type="number" id="motionStagger" class="ni" value="0.2" step="0.1" min="0" title="Delay between layers (seconds)"></div></td>
-<td class="soga-td-unit">s</td>
-<td><span id="motionLayerCount" style="opacity:0.6"></span></td>
-</tr>
-</table>
-</div>
-
-<!-- Presets Section -->
-<div class="soga-box">
-<div class="soga-title" title="Quick presets"><i class="fa-solid fa-wand-magic-sparkles"></i> Quick Presets</div>
-
-<!-- IN/OUT Sub-tabs -->
-<div class="motion-presets-tabs">
-<button class="preset-tab active" data-tab="in" title="Select IN preset (entrance animation)">
-<i class="fa-solid fa-arrow-right-to-bracket"></i> IN
-</button>
-<button class="preset-tab" data-tab="out" title="Select OUT preset (exit animation)">
-<i class="fa-solid fa-arrow-right-from-bracket"></i> OUT
-</button>
-</div>
-
-<!-- Presets Grid - Generated dynamically from JSON files -->
-<div class="motion-presets-grid" id="motionPresetsGrid">
-<!-- Buttons will be generated by MotionPanel.js -->
-<div class="presets-loading"><i class="fa-solid fa-spinner fa-spin"></i> Loading presets...</div>
-</div>
-
-<!-- Selection Summary -->
-<div class="motion-presets-summary">
-<span class="preset-selection">
-<span class="in-label">IN:</span> <span id="selectedInPreset">None</span>
-<span class="separator">|</span>
-<span class="out-label">OUT:</span> <span id="selectedOutPreset">None</span>
-</span>
-<button class="btn-xs" id="btnClearPresets" title="Clear selections"><i class="fa-solid fa-xmark"></i></button>
-</div>
+<!-- 8. Presets Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio studio-row-split">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            MOTION PRESETS ARENA
+        </span>
+        <div class="tg studio-btn-group motion-presets-tabs">
+            <button type="button" class="tb preset-tab active" data-tab="in" title="Entrance animation">IN</button>
+            <button type="button" class="tb preset-tab" data-tab="out" title="Exit animation">OUT</button>
+        </div>
+    </div>
+    <div class="motion-presets-grid" id="motionPresetsGrid">
+        <div class="presets-loading">Loading presets...</div>
+    </div>
+    <div class="studio-row-split mt-6" style="background:#161620;padding:4px 8px;">
+        <span class="preset-selection" style="font-size:10px;font-weight:600;color:#8c8ca0;">
+            IN: <span id="selectedInPreset" style="color:#ffffff;">None</span> &bull; 
+            OUT: <span id="selectedOutPreset" style="color:#ffffff;">None</span>
+        </span>
+        <button type="button" class="square-icon-btn ib" id="btnClearPresets" title="Clear selections" style="width:20px;height:20px;">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+    </div>
 </div>
 </section>
 

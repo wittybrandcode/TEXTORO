@@ -2757,520 +2757,732 @@ html, body { height: 100%; }
 
 
 /* ============================================================
-   TEXTORO INDUSTRIAL SLATE STUDIO OVERRIDES (FINAL & ABSOLUTE)
-   100% Zero Radius, Precision Metrics, Crisp Industrial Sliders
+   TEXTORO SOLID STUDIO BLUE DESIGN SYSTEM (FINAL & ABSOLUTE)
+   100% Zero Radius, Solid Tactile Fills, Zero Hollow Wireframe Strokes,
+   Mathematical 4-Column & 2-Column Precision Alignment, Unified Brand Palette
    ============================================================ */
 
-/* Force Zero Radius on EVERY element */
+/* 1. Global Zero Radius Enforced Across Entire DOM */
 *, *::before, *::after,
 button, input, select, textarea, div, span, table, td, th, label, .modal, .tooltip, .ctx {
     border-radius: 0 !important;
 }
 
-/* Card Sections */
+/* 2. Top Header & Studio Navigation Tabs */
+.header,
+.unified-top-bar {
+    height: 38px !important;
+    background: #111116 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    padding: 0 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 6px !important;
+}
+
+.header-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.brand-text {
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.8px !important;
+    color: #e2e2ec !important;
+}
+
+.brand-version {
+    font-size: 9px !important;
+    font-weight: 600 !important;
+    color: #68687a !important;
+    background: #171720 !important;
+    padding: 2px 4px !important;
+}
+
+.tabs.studio-tab-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+}
+
+/* Inactive Tab Button: Solid Dark Slate (No Border, No Stroke) */
+.tab.square-icon-btn,
+.studio-tab-btn {
+    width: 28px !important;
+    height: 28px !important;
+    background: #1a1a24 !important;
+    border: none !important;
+    color: #8c8ca0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: background 0.12s ease, color 0.12s ease !important;
+    padding: 0 !important;
+}
+
+.tab.square-icon-btn svg,
+.studio-tab-btn svg {
+    stroke: currentColor !important;
+}
+
+.tab.square-icon-btn:hover,
+.studio-tab-btn:hover {
+    background: #242434 !important;
+    color: #e2e2ec !important;
+}
+
+/* Active Tab Button: Solid Electric Blue (High Contrast White Icon) */
+.tab.square-icon-btn.active,
+.studio-tab-btn.active {
+    background: #2563eb !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.tab.square-icon-btn.active svg,
+.studio-tab-btn.active svg {
+    stroke: #ffffff !important;
+}
+
+/* 3. Studio Card Containers (Solid Contrast Surface, Zero Wireframe Border) */
 .soga-box,
 .studio-card {
-    background: #17171f !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    padding: 10px 12px !important;
-    margin-bottom: 8px !important;
+    background: #16161f !important;
+    border: none !important;
+    padding: 8px 10px !important;
+    margin-bottom: 6px !important;
+    box-shadow: none !important;
 }
 
 .card-header-studio,
 .soga-title {
     display: flex !important;
     align-items: center !important;
-    gap: 7px !important;
-    margin-bottom: 8px !important;
+    justify-content: space-between !important;
     font-size: 10px !important;
     font-weight: 700 !important;
-    text-transform: uppercase !important;
     letter-spacing: 0.6px !important;
-    color: #8c8c9e !important;
+    text-transform: uppercase !important;
+    color: #9898aa !important;
+    margin-bottom: 6px !important;
     border: none !important;
     padding: 0 !important;
+    background: transparent !important;
 }
 
 .card-header-studio svg,
-.soga-title svg {
-    color: #8c8c9e !important;
-    width: 13px !important;
-    height: 13px !important;
+.soga-title svg,
+.soga-title i {
+    stroke: #2563eb !important;
+    color: #2563eb !important;
+    margin-right: 5px !important;
     flex-shrink: 0 !important;
 }
 
-/* Collapsible Headers */
-.collapsible-header {
-    display: flex !important;
+.card-title-studio {
+    display: inline-flex !important;
     align-items: center !important;
-    justify-content: space-between !important;
-    height: 32px !important;
-    padding: 0 10px !important;
-    background: #1a1a24 !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    margin-top: 6px !important;
-    cursor: pointer !important;
-    user-select: none !important;
-    transition: background 0.12s ease, border-color 0.12s ease !important;
+    gap: 5px !important;
 }
 
-.collapsible-header:hover {
-    background: #232332 !important;
-    border-color: rgba(255, 255, 255, 0.15) !important;
-}
-
-.collapsible-header-left {
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-}
-
-.collapsible-header-left .header-icon,
-.collapsible-header-left svg {
-    width: 13px !important;
-    height: 13px !important;
-    color: #8c8c9e !important;
-    flex-shrink: 0 !important;
-}
-
-.collapsible-title {
-    font-size: 10px !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.6px !important;
-    color: #dcdce8 !important;
-}
-
-.collapsible-chevron {
-    width: 12px !important;
-    height: 12px !important;
-    color: #8c8c9e !important;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    flex-shrink: 0 !important;
-}
-
-.collapsible-header:not(.collapsed) .collapsible-chevron {
-    transform: rotate(180deg) !important;
-}
-
-.collapsible-content {
-    background: #141419 !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-top: none !important;
-    padding: 10px 12px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 8px !important;
-}
-
-.collapsible-content.collapsed {
-    display: none !important;
-}
-
-/* Precision Metric Inputs & Grids */
+/* 4. Precision Grid Systems */
 .metrics-grid-4 {
     display: grid !important;
     grid-template-columns: repeat(4, 1fr) !important;
-    gap: 5px !important;
-    margin-top: 2px !important;
+    gap: 4px !important;
+    width: 100% !important;
 }
 
 .metrics-grid-2 {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 6px !important;
+    gap: 4px !important;
+    width: 100% !important;
 }
 
+.studio-row-split {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 6px !important;
+    width: 100% !important;
+}
+
+.studio-btn-group {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+}
+
+/* 5. Precision Input Box (Metric Box) */
 .precision-input-box {
     display: flex !important;
     align-items: center !important;
     height: 28px !important;
-    background: #131318 !important;
-    border: 1px solid rgba(255, 255, 255, 0.10) !important;
-    padding: 0 4px 0 7px !important;
-    transition: border-color 0.12s ease, background 0.12s ease !important;
+    background: #1c1c26 !important;
+    border: none !important;
     overflow: hidden !important;
-}
-
-.precision-input-box:hover {
-    background: #171720 !important;
-    border-color: rgba(255, 255, 255, 0.20) !important;
+    position: relative !important;
+    transition: background 0.12s ease !important;
+    width: 100% !important;
 }
 
 .precision-input-box:focus-within {
-    border-color: #4a72b0 !important;
-    background: #161622 !important;
-    outline: none !important;
-    box-shadow: none !important;
+    background: #222232 !important;
+    box-shadow: inset 0 0 0 1.5px #2563eb !important;
 }
 
-.precision-input-box .p-label,
-.precision-input-box .metric-tag {
-    font-size: 8.5px !important;
-    font-weight: 700 !important;
-    color: #8c8c9e !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    flex-shrink: 0 !important;
-    user-select: none !important;
-    white-space: nowrap !important;
-}
-
-.precision-input-box input[type="number"],
-.precision-input-box input[type="text"],
-.precision-input-box .ni {
-    flex: 1 !important;
-    width: 100% !important;
+.precision-input-box .p-label {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 8px !important;
     height: 100% !important;
-    background: transparent !important;
-    border: none !important;
-    color: #f0f0f5 !important;
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    text-align: right !important;
-    padding: 0 4px !important;
-    outline: none !important;
-    box-shadow: none !important;
-    -moz-appearance: textfield !important;
-    appearance: textfield !important;
+    background: #14141d !important;
+    color: #8c8ca0 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    user-select: none !important;
+    flex-shrink: 0 !important;
 }
 
-/* Stepper Numbers (.nw, .ni, .spin) */
-.nw {
-    display: inline-flex !important;
-    align-items: stretch !important;
-    background: #131318 !important;
-    border: 1px solid rgba(255, 255, 255, 0.10) !important;
-    height: 26px !important;
-    min-width: 76px !important;
-    max-width: 92px !important;
-    overflow: hidden !important;
-    transition: border-color 0.12s ease !important;
-}
-
-.nw:hover {
-    border-color: rgba(255, 255, 255, 0.20) !important;
-}
-
-.nw:focus-within {
-    border-color: #4a72b0 !important;
-    background: #161622 !important;
-    box-shadow: none !important;
-}
-
-.nw .ni {
+.precision-input-box input.ni,
+.precision-input-box input[type="number"],
+.precision-input-box input[type="text"] {
     flex: 1 !important;
     min-width: 0 !important;
     height: 100% !important;
-    background: transparent !important;
     border: none !important;
-    color: #f0f0f5 !important;
+    background: transparent !important;
+    color: #ffffff !important;
+    font-family: inherit !important;
     font-size: 11px !important;
     font-weight: 600 !important;
-    text-align: center !important;
-    padding: 0 2px !important;
-    outline: none !important;
-}
-
-.nw .spin {
-    width: 18px !important;
-    flex-shrink: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: #1c1c25 !important;
-    border: none !important;
-    color: #8c8c9e !important;
-    cursor: pointer !important;
-    padding: 0 !important;
-    user-select: none !important;
-    transition: background 0.1s ease, color 0.1s ease !important;
-}
-
-.nw .spin:hover {
-    background: #2b2b3a !important;
-    color: #ffffff !important;
-}
-
-.nw .spin:active {
-    background: #d4d4e2 !important;
-    color: #161620 !important;
-}
-
-.nw .spin-down {
-    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-}
-
-.nw .spin-up {
-    border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
-}
-
-.nw .spin svg {
-    width: 8px !important;
-    height: 8px !important;
-}
-
-/* Industrial Range Sliders */
-input[type="range"],
-input[type="range"].sl {
-    -webkit-appearance: none !important;
-    appearance: none !important;
-    height: 4px !important;
-    background: #22222d !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    outline: none !important;
-    padding: 0 !important;
-    margin: 0 6px !important;
-    flex: 1 !important;
-    cursor: ew-resize !important;
-}
-
-input[type="range"]::-webkit-slider-thumb,
-input[type="range"].sl::-webkit-slider-thumb {
-    -webkit-appearance: none !important;
-    appearance: none !important;
-    width: 10px !important;
-    height: 16px !important;
-    background: #d4d4e2 !important;
-    border: none !important;
-    cursor: ew-resize !important;
-    transition: background 0.1s ease !important;
-}
-
-input[type="range"]::-webkit-slider-thumb:hover,
-input[type="range"].sl::-webkit-slider-thumb:hover {
-    background: #ffffff !important;
-}
-
-.sv {
-    font-size: 10.5px !important;
-    font-weight: 700 !important;
-    color: #d4d4e2 !important;
-    min-width: 32px !important;
     text-align: right !important;
-    font-variant-numeric: tabular-nums !important;
+    padding: 0 6px 0 2px !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
-/* Color Pickers */
-input[type="color"],
-input[type="color"].ci {
-    -webkit-appearance: none !important;
-    appearance: none !important;
-    width: 22px !important;
-    height: 22px !important;
-    min-width: 22px !important;
-    border: 1px solid rgba(255, 255, 255, 0.20) !important;
-    background: transparent !important;
-    padding: 0 !important;
-    cursor: pointer !important;
-    flex-shrink: 0 !important;
-}
-
-input[type="color"]::-webkit-color-swatch-wrapper,
-input[type="color"].ci::-webkit-color-swatch-wrapper {
-    padding: 0 !important;
-}
-
-input[type="color"]::-webkit-color-swatch,
-input[type="color"].ci::-webkit-color-swatch {
-    border: none !important;
-}
-
-/* Checkboxes */
-.ck {
-    display: inline-flex !important;
-    align-items: center !important;
-    cursor: pointer !important;
+.precision-input-box .unit-tag {
+    font-size: 10px !important;
+    color: #6e6e82 !important;
+    padding-right: 6px !important;
     user-select: none !important;
-    font-size: 11px !important;
-    color: #c4c4d4 !important;
-}
-
-.ck input[type="checkbox"] {
-    position: absolute !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-}
-
-.ck .cb {
-    width: 14px !important;
-    height: 14px !important;
-    background: #141419 !important;
-    border: 1px solid rgba(255, 255, 255, 0.20) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
     flex-shrink: 0 !important;
-    transition: background 0.1s ease, border-color 0.1s ease !important;
-}
-
-.ck:hover .cb {
-    border-color: rgba(255, 255, 255, 0.35) !important;
-}
-
-.ck input[type="checkbox"]:checked + .cb {
-    background: #d4d4e2 !important;
-    border-color: #d4d4e2 !important;
-}
-
-.ck input[type="checkbox"]:checked + .cb::after {
-    content: '' !important;
-    width: 4px !important;
-    height: 7px !important;
-    border: solid #161620 !important;
-    border-width: 0 1.5px 1.5px 0 !important;
-    transform: rotate(45deg) translate(-0.5px, -0.5px) !important;
-    display: block !important;
-}
-
-.ck .cl {
-    margin-left: 6px !important;
-    font-size: 11px !important;
-    color: #c4c4d4 !important;
     font-weight: 500 !important;
 }
 
-/* Direction & Toggle Buttons (.tg, .tb, .icon-btn-group) */
-.icon-btn-group,
-.tg {
-    display: inline-flex !important;
+/* 6. Studio Toggle Chip (Clear Solid Colors, Zero Stroke) */
+.studio-toggle-chip {
+    display: flex !important;
     align-items: center !important;
-    background: #141419 !important;
-    border: 1px solid rgba(255, 255, 255, 0.10) !important;
-    overflow: hidden !important;
+    height: 28px !important;
+    position: relative !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    margin: 0 !important;
+    width: 100% !important;
 }
 
-.icon-btn-group .tb,
-.tg .tb {
-    height: 26px !important;
+.studio-toggle-chip input[type="checkbox"] {
+    position: absolute !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    margin: 0 !important;
+}
+
+.studio-toggle-chip .chip-inner {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
     padding: 0 10px !important;
-    background: #1c1c25 !important;
+    background: #1c1c26 !important;
+    color: #9898aa !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
     border: none !important;
-    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-    color: #8c8c9e !important;
+    transition: background 0.12s ease, color 0.12s ease !important;
+    white-space: nowrap !important;
+}
+
+.studio-toggle-chip .chip-check {
+    display: none !important;
+}
+
+.studio-toggle-chip:hover .chip-inner {
+    background: #252535 !important;
+    color: #e2e2ec !important;
+}
+
+.studio-toggle-chip input[type="checkbox"]:checked + .chip-inner {
+    background: #2563eb !important;
+    color: #ffffff !important;
+}
+
+.studio-toggle-chip input[type="checkbox"]:checked + .chip-inner .chip-check {
+    display: inline-block !important;
+    stroke: #ffffff !important;
+}
+
+.studio-toggle-chip input[type="checkbox"]:checked:hover + .chip-inner {
+    background: #3b82f6 !important;
+    color: #ffffff !important;
+}
+
+/* 7. Precision Slider Row */
+.studio-slider-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    height: 28px !important;
+    background: #1c1c26 !important;
+    padding: 0 8px !important;
+    user-select: none !important;
+    width: 100% !important;
+}
+
+.studio-slider-row .slider-label {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    color: #8c8ca0 !important;
+    flex-shrink: 0 !important;
+    width: 95px !important;
+}
+
+.studio-slider-row .slider-track-wrap {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.studio-slider-row input[type="range"] {
+    -webkit-appearance: none !important;
+    width: 100% !important;
+    height: 4px !important;
+    background: #28283a !important;
+    outline: none !important;
+    border: none !important;
+    margin: 0 !important;
+}
+
+.studio-slider-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    width: 12px !important;
+    height: 16px !important;
+    background: #2563eb !important;
+    cursor: ew-resize !important;
+    border: none !important;
+    border-radius: 0 !important;
+    transition: background 0.12s ease !important;
+}
+
+.studio-slider-row input[type="range"]::-webkit-slider-thumb:hover {
+    background: #3b82f6 !important;
+}
+
+.studio-slider-row .slider-val-badge {
+    min-width: 36px !important;
+    height: 20px !important;
+    background: #14141d !important;
+    color: #ffffff !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+/* 8. Studio Combo Row (Select + Color) */
+.studio-combo-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    width: 100% !important;
+}
+
+.precision-select-box {
+    display: flex !important;
+    align-items: center !important;
+    height: 28px !important;
+    background: #1c1c26 !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    border: none !important;
+}
+
+.precision-select-box .p-label {
+    padding: 0 8px !important;
+    height: 100% !important;
+    background: #14141d !important;
+    color: #8c8ca0 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    display: flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+}
+
+.precision-select-box select.sel {
+    flex: 1 !important;
+    height: 100% !important;
+    background: transparent !important;
+    border: none !important;
+    color: #ffffff !important;
     font-size: 11px !important;
     font-weight: 600 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 5px !important;
+    padding: 0 6px !important;
+    outline: none !important;
     cursor: pointer !important;
-    transition: background 0.1s ease, color 0.1s ease !important;
 }
 
-.icon-btn-group .tb:last-child,
-.tg .tb:last-child {
-    border-right: none !important;
+.precision-select-box select.sel option {
+    background: #161620 !important;
+    color: #ffffff !important;
 }
 
-.icon-btn-group .tb:hover,
-.tg .tb:hover {
-    background: #282836 !important;
-    color: #d4d4e2 !important;
+.precision-color-box {
+    display: flex !important;
+    align-items: center !important;
+    height: 28px !important;
+    background: #1c1c26 !important;
+    overflow: hidden !important;
+    border: none !important;
 }
 
-.icon-btn-group .tb.active,
-.tg .tb.active {
-    background: #d4d4e2 !important;
-    color: #161620 !important;
+.precision-color-box .p-label {
+    padding: 0 8px !important;
+    height: 100% !important;
+    background: #14141d !important;
+    color: #8c8ca0 !important;
+    font-size: 10px !important;
     font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    display: flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
 }
 
-.icon-btn-group .tb.active svg,
-.tg .tb.active svg {
-    stroke: #161620 !important;
+.precision-color-box .color-picker-wrap {
+    flex: 1 !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 4px !important;
 }
 
-/* Square Icon Buttons */
+.precision-color-box input[type="color"] {
+    width: 100% !important;
+    height: 20px !important;
+    border: none !important;
+    padding: 0 !important;
+    background: none !important;
+    cursor: pointer !important;
+    border-radius: 0 !important;
+}
+
+/* 9. Text Area */
+.studio-textarea {
+    background: #1c1c26 !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-family: inherit !important;
+    font-size: 12px !important;
+    padding: 8px 10px !important;
+    width: 100% !important;
+    resize: vertical !important;
+    min-height: 48px !important;
+    box-sizing: border-box !important;
+    outline: none !important;
+}
+
+.studio-textarea:focus {
+    background: #20202e !important;
+    box-shadow: inset 0 0 0 1.5px #2563eb !important;
+}
+
+/* 10. Secondary Buttons & Icon Buttons (Solid Fills, ZERO Stroke) */
 .square-icon-btn,
-.ib {
-    width: 26px !important;
-    height: 26px !important;
+.ib,
+.tb {
+    height: 28px !important;
+    min-width: 28px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background: #1c1c25 !important;
-    border: 1px solid rgba(255, 255, 255, 0.10) !important;
-    color: #8c8c9e !important;
+    background: #1e1e28 !important;
+    border: none !important;
+    color: #8c8ca0 !important;
     cursor: pointer !important;
-    padding: 0 !important;
-    transition: background 0.1s ease, color 0.1s ease, border-color 0.1s ease !important;
+    padding: 0 8px !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.4px !important;
+    transition: background 0.12s ease, color 0.12s ease !important;
+    outline: none !important;
+}
+
+.square-icon-btn svg,
+.ib svg,
+.tb svg {
+    stroke: currentColor !important;
 }
 
 .square-icon-btn:hover,
-.ib:hover {
-    background: #282836 !important;
-    color: #d4d4e2 !important;
-    border-color: rgba(255, 255, 255, 0.20) !important;
+.ib:hover,
+.tb:hover {
+    background: #282838 !important;
+    color: #e2e2ec !important;
 }
 
-.square-icon-btn.active {
-    background: #d4d4e2 !important;
-    color: #161620 !important;
-    border-color: #d4d4e2 !important;
+.square-icon-btn.active,
+.tb.active {
+    background: #2563eb !important;
+    color: #ffffff !important;
 }
 
-.square-icon-btn.active svg {
-    stroke: #161620 !important;
+.square-icon-btn.active svg,
+.tb.active svg {
+    stroke: #ffffff !important;
 }
 
-/* Action Bar Buttons */
+/* Link Button for Motion Pairing */
+.link-btn {
+    background: #1e1e28 !important;
+    color: #8c8ca0 !important;
+    border: none !important;
+}
+
+.link-btn.linked {
+    background: #17223b !important;
+    color: #2563eb !important;
+}
+
+.link-btn.linked svg {
+    stroke: #2563eb !important;
+}
+
+/* 11. Bottom Action Bar & Action Buttons */
 .action-bar {
     height: 40px !important;
-    background: #121217 !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: #111115 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
     padding: 0 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
 }
 
 .action-bar .actions {
     display: flex !important;
     align-items: center !important;
-    gap: 5px !important;
+    gap: 4px !important;
 }
 
-.ab.square-icon-btn {
+/* Primary Action Button (Apply): Solid Electric Blue Fill */
+.ab-p.square-icon-btn,
+.btn-primary {
+    background: #2563eb !important;
+    border: none !important;
+    color: #ffffff !important;
     width: 28px !important;
     height: 28px !important;
-    background: #1e1e27 !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    color: #8c8c9e !important;
+}
+
+.ab-p.square-icon-btn svg,
+.btn-primary svg {
+    stroke: #ffffff !important;
+}
+
+.ab-p.square-icon-btn:hover,
+.btn-primary:hover {
+    background: #3b82f6 !important;
+}
+
+.ab-p.square-icon-btn:active,
+.btn-primary:active {
+    background: #1d4ed8 !important;
+}
+
+/* Danger / Delete Action Button: Solid Dark Slate with Crimson Icon (NO WIREFRAME STROKE) */
+.ab-d.square-icon-btn,
+.btn-del,
+.btn-danger {
+    background: #261619 !important;
+    border: none !important;
+    color: #f87171 !important;
+    width: 28px !important;
+    height: 28px !important;
+}
+
+.ab-d.square-icon-btn svg,
+.btn-del svg,
+.btn-danger svg {
+    stroke: #f87171 !important;
+}
+
+.ab-d.square-icon-btn:hover,
+.btn-del:hover,
+.btn-danger:hover {
+    background: #dc2626 !important;
+    color: #ffffff !important;
+}
+
+.ab-d.square-icon-btn:hover svg,
+.btn-del:hover svg,
+.btn-danger:hover svg {
+    stroke: #ffffff !important;
+}
+
+.ab-d.square-icon-btn:active,
+.btn-del:active,
+.btn-danger:active {
+    background: #b91c1c !important;
+}
+
+/* Secondary Action Buttons (Split, Refresh, etc.) */
+.ab.square-icon-btn {
+    background: #1e1e28 !important;
+    border: none !important;
+    color: #dcdce8 !important;
+    width: 28px !important;
+    height: 28px !important;
+}
+
+.ab.square-icon-btn svg {
+    stroke: currentColor !important;
 }
 
 .ab.square-icon-btn:hover {
-    background: #2b2b3a !important;
+    background: #282838 !important;
     color: #ffffff !important;
 }
 
-.ab-p.square-icon-btn {
-    background: #2f5288 !important;
-    border-color: #4a72b0 !important;
-    color: #ffffff !important;
-}
-
-.ab-p.square-icon-btn:hover {
-    background: #3c68ac !important;
-}
-
-.ab-d.square-icon-btn {
-    background: #28191c !important;
-    border-color: rgba(212, 106, 116, 0.35) !important;
-    color: #d46a74 !important;
-}
-
-.ab-d.square-icon-btn:hover {
-    background: #3d2127 !important;
-    border-color: #ff6b7b !important;
-    color: #ff6b7b !important;
-}
-
+/* Status Indicator Dot */
 .target-indicator-dot {
-    width: 7px !important;
-    height: 7px !important;
-    background: #4ec9b0 !important;
-    box-shadow: 0 0 6px rgba(78, 201, 176, 0.7) !important;
+    width: 8px !important;
+    height: 8px !important;
+    background: #2563eb !important;
+    box-shadow: 0 0 6px rgba(37, 99, 235, 0.6) !important;
     flex-shrink: 0 !important;
 }
 
 .target-indicator-dot.error {
-    background: #d46a74 !important;
-    box-shadow: 0 0 6px rgba(212, 106, 116, 0.7) !important;
+    background: #ef4444 !important;
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.6) !important;
 }
+
+/* 12. Presets Filter, Cards & Search */
+.presets-filter {
+    display: flex !important;
+    gap: 3px !important;
+    margin-bottom: 6px !important;
+    overflow-x: auto !important;
+}
+
+.filter-btn {
+    height: 26px !important;
+    padding: 0 8px !important;
+    background: #1c1c26 !important;
+    border: none !important;
+    color: #8c8ca0 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.4px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    cursor: pointer !important;
+    transition: background 0.12s ease, color 0.12s ease !important;
+}
+
+.filter-btn:hover {
+    background: #252535 !important;
+    color: #e2e2ec !important;
+}
+
+.filter-btn.active,
+.filter-btn.toro.active,
+.filter-btn.fav.active {
+    background: #2563eb !important;
+    color: #ffffff !important;
+}
+
+.filter-btn.active svg,
+.filter-btn.toro.active svg,
+.filter-btn.fav.active svg {
+    stroke: #ffffff !important;
+    fill: #ffffff !important;
+}
+
+.presets-search {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    background: #1c1c26 !important;
+    border: none !important;
+    height: 28px !important;
+    padding: 0 8px !important;
+    margin-bottom: 6px !important;
+}
+
+.presets-search input {
+    background: transparent !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    outline: none !important;
+    flex: 1 !important;
+}
+
+.preset-card,
+.preset {
+    background: #1c1c26 !important;
+    border: none !important;
+    padding: 8px 10px !important;
+    margin-bottom: 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    transition: background 0.12s ease !important;
+    cursor: pointer !important;
+}
+
+.preset-card:hover,
+.preset:hover {
+    background: #242434 !important;
+}
+
+.preset-card.active,
+.preset.active {
+    background: #17223b !important;
+    box-shadow: inset 0 0 0 1.5px #2563eb !important;
+}
+
+/* 13. Collapsible & Animation Guarantees */
+.collapsible-content {
+    display: block !important;
+}
+
+/* 14. Spacers & Utility Margins */
+.mt-4 { margin-top: 4px !important; }
+.mt-6 { margin-top: 6px !important; }
+.mb-6 { margin-bottom: 6px !important; }
