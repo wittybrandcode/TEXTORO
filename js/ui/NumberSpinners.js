@@ -1,7 +1,7 @@
 /**
  * TEXTORO - Number Spinners Module
- * أزرار الأرقام (+/-) - Spectrum Style
- * @version 3.5.0
+ * أزرار وتدرجات الأرقام (Studio Precision Steppers)
+ * @version 3.6.0
  */
 
 TEXTORO.UI = TEXTORO.UI || {};
@@ -9,31 +9,46 @@ TEXTORO.UI = TEXTORO.UI || {};
 TEXTORO.UI.NumberSpinners = (function() {
     'use strict';
     
-    // SVG Arrow Icons
-    var SVG_LEFT = '<svg viewBox="0 0 10 10" width="10" height="10"><path d="M7 2L3 5L7 8" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    var SVG_RIGHT = '<svg viewBox="0 0 10 10" width="10" height="10"><path d="M3 2L7 5L3 8" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    
     /**
      * تهيئة جميع الـ spinners
      */
     function init() {
-        // البحث عن كل الـ number wrappers
-        document.querySelectorAll('.nw').forEach(function(wrapper) {
+        var selector = '.precision-input-box, .nw';
+        document.querySelectorAll(selector).forEach(function(wrapper) {
             var input = wrapper.querySelector('input[type="number"]');
             if (!input) return;
             
-            // Check if already initialized - IMPORTANT to prevent duplicates
+            // Check if already bound
             if (wrapper.dataset.spinnerInit === 'true') return;
             
-            // Count existing buttons to detect duplicates
-            var existingButtons = wrapper.querySelectorAll('button.spin, .spin-down, .spin-up');
-            if (existingButtons.length >= 2) {
-                wrapper.dataset.spinnerInit = 'true';
-                return; // Already has buttons
-            }
+            // Clean up any legacy horizontal buttons (.spin-down, .spin-up outside stepper-actions)
+            wrapper.querySelectorAll('button.spin:not(.step-arrow)').forEach(function(btn) {
+                btn.remove();
+            });
             
-            // Remove any partial/duplicate buttons first
-            existingButtons.forEach(function(btn) { btn.remove(); });
+            var actions = wrapper.querySelector('.stepper-actions');
+            if (!actions) {
+                actions = document.createElement('div');
+                actions.className = 'stepper-actions';
+                
+                var stepUp = document.createElement('button');
+                stepUp.type = 'button';
+                stepUp.className = 'step-arrow step-up';
+                stepUp.setAttribute('tabindex', '-1');
+                stepUp.title = 'Increase';
+                stepUp.innerHTML = '▲';
+                
+                var stepDown = document.createElement('button');
+                stepDown.type = 'button';
+                stepDown.className = 'step-arrow step-down';
+                stepDown.setAttribute('tabindex', '-1');
+                stepDown.title = 'Decrease';
+                stepDown.innerHTML = '▼';
+                
+                actions.appendChild(stepUp);
+                actions.appendChild(stepDown);
+                wrapper.appendChild(actions);
+            }
             
             wrapper.dataset.spinnerInit = 'true';
             
@@ -41,35 +56,24 @@ TEXTORO.UI.NumberSpinners = (function() {
             var min = parseFloat(input.getAttribute('min'));
             var max = parseFloat(input.getAttribute('max'));
             
-            // Create spin buttons
-            var spinDown = document.createElement('button');
-            spinDown.type = 'button';
-            spinDown.className = 'spin spin-down';
-            spinDown.setAttribute('tabindex', '-1');
-            spinDown.innerHTML = SVG_LEFT;
-            wrapper.insertBefore(spinDown, input);
+            var btnUp = actions.querySelector('.step-up');
+            var btnDown = actions.querySelector('.step-down');
             
-            var spinUp = document.createElement('button');
-            spinUp.type = 'button';
-            spinUp.className = 'spin spin-up';
-            spinUp.setAttribute('tabindex', '-1');
-            spinUp.innerHTML = SVG_RIGHT;
-            wrapper.appendChild(spinUp);
+            if (btnUp) {
+                setupHold(btnUp, function(isShift) {
+                    var mult = isShift ? 10 : 1;
+                    increment(input, step * mult, max);
+                });
+            }
             
-            // Add event listeners
-            spinUp.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                increment(input, step, max);
-            });
+            if (btnDown) {
+                setupHold(btnDown, function(isShift) {
+                    var mult = isShift ? 10 : 1;
+                    decrement(input, step * mult, min);
+                });
+            }
             
-            spinDown.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                decrement(input, step, min);
-            });
-            
-            // Keyboard support (only add once)
+            // Keyboard & Mouse wheel support
             if (!input.dataset.keyboardInit) {
                 input.dataset.keyboardInit = 'true';
                 input.addEventListener('keydown', function(e) {
@@ -81,10 +85,51 @@ TEXTORO.UI.NumberSpinners = (function() {
                         decrement(input, e.shiftKey ? step * 10 : step, min);
                     }
                 });
+                
+                input.addEventListener('wheel', function(e) {
+                    if (document.activeElement === input) {
+                        e.preventDefault();
+                        if (e.deltaY < 0) {
+                            increment(input, e.shiftKey ? step * 10 : step, max);
+                        } else {
+                            decrement(input, e.shiftKey ? step * 10 : step, min);
+                        }
+                    }
+                }, { passive: false });
             }
         });
         
-        TEXTORO.log('NumberSpinners initialized (Spectrum Style)');
+        TEXTORO.log('NumberSpinners initialized (Studio Precision Steppers)');
+    }
+    
+    /**
+     * إعداد الضغط المستمر (Hold to ramp up/down)
+     */
+    function setupHold(btn, action) {
+        var timer = null;
+        var interval = null;
+        
+        function start(e) {
+            if (e.button !== 0) return; // Only left click
+            e.preventDefault();
+            var isShift = e.shiftKey;
+            action(isShift);
+            
+            timer = setTimeout(function() {
+                interval = setInterval(function() {
+                    action(isShift);
+                }, 60);
+            }, 300);
+        }
+        
+        function stop() {
+            if (timer) { clearTimeout(timer); timer = null; }
+            if (interval) { clearInterval(interval); interval = null; }
+        }
+        
+        btn.addEventListener('mousedown', start);
+        btn.addEventListener('mouseup', stop);
+        btn.addEventListener('mouseleave', stop);
     }
     
     /**
@@ -133,7 +178,7 @@ TEXTORO.UI.NumberSpinners = (function() {
     }
     
     /**
-     * إطلاق حدث change
+     * إطلاق حدث change و input
      */
     function triggerChange(input) {
         input.dispatchEvent(new Event('change', { bubbles: true }));

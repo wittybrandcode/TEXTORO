@@ -3486,3 +3486,46 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 .mt-4 { margin-top: 4px !important; }
 .mt-6 { margin-top: 6px !important; }
 .mb-6 { margin-bottom: 6px !important; }
+
+/* 15. Studio Stepper Arrows (Spacious & Crisp Click Area) */
+.stepper-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 16px !important;
+    height: 100% !important;
+    flex-shrink: 0 !important;
+    background: #14141d !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.05) !important;
+    overflow: hidden !important;
+}
+
+.step-arrow {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+    font-size: 6.5px !important;
+    line-height: 1 !important;
+    color: #8c8ca0 !important;
+    user-select: none !important;
+    transition: background 0.08s ease, color 0.08s ease !important;
+    outline: none !important;
+}
+
+.step-arrow.step-up {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+
+.step-arrow:hover {
+    background: #2563eb !important;
+    color: #ffffff !important;
+}
+
+.step-arrow:active {
+    background: #1d4ed8 !important;
+    color: #ffffff !important;
+}
