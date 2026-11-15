@@ -9,21 +9,22 @@
 </head>
 <body>
 <div class="app">
-<!-- HEADER -->
-<header class="header" title="TEXTORO - Typewriter Animation Plugin">
-<div><span class="logo">TEXTORO</span><span class="ver" id="verBadge" title="Current version - Spectrum UI">v1.0.0</span></div>
+<!-- UNIFIED TOP BAR (Industrial Slate Studio Header) -->
+<header class="header unified-top-bar" id="main-header" title="TEXTORO">
+    <div class="header-brand">
+        <span class="brand-text">TEXTORO</span>
+        <span class="ver brand-version" id="verBadge" title="Current version">v1.0.0</span>
+    </div>
+    <nav class="tabs studio-tab-row" role="tablist">
+        <button class="tab square-icon-btn studio-tab-btn active" data-tab="type" title="Typewriter"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg></button>
+        <button class="tab square-icon-btn studio-tab-btn" data-tab="box" title="Box"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18"></rect></svg></button>
+        <button class="tab square-icon-btn studio-tab-btn" data-tab="presets" title="Arena"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+        <button class="tab square-icon-btn studio-tab-btn" data-tab="soga" title="Soga Live"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg></button>
+        <button class="tab square-icon-btn studio-tab-btn" data-tab="markers" title="Markers"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg></button>
+        <button class="tab square-icon-btn studio-tab-btn" data-tab="motion" title="Motion"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg></button>
+        <button class="tab square-icon-btn studio-tab-btn" data-tab="settings" title="Settings"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></button>
+    </nav>
 </header>
-
-<!-- TABS -->
-<nav class="tabs">
-<button class="tab active" data-tab="type" title="Typewriter settings - text animation"><i class="fa-solid fa-keyboard"></i>Type</button>
-<button class="tab" data-tab="box" title="Box settings - background shape"><i class="fa-solid fa-square"></i>Box</button>
-<button class="tab" data-tab="presets" title="Arena — حلبة الثور (Presets library)"><i class="fa-solid fa-grip"></i>Arena</button>
-<button class="tab" data-tab="soga" title="Live edit - modify selected layer properties"><i class="fa-solid fa-sliders"></i>Soga</button>
-<button class="tab" data-tab="markers" title="Markers manager - batch edit timing"><i class="fa-solid fa-tags"></i>Markers</button>
-<button class="tab" data-tab="motion" title="Motion animation - animate layer as whole"><i class="fa-solid fa-wind"></i>Motion</button>
-<button class="tab" data-tab="settings" title="Settings and preferences"><i class="fa-solid fa-gear"></i></button>
-</nav>
 
 <!-- CONTENT -->
 <main class="content">
@@ -46,24 +47,30 @@
 </div>
 
 <!-- Timing Section -->
-<div class="soga-box">
-<div class="soga-title" title="Animation timing"><i class="fa-solid fa-stopwatch"></i></div>
-<div class="row-2">
-<div class="field-group in-group">
-<span class="field-tag in" title="IN Animation"><i class="fa-solid fa-right-to-bracket"></i></span>
-<div class="nw" title="IN Start"><input type="number" id="numInStart" class="ni" value="2" step="0.1" min="0"></div>
-<span class="field-sep">→</span>
-<div class="nw" title="IN End"><input type="number" id="numInEnd" class="ni" value="3" step="0.1" min="0"></div>
+<div class="soga-box studio-card">
+<div class="card-header-studio">
+    <span class="card-title-studio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Timing (seconds)</span>
 </div>
-<div class="field-group out-group">
-<span class="field-tag out" title="OUT Animation"><i class="fa-solid fa-right-from-bracket"></i></span>
-<div class="nw" title="OUT Start"><input type="number" id="numOutStart" class="ni" value="6" step="0.1" min="0"></div>
-<span class="field-sep">→</span>
-<div class="nw" title="OUT End"><input type="number" id="numOutEnd" class="ni" value="7" step="0.1" min="0"></div>
-</div>
+<div class="metrics-grid-4">
+    <div class="precision-input-box" title="IN Start Time (s)">
+        <span class="p-label">IN S</span>
+        <input type="number" id="numInStart" class="ni" value="2" step="0.1" min="0">
+    </div>
+    <div class="precision-input-box" title="IN End Time (s)">
+        <span class="p-label">IN E</span>
+        <input type="number" id="numInEnd" class="ni" value="3" step="0.1" min="0">
+    </div>
+    <div class="precision-input-box" title="OUT Start Time (s)">
+        <span class="p-label">OUT S</span>
+        <input type="number" id="numOutStart" class="ni" value="6" step="0.1" min="0">
+    </div>
+    <div class="precision-input-box" title="OUT End Time (s)">
+        <span class="p-label">OUT E</span>
+        <input type="number" id="numOutEnd" class="ni" value="7" step="0.1" min="0">
+    </div>
 </div>
 <div class="row-flex mt-6">
-<label class="ck" title="Disable OUT animation"><input type="checkbox" id="chkNoOut"><span class="cb"></span><span class="cl"><i class="fa-solid fa-eye-slash"></i></span></label>
+    <label class="ck" title="Disable OUT animation"><input type="checkbox" id="chkNoOut"><span class="cb"></span><span class="cl">Disable OUT</span></label>
 </div>
 </div>
 
@@ -185,13 +192,29 @@
 <!-- BOX PANEL -->
 <section class="panel" id="panel-box">
 <!-- Padding Section - 4 in row -->
-<div class="soga-box">
-<div class="soga-title" title="Box padding"><i class="fa-solid fa-up-down-left-right"></i></div>
-<div class="row-4">
-<div class="field-mini"><i class="fa-solid fa-arrow-left" title="Left"></i><div class="nw"><input type="number" id="numPadL" class="ni" value="40" step="5" min="0"></div></div>
-<div class="field-mini"><i class="fa-solid fa-arrow-right" title="Right"></i><div class="nw"><input type="number" id="numPadR" class="ni" value="40" step="5" min="0"></div></div>
-<div class="field-mini"><i class="fa-solid fa-arrow-up" title="Top"></i><div class="nw"><input type="number" id="numPadT" class="ni" value="20" step="5" min="0"></div></div>
-<div class="field-mini"><i class="fa-solid fa-arrow-down" title="Bottom"></i><div class="nw"><input type="number" id="numPadB" class="ni" value="20" step="5" min="0"></div></div>
+<div class="soga-box studio-card">
+<div class="card-header-studio">
+    <span class="card-title-studio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3H3v18h18V3z"></path></svg> Padding (px)</span>
+</div>
+<div class="metrics-grid-4">
+    <div class="precision-input-box" title="Padding Left (px)">
+        <span class="p-label">PAD L</span>
+        <input type="number" id="numPadL" class="ni" value="40" step="5" min="0">
+    </div>
+    <div class="precision-input-box" title="Padding Right (px)">
+        <span class="p-label">PAD R</span>
+        <input type="number" id="numPadR" class="ni" value="40" step="5" min="0">
+    </div>
+    <div class="precision-input-box" title="Padding Top (px)">
+        <span class="p-label">PAD T</span>
+        <input type="number" id="numPadT" class="ni" value="20" step="5" min="0">
+    </div>
+    <div class="precision-input-box" title="Padding Bottom (px)">
+        <span class="p-label">PAD B</span>
+        <input type="number" id="numPadB" class="ni" value="20" step="5" min="0">
+    </div>
+</div>
+</div>
 </div>
 </div>
 
@@ -205,11 +228,24 @@
 <div class="nw"><input type="number" id="numCorner" class="ni" value="15" step="1" min="0" title="Corner radius"></div>
 </div>
 </div>
-<div id="fourCornersRow" class="row-4 mt-6" style="display:none">
-<div class="field-mini"><span title="Top-Left">TL</span><div class="nw"><input type="number" id="numCornerTL" class="ni" value="15" step="1" min="0"></div></div>
-<div class="field-mini"><span title="Top-Right">TR</span><div class="nw"><input type="number" id="numCornerTR" class="ni" value="15" step="1" min="0"></div></div>
-<div class="field-mini"><span title="Bottom-Left">BL</span><div class="nw"><input type="number" id="numCornerBL" class="ni" value="15" step="1" min="0"></div></div>
-<div class="field-mini"><span title="Bottom-Right">BR</span><div class="nw"><input type="number" id="numCornerBR" class="ni" value="15" step="1" min="0"></div></div>
+<div id="fourCornersRow" class="metrics-grid-4 mt-6" style="display:none">
+    <div class="precision-input-box" title="Top-Left Corner (px)">
+        <span class="p-label">C-TL</span>
+        <input type="number" id="numCornerTL" class="ni" value="15" step="1" min="0">
+    </div>
+    <div class="precision-input-box" title="Top-Right Corner (px)">
+        <span class="p-label">C-TR</span>
+        <input type="number" id="numCornerTR" class="ni" value="15" step="1" min="0">
+    </div>
+    <div class="precision-input-box" title="Bottom-Left Corner (px)">
+        <span class="p-label">C-BL</span>
+        <input type="number" id="numCornerBL" class="ni" value="15" step="1" min="0">
+    </div>
+    <div class="precision-input-box" title="Bottom-Right Corner (px)">
+        <span class="p-label">C-BR</span>
+        <input type="number" id="numCornerBR" class="ni" value="15" step="1" min="0">
+    </div>
+</div>
 </div>
 </div>
 
@@ -309,12 +345,12 @@
 <!-- Filter Buttons -->
 <div class="presets-filter">
 <button class="filter-btn active" data-filter="all" title="Show all presets">All</button>
-<button class="filter-btn toro" data-filter="toro" title="🐂 TORO - Complete templates (Type+Box+Motion)">🐂 Toro</button>
+<button class="filter-btn toro square-icon-btn" data-filter="toro" title="TORO - Complete templates (Type+Box+Motion)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> Toro</button>
 <button class="filter-btn" data-filter="type" title="Typewriter presets">Type</button>
 <button class="filter-btn" data-filter="box" title="Box presets">Box</button>
 <button class="filter-btn" data-filter="mix" title="Combined presets">Mix</button>
 <button class="filter-btn" data-filter="motion-full" title="Motion presets (IN+OUT)">Motion</button>
-<button class="filter-btn fav" data-filter="favorites" title="⭐ Favorite presets">⭐</button>
+<button class="filter-btn fav square-icon-btn" data-filter="favorites" title="Favorite presets"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
 </div>
 
 <!-- Search Bar -->
@@ -711,7 +747,7 @@
 <div class="nw"><input type="text" id="markersStagger" class="ni time-input" value="1:00" title="Stagger delay (s:f)" placeholder="0:00"></div>
 <button class="btn-pm btn-plus" id="btnStaggerPlus" title="Increase 1 second"><i class="fa-solid fa-plus"></i></button>
 <span class="markers-op-unit">s:f</span>
-<select id="markersStaggerOrder" class="sel-sm" title="Stagger order"><option value="asc">↓</option><option value="desc">↑</option><option value="random">🎲</option></select>
+<select id="markersStaggerOrder" class="sel-sm" title="Stagger order"><option value="asc">Asc</option><option value="desc">Desc</option><option value="random">Random</option></select>
 <div class="op-btns-group">
 <button class="btn-op btn-op-minus" id="btnMarkersStaggerMinus" title="Stagger markers backward">M-</button>
 <button class="btn-op btn-op-plus" id="btnMarkersStaggerPlus" title="Stagger markers forward">M+</button>
@@ -738,37 +774,32 @@
 <!-- MOTION PANEL -->
 <section class="panel" id="panel-motion">
 <!-- Timing Section -->
-<div class="soga-box">
-<div class="soga-title" title="Animation timing"><i class="fa-solid fa-stopwatch"></i> Timing</div>
-<div class="soga-group">
-<div class="soga-group-title"><i class="fa-solid fa-right-to-bracket"></i> Animate In</div>
-<table class="soga-table-4">
-<tr>
-<td title="Start time"><i class="fa-solid fa-hourglass-start"></i></td>
-<td><div class="nw"><input type="number" id="motionInStart" class="ni" value="0" step="0.1" min="0" title="Motion In start (seconds)"></div></td>
-<td title="End time"><i class="fa-solid fa-hourglass-end"></i></td>
-<td><div class="nw"><input type="number" id="motionInEnd" class="ni" value="1" step="0.1" min="0" title="Motion In end (seconds)"></div></td>
-<td class="soga-td-unit">s</td>
-</tr>
-</table>
+<div class="soga-box studio-card">
+<div class="card-header-studio">
+    <span class="card-title-studio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Motion Timing (seconds)</span>
 </div>
-<div class="soga-group">
-<div class="soga-group-title"><i class="fa-solid fa-right-from-bracket"></i> Animate Out</div>
-<table class="soga-table-4">
-<tr>
-<td><label class="ck" title="Enable exit animation"><input type="checkbox" id="motionOutEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl">Enable</span></label></td>
-<td title="Start time"><i class="fa-solid fa-hourglass-start"></i></td>
-<td><div class="nw"><input type="number" id="motionOutStart" class="ni" value="4" step="0.1" min="0" title="Motion Out start (seconds)"></div></td>
-<td title="End time"><i class="fa-solid fa-hourglass-end"></i></td>
-<td><div class="nw"><input type="number" id="motionOutEnd" class="ni" value="5" step="0.1" min="0" title="Motion Out end (seconds)"></div></td>
-<td class="soga-td-unit">s</td>
-</tr>
-</table>
+<div class="metrics-grid-4">
+    <div class="precision-input-box" title="Motion IN Start (s)">
+        <span class="p-label">IN S</span>
+        <input type="number" id="motionInStart" class="ni" value="0" step="0.1" min="0">
+    </div>
+    <div class="precision-input-box" title="Motion IN End (s)">
+        <span class="p-label">IN E</span>
+        <input type="number" id="motionInEnd" class="ni" value="1" step="0.1" min="0">
+    </div>
+    <div class="precision-input-box" title="Motion OUT Start (s)">
+        <span class="p-label">OUT S</span>
+        <input type="number" id="motionOutStart" class="ni" value="4" step="0.1" min="0">
+    </div>
+    <div class="precision-input-box" title="Motion OUT End (s)">
+        <span class="p-label">OUT E</span>
+        <input type="number" id="motionOutEnd" class="ni" value="5" step="0.1" min="0">
+    </div>
 </div>
-<div class="soga-group">
-<div class="soga-group-title">
-<label class="ck" title="Sync Motion timing with Typewriter markers"><input type="checkbox" id="motionSyncEnable"><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl"><i class="fa-solid fa-link"></i> Sync with Typewriter</span></label>
-</div>
+<div class="row-flex mt-6">
+    <label class="ck" title="Enable exit animation"><input type="checkbox" id="motionOutEnable"><span class="cb"></span><span class="cl">Enable OUT</span></label>
+    <div class="spacer"></div>
+    <label class="ck" title="Sync Motion timing with Typewriter markers"><input type="checkbox" id="motionSyncEnable"><span class="cb"></span><span class="cl">Sync Typewriter</span></label>
 </div>
 </div>
 
@@ -1024,7 +1055,7 @@
 
 <!-- ACTION BAR -->
 <div class="action-bar" title="Status and actions">
-<div class="status" title="Current status"><i class="fa-solid fa-circle-check"></i><span id="status">Ready</span></div>
+<div class="status" title="Current status"><span class="target-indicator-dot" id="statusDot"></span><span id="status">Ready</span></div>
 <div class="actions" id="actionBtns" title="Available actions"></div>
 </div>
 </div>

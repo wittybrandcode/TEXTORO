@@ -6,6 +6,14 @@
  * الكود الفعلي موجود في مجلد modules/
  */
 
+// Ensure global configuration container immediately on file evaluation
+if (typeof $ !== "undefined" && $.global) {
+    if (!$.global.CONFIG) $.global.CONFIG = { DEBUG: false, TEXT: { RTL: "\u0623\u0637\u0644\u0642 \u0627\u0644\u0646\u0635 \u0623\u0637\u0644\u0642 \u0627\u0644\u062B\u0648\u0631", LTR: "Unleash the Text" }, VERSION: "1.0.0" };
+    if (!$.global.BOX_CONFIG) $.global.BOX_CONFIG = {};
+}
+var CONFIG = (typeof $.global !== "undefined" && $.global.CONFIG) ? $.global.CONFIG : { DEBUG: false, TEXT: { RTL: "\u0623\u0637\u0644\u0642 \u0627\u0644\u0646\u0635 \u0623\u0637\u0644\u0642 \u0627\u0644\u062B\u0648\u0631", LTR: "Unleash the Text" }, VERSION: "1.0.0" };
+var BOX_CONFIG = (typeof $.global !== "undefined" && $.global.BOX_CONFIG) ? $.global.BOX_CONFIG : {};
+
 // Debug flag
 $.writeln("[TEXTORO] index.jsx loaded - v1.0.0 Modular");
 

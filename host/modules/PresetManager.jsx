@@ -1678,7 +1678,10 @@ function applyPreset(optsJSON) {
                 isRTL = preset.values.type.boxRTL;
             }
             
-            var defaultText = isRTL ? CONFIG.TEXT.RTL : CONFIG.TEXT.LTR;
+            var cfg = (typeof $.global !== "undefined" && $.global.CONFIG) ? $.global.CONFIG : ((typeof CONFIG !== "undefined" && CONFIG) ? CONFIG : null);
+    var rtlDefault = (cfg && cfg.TEXT && cfg.TEXT.RTL) ? cfg.TEXT.RTL : "\u0623\u0637\u0644\u0642 \u0627\u0644\u0646\u0635 \u0623\u0637\u0644\u0642 \u0627\u0644\u062B\u0648\u0631";
+    var ltrDefault = (cfg && cfg.TEXT && cfg.TEXT.LTR) ? cfg.TEXT.LTR : "Unleash the Text";
+    var defaultText = isRTL ? rtlDefault : ltrDefault;
             
             var newLayer = comp.layers.addText(defaultText);
             newLayer.name = "TEXTORO";

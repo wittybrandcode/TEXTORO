@@ -424,7 +424,10 @@ function _getDefaultText(opts) {
     if (_hasCustomText(opts)) {
         return String(opts.customText);
     }
-    return (opts.direction == "rtl") ? CONFIG.TEXT.RTL : CONFIG.TEXT.LTR;
+    var cfg = (typeof $.global !== "undefined" && $.global.CONFIG) ? $.global.CONFIG : ((typeof CONFIG !== "undefined" && CONFIG) ? CONFIG : null);
+    var rtlDefault = (cfg && cfg.TEXT && cfg.TEXT.RTL) ? cfg.TEXT.RTL : "\u0623\u0637\u0644\u0642 \u0627\u0644\u0646\u0635 \u0623\u0637\u0644\u0642 \u0627\u0644\u062B\u0648\u0631";
+    var ltrDefault = (cfg && cfg.TEXT && cfg.TEXT.LTR) ? cfg.TEXT.LTR : "Unleash the Text";
+    return (opts.direction == "rtl") ? rtlDefault : ltrDefault;
 }
 
 function _extractTiming(opts) {

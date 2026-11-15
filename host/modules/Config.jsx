@@ -332,6 +332,10 @@ var CONFIG = {
 // BOX CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════
 
+if (typeof $ !== "undefined" && $.global) {
+    $.global.CONFIG = CONFIG;
+}
+
 var BOX_CONFIG = {
     // ثوابت الرسم
     LABEL_BOX: 9,      // Purple label for box layers
@@ -359,6 +363,10 @@ var BOX_CONFIG = {
 };
 
 // علامة تثبت أن الوحدة تم تحميلها
+if (typeof $ !== "undefined" && $.global) {
+    $.global.BOX_CONFIG = BOX_CONFIG;
+}
+
 var CONFIG_MODULE_LOADED = true;
 var CONFIG_MODULE_VERSION = "1.0.0";
 
