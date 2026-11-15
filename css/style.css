@@ -2921,37 +2921,54 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     gap: 3px !important;
 }
 
-/* 5. Precision Input Box (Metric Box) */
+/* 5. Precision Input Box (Unified Single-Piece Component) */
 .precision-input-box {
     display: flex !important;
     align-items: center !important;
     height: 28px !important;
-    background: #1c1c26 !important;
-    border: none !important;
+    background: #181822 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
     overflow: hidden !important;
     position: relative !important;
-    transition: background 0.12s ease !important;
+    transition: background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease !important;
     width: 100% !important;
+}
+
+.precision-input-box:hover {
+    background: #1f1f2c !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
 }
 
 .precision-input-box:focus-within {
     background: #222232 !important;
-    box-shadow: inset 0 0 0 1.5px #2563eb !important;
+    border-color: #2563eb !important;
+    box-shadow: inset 0 0 0 1px #2563eb !important;
 }
 
+/* Label: Integrated seamlessly as part of the exact same piece */
 .precision-input-box .p-label {
     display: flex !important;
     align-items: center !important;
-    justify-content: center !important;
-    padding: 0 8px !important;
+    padding: 0 4px 0 8px !important;
     height: 100% !important;
-    background: #14141d !important;
+    background: transparent !important;
     color: #8c8ca0 !important;
-    font-size: 10px !important;
+    font-size: 9.5px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.5px !important;
+    letter-spacing: 0.4px !important;
     user-select: none !important;
     flex-shrink: 0 !important;
+    border-right: none !important;
+    cursor: ew-resize !important;
+    transition: color 0.12s ease !important;
+}
+
+.precision-input-box:hover .p-label {
+    color: #e2e2ec !important;
+}
+
+.precision-input-box:focus-within .p-label {
+    color: #ffffff !important;
 }
 
 .precision-input-box input.ni,
@@ -2974,8 +2991,8 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 
 .precision-input-box .unit-tag {
     font-size: 10px !important;
-    color: #6e6e82 !important;
-    padding-right: 6px !important;
+    color: #68687a !important;
+    padding-right: 4px !important;
     user-select: none !important;
     flex-shrink: 0 !important;
     font-weight: 500 !important;
@@ -3119,23 +3136,36 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     display: flex !important;
     align-items: center !important;
     height: 28px !important;
-    background: #1c1c26 !important;
+    background: #181822 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
     overflow: hidden !important;
     width: 100% !important;
-    border: none !important;
+    transition: background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease !important;
+}
+
+.precision-select-box:hover {
+    background: #1f1f2c !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+.precision-select-box:focus-within {
+    background: #222232 !important;
+    border-color: #2563eb !important;
+    box-shadow: inset 0 0 0 1px #2563eb !important;
 }
 
 .precision-select-box .p-label {
-    padding: 0 8px !important;
+    padding: 0 4px 0 8px !important;
     height: 100% !important;
-    background: #14141d !important;
+    background: transparent !important;
     color: #8c8ca0 !important;
-    font-size: 10px !important;
+    font-size: 9.5px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.5px !important;
+    letter-spacing: 0.4px !important;
     display: flex !important;
     align-items: center !important;
     flex-shrink: 0 !important;
+    border-right: none !important;
 }
 
 .precision-select-box select.sel {
@@ -3160,22 +3190,35 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     display: flex !important;
     align-items: center !important;
     height: 28px !important;
-    background: #1c1c26 !important;
+    background: #181822 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
     overflow: hidden !important;
-    border: none !important;
+    transition: background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease !important;
+}
+
+.precision-color-box:hover {
+    background: #1f1f2c !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+.precision-color-box:focus-within {
+    background: #222232 !important;
+    border-color: #2563eb !important;
+    box-shadow: inset 0 0 0 1px #2563eb !important;
 }
 
 .precision-color-box .p-label {
-    padding: 0 8px !important;
+    padding: 0 4px 0 8px !important;
     height: 100% !important;
-    background: #14141d !important;
+    background: transparent !important;
     color: #8c8ca0 !important;
-    font-size: 10px !important;
+    font-size: 9.5px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.5px !important;
+    letter-spacing: 0.4px !important;
     display: flex !important;
     align-items: center !important;
     flex-shrink: 0 !important;
+    border-right: none !important;
 }
 
 .precision-color-box .color-picker-wrap {
@@ -3184,7 +3227,7 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 4px !important;
+    padding: 3px 6px !important;
 }
 
 .precision-color-box input[type="color"] {
@@ -3477,25 +3520,15 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     box-shadow: inset 0 0 0 1.5px #2563eb !important;
 }
 
-/* 13. Collapsible & Animation Guarantees */
-.collapsible-content {
-    display: block !important;
-}
-
-/* 14. Spacers & Utility Margins */
-.mt-4 { margin-top: 4px !important; }
-.mt-6 { margin-top: 6px !important; }
-.mb-6 { margin-bottom: 6px !important; }
-
-/* 15. Studio Stepper Arrows (Spacious & Crisp Click Area) */
+/* 13. Studio Stepper Arrows (Spacious & Crisp Click Area) */
 .stepper-actions {
     display: flex !important;
     flex-direction: column !important;
-    width: 16px !important;
+    width: 15px !important;
     height: 100% !important;
     flex-shrink: 0 !important;
-    background: #14141d !important;
-    border-left: 1px solid rgba(255, 255, 255, 0.05) !important;
+    background: transparent !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.06) !important;
     overflow: hidden !important;
 }
 
@@ -3529,3 +3562,32 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     background: #1d4ed8 !important;
     color: #ffffff !important;
 }
+
+/* 14. Dark Studio Tooltip (Replaces stark white popup) */
+#tooltip,
+.tt {
+    background: #161622 !important;
+    color: #e2e2ec !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    padding: 4px 8px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.75) !important;
+    border-radius: 0 !important;
+}
+
+.tt::before {
+    background: #161622 !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+/* 15. Collapsible & Animation Guarantees */
+.collapsible-content {
+    display: block !important;
+}
+
+/* 16. Spacers & Utility Margins */
+.mt-4 { margin-top: 4px !important; }
+.mt-6 { margin-top: 6px !important; }
+.mb-6 { margin-bottom: 6px !important; }

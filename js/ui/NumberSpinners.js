@@ -73,6 +73,50 @@ TEXTORO.UI.NumberSpinners = (function() {
                 });
             }
             
+            
+            // Label Scrubbing (Click & Drag horizontally on label to adjust value like After Effects)
+            var label = wrapper.querySelector('.p-label');
+            if (label && !label.dataset.scrubInit) {
+                label.dataset.scrubInit = 'true';
+                label.style.cursor = 'ew-resize';
+                
+                label.addEventListener('mousedown', function(e) {
+                    if (e.button !== 0) return;
+                    e.preventDefault();
+                    
+                    var startX = e.clientX;
+                    var startVal = parseFloat(input.value) || 0;
+                    var inputStep = parseFloat(input.getAttribute('step')) || 1;
+                    var inputMin = parseFloat(input.getAttribute('min'));
+                    var inputMax = parseFloat(input.getAttribute('max'));
+                    
+                    function onMouseMove(moveEvent) {
+                        moveEvent.preventDefault();
+                        var diff = moveEvent.clientX - startX;
+                        var isShift = moveEvent.shiftKey;
+                        var mult = isShift ? 10 : 1;
+                        var stepsDelta = Math.round(diff / 4) * inputStep * mult;
+                        var newVal = startVal + stepsDelta;
+                        
+                        if (!isNaN(inputMin) && newVal < inputMin) newVal = inputMin;
+                        if (!isNaN(inputMax) && newVal > inputMax) newVal = inputMax;
+                        
+                        input.value = formatValue(newVal, inputStep);
+                        triggerChange(input);
+                    }
+                    
+                    function onMouseUp() {
+                        document.removeEventListener('mousemove', onMouseMove);
+                        document.removeEventListener('mouseup', onMouseUp);
+                        document.body.style.cursor = '';
+                    }
+                    
+                    document.body.style.cursor = 'ew-resize';
+                    document.addEventListener('mousemove', onMouseMove);
+                    document.addEventListener('mouseup', onMouseUp);
+                });
+            }
+
             // Keyboard & Mouse wheel support
             if (!input.dataset.keyboardInit) {
                 input.dataset.keyboardInit = 'true';
