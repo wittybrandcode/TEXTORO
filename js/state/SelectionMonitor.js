@@ -21,7 +21,11 @@ TEXTORO.State.SelectionMonitor = (function() {
      */
     function check() {
         TEXTORO.HostBridge.run('getSelectionInfo', null, function(res) {
-            if (!res.success) return;
+            if (!res || !res.success) {
+                consecutiveErrors++;
+                return;
+            }
+            consecutiveErrors = 0;
             
             var data = res.data;
             var changed = JSON.stringify(data) !== JSON.stringify(lastSelection);

@@ -6,5 +6,5 @@
 // إذا لم يبقَ نص حقيقي، يخفي الصندوق
 // ═══════════════════════════════════════════════════════════════════
 
-var txt = parent.text.sourceText.replace(/[\| ]/g, "");
+var txt = parent.text.sourceText.replace(/[\|\s_\u2588\u258C\u258E\u25CF\u25C6]/g, "");
 txt.length > 0 ? clamp(parent.effect("{{OPACITY_CONTROL}}")(1), 0, 100) : 0;

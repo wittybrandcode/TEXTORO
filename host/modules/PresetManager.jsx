@@ -771,6 +771,7 @@ function getPreset(optsJSON) {
             var builtinIndexFile = new File(builtinIndexPath);
             
             if (builtinIndexFile.exists) {
+                builtinIndexFile.encoding = "UTF-8";
                 builtinIndexFile.open("r");
                 var builtinIndex = JSON.parse(builtinIndexFile.read());
                 builtinIndexFile.close();
@@ -788,6 +789,7 @@ function getPreset(optsJSON) {
             var userIndexFile = new File(userIndexPath);
             
             if (userIndexFile.exists) {
+                userIndexFile.encoding = "UTF-8";
                 userIndexFile.open("r");
                 var userIndex = JSON.parse(userIndexFile.read());
                 userIndexFile.close();
@@ -813,6 +815,7 @@ function getPreset(optsJSON) {
             return error("Preset file not found: " + presetPath);
         }
         
+        presetFile.encoding = "UTF-8";
         presetFile.open("r");
         var presetContent = presetFile.read();
         presetFile.close();
@@ -1071,6 +1074,7 @@ function renamePreset(optsJSON) {
             return error("Index not found");
         }
         
+        indexFile.encoding = "UTF-8";
         indexFile.open("r");
         var index = JSON.parse(indexFile.read());
         indexFile.close();
@@ -1100,18 +1104,21 @@ function renamePreset(optsJSON) {
             return error("Preset file not found");
         }
         
+        presetFile.encoding = "UTF-8";
         presetFile.open("r");
         var preset = JSON.parse(presetFile.read());
         presetFile.close();
         
         preset.name = newName;
         
+        presetFile.encoding = "UTF-8";
         presetFile.open("w");
         presetFile.write(JSON.stringify(preset, null, 2));
         presetFile.close();
         
         index.presets[presetIndex].name = newName;
         
+        indexFile.encoding = "UTF-8";
         indexFile.open("w");
         indexFile.write(JSON.stringify(index, null, 2));
         indexFile.close();

@@ -71,7 +71,7 @@
   "expressions": {
     "typewriter/sourceText": {
       "file": "host/expressions/typewriter/v1.3/sourceText.js",
-      "versions": ["v1.0", "v1.3"],
+      "versions": ["v1.0", "v1.3", "v1.4"],
       "activeVersion": "v1.3",
       "description": "Expression النص مع دعم RTL والكلمات"
     },

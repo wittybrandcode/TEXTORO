@@ -67,14 +67,10 @@ if (typeof SOGAMANAGER_MODULE_LOADED !== "undefined") _loadedModules.push("SogaM
 if (typeof LAYEROPERATIONS_MODULE_LOADED !== "undefined") _loadedModules.push("LayerOperations");
 if (typeof PRESETMANAGER_MODULE_LOADED !== "undefined") _loadedModules.push("PresetManager");
 if (typeof IMPORTEXPORT_MODULE_LOADED !== "undefined") _loadedModules.push("ImportExport");
+if (typeof MOTIONMANAGER_MODULE_LOADED !== "undefined") _loadedModules.push("MotionManager");
 
 $.writeln("[TEXTORO] Loaded modules: " + _loadedModules.join(", "));
-$.writeln("[TEXTORO] Total: " + _loadedModules.length + "/11 modules");
-
-// التحقق من MotionManager
-if (typeof MOTIONMANAGER_MODULE_LOADED !== "undefined") {
-    $.writeln("[TEXTORO] MotionManager loaded!");
-}
+$.writeln("[TEXTORO] Total: " + _loadedModules.length + "/12 modules");
 
 // ═══════════════════════════════════════════════════════════════════
 // DEBUG FUNCTIONS - دوال التصحيح

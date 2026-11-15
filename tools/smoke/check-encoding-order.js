@@ -43,7 +43,7 @@ function checkFile(filePath) {
         const openMatch = clean.match(/([A-Za-z0-9_$]+)\.open\s*\(/);
         if (openMatch) {
             const varName = openMatch[1];
-            // Look ahead the next 5 lines to see if encoding is set AFTER open
+            // 1. Look ahead the next 5 lines to see if encoding is set AFTER open
             for (let j = i + 1; j < Math.min(lines.length, i + 6); j++) {
                 const nextClean = lines[j].replace(/\/\/.*$/, '');
                 if (nextClean.includes(`${varName}.encoding`)) {
@@ -51,6 +51,20 @@ function checkFile(filePath) {
                 }
                 if (nextClean.includes(`${varName}.close()`) || nextClean.includes(`${varName}.read`)) {
                     break;
+                }
+            }
+            // 2. Look back up to 8 lines to see if encoding was set BEFORE open
+            // (skip temporary writability test files)
+            if (varName !== 'testFile' && varName !== 'tmp') {
+                let encodingFound = false;
+                for (let k = Math.max(0, i - 8); k < i; k++) {
+                    if (lines[k].includes(`${varName}.encoding`)) {
+                        encodingFound = true;
+                        break;
+                    }
+                }
+                if (!encodingFound) {
+                    errors.push(`${rel}:${i + 1} - ${varName}.open() called without prior ${varName}.encoding = "UTF-8"`);
                 }
             }
         }
