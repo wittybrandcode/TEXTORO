@@ -229,6 +229,80 @@ function updateLayerText(optsJSON) {
  * @param {Layer} layer - الطبقة
  * @returns {boolean}
  */
+/**
+ * تحديث خصائص المؤشر مباشرة في الطبقة المحددة دون إعادة إنشاء التأثير بالكامل
+ * @param {string} optsJSON - خيارات المؤشر
+ * @returns {string} JSON result
+ */
+function updateTypewriterCursor(optsJSON) {
+    var undoStarted = false;
+    try {
+        var comp = getActiveComp();
+        if (!comp) return error("افتح Composition أولاً");
+        
+        var textLayer = getSelectedTextLayer(comp);
+        if (!textLayer) return error("اختر طبقة نص");
+        if (!hasTypewriter(textLayer)) return error("الطبقة لا تحتوي على Typewriter");
+        
+        var opts = safeJSONParse(optsJSON, null);
+        if (!opts) return error("Invalid options JSON");
+        
+        var fx = textLayer.property("ADBE Effect Parade");
+        if (!fx) return error("No effect parade");
+        
+        app.beginUndoGroup("TEXTORO - Update Cursor");
+        undoStarted = true;
+        
+        // تحديث سلايدر نوع المؤشر
+        var cursorTypeSlider = fx.property("Cursor Type");
+        if (cursorTypeSlider && opts.type !== undefined) {
+            cursorTypeSlider.property(1).setValue(parseInt(opts.type) || 0);
+        }
+        
+        // تحديث لون المؤشر
+        var cursorColorProp = fx.property("Cursor Color");
+        if (cursorColorProp && opts.color) {
+            try {
+                if (typeof hexToRgb === "function") {
+                    cursorColorProp.property(1).setValue(hexToRgb(opts.color));
+                }
+            } catch(_eColor) {}
+        }
+        
+        // تحديث رمز المؤشر المخصص في الـ Markers
+        if (opts.type === -1 && opts.custom !== undefined) {
+            var markers = textLayer.property("Marker");
+            if (markers) {
+                var found = false;
+                for (var i = 1; i <= markers.numKeys; i++) {
+                    var mVal = markers.keyValue(i);
+                    if (mVal.comment && mVal.comment.indexOf("CURSOR_CHAR:") === 0) {
+                        mVal.comment = "CURSOR_CHAR:" + opts.custom;
+                        markers.setValueAtKey(i, mVal);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found && opts.custom !== "") {
+                    var newMarker = new MarkerValue("CURSOR_CHAR:" + opts.custom);
+                    newMarker.label = 9;
+                    markers.setValueAtTime(0.001, newMarker);
+                }
+            }
+        }
+        
+        app.endUndoGroup();
+        undoStarted = false;
+        return success("تم تحديث المؤشر");
+        
+    } catch(e) {
+        if (undoStarted) {
+            try { app.endUndoGroup(); } catch(_e) {}
+        }
+        return error(e.toString());
+    }
+}
+
 function hasTypewriter(layer) {
     if (!layer) return false;
     

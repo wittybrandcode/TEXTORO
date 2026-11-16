@@ -1,7 +1,7 @@
 /**
  * TEXTORO - Custom Select Dropdown Module
  * قوائم منسدلة احترافية بدون زوايا مدورة - Industrial Slate Architecture
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 TEXTORO.UI = TEXTORO.UI || {};
@@ -49,6 +49,14 @@ TEXTORO.UI.CustomSelect = (function() {
         parent.insertBefore(wrapper, selectEl);
         wrapper.appendChild(selectEl);
         
+        // فحص ما إذا كان العنصر الأب عبارة عن precision-select-box
+        var parentBox = (wrapper.closest && wrapper.closest('.precision-select-box')) ||
+                        (parent && parent.classList && parent.classList.contains('precision-select-box') ? parent : null);
+        
+        if (parentBox) {
+            wrapper.classList.add('precision-custom-wrap');
+        }
+        
         // زر التفعيل (Trigger)
         var trigger = document.createElement('div');
         trigger.className = 'custom-select-trigger';
@@ -76,6 +84,7 @@ TEXTORO.UI.CustomSelect = (function() {
         
         var controller = {
             wrapper: wrapper,
+            parentBox: parentBox,
             selectEl: selectEl,
             trigger: trigger,
             dropdown: dropdown,
@@ -85,11 +94,17 @@ TEXTORO.UI.CustomSelect = (function() {
                 closeAll();
                 this.isOpen = true;
                 this.wrapper.classList.add('open');
+                if (this.parentBox) {
+                    this.parentBox.classList.add('select-open');
+                }
                 this.trigger.setAttribute('aria-expanded', 'true');
             },
             close: function() {
                 this.isOpen = false;
                 this.wrapper.classList.remove('open');
+                if (this.parentBox) {
+                    this.parentBox.classList.remove('select-open');
+                }
                 this.trigger.setAttribute('aria-expanded', 'false');
             },
             toggle: function() {
@@ -148,6 +163,18 @@ TEXTORO.UI.CustomSelect = (function() {
             }
         };
         
+        // ربط النقر على تسمية الصندوق p-label لفتح القائمة أيضاً
+        if (parentBox) {
+            var label = parentBox.querySelector('.p-label');
+            if (label) {
+                label.style.cursor = 'pointer';
+                label.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    controller.toggle();
+                });
+            }
+        }
+        
         // بناء الخيارات وتحديث النص
         controller.buildOptions();
         
@@ -189,7 +216,7 @@ TEXTORO.UI.CustomSelect = (function() {
      * مستمع عام للنقر خارج القوائم لإغلاقها
      */
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('.custom-select-wrap')) {
+        if (!e.target.closest('.custom-select-wrap') && !e.target.closest('.precision-select-box')) {
             closeAll();
         }
     });

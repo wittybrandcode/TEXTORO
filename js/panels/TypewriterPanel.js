@@ -43,14 +43,32 @@ TEXTORO.Panels.Typewriter = (function() {
             });
         }
         
-        // Cursor type change - show/hide custom cursor input
+        // Cursor type change - show/hide custom cursor input & live sync
         var cursorType = document.getElementById('selCursorType');
+        var customInput = document.getElementById('txtCustomCursor');
+        var colorCursor = document.getElementById('colorCursor');
+        
         if (cursorType) {
             cursorType.addEventListener('change', function() {
-                var customInput = document.getElementById('txtCustomCursor');
                 if (customInput) {
                     customInput.style.display = this.value === 'custom' ? 'inline-block' : 'none';
+                    if (this.value === 'custom') {
+                        customInput.focus();
+                    }
                 }
+                liveUpdateCursor();
+            });
+        }
+        
+        if (customInput) {
+            customInput.addEventListener('input', function() {
+                liveUpdateCursor();
+            });
+        }
+        
+        if (colorCursor) {
+            colorCursor.addEventListener('input', function() {
+                liveUpdateCursor();
             });
         }
         
@@ -111,6 +129,27 @@ TEXTORO.Panels.Typewriter = (function() {
         if (!sel) return 0;
         if (sel.value === 'custom') return -1;
         return parseInt(sel.value) || 0;
+    }
+    
+    /**
+     * تحديث المؤشر مباشرة في الطبقة النشطة (Live Sync)
+     */
+    function liveUpdateCursor() {
+        var cursorTypeVal = getCursorType();
+        var txtCustom = document.getElementById('txtCustomCursor');
+        var customChar = txtCustom ? txtCustom.value : '';
+        var colorEl = document.getElementById('colorCursor');
+        var colorVal = colorEl ? colorEl.value : '#ffffff';
+        
+        TEXTORO.HostBridge.run('updateTypewriterCursor', {
+            type: cursorTypeVal,
+            custom: customChar,
+            color: colorVal
+        }, function(res) {
+            if (res && res.success) {
+                TEXTORO.log('Live cursor update success');
+            }
+        });
     }
     
     /**
