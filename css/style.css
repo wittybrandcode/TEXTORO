@@ -3627,3 +3627,13 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 .mt-4 { margin-top: 4px !important; }
 .mt-6 { margin-top: 6px !important; }
 .mb-6 { margin-bottom: 6px !important; }
+
+/* Alignment and Chip SVGs */
+.studio-toggle-chip .chip-label svg {
+    stroke: currentColor !important;
+    flex-shrink: 0 !important;
+}
+#btnAlignLeft, #btnAlignCenter, #btnAlignRight {
+    padding: 0 7px !important;
+    min-width: 28px !important;
+}
