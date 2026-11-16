@@ -58,12 +58,14 @@
 
 <!-- 2. Timing Section -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio">
+    <div class="card-header-studio collapsible-header" id="type-timing-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             TIMING & CUES (SECONDS)
         </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
+    <div id="type-timing-content" class="collapsible-content">
     <div class="metrics-grid-4">
         <div class="precision-input-box" title="IN Start Time (s)">
             <span class="p-label">IN S</span>
@@ -111,17 +113,19 @@
             </span>
         </label>
     </div>
+    </div>
 </div>
 
 <!-- 3. Cursor & Blink Section -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio" id="type-cursor-header" style="cursor:default">
+    <div class="card-header-studio collapsible-header" id="type-cursor-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="4" x2="12" y2="20"></line><line x1="8" y1="4" x2="16" y2="4"></line><line x1="8" y1="20" x2="16" y2="20"></line></svg>
             CURSOR & BLINK DYNAMICS
         </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
-    <div id="type-cursor-content">
+    <div id="type-cursor-content" class="collapsible-content">
         <div class="metrics-grid-2">
             <label class="studio-toggle-chip" title="Show animated cursor">
                 <input type="checkbox" id="chkCursor" checked>
@@ -214,13 +218,14 @@
 
 <!-- 4. Style & Dynamics Section -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio" id="type-advanced-header" style="cursor:default">
+    <div class="card-header-studio collapsible-header" id="type-advanced-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg>
             TYPING DYNAMICS & EASING
         </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
-    <div id="type-advanced-content">
+    <div id="type-advanced-content" class="collapsible-content">
         <div class="metrics-grid-2">
             <label class="studio-toggle-chip" title="Reverse typing effect">
                 <input type="checkbox" id="chkReverse">
@@ -286,13 +291,14 @@
 
 <!-- 5. Multi-line Section -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio" id="type-multilines-header" style="cursor:default">
+    <div class="card-header-studio collapsible-header" id="type-multilines-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
             MULTI-LINE & STAGGER
         </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
-    <div id="type-multilines-content">
+    <div id="type-multilines-content" class="collapsible-content">
         <div class="metrics-grid-2">
             <div class="precision-input-box" title="Line Spacing (px)">
                 <span class="p-label">SPACING</span>
@@ -335,12 +341,14 @@
 <section class="panel" id="panel-box">
 <!-- 1. Padding Section -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio">
+    <div class="card-header-studio collapsible-header" id="box-padding-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
             PADDING (PX)
         </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
+    <div id="box-padding-content" class="collapsible-content">
     <div class="metrics-grid-4">
         <div class="precision-input-box" title="Padding Left (px)">
             <span class="p-label">PAD L</span>
@@ -379,16 +387,19 @@
     </div>
 </div>
     </div>
+    </div>
 </div>
 
 <!-- 2. Corner Section -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio">
+    <div class="card-header-studio collapsible-header" id="box-corner-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10a6 6 0 0 1 6-6h10"></path></svg>
             CORNER RADIUS (PX)
         </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
+    <div id="box-corner-content" class="collapsible-content">
     <div class="studio-row-split">
         <label class="studio-toggle-chip" title="Toggle individual 4 corners control">
             <input type="checkbox" id="chk4Corners">
@@ -447,17 +458,19 @@
     </div>
 </div>
     </div>
+    </div>
 </div>
 
 <!-- 3. Stroke & Border Section -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio" id="box-stroke-header" style="cursor:default">
+    <div class="card-header-studio collapsible-header" id="box-stroke-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line></svg>
             STROKE & OUTLINE
         </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
-    <div id="box-stroke-content">
+    <div id="box-stroke-content" class="collapsible-content">
         <div class="metrics-grid-2">
             <div class="precision-input-box" title="Stroke width (px)">
                 <span class="p-label">WIDTH</span>
@@ -511,13 +524,14 @@
 
 <!-- 4. Fill & Color Section -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio" id="box-fill-header" style="cursor:default">
+    <div class="card-header-studio collapsible-header" id="box-fill-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 11l-8-8-8 8"></path><path d="M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"></path></svg>
             FILL & BACKGROUND
         </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
-    <div id="box-fill-content">
+    <div id="box-fill-content" class="collapsible-content">
         <div class="metrics-grid-2">
             <div class="precision-input-box" title="Fill opacity (%)">
                 <span class="p-label">OPACITY</span>
@@ -540,13 +554,14 @@
 
 <!-- 5. Trim Paths Section -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio" id="box-trim-header" style="cursor:default">
+    <div class="card-header-studio collapsible-header" id="box-trim-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>
             TRIM PATHS (ANIMATION)
         </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
-    <div id="box-trim-content">
+    <div id="box-trim-content" class="collapsible-content">
         <div class="metrics-grid-2">
             <div class="precision-input-box" title="Trim start %">
                 <span class="p-label">START</span>
@@ -592,13 +607,14 @@
 
 <!-- 6. Box Behavior Options -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio" id="box-options-header" style="cursor:default">
+    <div class="card-header-studio collapsible-header" id="box-options-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             BOX LAYER BEHAVIOR
         </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
-    <div id="box-options-content">
+    <div id="box-options-content" class="collapsible-content">
         <div class="metrics-grid-2">
             <label class="studio-toggle-chip" title="Parent box layer to text layer">
                 <input type="checkbox" id="chkParentToText" checked>
@@ -1069,12 +1085,14 @@
 <section class="panel" id="panel-motion">
 <!-- 1. Motion Timing -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio">
+    <div class="card-header-studio collapsible-header" id="motion-timing-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             MOTION TIMING (SECONDS)
         </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
+    <div id="motion-timing-content" class="collapsible-content">
     <div class="metrics-grid-4">
         <div class="precision-input-box" title="Motion IN Start (s)">
             <span class="p-label">IN S</span>
@@ -1129,14 +1147,16 @@
             </span>
         </label>
     </div>
+    </div>
 </div>
 
 <!-- 2. Position Animation -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio studio-row-split">
+    <div class="card-header-studio studio-row-split collapsible-header" id="motion-pos-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"></polyline><polyline points="9 5 12 2 15 5"></polyline><polyline points="15 19 12 22 9 19"></polyline><polyline points="19 9 22 12 19 15"></polyline><line x1="2" y1="12" x2="22" y2="12"></line><line x1="12" y1="2" x2="12" y2="22"></line></svg>
             POSITION OFFSET
+            <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </span>
         <div class="studio-btn-group">
             <label class="studio-toggle-chip" title="Enable position animation">
@@ -1151,6 +1171,7 @@
             </button>
         </div>
     </div>
+    <div id="motion-pos-content" class="collapsible-content">
     <!-- IN Position -->
     <div class="metrics-grid-4">
         <div class="precision-input-box" title="IN Start X offset">
@@ -1231,14 +1252,16 @@
     </div>
 </div>
     </div>
+    </div>
 </div>
 
 <!-- 3. Scale Animation -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio studio-row-split">
+    <div class="card-header-studio studio-row-split collapsible-header" id="motion-scale-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
             SCALE ANIMATION
+            <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </span>
         <div class="studio-btn-group">
             <label class="studio-toggle-chip" title="Enable scale animation">
@@ -1253,6 +1276,7 @@
             </button>
         </div>
     </div>
+    <div id="motion-scale-content" class="collapsible-content">
     <!-- IN Scale -->
     <div class="metrics-grid-2">
         <div class="precision-input-box" title="IN Start scale %">
@@ -1295,14 +1319,16 @@
     </div>
 </div>
     </div>
+    </div>
 </div>
 
 <!-- 4. Rotation Animation -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio studio-row-split">
+    <div class="card-header-studio studio-row-split collapsible-header" id="motion-rot-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
             ROTATION ANIMATION
+            <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </span>
         <div class="studio-btn-group">
             <label class="studio-toggle-chip" title="Enable rotation animation">
@@ -1317,6 +1343,7 @@
             </button>
         </div>
     </div>
+    <div id="motion-rot-content" class="collapsible-content">
     <!-- IN Rotation -->
     <div class="metrics-grid-2">
         <div class="precision-input-box" title="IN Start rotation angle">
@@ -1359,14 +1386,16 @@
     </div>
 </div>
     </div>
+    </div>
 </div>
 
 <!-- 5. Opacity Animation -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio studio-row-split">
+    <div class="card-header-studio studio-row-split collapsible-header" id="motion-opacity-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 0 20Z"></path></svg>
             OPACITY ANIMATION
+            <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </span>
         <div class="studio-btn-group">
             <label class="studio-toggle-chip" title="Enable opacity animation">
@@ -1381,6 +1410,7 @@
             </button>
         </div>
     </div>
+    <div id="motion-opacity-content" class="collapsible-content">
     <!-- IN Opacity -->
     <div class="metrics-grid-2">
         <div class="precision-input-box" title="IN Start opacity %">
@@ -1423,16 +1453,19 @@
     </div>
 </div>
     </div>
+    </div>
 </div>
 
 <!-- 6. Easing Section -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio">
+    <div class="card-header-studio collapsible-header" id="motion-easing-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20v-6M6 20V10M18 20V4"></path></svg>
             EASING & DYNAMICS
         </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
+    <div id="motion-easing-content" class="collapsible-content">
     <div class="metrics-grid-2">
         <div class="precision-select-box">
             <span class="p-label">CURVE</span>
@@ -1455,6 +1488,7 @@
         <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
     </div>
 </div>
+    </div>
     </div>
 </div>
 
@@ -1485,16 +1519,18 @@
 
 <!-- 8. Presets Section -->
 <div class="soga-box studio-card">
-    <div class="card-header-studio studio-row-split">
+    <div class="card-header-studio studio-row-split collapsible-header" id="motion-presets-header">
         <span class="card-title-studio">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
             MOTION PRESETS ARENA
+            <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </span>
         <div class="tg studio-btn-group motion-presets-tabs">
             <button type="button" class="tb preset-tab active" data-tab="in" title="Entrance animation (IN)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:3px;"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>IN</button>
             <button type="button" class="tb preset-tab" data-tab="out" title="Exit animation (OUT)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:3px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>OUT</button>
         </div>
     </div>
+    <div id="motion-presets-content" class="collapsible-content">
     <div class="motion-presets-grid" id="motionPresetsGrid">
         <div class="presets-loading">Loading presets...</div>
     </div>
@@ -1506,6 +1542,7 @@
         <button type="button" class="square-icon-btn ib" id="btnClearPresets" title="Clear selections" style="width:20px;height:20px;">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
+    </div>
     </div>
 </div>
 </section>

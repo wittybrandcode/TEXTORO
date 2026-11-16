@@ -1829,60 +1829,77 @@ html, body { height: 100%; }
 .soga-empty p { font-size: 11px; margin: 0; }
 
 /* ═══════════════════════════════════════════
-   SPECTRUM COLLAPSIBLE SECTIONS
+   SPECTRUM COLLAPSIBLE SECTIONS (INDUSTRIAL SLATE)
    ═══════════════════════════════════════════ */
 .collapsible-header { 
-    display: flex; 
-    align-items: center; 
-    gap: 8px; 
-    padding: 8px 12px; 
-    background: var(--sp-gray-100, #252525); 
-    border: 1px solid var(--sp-gray-300, #3a3a3a); 
-    border-radius: var(--sp-radius-lg, 6px); 
-    cursor: pointer; 
-    font-size: 11px; 
-    font-weight: 600; 
-    color: var(--sp-blue-500, #2680eb); 
-    transition: all 130ms ease;
-    user-select: none;
+    cursor: pointer !important;
+    user-select: none !important;
+    transition: color 0.12s ease, opacity 0.12s ease !important;
 }
-.collapsible-header:hover { background: var(--sp-gray-200, #2d2d2d); }
-.collapsible-header:not(.collapsed) { 
-    border-radius: var(--sp-radius-lg, 6px) var(--sp-radius-lg, 6px) 0 0; 
-    margin-bottom: 0; 
+.collapsible-header:hover { 
+    color: #e2e8f0 !important;
 }
-.collapsible-header i:first-child { font-size: 12px; }
+.collapsible-header:hover .card-title-studio {
+    color: #ffffff !important;
+}
+.collapsible-header.collapsed { 
+    margin-bottom: 0 !important; 
+}
+.collapsible-header i:first-child,
+.collapsible-header svg:first-child { 
+    font-size: 12px; 
+}
 .collapsible-chevron { 
-    margin-left: auto; 
-    font-size: 9px; 
-    color: var(--sp-gray-600, #7c7c7c); 
-    transition: transform 200ms ease;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: auto !important;
+    width: 16px !important;
+    height: 16px !important;
+    flex-shrink: 0 !important;
+    cursor: pointer !important;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
-.collapsible-header:not(.collapsed) .collapsible-chevron { transform: rotate(180deg); }
+.collapsible-chevron svg { 
+    width: 12px !important;
+    height: 12px !important;
+    stroke: #64748b !important;
+    fill: none !important;
+    stroke-width: 2.2 !important;
+    margin-right: 0 !important;
+    transition: stroke 0.12s ease !important;
+}
+.collapsible-header:hover .collapsible-chevron svg { 
+    stroke: #60a5fa !important;
+}
+/* Expanded state: chevron points DOWN */
+.collapsible-header:not(.collapsed) .collapsible-chevron { 
+    transform: rotate(0deg) !important; 
+}
+/* Collapsed state: chevron points RIGHT */
+.collapsible-header.collapsed .collapsible-chevron { 
+    transform: rotate(-90deg) !important; 
+}
 
 .collapsible-content { 
-    background: var(--sp-gray-75, #1e1e1e); 
-    border: 1px solid var(--sp-gray-300, #3a3a3a); 
-    border-top: none; 
-    border-radius: 0 0 var(--sp-radius-lg, 6px) var(--sp-radius-lg, 6px); 
-    padding: 10px 12px; 
-    margin-bottom: 8px;
-    overflow: hidden;
-    animation: sp-slide-down 200ms ease;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
-.collapsible-content.collapsed { 
+.collapsible-content.collapsed,
+[id$="-content"].collapsed { 
+    display: none !important;
     max-height: 0 !important; 
-    padding-top: 0; 
-    padding-bottom: 0; 
-    opacity: 0;
-    border: none;
-    animation: none;
-}
-.collapsible-header.collapsed { margin-bottom: 8px; }
-
-@keyframes sp-slide-down {
-    from { opacity: 0; transform: translateY(-8px); }
-    to { opacity: 1; transform: translateY(0); }
+    min-height: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    opacity: 0 !important;
 }
 
 /* Spectrum Modal */

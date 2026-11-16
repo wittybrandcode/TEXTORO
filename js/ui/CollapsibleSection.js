@@ -1,7 +1,7 @@
 /**
  * TEXTORO - Collapsible Section Module
- * الأقسام القابلة للطي
- * @version 3.3.0
+ * الأقسام القابلة للطي - Industrial Slate Accordion System
+ * @version 3.4.0
  */
 
 TEXTORO.UI = TEXTORO.UI || {};
@@ -10,14 +10,15 @@ TEXTORO.UI.CollapsibleSection = (function() {
     'use strict';
     
     var sections = {};
+    var CHEVRON_SVG = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
     
     /**
      * تهيئة قسم قابل للطي
      * @param {Object} config
      */
     function init(config) {
-        if (!config.id || !config.header || !config.content) {
-            TEXTORO.error('CollapsibleSection: Missing required config');
+        if (!config || !config.id || !config.header || !config.content) {
+            TEXTORO.error('CollapsibleSection: Missing required config for ' + (config ? config.id : 'unknown'));
             return;
         }
         
@@ -25,39 +26,68 @@ TEXTORO.UI.CollapsibleSection = (function() {
             id: config.id,
             header: config.header,
             content: config.content,
-            defaultCollapsed: config.defaultCollapsed !== false
+            defaultCollapsed: config.defaultCollapsed === true,
+            _timer: null
         };
         
         sections[config.id] = section;
         
-        // تحميل الحالة المحفوظة
-        var savedState = (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.get === 'function')
-            ? TEXTORO.State.Manager.get('collapsedSections.' + config.id)
-            : undefined;
-        var isCollapsed = savedState !== undefined ? savedState : section.defaultCollapsed;
+        // تطبيق الفئات والخصائص الأساسية
+        section.header.classList.add('collapsible-header');
+        section.content.classList.add('collapsible-content');
         
-        // تطبيق الحالة الأولية
-        if (isCollapsed) {
-            collapse(config.id, false);
-        } else {
-            expand(config.id, false);
+        // إزالة أي نمط مؤشر افتراضي قديم
+        if (section.header.style.cursor === 'default') {
+            section.header.style.cursor = '';
         }
         
-        // إضافة مستمع الأحداث
+        // حقن سهم الطي (Chevron) إن لم يكن موجوداً مسبقاً في الـ DOM
+        if (!section.header.querySelector('.collapsible-chevron')) {
+            var chevronWrap = document.createElement('span');
+            chevronWrap.className = 'collapsible-chevron';
+            chevronWrap.title = 'Toggle section';
+            chevronWrap.innerHTML = CHEVRON_SVG;
+            
+            var btnGroup = section.header.querySelector('.studio-btn-group');
+            if (btnGroup) {
+                section.header.insertBefore(chevronWrap, btnGroup);
+            } else {
+                section.header.appendChild(chevronWrap);
+            }
+        }
+        
+        // إضافة مستمع النقر مع استثناء عناصر التحكم التفاعلية
         section.header.addEventListener('click', function(e) {
+            if (e.target.closest('button, input, label, select, .studio-btn-group, .studio-toggle-chip, .link-btn, .square-icon-btn, .color-picker-wrap')) {
+                return;
+            }
             e.preventDefault();
             toggle(config.id);
         });
         
-        // دعم لوحة المفاتيح
+        // دعم التنقل بلوحة المفاتيح
         section.header.setAttribute('tabindex', '0');
         section.header.setAttribute('role', 'button');
         section.header.addEventListener('keydown', function(e) {
+            if (e.target !== section.header) return;
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
                 toggle(config.id);
             }
         });
+        
+        // تحميل الحالة المحفوظة
+        var savedState = (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.get === 'function')
+            ? TEXTORO.State.Manager.get('collapsedSections.' + config.id)
+            : undefined;
+        var isCollapsed = savedState !== undefined ? (savedState === true) : section.defaultCollapsed;
+        
+        // تطبيق الحالة الأولية بدون حركة (instant)
+        if (isCollapsed) {
+            collapse(config.id, false);
+        } else {
+            expand(config.id, false);
+        }
     }
     
     /**
@@ -68,10 +98,10 @@ TEXTORO.UI.CollapsibleSection = (function() {
         var section = sections[id];
         if (!section) return;
         
-        if (section.content.classList.contains('collapsed')) {
-            expand(id);
+        if (section.header.classList.contains('collapsed')) {
+            expand(id, true);
         } else {
-            collapse(id);
+            collapse(id, true);
         }
     }
     
@@ -84,48 +114,14 @@ TEXTORO.UI.CollapsibleSection = (function() {
         var section = sections[id];
         if (!section) return;
         
-        section.content.classList.remove('collapsed');
+        if (section._timer) {
+            clearTimeout(section._timer);
+            section._timer = null;
+        }
+        
         section.header.classList.remove('collapsed');
         section.header.setAttribute('aria-expanded', 'true');
         
-        // تحديث الأيقونة
-        var chevron = section.header.querySelector('.collapsible-chevron');
-        if (chevron) {
-            chevron.style.transform = 'rotate(180deg)';
-        }
-        
-        // حفظ الحالة
-        if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') {
-            TEXTORO.State.Manager.set('collapsedSections.' + id, false);
-        }
-        
-        if (animate !== false) {
-            section.content.style.maxHeight = section.content.scrollHeight + 'px';
-            setTimeout(function() {
-                section.content.style.maxHeight = 'none';
-            }, 200);
-        }
-    }
-    
-    /**
-     * طي القسم
-     * @param {string} id
-     * @param {boolean} animate
-     */
-    function collapse(id, animate) {
-        var section = sections[id];
-        if (!section) return;
-        
-        if (animate !== false) {
-            section.content.style.maxHeight = section.content.scrollHeight + 'px';
-            section.content.offsetHeight; // Force reflow
-        }
-        
-        section.content.classList.add('collapsed');
-        section.header.classList.add('collapsed');
-        section.header.setAttribute('aria-expanded', 'false');
-        
-        // تحديث الأيقونة
         var chevron = section.header.querySelector('.collapsible-chevron');
         if (chevron) {
             chevron.style.transform = 'rotate(0deg)';
@@ -133,12 +129,95 @@ TEXTORO.UI.CollapsibleSection = (function() {
         
         // حفظ الحالة
         if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') {
+            TEXTORO.State.Manager.set('collapsedSections.' + id, false);
+        }
+        
+        section.content.classList.remove('collapsed');
+        section.content.style.display = '';
+        
+        if (animate === false) {
+            section.content.style.maxHeight = '';
+            section.content.style.opacity = '';
+            section.content.style.overflow = '';
+            section.content.style.transition = '';
+            return;
+        }
+        
+        // توسيع متحرك وسلس
+        section.content.style.overflow = 'hidden';
+        section.content.style.opacity = '0';
+        section.content.style.maxHeight = '0';
+        section.content.offsetHeight; // Force reflow
+        
+        var targetHeight = section.content.scrollHeight;
+        section.content.style.transition = 'max-height 0.18s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.18s ease';
+        section.content.style.maxHeight = targetHeight + 'px';
+        section.content.style.opacity = '1';
+        
+        section._timer = setTimeout(function() {
+            if (!section.header.classList.contains('collapsed')) {
+                section.content.style.maxHeight = '';
+                section.content.style.opacity = '';
+                section.content.style.overflow = '';
+                section.content.style.transition = '';
+            }
+        }, 200);
+    }
+    
+    /**
+     * طي القسم (إخفاء تام بنسبة 100% يمنع أي تداخل)
+     * @param {string} id
+     * @param {boolean} animate
+     */
+    function collapse(id, animate) {
+        var section = sections[id];
+        if (!section) return;
+        
+        if (section._timer) {
+            clearTimeout(section._timer);
+            section._timer = null;
+        }
+        
+        section.header.classList.add('collapsed');
+        section.header.setAttribute('aria-expanded', 'false');
+        
+        var chevron = section.header.querySelector('.collapsible-chevron');
+        if (chevron) {
+            chevron.style.transform = 'rotate(-90deg)';
+        }
+        
+        // حفظ الحالة
+        if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') {
             TEXTORO.State.Manager.set('collapsedSections.' + id, true);
         }
         
-        if (animate !== false) {
+        if (animate === false) {
+            section.content.classList.add('collapsed');
+            section.content.style.display = 'none';
             section.content.style.maxHeight = '0';
+            section.content.style.overflow = 'hidden';
+            return;
         }
+        
+        // طي متحرك وسلس
+        section.content.style.overflow = 'hidden';
+        section.content.style.maxHeight = section.content.scrollHeight + 'px';
+        section.content.offsetHeight; // Force reflow
+        
+        section.content.style.transition = 'max-height 0.18s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease';
+        section.content.style.maxHeight = '0';
+        section.content.style.opacity = '0';
+        
+        section._timer = setTimeout(function() {
+            if (section.header.classList.contains('collapsed')) {
+                section.content.classList.add('collapsed');
+                section.content.style.display = 'none';
+                section.content.style.maxHeight = '';
+                section.content.style.opacity = '';
+                section.content.style.overflow = '';
+                section.content.style.transition = '';
+            }
+        }, 190);
     }
     
     /**
@@ -148,20 +227,20 @@ TEXTORO.UI.CollapsibleSection = (function() {
      */
     function isCollapsed(id) {
         var section = sections[id];
-        if (!section) return true;
-        return section.content.classList.contains('collapsed');
+        if (!section) return false;
+        return section.header.classList.contains('collapsed');
     }
     
     /**
-     * تهيئة جميع الأقسام
+     * تهيئة جميع الأقسام عبر كل التبويبات
      */
     function initAll() {
         // Type Tab Sections
         var typeSections = [
-            { id: 'type-cursor', defaultCollapsed: true },
-            { id: 'type-advanced', defaultCollapsed: true },
-            { id: 'type-effects', defaultCollapsed: true },
-            { id: 'type-multilines', defaultCollapsed: true }
+            { id: 'type-timing', defaultCollapsed: false },
+            { id: 'type-cursor', defaultCollapsed: false },
+            { id: 'type-advanced', defaultCollapsed: false },
+            { id: 'type-multilines', defaultCollapsed: false }
         ];
         
         typeSections.forEach(function(s) {
@@ -179,13 +258,39 @@ TEXTORO.UI.CollapsibleSection = (function() {
         
         // Box Tab Sections
         var boxSections = [
-            { id: 'box-stroke', defaultCollapsed: true },
-            { id: 'box-fill', defaultCollapsed: true },
-            { id: 'box-trim', defaultCollapsed: true },
-            { id: 'box-options', defaultCollapsed: true }
+            { id: 'box-padding', defaultCollapsed: false },
+            { id: 'box-corner', defaultCollapsed: false },
+            { id: 'box-stroke', defaultCollapsed: false },
+            { id: 'box-fill', defaultCollapsed: false },
+            { id: 'box-trim', defaultCollapsed: false },
+            { id: 'box-options', defaultCollapsed: false }
         ];
         
         boxSections.forEach(function(s) {
+            var header = document.getElementById(s.id + '-header');
+            var content = document.getElementById(s.id + '-content');
+            if (header && content) {
+                init({
+                    id: s.id,
+                    header: header,
+                    content: content,
+                    defaultCollapsed: s.defaultCollapsed
+                });
+            }
+        });
+        
+        // Motion Tab Sections
+        var motionSections = [
+            { id: 'motion-timing', defaultCollapsed: false },
+            { id: 'motion-pos', defaultCollapsed: false },
+            { id: 'motion-scale', defaultCollapsed: false },
+            { id: 'motion-rot', defaultCollapsed: false },
+            { id: 'motion-opacity', defaultCollapsed: false },
+            { id: 'motion-easing', defaultCollapsed: false },
+            { id: 'motion-presets', defaultCollapsed: false }
+        ];
+        
+        motionSections.forEach(function(s) {
             var header = document.getElementById(s.id + '-header');
             var content = document.getElementById(s.id + '-content');
             if (header && content) {
