@@ -382,12 +382,19 @@ function _createBox(textLayer, comp, opts) {
         }
         
         if (hasCursorBlink) {
-            // استثناء الحرف الأخير (المؤشر) من Text Color
+            // استثناء المؤشر من Text Color بناءً على حالته وموضعه
+            colorSelector.property("ADBE Text Percent Start").expression = 
+                'var show = 1; try { show = effect("Show Cursor")(1).value; } catch(e) { show = 1; } ' +
+                'var before = 0; try { before = effect("Cursor Before Text")(1).value; } catch(e) { before = 0; } ' +
+                'var txt = text.sourceText + ""; var len = txt.length; ' +
+                '(show == 1 && before == 1 && len > 0) ? (1 / len) * 100 : 0;';
             colorSelector.property("ADBE Text Percent End").expression = 
-                'var txt = text.sourceText + ""; ' +
-                'var len = txt.length; ' +
-                'len > 1 ? ((len - 1) / len) * 100 : 0;';
+                'var show = 1; try { show = effect("Show Cursor")(1).value; } catch(e) { show = 1; } ' +
+                'var before = 0; try { before = effect("Cursor Before Text")(1).value; } catch(e) { before = 0; } ' +
+                'var txt = text.sourceText + ""; var len = txt.length; ' +
+                '(show == 1 && before == 0 && len > 1) ? ((len - 1) / len) * 100 : 100;';
         } else {
+            colorSelector.property("ADBE Text Percent Start").setValue(0);
             colorSelector.property("ADBE Text Percent End").setValue(100);
         }
         

@@ -2,7 +2,9 @@
   "versions": {
     "cursor/blink": "v1.0",
     "box/path4corners": "v1.0",
-    "typewriter/sourceText": "v1.4"
+    "typewriter/sourceText": "v1.4",
+    "cursor/range": "v1.0",
+    "cursor/rangeEnd": "v1.0"
   },
   "fallback": "v1.0",
   "changelog": {

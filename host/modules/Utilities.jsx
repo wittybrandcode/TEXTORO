@@ -49,6 +49,27 @@ function error(msg) {
     return JSON.stringify({ success: false, error: msg });
 }
 
+/**
+ * فحص ما إذا كان النص يحتوي على أحرف عربية
+ * @param {string} text - النص المراد فحصه
+ * @returns {boolean} true إذا كان النص عربياً
+ */
+function isArabicText(text) {
+    if (!text) return false;
+    var str = String(text);
+    for (var i = 0; i < str.length && i < 100; i++) {
+        var code = str.charCodeAt(i);
+        if ((code >= 0x0600 && code <= 0x06FF) ||
+            (code >= 0x0750 && code <= 0x077F) ||
+            (code >= 0x08A0 && code <= 0x08FF) ||
+            (code >= 0xFB50 && code <= 0xFDFF) ||
+            (code >= 0xFE70 && code <= 0xFEFF)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // ═══════════════════════════════════════════════════════════════════
 // ES3-SAFE POLYFILLS (F-03) - بدائل آمنة لدوال ES5 غير المتوفرة في ExtendScript
 // ═══════════════════════════════════════════════════════════════════

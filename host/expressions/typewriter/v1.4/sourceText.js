@@ -231,36 +231,11 @@ var spaces = "";
 for (var i = 0; i < spacing; i++) spaces += " ";
 
 // ═══════════════════════════════════════════════════════════════════
-// النتيجة النهائية (مع دعم RTL)
+// النتيجة النهائية
 // ═══════════════════════════════════════════════════════════════════
-// After Effects يعرض النص العربي RTL تلقائياً
-// لذلك الترتيب في الكود يُعكس عند العرض:
-// - في الكود: "text + cursor" → في العرض RTL: "cursor | text"
-// - في الكود: "cursor + text" → في العرض RTL: "text | cursor"
-// 
-// للعربية: نريد المؤشر على اليسار (نهاية الكتابة)
-// لذلك نضع: text + cursor (سيظهر cursor على اليسار بعد العكس)
-// ═══════════════════════════════════════════════════════════════════
-var result = "";
-
-if (textIsRTL) {
-    // للعربية (RTL):
-    // beforeText=1 (مفعل) = المؤشر على اليسار = text + spaces + cursor
-    // beforeText=0 (معطل) = المؤشر على اليمين = cursor + spaces + text
-    if (beforeText == 1) {
-        result = visibleText + spaces + cursor;
-    } else {
-        result = cursor + spaces + visibleText;
-    }
-} else {
-    // للإنجليزية (LTR):
-    // beforeText=1 = المؤشر على اليسار = cursor + spaces + text
-    // beforeText=0 = المؤشر على اليمين = text + spaces + cursor
-    if (beforeText == 1) {
-        result = cursor + spaces + visibleText;
-    } else {
-        result = visibleText + spaces + cursor;
-    }
-}
-
-result;
+// في كلتا اللغتين العربية والإنجليزية:
+// - beforeText == 0 (الافتراضي): المؤشر عند رأس الكتابة (نهاية النص: visibleText + cursor)
+// - beforeText == 1 (مفعل): المؤشر عند بداية النص (cursor + visibleText)
+// ملحوظة: في محرك Universal/Middle Eastern بـ After Effects، إلحاق رمز المؤشر بنهاية النص
+// العربي يجعله يظهر بصرياً في جهة اليسار (رأس الكتابة) ويتطابق مع Range Selector (len - 1).
+beforeText == 1 ? (cursor + spaces + visibleText) : (visibleText + spaces + cursor);

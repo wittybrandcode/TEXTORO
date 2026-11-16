@@ -154,7 +154,7 @@ function loadExprConfig(forceReload) {
 function loadExpression(category, name, version) {
     $.writeln("[TEXTORO] loadExpression called: " + category + "/" + name);
     var _allowedCats = {typewriter:1, cursor:1, box:1};
-    var _allowedNames = {sourceText:1, range:1, blink:1, path4corners:1, size:1, position:1, hideWhenEmpty:1};
+    var _allowedNames = {sourceText:1, range:1, rangeEnd:1, blink:1, path4corners:1, size:1, position:1, hideWhenEmpty:1};
     if (!_allowedCats[category] || !_allowedNames[name]) {
         $.writeln("[TEXTORO] loadExpression - unsupported category/name: " + category + "/" + name);
         return "";
@@ -280,6 +280,10 @@ function buildSourceTextExpr() {
 
 function buildCursorRangeExpr() {
     return loadExpression("cursor", "range");
+}
+
+function buildCursorRangeEndExpr() {
+    return loadExpression("cursor", "rangeEnd");
 }
 
 function buildCursorBlinkExpr() {
@@ -540,7 +544,33 @@ function _getEmbeddedExpression(category, name) {
     // Cursor range
     // ─────────────────────────────────────────────────────────────────
     if (category === "cursor" && name === "range") {
-        return 'var txt = text.sourceText + ""; var len = txt.length; len > 0 ? ((len - 1) / len) * 100 : 0;';
+        return '// TEXTORO Cursor Range Selector (Percent Start)\n' +
+'var show = 1;\n' +
+'try { show = effect("Show Cursor")(1).value; } catch(e) { show = 1; }\n' +
+'if (show == 0) {\n' +
+'    100;\n' +
+'} else {\n' +
+'    var before = 0;\n' +
+'    try { before = effect("Cursor Before Text")(1).value; } catch(e) { before = 0; }\n' +
+'    var txt = text.sourceText + "";\n' +
+'    var len = txt.length;\n' +
+'    if (len <= 0) 0; else if (before == 1) 0; else ((len - 1) / len) * 100;\n' +
+'}';
+    }
+
+    if (category === "cursor" && name === "rangeEnd") {
+        return '// TEXTORO Cursor Range End Selector (Percent End)\n' +
+'var show = 1;\n' +
+'try { show = effect("Show Cursor")(1).value; } catch(e) { show = 1; }\n' +
+'if (show == 0) {\n' +
+'    100;\n' +
+'} else {\n' +
+'    var before = 0;\n' +
+'    try { before = effect("Cursor Before Text")(1).value; } catch(e) { before = 0; }\n' +
+'    var txt = text.sourceText + "";\n' +
+'    var len = txt.length;\n' +
+'    if (len <= 0) 100; else if (before == 1) (1 / len) * 100; else 100;\n' +
+'}';
     }
     
     // ─────────────────────────────────────────────────────────────────

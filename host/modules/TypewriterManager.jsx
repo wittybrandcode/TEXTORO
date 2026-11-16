@@ -540,7 +540,7 @@ function _createCursorAnimator(animators) {
     
     var cursorSel = cursorAnim.property("ADBE Text Selectors").addProperty("ADBE Text Selector");
     cursorSel.property("ADBE Text Percent Start").expression = buildCursorRangeExpr();
-    cursorSel.property("ADBE Text Percent End").setValue(100);
+    cursorSel.property("ADBE Text Percent End").expression = buildCursorRangeEndExpr();
     
     var animProps = cursorAnim.property("ADBE Text Animator Properties");
     
@@ -561,13 +561,18 @@ function _applyTextColorAnimator(textLayer, animators, fx, textColor) {
     var colorAnimator = animators.addProperty("ADBE Text Animator");
     colorAnimator.name = "Color Control";
     var colorSelector = colorAnimator.property("ADBE Text Selectors").addProperty("ADBE Text Selector");
-    colorSelector.property("ADBE Text Percent Start").setValue(0);
+    colorSelector.property("ADBE Text Percent Start").expression = 
+        'var show = 1; try { show = effect("Show Cursor")(1).value; } catch(e) { show = 1; } ' +
+        'var before = 0; try { before = effect("Cursor Before Text")(1).value; } catch(e) { before = 0; } ' +
+        'var txt = text.sourceText + ""; var len = txt.length; ' +
+        '(show == 1 && before == 1 && len > 0) ? (1 / len) * 100 : 0;';
     
     // استثناء المؤشر من Text Color
     colorSelector.property("ADBE Text Percent End").expression = 
-        'var txt = text.sourceText + ""; ' +
-        'var len = txt.length; ' +
-        'len > 1 ? ((len - 1) / len) * 100 : 0;';
+        'var show = 1; try { show = effect("Show Cursor")(1).value; } catch(e) { show = 1; } ' +
+        'var before = 0; try { before = effect("Cursor Before Text")(1).value; } catch(e) { before = 0; } ' +
+        'var txt = text.sourceText + ""; var len = txt.length; ' +
+        '(show == 1 && before == 0 && len > 1) ? ((len - 1) / len) * 100 : 100;';
     
     var colorProp = colorAnimator.property("ADBE Text Animator Properties").addProperty("ADBE Text Fill Color");
     colorProp.expression = 'effect("Text Color")(1);';

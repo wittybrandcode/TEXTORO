@@ -1676,6 +1676,8 @@ function applyPreset(optsJSON) {
                 isRTL = preset.values.boxRTL;
             } else if (category === "mix" && preset.values.type && preset.values.type.boxRTL) {
                 isRTL = preset.values.type.boxRTL;
+            } else if (category === "toro" && preset.values.type && preset.values.type.boxRTL) {
+                isRTL = preset.values.type.boxRTL;
             }
             
             var cfg = (typeof $.global !== "undefined" && $.global.CONFIG) ? $.global.CONFIG : ((typeof CONFIG !== "undefined" && CONFIG) ? CONFIG : null);
@@ -1721,7 +1723,8 @@ function _applyPresetToSingleLayer(layer, comp, category, preset) {
     } else if (category === "box") {
         if (!hasTypewriter(layer)) {
             var defaultTypeOpts = {
-                direction: "ltr",
+                direction: ((typeof isArabicText === "function") && isArabicText((function() { try { return layer.property("ADBE Text Properties").property("ADBE Text Document").value.text; } catch(e) { return ""; } })())) ? "rtl" : "ltr",
+                wordMode: ((typeof isArabicText === "function") && isArabicText((function() { try { return layer.property("ADBE Text Properties").property("ADBE Text Document").value.text; } catch(e) { return ""; } })())),
                 showCursor: true,
                 cursorBefore: false,
                 cursorSpacing: 0,
@@ -1899,10 +1902,36 @@ function _applyTypePreset(layer, values) {
     $.writeln("[TEXTORO] hasTypewriter: " + hasTW);
     
     // إزالة القديم وتطبيق الجديد
+    // استرجاع النص الأصلي وفحص اللغة العربية
+    var originalText = getOriginalText(layer);
+    if (!originalText) {
+        try {
+            var textProp = layer.property("ADBE Text Properties").property("ADBE Text Document");
+            originalText = textProp.value.text;
+        } catch(e) {}
+    }
+    if (!originalText) {
+        try {
+            var markers = layer.property("Marker");
+            if (markers) originalText = getTextFromMarker(markers);
+        } catch(e) {}
+    }
+    var prevRTL = false;
+    try {
+        var fxParade = layer.property("ADBE Effect Parade");
+        if (fxParade && fxParade.property("Box RTL")) {
+            prevRTL = (fxParade.property("Box RTL").property(1).value == 1);
+        }
+    } catch(e) {}
+    var isArabic = (typeof isArabicText === "function") ? isArabicText(originalText) : false;
+    var isRTL = isArabic || prevRTL || (values.boxRTL === true);
+    var wordMode = isArabic ? true : (values.wordMode || false);
+
     _removeTypewriter(layer);
     
     var opts = {
-        direction: values.boxRTL ? "rtl" : "ltr",
+        direction: isRTL ? "rtl" : "ltr",
+        wordMode: wordMode,
         showCursor: values.showCursor,
         cursorBefore: values.cursorBefore,
         cursorColor: values.cursorColor,
