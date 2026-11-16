@@ -303,6 +303,47 @@ TEXTORO.UI.CollapsibleSection = (function() {
             }
         });
         
+        // Markers Tab Sections
+        var markersSections = [
+            { id: 'markers-filter', defaultCollapsed: false },
+            { id: 'markers-list', defaultCollapsed: false },
+            { id: 'markers-ops', defaultCollapsed: false }
+        ];
+        
+        markersSections.forEach(function(s) {
+            var header = document.getElementById(s.id + '-header');
+            var content = document.getElementById(s.id + '-content');
+            if (header && content) {
+                init({
+                    id: s.id,
+                    header: header,
+                    content: content,
+                    defaultCollapsed: s.defaultCollapsed
+                });
+            }
+        });
+        
+        // Settings Tab Sections
+        var settingsSections = [
+            { id: 'settings-presets', defaultCollapsed: false },
+            { id: 'settings-expr', defaultCollapsed: false },
+            { id: 'settings-about', defaultCollapsed: false },
+            { id: 'settings-maint', defaultCollapsed: false }
+        ];
+        
+        settingsSections.forEach(function(s) {
+            var header = document.getElementById(s.id + '-header');
+            var content = document.getElementById(s.id + '-content');
+            if (header && content) {
+                init({
+                    id: s.id,
+                    header: header,
+                    content: content,
+                    defaultCollapsed: s.defaultCollapsed
+                });
+            }
+        });
+        
         TEXTORO.log('CollapsibleSections initialized');
     }
     

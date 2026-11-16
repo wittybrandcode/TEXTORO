@@ -1980,99 +1980,257 @@ html, body { height: 100%; }
    MARKERS TAB
    ═══════════════════════════════════════════════════════════════ */
 
-/* Filters */
-.markers-filters { display: flex; flex-wrap: wrap; gap: 10px; padding: 6px 0; }
-.markers-filter-ck { font-size: 10px !important; }
-.markers-filter-ck .cl { font-weight: 600; }
+/* ═══════════════════════════════════════════════════════════════
+   MARKERS TAB - Industrial Slate Studio Architecture
+   ═══════════════════════════════════════════════════════════════ */
 
-/* Table */
-.markers-table-wrap { max-height: 200px; overflow-y: auto; border: 1px solid var(--border); border-radius: 4px; }
-.markers-table { width: 100%; border-collapse: collapse; font-size: 9px; }
-.markers-table th { background: var(--bg-3); padding: 6px 4px; text-align: left; font-weight: 600; position: sticky; top: 0; border-bottom: 1px solid var(--border); }
-.markers-table td { padding: 4px; border-bottom: 1px solid var(--border); }
-.markers-table tr:hover td { background: var(--bg-2); }
-.markers-table tr.selected td { background: rgba(33, 150, 243, 0.15); }
-.markers-table input[type="checkbox"] { width: 14px; height: 14px; }
-
-/* Type colors - matching AE Timeline markers */
-.marker-type-in { color: #4CAF50; }
-.marker-type-out { color: #f44336; }
-.marker-type-blink { color: #4CAF50; }
-.marker-type-text { color: #9E9E9E; }
-
-/* Info */
-.markers-info { font-size: 9px; color: var(--t3); padding: 6px 0 0; }
-
-/* Small button */
-.btn-sm { padding: 4px 10px; font-size: 9px; background: var(--accent); color: #fff; border: none; border-radius: 3px; cursor: pointer; }
-.btn-sm:hover { background: var(--accent-h); }
-
-
-/* Small select for markers */
-.sel-sm { padding: 3px 4px; font-size: 10px; background: var(--bg-2); color: var(--t1); border: 1px solid var(--border); border-radius: 3px; cursor: pointer; min-width: 32px; }
-.sel-sm:hover { border-color: var(--accent); }
-
-
-/* AE Selected Layer indicator */
-.ae-selected { color: #FFD700; font-size: 8px; margin-right: 2px; }
-.markers-table tr.ae-layer-selected td { background: rgba(255, 215, 0, 0.08); }
-.markers-table tr.ae-layer-selected:hover td { background: rgba(255, 215, 0, 0.15); }
-
-/* Quick Select Buttons */
-.markers-quick-select { display: flex; gap: 4px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
-.btn-qs { flex: 1; padding: 5px 6px; font-size: 9px; background: var(--bg-2); color: var(--t2); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; transition: .15s; }
-.btn-qs:hover { background: var(--bg-4); color: var(--t1); border-color: var(--border-h); }
-.btn-qs i { font-size: 10px; }
-
-/* Operations Layout */
-.markers-ops { display: flex; flex-direction: column; gap: 8px; }
-.markers-op-row { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-.markers-op-lbl { width: 46px; font-size: 10px; color: var(--t2); flex-shrink: 0; }
-.markers-op-row .nw { min-width: var(--input-min-w); max-width: var(--input-max-w); }
-.markers-op-row .ni { width: 100%; text-align: center; font-size: 11px; }
-.markers-op-unit { font-size: 8px; color: var(--t3); width: 16px; }
-.markers-op-row .sel-sm { width: 34px; }
-
-/* Plus/Minus Buttons */
-.btn-pm { width: 20px; height: 20px; padding: 0; font-size: 9px; background: var(--bg-3); color: var(--t2); border: 1px solid var(--border); border-radius: 3px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: .15s; flex-shrink: 0; }
-.btn-pm:hover { background: var(--bg-4); color: var(--t1); border-color: var(--border-h); }
-.btn-pm.btn-minus:hover { background: var(--err); color: #fff; border-color: var(--err); }
-.btn-pm.btn-plus:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
-.btn-pm i { font-size: 8px; }
-
-/* Operation Buttons Group */
-.op-btns-group { display: flex; gap: 3px; margin-left: auto; }
-
-/* Operation Buttons with Text */
-.btn-op { 
-    min-width: 28px; height: 24px; padding: 0 6px; 
-    font-size: 10px; font-weight: 600;
-    background: var(--accent); color: #fff; 
-    border: none; border-radius: 4px; cursor: pointer; 
-    display: flex; align-items: center; justify-content: center;
-    transition: .15s; flex-shrink: 0; 
+/* Marker Filter Chips & Dots */
+.marker-dot {
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 0 !important;
+    display: inline-block !important;
+    margin-right: 4px !important;
+    vertical-align: middle !important;
+    flex-shrink: 0 !important;
 }
-.btn-op:hover { background: var(--accent-h); transform: scale(1.05); }
 
-/* Minus variant (backward) */
-.btn-op.btn-op-minus { background: var(--bg-3); color: var(--t1); border: 1px solid var(--border); }
-.btn-op.btn-op-minus:hover { background: var(--err); color: #fff; border-color: var(--err); }
+.marker-dot.dot-in { background: #10b981 !important; }
+.marker-dot.dot-out { background: #ef4444 !important; }
+.marker-dot.dot-blink { background: #f59e0b !important; }
 
-/* Plus variant (forward) */
-.btn-op.btn-op-plus { background: var(--accent); }
-.btn-op.btn-op-plus:hover { background: var(--accent-h); }
+.marker-chip-in.active .chip-inner {
+    border-color: rgba(16, 185, 129, 0.4) !important;
+}
+.marker-chip-out.active .chip-inner {
+    border-color: rgba(239, 68, 68, 0.4) !important;
+}
+.marker-chip-blink.active .chip-inner {
+    border-color: rgba(245, 158, 11, 0.4) !important;
+}
 
-/* Layer variant */
-.btn-op.btn-layer.btn-op-minus { background: var(--bg-3); color: var(--t1); border: 1px solid var(--border); }
-.btn-op.btn-layer.btn-op-minus:hover { background: var(--warn); color: #fff; border-color: var(--warn); }
-.btn-op.btn-layer.btn-op-plus { background: var(--warn); color: #fff; border: none; }
-.btn-op.btn-layer.btn-op-plus:hover { filter: brightness(1.15); }
+/* Markers Table Container */
+.markers-table-wrap {
+    max-height: 220px !important;
+    overflow-y: auto !important;
+    background: #14141c !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+}
 
-/* Small Operation Buttons (legacy) */
-.markers-op-row .btn-sm { padding: 3px 6px; font-size: 8px; background: var(--accent); color: #fff; border: none; border-radius: 3px; cursor: pointer; flex-shrink: 0; }
-.markers-op-row .btn-sm:hover { background: var(--accent-h); }
-.markers-op-row .btn-layer { background: var(--bg-3); color: var(--t2); }
-.markers-op-row .btn-layer:hover { background: var(--warn); color: #fff; }
+.markers-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 10.5px !important;
+    table-layout: fixed !important;
+}
+
+.markers-table th {
+    background: #111116 !important;
+    color: #8c8ca0 !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    padding: 6px 8px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 2 !important;
+    text-align: left !important;
+    user-select: none !important;
+}
+
+.markers-table td {
+    padding: 5px 8px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+    color: #e2e8f0 !important;
+    font-size: 10.5px !important;
+    font-weight: 500 !important;
+    vertical-align: middle !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+.markers-table tr {
+    cursor: pointer !important;
+    transition: background 0.1s ease !important;
+}
+
+.markers-table tr:hover td {
+    background: #1a1a26 !important;
+}
+
+.markers-table tr.selected td {
+    background: #19253d !important;
+    color: #ffffff !important;
+}
+
+.markers-table tr.selected:hover td {
+    background: #1d2c47 !important;
+}
+
+.markers-table tr.ae-layer-selected td {
+    background: rgba(245, 158, 11, 0.08) !important;
+}
+
+.markers-table tr.ae-layer-selected:hover td {
+    background: rgba(245, 158, 11, 0.16) !important;
+}
+
+.markers-table tr.ae-layer-selected.selected td {
+    background: #1f2a42 !important;
+}
+
+.markers-table input[type="checkbox"] {
+    width: 13px !important;
+    height: 13px !important;
+    accent-color: #2563eb !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    vertical-align: middle !important;
+}
+
+.markers-table .cb-cell {
+    text-align: center !important;
+    width: 28px !important;
+}
+
+.markers-table .time-cell {
+    text-align: right !important;
+    font-family: monospace !important;
+    font-size: 10px !important;
+    color: #94a3b8 !important;
+    font-weight: 600 !important;
+}
+
+.markers-table .type-cell {
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.3px !important;
+}
+
+/* Marker Type Badges */
+.marker-type-in {
+    color: #10b981 !important;
+}
+.marker-type-out {
+    color: #ef4444 !important;
+}
+.marker-type-blink {
+    color: #f59e0b !important;
+}
+.marker-type-text {
+    color: #64748b !important;
+}
+
+.ae-selected {
+    color: #f59e0b !important;
+    font-size: 8px !important;
+    margin-right: 3px !important;
+}
+
+/* Selection Info Pill */
+.selection-pill {
+    font-size: 10px !important;
+    color: #8c8ca0 !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    user-select: none !important;
+}
+
+.selection-pill strong {
+    color: #38bdf8 !important;
+    margin-left: 3px !important;
+    font-weight: 700 !important;
+}
+
+/* Marker Operation Buttons */
+.btn-op {
+    height: 28px !important;
+    min-width: 32px !important;
+    padding: 0 8px !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.4px !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    box-sizing: border-box !important;
+    border: 1px solid transparent !important;
+    user-select: none !important;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease !important;
+}
+
+/* Markers buttons (Cyan/Blue Theme) */
+.btn-op.btn-markers {
+    background: #141f36 !important;
+    color: #38bdf8 !important;
+    border: 1px solid rgba(56, 189, 248, 0.25) !important;
+}
+
+.btn-op.btn-markers:hover {
+    background: #2563eb !important;
+    color: #ffffff !important;
+    border-color: #2563eb !important;
+}
+
+.btn-op.btn-markers:active {
+    background: #1d4ed8 !important;
+}
+
+/* Layers buttons (Purple Theme) */
+.btn-op.btn-layer {
+    background: #231c38 !important;
+    color: #c084fc !important;
+    border: 1px solid rgba(192, 132, 252, 0.25) !important;
+}
+
+.btn-op.btn-layer:hover {
+    background: #7c3aed !important;
+    color: #ffffff !important;
+    border-color: #7c3aed !important;
+}
+
+.btn-op.btn-layer:active {
+    background: #6d28d9 !important;
+}
+
+.btn-op.btn-op-wide {
+    padding: 0 10px !important;
+}
+
+/* Card Header Studio Badge */
+.studio-badge {
+    font-size: 9px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #cbd5e1 !important;
+    padding: 1px 6px !important;
+    border-radius: 0 !important;
+    margin-left: 6px !important;
+    font-weight: 700 !important;
+    display: inline-block !important;
+}
+
+/* Expression Note & Path Status in Settings */
+.expr-note,
+.path-status {
+    font-size: 9.5px !important;
+    color: #8c8ca0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 4px 0 !important;
+}
+
+.path-status {
+    color: #f59e0b !important;
+}
 
 
 /* ═══════════════════════════════════════════════════════════════════

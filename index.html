@@ -996,87 +996,178 @@
 <!-- MARKERS PANEL -->
 <section class="panel" id="panel-markers">
 
-<!-- Filter Section -->
-<div class="soga-box">
-<div class="soga-title"><i class="fa-solid fa-filter"></i> Filter by Type</div>
-<div class="markers-filters" id="markersFilters">
-<label class="ck markers-filter-ck"><input type="checkbox" id="filterInStart" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl" style="color:#4CAF50">IN_START</span></label>
-<label class="ck markers-filter-ck"><input type="checkbox" id="filterInEnd" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl" style="color:#4CAF50">IN_END</span></label>
-<label class="ck markers-filter-ck"><input type="checkbox" id="filterOutStart" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl" style="color:#f44336">OUT_START</span></label>
-<label class="ck markers-filter-ck"><input type="checkbox" id="filterOutEnd" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl" style="color:#f44336">OUT_END</span></label>
-<label class="ck markers-filter-ck"><input type="checkbox" id="filterBlinkStart" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl" style="color:#4CAF50">BLINK_START</span></label>
-<label class="ck markers-filter-ck"><input type="checkbox" id="filterBlinkEnd" checked><span class="cb"><i class="fa-solid fa-check"></i></span><span class="cl" style="color:#4CAF50">BLINK_END</span></label>
-</div>
+<!-- 1. Marker Filters Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio collapsible-header" id="markers-filter-header">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+            FILTER BY TYPE
+        </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+    </div>
+    <div id="markers-filter-content" class="collapsible-content">
+        <div class="metrics-grid-3" id="markersFilters">
+            <label class="studio-toggle-chip marker-chip-in" title="Filter IN_START markers">
+                <input type="checkbox" id="filterInStart" checked>
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label"><span class="marker-dot dot-in"></span>IN_START</span>
+                </span>
+            </label>
+            <label class="studio-toggle-chip marker-chip-in" title="Filter IN_END markers">
+                <input type="checkbox" id="filterInEnd" checked>
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label"><span class="marker-dot dot-in"></span>IN_END</span>
+                </span>
+            </label>
+            <label class="studio-toggle-chip marker-chip-out" title="Filter OUT_START markers">
+                <input type="checkbox" id="filterOutStart" checked>
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label"><span class="marker-dot dot-out"></span>OUT_START</span>
+                </span>
+            </label>
+        </div>
+        <div class="metrics-grid-3 mt-4">
+            <label class="studio-toggle-chip marker-chip-out" title="Filter OUT_END markers">
+                <input type="checkbox" id="filterOutEnd" checked>
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label"><span class="marker-dot dot-out"></span>OUT_END</span>
+                </span>
+            </label>
+            <label class="studio-toggle-chip marker-chip-blink" title="Filter BLINK_START markers">
+                <input type="checkbox" id="filterBlinkStart" checked>
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label"><span class="marker-dot dot-blink"></span>BLINK_START</span>
+                </span>
+            </label>
+            <label class="studio-toggle-chip marker-chip-blink" title="Filter BLINK_END markers">
+                <input type="checkbox" id="filterBlinkEnd" checked>
+                <span class="chip-inner">
+                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span class="chip-label"><span class="marker-dot dot-blink"></span>BLINK_END</span>
+                </span>
+            </label>
+        </div>
+    </div>
 </div>
 
-<!-- Markers Table -->
-<div class="soga-box">
-<div class="soga-title"><i class="fa-solid fa-list"></i> Markers <span id="markersCount" style="opacity:0.6">(0)</span></div>
-<div class="markers-table-wrap">
-<table class="markers-table" id="markersTable">
-<thead>
-<tr>
-<th style="width:30px"><input type="checkbox" id="markersSelectAll" title="Select All"></th>
-<th style="width:120px">Layer</th>
-<th style="width:80px">Type</th>
-<th style="width:70px">Time</th>
-</tr>
-</thead>
-<tbody id="markersTableBody">
-</tbody>
-</table>
-</div>
-<div class="markers-info">Selected: <span id="markersSelectedCount">0</span></div>
-<div class="markers-quick-select">
-<button class="btn-qs" id="btnSelectLayer" title="Select markers of AE selected layers"><i class="fa-solid fa-layer-group"></i> Layer</button>
-<button class="btn-qs" id="btnSelectInvert" title="Invert current selection"><i class="fa-solid fa-rotate"></i> Invert</button>
-<button class="btn-qs" id="btnSelectNone" title="Clear all selection"><i class="fa-solid fa-xmark"></i> None</button>
-</div>
+<!-- 2. Markers Table Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio collapsible-header" id="markers-list-header">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+            MARKERS LIST <span class="studio-badge" id="markersCount">(0)</span>
+        </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+    </div>
+    <div id="markers-list-content" class="collapsible-content">
+        <div class="markers-table-wrap" id="markersTableWrap">
+            <table class="markers-table" id="markersTable">
+                <thead>
+                    <tr>
+                        <th style="width:28px;text-align:center"><input type="checkbox" id="markersSelectAll" title="Select All"></th>
+                        <th>LAYER</th>
+                        <th style="width:95px">TYPE</th>
+                        <th style="width:65px;text-align:right">TIME</th>
+                    </tr>
+                </thead>
+                <tbody id="markersTableBody">
+                </tbody>
+            </table>
+        </div>
+        <div class="studio-row-split mt-6">
+            <div class="markers-selection-badge">
+                <span class="selection-pill">Selected: <strong id="markersSelectedCount">0</strong></span>
+            </div>
+            <div class="tg studio-btn-group">
+                <button type="button" class="btn-s" id="btnSelectLayer" title="Select markers of AE selected layers"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg> LAYER</button>
+                <button type="button" class="btn-s" id="btnSelectInvert" title="Invert current selection"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg> INVERT</button>
+                <button type="button" class="btn-s" id="btnSelectNone" title="Clear selection"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> NONE</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Operations -->
-<div class="soga-box">
-<div class="soga-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Operations</div>
-<div class="markers-ops">
-<div class="markers-op-row">
-<span class="markers-op-lbl">Offset</span>
-<button class="btn-pm btn-minus" id="btnOffsetMinus" title="Decrease 1 second"><i class="fa-solid fa-minus"></i></button>
-<div class="nw"><input type="text" id="markersOffset" class="ni time-input" value="1:00" title="Offset (s:f)" placeholder="0:00"></div>
-<button class="btn-pm btn-plus" id="btnOffsetPlus" title="Increase 1 second"><i class="fa-solid fa-plus"></i></button>
-<span class="markers-op-unit">s:f</span>
-<div class="op-btns-group">
-<button class="btn-op btn-op-minus" id="btnMarkersOffsetMinus" title="Offset markers backward">M-</button>
-<button class="btn-op btn-op-plus" id="btnMarkersOffsetPlus" title="Offset markers forward">M+</button>
-<button class="btn-op btn-op-minus btn-layer" id="btnLayersOffsetMinus" title="Offset layers backward">L-</button>
-<button class="btn-op btn-op-plus btn-layer" id="btnLayersOffsetPlus" title="Offset layers forward">L+</button>
-</div>
-</div>
-<div class="markers-op-row">
-<span class="markers-op-lbl">Stagger</span>
-<button class="btn-pm btn-minus" id="btnStaggerMinus" title="Decrease 1 second"><i class="fa-solid fa-minus"></i></button>
-<div class="nw"><input type="text" id="markersStagger" class="ni time-input" value="1:00" title="Stagger delay (s:f)" placeholder="0:00"></div>
-<button class="btn-pm btn-plus" id="btnStaggerPlus" title="Increase 1 second"><i class="fa-solid fa-plus"></i></button>
-<span class="markers-op-unit">s:f</span>
-<select id="markersStaggerOrder" class="sel-sm" title="Stagger order"><option value="asc">Asc</option><option value="desc">Desc</option><option value="random">Random</option></select>
-<div class="op-btns-group">
-<button class="btn-op btn-op-minus" id="btnMarkersStaggerMinus" title="Stagger markers backward">M-</button>
-<button class="btn-op btn-op-plus" id="btnMarkersStaggerPlus" title="Stagger markers forward">M+</button>
-<button class="btn-op btn-op-minus btn-layer" id="btnLayersStaggerMinus" title="Stagger layers backward">L-</button>
-<button class="btn-op btn-op-plus btn-layer" id="btnLayersStaggerPlus" title="Stagger layers forward">L+</button>
-</div>
-</div>
-<div class="markers-op-row">
-<span class="markers-op-lbl">Align</span>
-<button class="btn-pm btn-minus" id="btnAlignMinus" title="Decrease 1 second"><i class="fa-solid fa-minus"></i></button>
-<div class="nw"><input type="text" id="markersAlignTime" class="ni time-input" value="5:00" title="Align time (s:f)" placeholder="0:00"></div>
-<button class="btn-pm btn-plus" id="btnAlignPlus" title="Increase 1 second"><i class="fa-solid fa-plus"></i></button>
-<span class="markers-op-unit">s:f</span>
-<div class="op-btns-group">
-<button class="btn-op btn-op-plus" id="btnMarkersAlign" title="Align markers to time">M</button>
-<button class="btn-op btn-op-plus btn-layer" id="btnLayersAlign" title="Align layers to time">L</button>
-</div>
-</div>
-</div>
+<!-- 3. Operations Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio collapsible-header" id="markers-ops-header">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            OPERATIONS
+        </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+    </div>
+    <div id="markers-ops-content" class="collapsible-content">
+        <!-- Row 1: Offset -->
+        <div class="studio-combo-row">
+            <div class="precision-input-box" style="flex: 1;" title="Offset amount in seconds:frames">
+                <span class="p-label">OFFSET</span>
+                <input type="text" id="markersOffset" class="ni time-input" value="1:00" placeholder="0:00">
+                <span class="unit-tag">s:f</span>
+                <div class="stepper-actions">
+                    <button type="button" class="step-arrow step-up" id="btnOffsetPlus" tabindex="-1" title="Increase 1 second">▲</button>
+                    <button type="button" class="step-arrow step-down" id="btnOffsetMinus" tabindex="-1" title="Decrease 1 second">▼</button>
+                </div>
+            </div>
+            <div class="tg studio-btn-group" title="Offset Markers">
+                <button type="button" class="btn-op btn-markers" id="btnMarkersOffsetMinus" title="Offset markers backward (M-)">M -</button>
+                <button type="button" class="btn-op btn-markers" id="btnMarkersOffsetPlus" title="Offset markers forward (M+)">M +</button>
+            </div>
+            <div class="tg studio-btn-group" title="Offset Layers">
+                <button type="button" class="btn-op btn-layer" id="btnLayersOffsetMinus" title="Offset layers backward (L-)">L -</button>
+                <button type="button" class="btn-op btn-layer" id="btnLayersOffsetPlus" title="Offset layers forward (L+)">L +</button>
+            </div>
+        </div>
+
+        <!-- Row 2: Stagger -->
+        <div class="studio-combo-row mt-6">
+            <div class="precision-input-box" style="flex: 1;" title="Stagger delay in seconds:frames">
+                <span class="p-label">STAGGER</span>
+                <input type="text" id="markersStagger" class="ni time-input" value="1:00" placeholder="0:00">
+                <span class="unit-tag">s:f</span>
+                <div class="stepper-actions">
+                    <button type="button" class="step-arrow step-up" id="btnStaggerPlus" tabindex="-1" title="Increase 1 second">▲</button>
+                    <button type="button" class="step-arrow step-down" id="btnStaggerMinus" tabindex="-1" title="Decrease 1 second">▼</button>
+                </div>
+            </div>
+            <div class="precision-select-box" style="width: 75px;" title="Stagger order">
+                <select id="markersStaggerOrder" class="sel-sm" title="Stagger order">
+                    <option value="asc">Asc</option>
+                    <option value="desc">Desc</option>
+                    <option value="random">Rand</option>
+                </select>
+            </div>
+            <div class="tg studio-btn-group" title="Stagger Markers">
+                <button type="button" class="btn-op btn-markers" id="btnMarkersStaggerMinus" title="Stagger markers backward (M-)">M -</button>
+                <button type="button" class="btn-op btn-markers" id="btnMarkersStaggerPlus" title="Stagger markers forward (M+)">M +</button>
+            </div>
+            <div class="tg studio-btn-group" title="Stagger Layers">
+                <button type="button" class="btn-op btn-layer" id="btnLayersStaggerMinus" title="Stagger layers backward (L-)">L -</button>
+                <button type="button" class="btn-op btn-layer" id="btnLayersStaggerPlus" title="Stagger layers forward (L+)">L +</button>
+            </div>
+        </div>
+
+        <!-- Row 3: Align -->
+        <div class="studio-combo-row mt-6">
+            <div class="precision-input-box" style="flex: 1;" title="Align time in seconds:frames">
+                <span class="p-label">ALIGN AT</span>
+                <input type="text" id="markersAlignTime" class="ni time-input" value="5:00" placeholder="0:00">
+                <span class="unit-tag">s:f</span>
+                <div class="stepper-actions">
+                    <button type="button" class="step-arrow step-up" id="btnAlignPlus" tabindex="-1" title="Increase 1 second">▲</button>
+                    <button type="button" class="step-arrow step-down" id="btnAlignMinus" tabindex="-1" title="Decrease 1 second">▼</button>
+                </div>
+            </div>
+            <div class="tg studio-btn-group" style="flex: 0 0 auto;">
+                <button type="button" class="btn-op btn-markers btn-op-wide" id="btnMarkersAlign" title="Align markers to time (M)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path></svg> ALIGN M</button>
+                <button type="button" class="btn-op btn-layer btn-op-wide" id="btnLayersAlign" title="Align layers to time (L)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg> ALIGN L</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 </section>
@@ -1549,68 +1640,100 @@
 
 <!-- SETTINGS PANEL -->
 <section class="panel" id="panel-settings">
-<!-- Presets Folder Section -->
-<div class="soga-box">
-<div class="soga-title" title="Custom presets folder location"><i class="fa-solid fa-folder-open"></i> Presets Folder</div>
-<table class="soga-table">
-<tr>
-<td colspan="5">
-<div class="row" style="margin:0">
-<input type="text" id="txtPresetsPath" class="ti" readonly placeholder="Click Browse..." title="Path to custom presets folder">
-<button class="btn-s" id="btnBrowsePresets" title="Browse for presets folder"><i class="fa-solid fa-folder-open"></i></button>
-</div>
-</td>
-</tr>
-<tr>
-<td colspan="5"><div class="path-status" id="pathStatus" title="Folder status"><i class="fa-solid fa-triangle-exclamation"></i> No folder selected</div></td>
-</tr>
-</table>
-</div>
 
-<!-- Expression Versions Section -->
-<div class="soga-box">
-<div class="soga-title" title="Select expression versions for each module"><i class="fa-solid fa-code"></i> Expression Versions</div>
-<table class="soga-table">
-<tr>
-<td class="soga-td-lbl" title="Typewriter expression version">Typewriter</td>
-<td colspan="4"><select id="selExprTypewriter" class="sel" title="Select typewriter expression version"><option value="v1.0">v1.0 (stable)</option></select></td>
-</tr>
-<tr>
-<td class="soga-td-lbl" title="Cursor expression version">Cursor</td>
-<td colspan="4"><select id="selExprCursor" class="sel" title="Select cursor expression version"><option value="v1.0">v1.0 (stable)</option></select></td>
-</tr>
-<tr>
-<td class="soga-td-lbl" title="Box expression version">Box</td>
-<td colspan="4"><select id="selExprBox" class="sel" title="Select box expression version"><option value="v1.0">v1.0 (stable)</option></select></td>
-</tr>
-</table>
-<div class="expr-note" title="Important note"><i class="fa-solid fa-info-circle"></i> Reload panel after changing versions</div>
-</div>
-
-<!-- About Section -->
-<div class="soga-box">
-<div class="soga-title" title="Plugin information"><i class="fa-solid fa-info-circle"></i> About</div>
-<table class="soga-table">
-<tr>
-<td class="soga-td-lbl" title="Current version">Version</td>
-<td title="Plugin version number"><strong id="aboutVersion">v1.0.0</strong></td>
-</tr>
-<tr>
-<td class="soga-td-lbl" title="Build date">Build</td>
-<td title="Release date">December 2024</td>
-</tr>
-</table>
-</div>
-
-<!-- Maintenance Section -->
+<!-- 1. Presets Folder Section -->
 <div class="soga-box studio-card">
-<div class="card-header-studio">
-    <span class="card-title-studio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg> Maintenance</span>
+    <div class="card-header-studio collapsible-header" id="settings-presets-header">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            PRESETS FOLDER
+        </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+    </div>
+    <div id="settings-presets-content" class="collapsible-content">
+        <div class="studio-combo-row">
+            <div class="precision-input-box" style="flex: 1;" title="Path to custom presets folder">
+                <input type="text" id="txtPresetsPath" class="ni" readonly placeholder="Click Browse..." style="text-align:left;padding-left:8px;">
+            </div>
+            <button type="button" class="btn-s" id="btnBrowsePresets" title="Browse for presets folder" style="height:28px;padding:0 10px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                Browse
+            </button>
+        </div>
+        <div class="path-status mt-4" id="pathStatus" title="Folder status"><i class="fa-solid fa-triangle-exclamation"></i> No folder selected</div>
+    </div>
 </div>
-<div class="row-2">
-<button class="btn-s" id="btnClearCache" title="Clear cached data and settings"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;vertical-align:-1px;"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>Clear Cache</button>
-<button class="btn-s" id="btnReloadPanel" title="Reload the panel interface"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;vertical-align:-1px;"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>Reload</button>
+
+<!-- 2. Expression Versions Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio collapsible-header" id="settings-expr-header">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            EXPRESSION VERSIONS
+        </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+    </div>
+    <div id="settings-expr-content" class="collapsible-content">
+        <div class="precision-select-box mb-4" title="Typewriter expression version">
+            <span class="p-label" style="width:75px;">TYPE</span>
+            <select id="selExprTypewriter" class="sel" title="Select typewriter expression version"><option value="v1.0">v1.0 (stable)</option></select>
+        </div>
+        <div class="precision-select-box mb-4" title="Cursor expression version">
+            <span class="p-label" style="width:75px;">CURSOR</span>
+            <select id="selExprCursor" class="sel" title="Select cursor expression version"><option value="v1.0">v1.0 (stable)</option></select>
+        </div>
+        <div class="precision-select-box" title="Box expression version">
+            <span class="p-label" style="width:75px;">BOX</span>
+            <select id="selExprBox" class="sel" title="Select box expression version"><option value="v1.0">v1.0 (stable)</option></select>
+        </div>
+        <div class="expr-note mt-6" title="Important note"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;vertical-align:-1px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Reload panel after changing versions</div>
+    </div>
 </div>
+
+<!-- 3. About Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio collapsible-header" id="settings-about-header">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            ABOUT
+        </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+    </div>
+    <div id="settings-about-content" class="collapsible-content">
+        <div class="metrics-grid-2">
+            <div class="precision-input-box" title="Current plugin version">
+                <span class="p-label">VERSION</span>
+                <span class="p-val" id="aboutVersion" style="flex:1;text-align:center;font-weight:700;color:#38bdf8;font-size:11px;">v1.0.0</span>
+            </div>
+            <div class="precision-input-box" title="Build release date">
+                <span class="p-label">BUILD</span>
+                <span class="p-val" style="flex:1;text-align:center;font-weight:600;color:#94a3b8;font-size:11px;">December 2024</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 4. Maintenance Section -->
+<div class="soga-box studio-card">
+    <div class="card-header-studio collapsible-header" id="settings-maint-header">
+        <span class="card-title-studio">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+            MAINTENANCE
+        </span>
+        <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+    </div>
+    <div id="settings-maint-content" class="collapsible-content">
+        <div class="studio-combo-row">
+            <button type="button" class="btn-s" id="btnClearCache" title="Clear cached data and settings" style="flex:1;height:28px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                Clear Cache
+            </button>
+            <button type="button" class="btn-s" id="btnReloadPanel" title="Reload the panel interface" style="flex:1;height:28px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                Reload Panel
+            </button>
+        </div>
+    </div>
 </div>
 </section>
 </main>
