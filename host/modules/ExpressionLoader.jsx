@@ -646,7 +646,7 @@ function _getEmbeddedExpression(category, name) {
     // Box hideWhenEmpty - إخفاء الصندوق عند فراغ النص
     // ─────────────────────────────────────────────────────────────────
     if (category === "box" && name === "hideWhenEmpty") {
-        return 'var txt = parent.text.sourceText.replace(/[\\| ]/g, "");\n' +
+        return 'var txt = String(parent.text.sourceText).replace(/[\\| ]/g, "");\n' +
 'txt.length > 0 ? clamp(parent.effect("{{OPACITY_CONTROL}}")(1), 0, 100) : 0;';
     }
     

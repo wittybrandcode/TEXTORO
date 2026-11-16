@@ -178,6 +178,61 @@ function hasBox(layer, comp) {
 // BOX INTERNAL - CREATE
 // ═══════════════════════════════════════════════════════════════════
 
+/**
+ * قياس أبعاد النص الكامل بدقة حتى عند وجود حركة Typewriter
+ * يمنع اقتطاع الصندوق أو أخذ أبعاد لحظية فارغة عند الزمن 0
+ */
+function _getFullTextRect(textLayer, comp) {
+    var sampleTime = 0;
+    var foundHoldTime = false;
+    
+    // 1. فحص markers للطبقة للبحث عن زمن اكتمال الكتابة (بين IN_END و OUT_START)
+    try {
+        var markers = textLayer.property("Marker");
+        if (markers && markers.numKeys > 0) {
+            var inEnd = -1, outStart = -1;
+            for (var i = 1; i <= markers.numKeys; i++) {
+                var c = markers.key(i).comment;
+                if (c === "IN_END") inEnd = markers.key(i).time;
+                if (c === "OUT_START") outStart = markers.key(i).time;
+            }
+            if (inEnd > 0) {
+                sampleTime = (outStart > inEnd) ? (inEnd + outStart) / 2 : (inEnd + 0.1);
+                foundHoldTime = true;
+            }
+        }
+    } catch(e) {}
+    
+    // 2. إذا لم نجد IN_END، نستخدم زمن الـ Comp الحالي
+    if (!foundHoldTime && comp) {
+        sampleTime = comp.time;
+    }
+    
+    var rect = textLayer.sourceRectAtTime(sampleTime, false);
+    
+    // 3. تحصين: إذا كان العرض صغيراً جداً (أقل من 20px - احتمال أن النص فارغ عند زمن العينة)، نجرب أزمنة بديلة
+    if (rect.width <= 20) {
+        var altTimes = [
+            (comp ? comp.time : 0),
+            textLayer.inPoint + textLayer.duration / 2,
+            textLayer.inPoint + 2,
+            textLayer.inPoint + 1,
+            textLayer.inPoint,
+            0
+        ];
+        for (var j = 0; j < altTimes.length; j++) {
+            try {
+                var altRect = textLayer.sourceRectAtTime(altTimes[j], false);
+                if (altRect.width > rect.width) {
+                    rect = altRect;
+                }
+            } catch(e) {}
+        }
+    }
+    
+    return rect;
+}
+
 function _createBox(textLayer, comp, opts) {
     var baseId = updateLayerFlags(textLayer, false, true);
     
@@ -201,7 +256,7 @@ function _createBox(textLayer, comp, opts) {
     }
     
     var fx = textLayer.property("ADBE Effect Parade");
-    var textRect = textLayer.sourceRectAtTime(0, false);
+    var textRect = _getFullTextRect(textLayer, comp);
     
     // ─────────────────────────────────────────────────────────────
     // Effect Controls - استخدام ControllerManager مع Fallback ذكي
@@ -230,7 +285,7 @@ function _createBox(textLayer, comp, opts) {
         "Trim Offset": (opts.trimOffset != null) ? opts.trimOffset : 0,
         "Path Offset": (opts.pathOffset != null) ? opts.pathOffset : 0,
         // Lock
-        "Lock Box Size": (opts.autoResize === false) ? true : (opts.lockBoxSize || false),
+        "Lock Box Size": (opts.autoResize === false) ? true : (opts.lockBoxSize === true),
         "Locked Width": textRect.width,
         "Locked Height": textRect.height,
         "Locked Left": textRect.left,

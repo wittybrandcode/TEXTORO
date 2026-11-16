@@ -35,6 +35,6 @@
     "trimEnd": 100,
     "trimOffset": 0,
     "pathOffset": 0,
-    "lockBoxSize": true
+    "lockBoxSize": false
   }
 }

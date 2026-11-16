@@ -21,6 +21,17 @@ TEXTORO.Panels.Box = (function() {
      * ربط الأحداث
      */
     function bindEvents() {
+        var chkAutoResize = document.getElementById('chkAutoResize');
+        var chkLockSize = document.getElementById('chkLockSize');
+        if (chkAutoResize && chkLockSize) {
+            chkAutoResize.addEventListener('change', function() {
+                if (this.checked) chkLockSize.checked = false;
+            });
+            chkLockSize.addEventListener('change', function() {
+                if (this.checked) chkAutoResize.checked = false;
+            });
+        }
+
         // 4 Corners checkbox - toggle between single/4 corners mode
         var chk4Corners = document.getElementById('chk4Corners');
         if (chk4Corners) {
@@ -102,7 +113,7 @@ TEXTORO.Panels.Box = (function() {
             pathOffset: TEXTORO.Utils.getNum('numPathOffset', 0), // C-03: كان الحقل مهملاً
             lockBoxSize: TEXTORO.Utils.getChecked('chkLockSize', false),
             parentToText: TEXTORO.Utils.getChecked('chkParentToText', true),
-            autoResize: TEXTORO.Utils.getChecked('chkAutoResize', true),
+            autoResize: TEXTORO.Utils.getChecked('chkLockSize', false) ? false : TEXTORO.Utils.getChecked('chkAutoResize', true),
             hideWhenEmpty: TEXTORO.Utils.getChecked('chkHideWhenEmpty', true)
         };
     }

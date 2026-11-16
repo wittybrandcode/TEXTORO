@@ -40,7 +40,7 @@ TEXTORO.Defaults = {
         strokeGap: 0,
         fillOpacity: 100,
         fillColor: [0.2, 0.4, 0.9],
-        lockBoxSize: true
+        lockBoxSize: false
     },
     
     /** إعدادات Motion الافتراضية */

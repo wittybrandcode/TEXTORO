@@ -1,5 +1,5 @@
-// TEXTORO Box Position Expression v1.3
-// موضع الصندوق مع دعم قفل الحجم وPadding وتحصين الأبوة
+// TEXTORO Box Position Expression v1.4
+// موضع الصندوق مع دعم قفل الحجم وPadding وتحصين الأبوة ودعم العربية
 // ═══════════════════════════════════════════════════════════════════
 
 var hasParent = false;
@@ -23,12 +23,12 @@ if (!hasParent) {
         try { h = parent.effect("Locked Height")(1).value; } catch(e) { h = 0; }
         try { left = parent.effect("Locked Left")(1).value; } catch(e) { left = 0; }
         try { top = parent.effect("Locked Top")(1).value; } catch(e) { top = 0; }
-        if (w <= 0 || h <= 0) {
-            var rect = parent.sourceRectAtTime(time, false);
-            w = rect.width;
-            h = rect.height;
-            left = rect.left;
-            top = rect.top;
+        var liveRect = parent.sourceRectAtTime(time, false);
+        if (w <= 15 || h <= 5) {
+            w = liveRect.width;
+            h = liveRect.height;
+            left = liveRect.left;
+            top = liveRect.top;
         }
     } else {
         var rect = parent.sourceRectAtTime(time, false);

@@ -1,5 +1,5 @@
-// TEXTORO Box Size Expression v1.3
-// حساب حجم الصندوق مع دعم قفل الحجم وPadding وتحصين الأبوة
+// TEXTORO Box Size Expression v1.4
+// حساب حجم الصندوق مع دعم قفل الحجم وPadding وتحصين الأبوة ودعم العربية
 // ═══════════════════════════════════════════════════════════════════
 
 var hasParent = false;
@@ -21,10 +21,10 @@ if (!hasParent) {
     if (isLocked == 1) {
         try { w = parent.effect("Locked Width")(1).value; } catch(e) { w = 0; }
         try { h = parent.effect("Locked Height")(1).value; } catch(e) { h = 0; }
-        if (w <= 0 || h <= 0) {
-            var rect = parent.sourceRectAtTime(time, false);
-            w = rect.width;
-            h = rect.height;
+        var liveRect = parent.sourceRectAtTime(time, false);
+        if (w <= 15 || h <= 5) {
+            w = liveRect.width;
+            h = liveRect.height;
         }
     } else {
         var rect = parent.sourceRectAtTime(time, false);

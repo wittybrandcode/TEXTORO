@@ -1,5 +1,5 @@
-// TEXTORO Box 4 Corners Path Expression v1.3
-// مسار Bezier للزوايا الأربع المستقلة مع دعم قفل الحجم وتحصين الأبوة
+// TEXTORO Box 4 Corners Path Expression v1.4
+// مسار Bezier للزوايا الأربع المستقلة مع دعم قفل الحجم وتحصين الأبوة ودعم العربية
 // ═══════════════════════════════════════════════════════════════════
 
 var hasParent = false;
@@ -23,12 +23,12 @@ if (!hasParent) {
         try { h = parent.effect("Locked Height")(1).value; } catch(e) { h = 0; }
         try { left0 = parent.effect("Locked Left")(1).value; } catch(e) { left0 = 0; }
         try { top0 = parent.effect("Locked Top")(1).value; } catch(e) { top0 = 0; }
-        if (w <= 0 || h <= 0) {
-            var rect = parent.sourceRectAtTime(time, false);
-            w = rect.width;
-            h = rect.height;
-            left0 = rect.left;
-            top0 = rect.top;
+        var liveRect = parent.sourceRectAtTime(time, false);
+        if (w <= 15 || h <= 5) {
+            w = liveRect.width;
+            h = liveRect.height;
+            left0 = liveRect.left;
+            top0 = liveRect.top;
         }
     } else {
         var rect = parent.sourceRectAtTime(time, false);
