@@ -2895,9 +2895,14 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 /* 4. Precision Grid Systems */
 .metrics-grid-4 {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(2, 1fr) !important;
     gap: 4px !important;
     width: 100% !important;
+}
+@media (min-width: 350px) {
+    .metrics-grid-4 {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
 }
 
 .metrics-grid-2 {
@@ -3636,4 +3641,65 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 #btnAlignLeft, #btnAlignCenter, #btnAlignRight {
     padding: 0 7px !important;
     min-width: 28px !important;
+}
+
+/* Rigorous Layout Protection for Icon Buttons & Compact Chips */
+.tg.studio-btn-group,
+.studio-btn-group {
+    flex-shrink: 0 !important;
+    overflow: visible !important;
+}
+.studio-row-split > .studio-btn-group {
+    flex-shrink: 0 !important;
+}
+.studio-row-split > .studio-toggle-chip {
+    width: auto !important;
+    flex-shrink: 0 !important;
+}
+#btnAlignLeft, #btnAlignCenter, #btnAlignRight {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
+    flex: 0 0 28px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+#btnAlignLeft svg, #btnAlignCenter svg, #btnAlignRight svg {
+    width: 14px !important;
+    height: 14px !important;
+    display: block !important;
+    flex-shrink: 0 !important;
+}
+.filter-btn svg {
+    stroke: currentColor !important;
+    flex-shrink: 0 !important;
+}
+.filter-btn.active svg {
+    stroke: #ffffff !important;
+}
+
+/* Precision Input Box & Stepper Tuning */
+.precision-input-box-tuned {}
+.precision-input-box {
+    min-width: 0 !important;
+}
+.precision-input-box .p-label {
+    padding: 0 2px 0 6px !important;
+    font-size: 9px !important;
+    white-space: nowrap !important;
+}
+.precision-input-box input.ni {
+    padding: 0 4px 0 2px !important;
+    min-width: 20px !important;
+}
+.precision-input-box .unit-tag {
+    padding-right: 3px !important;
+    font-size: 9px !important;
+}
+.stepper-actions {
+    width: 14px !important;
 }
