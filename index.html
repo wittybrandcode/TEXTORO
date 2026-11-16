@@ -1006,49 +1006,68 @@
         <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
     </div>
     <div id="markers-filter-content" class="collapsible-content">
-        <div class="metrics-grid-3" id="markersFilters">
-            <label class="studio-toggle-chip marker-chip-in" title="Filter IN_START markers">
+        <div class="markers-filter-grid" id="markersFilters">
+            <!-- Row 1: IN Markers -->
+            <label class="marker-filter-chip chip-in" title="Filter IN_START markers">
                 <input type="checkbox" id="filterInStart" checked>
-                <span class="chip-inner">
-                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span class="chip-label"><span class="marker-dot dot-in"></span>IN_START</span>
+                <span class="m-chip-body">
+                    <span class="m-chip-left">
+                        <span class="marker-dot dot-in"></span>
+                        <span class="m-chip-label">IN_START</span>
+                    </span>
+                    <svg class="m-chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </span>
             </label>
-            <label class="studio-toggle-chip marker-chip-in" title="Filter IN_END markers">
+            <label class="marker-filter-chip chip-in" title="Filter IN_END markers">
                 <input type="checkbox" id="filterInEnd" checked>
-                <span class="chip-inner">
-                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span class="chip-label"><span class="marker-dot dot-in"></span>IN_END</span>
+                <span class="m-chip-body">
+                    <span class="m-chip-left">
+                        <span class="marker-dot dot-in"></span>
+                        <span class="m-chip-label">IN_END</span>
+                    </span>
+                    <svg class="m-chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </span>
             </label>
-            <label class="studio-toggle-chip marker-chip-out" title="Filter OUT_START markers">
+            <!-- Row 2: OUT Markers -->
+            <label class="marker-filter-chip chip-out" title="Filter OUT_START markers">
                 <input type="checkbox" id="filterOutStart" checked>
-                <span class="chip-inner">
-                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span class="chip-label"><span class="marker-dot dot-out"></span>OUT_START</span>
+                <span class="m-chip-body">
+                    <span class="m-chip-left">
+                        <span class="marker-dot dot-out"></span>
+                        <span class="m-chip-label">OUT_START</span>
+                    </span>
+                    <svg class="m-chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </span>
             </label>
-        </div>
-        <div class="metrics-grid-3 mt-4">
-            <label class="studio-toggle-chip marker-chip-out" title="Filter OUT_END markers">
+            <label class="marker-filter-chip chip-out" title="Filter OUT_END markers">
                 <input type="checkbox" id="filterOutEnd" checked>
-                <span class="chip-inner">
-                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span class="chip-label"><span class="marker-dot dot-out"></span>OUT_END</span>
+                <span class="m-chip-body">
+                    <span class="m-chip-left">
+                        <span class="marker-dot dot-out"></span>
+                        <span class="m-chip-label">OUT_END</span>
+                    </span>
+                    <svg class="m-chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </span>
             </label>
-            <label class="studio-toggle-chip marker-chip-blink" title="Filter BLINK_START markers">
+            <!-- Row 3: BLINK Markers -->
+            <label class="marker-filter-chip chip-blink" title="Filter BLINK_START markers">
                 <input type="checkbox" id="filterBlinkStart" checked>
-                <span class="chip-inner">
-                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span class="chip-label"><span class="marker-dot dot-blink"></span>BLINK_START</span>
+                <span class="m-chip-body">
+                    <span class="m-chip-left">
+                        <span class="marker-dot dot-blink"></span>
+                        <span class="m-chip-label">BLINK_START</span>
+                    </span>
+                    <svg class="m-chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </span>
             </label>
-            <label class="studio-toggle-chip marker-chip-blink" title="Filter BLINK_END markers">
+            <label class="marker-filter-chip chip-blink" title="Filter BLINK_END markers">
                 <input type="checkbox" id="filterBlinkEnd" checked>
-                <span class="chip-inner">
-                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span class="chip-label"><span class="marker-dot dot-blink"></span>BLINK_END</span>
+                <span class="m-chip-body">
+                    <span class="m-chip-left">
+                        <span class="marker-dot dot-blink"></span>
+                        <span class="m-chip-label">BLINK_END</span>
+                    </span>
+                    <svg class="m-chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </span>
             </label>
         </div>
