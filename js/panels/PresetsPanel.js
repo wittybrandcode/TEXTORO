@@ -284,8 +284,12 @@ TEXTORO.Panels.Presets = (function() {
             if (currentFilter === 'favorites') {
                 return isFavorite(preset);
             }
-            if (currentFilter !== 'all' && preset.category !== currentFilter) {
-                return false;
+            if (currentFilter !== 'all') {
+                if (currentFilter === 'motion' || currentFilter === 'motion-full') {
+                    if (preset.category !== 'motion' && preset.category !== 'motion-full') return false;
+                } else if (preset.category !== currentFilter) {
+                    return false;
+                }
             }
             if (searchQuery && preset.name.toLowerCase().indexOf(searchQuery) === -1) {
                 return false;
@@ -422,7 +426,7 @@ TEXTORO.Panels.Presets = (function() {
      */
     function updateMotionOptionsVisibility() {
         if (elements.motionOptions) {
-            var showOptions = (currentFilter === 'motion-full');
+            var showOptions = (currentFilter === 'motion-full' || currentFilter === 'motion');
             elements.motionOptions.style.display = showOptions ? 'block' : 'none';
         }
     }

@@ -1,13 +1,22 @@
 {
   "_comment": "TEXTORO Presets Schema - v2.9.1",
   "_description": "This file documents the structure of preset JSON files",
-  
   "common": {
-    "required": ["name", "category"],
-    "optional": ["id", "icon", "description", "builtin", "author", "created"],
+    "required": [
+      "name",
+      "category"
+    ],
+    "optional": [
+      "id",
+      "icon",
+      "description",
+      "builtin",
+      "author",
+      "created"
+    ],
     "fields": {
       "name": "string - اسم البريست (مطلوب)",
-      "category": "string - type|box|mix|motion|toro (مطلوب)",
+      "category": "string - type|box|mix|motion|motion-full|toro (مطلوب)",
       "id": "string - معرف فريد (اختياري)",
       "icon": "string - أيقونة emoji (اختياري)",
       "description": "string - وصف البريست (اختياري)",
@@ -16,9 +25,12 @@
       "created": "string - تاريخ الإنشاء ISO (اختياري)"
     }
   },
-
   "type": {
-    "required": ["name", "category", "values"],
+    "required": [
+      "name",
+      "category",
+      "values"
+    ],
     "values": {
       "twAuto": "boolean - تشغيل تلقائي (مطلوب)",
       "twReverse": "boolean - وضع الحذف",
@@ -38,9 +50,12 @@
       "blinkEnd": "number - نهاية الوميض"
     }
   },
-
   "box": {
-    "required": ["name", "category", "values"],
+    "required": [
+      "name",
+      "category",
+      "values"
+    ],
     "values": {
       "paddingLeft": "number 0-200 - الحشو الأيسر (مطلوب)",
       "paddingRight": "number 0-200 - الحشو الأيمن (مطلوب)",
@@ -68,19 +83,27 @@
       "lockBoxSize": "boolean - قفل الحجم"
     }
   },
-
   "mix": {
-    "required": ["name", "category"],
-    "optional": ["type", "box"],
+    "required": [
+      "name",
+      "category"
+    ],
+    "optional": [
+      "type",
+      "box"
+    ],
     "description": "Mix presets contain nested type and/or box objects",
     "structure": {
       "type": "object - نفس هيكل values في type preset",
       "box": "object - نفس هيكل values في box preset"
     }
   },
-
   "motion": {
-    "required": ["name", "category", "values"],
+    "required": [
+      "name",
+      "category",
+      "values"
+    ],
     "values": {
       "inStart": "number - بداية الدخول (ثواني)",
       "inEnd": "number - نهاية الدخول (ثواني)",
@@ -125,14 +148,26 @@
       "6": "Spring - زنبركي"
     }
   },
-
   "toro": {
-    "required": ["name", "category", "values"],
+    "required": [
+      "name",
+      "category",
+      "values"
+    ],
     "description": "TORO presets - القالب الشامل (Type + Box + Motion)",
     "values": {
       "type": "object - نفس هيكل values في type preset",
       "box": "object - نفس هيكل values في box preset",
       "motion": "object - نفس هيكل values في motion preset"
     }
+  },
+  "motion-full": {
+    "required": [
+      "name",
+      "category",
+      "values"
+    ],
+    "description": "Complete motion presets with paired IN and OUT transitions",
+    "values": "Same structure as motion preset values"
   }
 }

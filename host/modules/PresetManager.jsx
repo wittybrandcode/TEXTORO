@@ -1747,9 +1747,9 @@ function _applyPresetToSingleLayer(layer, comp, category, preset) {
         if (preset.values.box) {
             _applyBoxPreset(layer, comp, preset.values.box);
         }
-    } else if (category === "motion") {
-        // تطبيق Motion preset
-        $.writeln("[TEXTORO] Applying Motion preset: " + preset.name);
+    } else if (category === "motion" || category === "motion-full") {
+        // تطبيق Motion preset (بما فيها motion-full المركبة)
+        $.writeln("[TEXTORO] Applying Motion preset (" + category + "): " + preset.name);
         _applyMotionPreset(layer, preset.values);
     } else if (category === "toro") {
         // تطبيق TORO preset (Type + Box + Motion)

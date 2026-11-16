@@ -1,9 +1,10 @@
 {
   "name": "Fast",
-  "icon": "⚡",
+  "id": "fast",
   "category": "type",
   "description": "كتابة سريعة",
   "builtin": true,
+  "icon": "⚡",
   "values": {
     "twAuto": true,
     "twReverse": false,
@@ -12,17 +13,25 @@
     "showCursor": true,
     "cursorBefore": false,
     "cursorType": 0,
-    "cursorColor": [1, 1, 1],
+    "cursorColor": [
+      1,
+      1,
+      1
+    ],
     "cursorSpacing": 0,
     "blinkSpeed": 3,
     "blinkInHold": true,
     "boxRTL": false,
-    "textColor": [1, 1, 1],
+    "textColor": [
+      1,
+      1,
+      1
+    ],
     "easingType": 1,
     "easingStrength": 100,
     "inStart": 0,
-    "inEnd": 1.0,
-    "outStart": 4.0,
+    "inEnd": 1,
+    "outStart": 4,
     "outEnd": 4.5,
     "blinkStart": 0,
     "blinkEnd": 5

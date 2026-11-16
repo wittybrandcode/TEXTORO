@@ -1,9 +1,10 @@
 {
   "name": "Word by Word",
-  "icon": "📝",
+  "id": "word-by-word",
   "category": "type",
   "description": "ظهور كلمة كلمة",
   "builtin": true,
+  "icon": "📝",
   "values": {
     "twAuto": true,
     "twReverse": false,
@@ -12,18 +13,26 @@
     "showCursor": false,
     "cursorBefore": false,
     "cursorType": 0,
-    "cursorColor": [1, 1, 1],
+    "cursorColor": [
+      1,
+      1,
+      1
+    ],
     "cursorSpacing": 0,
     "blinkSpeed": 2,
     "blinkInHold": false,
     "boxRTL": false,
-    "textColor": [1, 1, 1],
+    "textColor": [
+      1,
+      1,
+      1
+    ],
     "easingType": 1,
     "easingStrength": 100,
     "inStart": 0.5,
-    "inEnd": 3.0,
-    "outStart": 6.0,
-    "outEnd": 7.0,
+    "inEnd": 3,
+    "outStart": 6,
+    "outEnd": 7,
     "blinkStart": 0,
     "blinkEnd": 0
   }

@@ -1,9 +1,10 @@
 {
   "name": "Outline Clean",
-  "icon": "⬜",
+  "id": "outline-clean",
   "category": "mix",
   "description": "إطار نظيف بدون تعبئة",
   "builtin": true,
+  "icon": "⬜",
   "values": {
     "type": {
       "twAuto": true,
@@ -13,18 +14,26 @@
       "showCursor": true,
       "cursorBefore": false,
       "cursorType": 0,
-      "cursorColor": [1, 1, 1],
+      "cursorColor": [
+        1,
+        1,
+        1
+      ],
       "cursorSpacing": 0,
       "blinkSpeed": 2,
       "blinkInHold": true,
       "boxRTL": false,
-      "textColor": [1, 1, 1],
+      "textColor": [
+        1,
+        1,
+        1
+      ],
       "easingType": 1,
       "easingStrength": 100,
       "inStart": 0.5,
       "inEnd": 2.5,
-      "outStart": 5.0,
-      "outEnd": 6.0,
+      "outStart": 5,
+      "outEnd": 6,
       "blinkStart": 0,
       "blinkEnd": 8
     },
@@ -41,11 +50,19 @@
       "cornerBR": 6,
       "strokeWidth": 2,
       "strokeOpacity": 100,
-      "strokeColor": [1, 1, 1],
+      "strokeColor": [
+        1,
+        1,
+        1
+      ],
       "strokeDash": 0,
       "strokeGap": 0,
       "fillOpacity": 0,
-      "fillColor": [0, 0, 0],
+      "fillColor": [
+        0,
+        0,
+        0
+      ],
       "trimStart": 0,
       "trimEnd": 100,
       "trimOffset": 0,

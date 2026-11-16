@@ -80,6 +80,6 @@ if (anim == 0) {
     }
     
     // Apply offset to original position
-    value + [oX, oY];
+    value.length > 2 ? [value[0] + oX, value[1] + oY, value[2]] : value + [oX, oY];
 }
 

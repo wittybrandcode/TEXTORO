@@ -186,11 +186,18 @@ function _createBox(textLayer, comp, opts) {
     shapeLayer.label = BOX_CONFIG.LABEL_BOX;
     
     // ربط الـ Box بطبقة النص - مهم جداً للـ Expressions
-    try {
-        shapeLayer.parent = textLayer;
-        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Box parented to: " + textLayer.name);
-    } catch(e) {
-        $.writeln("[TEXTORO] ERROR: Could not parent box: " + e.toString());
+    if (opts.parentToText !== false) {
+        try {
+            shapeLayer.parent = textLayer;
+            if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Box parented to: " + textLayer.name);
+        } catch(e) {
+            $.writeln("[TEXTORO] ERROR: Could not parent box: " + e.toString());
+        }
+    } else {
+        try {
+            shapeLayer.transform.position.setValue(textLayer.transform.position.value);
+            if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Box created without parenting");
+        } catch(e) {}
     }
     
     var fx = textLayer.property("ADBE Effect Parade");
@@ -223,7 +230,7 @@ function _createBox(textLayer, comp, opts) {
         "Trim Offset": (opts.trimOffset != null) ? opts.trimOffset : 0,
         "Path Offset": (opts.pathOffset != null) ? opts.pathOffset : 0,
         // Lock
-        "Lock Box Size": opts.lockBoxSize || false,
+        "Lock Box Size": (opts.autoResize === false) ? true : (opts.lockBoxSize || false),
         "Locked Width": textRect.width,
         "Locked Height": textRect.height,
         "Locked Left": textRect.left,
@@ -342,9 +349,9 @@ function _createBox(textLayer, comp, opts) {
     var rectContents = rectGroup.property("ADBE Vectors Group");
     
     if (opts.use4Corners) {
-        _create4CornersBox(rectContents);
+        _create4CornersBox(rectContents, opts);
     } else {
-        _createSimpleBox(rectContents);
+        _createSimpleBox(rectContents, opts);
     }
     
     // ─────────────────────────────────────────────────────────────
@@ -376,17 +383,18 @@ function _createBox(textLayer, comp, opts) {
 // Box Shape Helpers
 // ─────────────────────────────────────────────────────────────────
 
-function _create4CornersBox(rectContents) {
+function _create4CornersBox(rectContents, opts) {
+    opts = opts || {};
     var pathGrp = rectContents.addProperty("ADBE Vector Shape - Group");
     
     var fill = rectContents.addProperty("ADBE Vector Graphic - Fill");
     fill.property("ADBE Vector Fill Color").expression = 'parent.effect("Fill Color")(1);';
-    fill.property("ADBE Vector Fill Opacity").expression = _buildHideWhenEmptyExpr("Fill Opacity");
+    fill.property("ADBE Vector Fill Opacity").expression = (opts.hideWhenEmpty === false) ? 'parent.effect("Fill Opacity")(1);' : _buildHideWhenEmptyExpr("Fill Opacity");
     
     var stroke = rectContents.addProperty("ADBE Vector Graphic - Stroke");
     stroke.property("ADBE Vector Stroke Color").expression = 'parent.effect("Stroke Color")(1);';
     stroke.property("ADBE Vector Stroke Width").expression = 'Math.max(0, parent.effect("Stroke Width")(1));';
-    stroke.property("ADBE Vector Stroke Opacity").expression = _buildHideWhenEmptyExpr("Stroke Opacity");
+    stroke.property("ADBE Vector Stroke Opacity").expression = (opts.hideWhenEmpty === false) ? 'parent.effect("Stroke Opacity")(1);' : _buildHideWhenEmptyExpr("Stroke Opacity");
     
     _addStrokeDashes(stroke);
     
@@ -421,18 +429,19 @@ function _create4CornersBox(rectContents) {
     rectContents.property(1).property("Path").expression = (typeof buildBoxPathExpr === "function" && buildBoxPathExpr()) ? buildBoxPathExpr() : pathExpr;
 }
 
-function _createSimpleBox(rectContents) {
+function _createSimpleBox(rectContents, opts) {
+    opts = opts || {};
     var rectPath = rectContents.addProperty("ADBE Vector Shape - Rect");
     rectPath.name = "Path";
     
     var fill = rectContents.addProperty("ADBE Vector Graphic - Fill");
     fill.property("ADBE Vector Fill Color").expression = 'parent.effect("Fill Color")(1);';
-    fill.property("ADBE Vector Fill Opacity").expression = _buildHideWhenEmptyExpr("Fill Opacity");
+    fill.property("ADBE Vector Fill Opacity").expression = (opts.hideWhenEmpty === false) ? 'parent.effect("Fill Opacity")(1);' : _buildHideWhenEmptyExpr("Fill Opacity");
     
     var stroke = rectContents.addProperty("ADBE Vector Graphic - Stroke");
     stroke.property("ADBE Vector Stroke Color").expression = 'parent.effect("Stroke Color")(1);';
     stroke.property("ADBE Vector Stroke Width").expression = 'Math.max(0, parent.effect("Stroke Width")(1));';
-    stroke.property("ADBE Vector Stroke Opacity").expression = _buildHideWhenEmptyExpr("Stroke Opacity");
+    stroke.property("ADBE Vector Stroke Opacity").expression = (opts.hideWhenEmpty === false) ? 'parent.effect("Stroke Opacity")(1);' : _buildHideWhenEmptyExpr("Stroke Opacity");
     
     _addStrokeDashes(stroke);
     

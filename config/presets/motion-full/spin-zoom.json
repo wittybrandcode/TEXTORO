@@ -1,16 +1,15 @@
 {
   "name": "Spin Zoom",
-  "icon": "🌀",
-  "faIcon": "fa-solid fa-rotate",
+  "id": "spin-zoom",
   "category": "motion-full",
-  "description": "دوران مع تكبير - دخول وخروج كامل",
+  "description": "دوران كامل 360 درجة مع تكبير عميق - دخول وخروج كامل",
   "builtin": true,
   "values": {
     "inStart": 0,
-    "inEnd": 0.7,
+    "inEnd": 0.9,
     "outEnable": true,
-    "outStart": 4.0,
-    "outEnd": 4.7,
+    "outStart": 4,
+    "outEnd": 4.9,
     "syncMode": 0,
     "animatePosition": false,
     "posFromX": 0,
@@ -25,15 +24,15 @@
     "animateScale": true,
     "scaleFrom": 0,
     "scaleTo": 100,
-    "scaleLinkMode": 0,
+    "scaleLinkMode": 1,
     "scaleOutFrom": 100,
     "scaleOutTo": 0,
     "animateRotation": true,
-    "rotFrom": 180,
+    "rotFrom": 360,
     "rotTo": 0,
     "rotLinkMode": 1,
     "rotOutFrom": 0,
-    "rotOutTo": -180,
+    "rotOutTo": -360,
     "animateOpacity": true,
     "opacityFrom": 0,
     "opacityTo": 100,
@@ -41,6 +40,6 @@
     "opacityOutFrom": 100,
     "opacityOutTo": 0,
     "easingType": 1,
-    "easingStrength": 100
+    "easingStrength": 120
   }
 }

@@ -100,7 +100,10 @@ TEXTORO.Panels.Box = (function() {
             trimEnd: TEXTORO.Utils.getNum('numTrimEnd', 100),
             trimOffset: TEXTORO.Utils.getNum('numTrimOffset', 0),
             pathOffset: TEXTORO.Utils.getNum('numPathOffset', 0), // C-03: كان الحقل مهملاً
-            lockBoxSize: TEXTORO.Utils.getChecked('chkLockSize', true)
+            lockBoxSize: TEXTORO.Utils.getChecked('chkLockSize', false),
+            parentToText: TEXTORO.Utils.getChecked('chkParentToText', true),
+            autoResize: TEXTORO.Utils.getChecked('chkAutoResize', true),
+            hideWhenEmpty: TEXTORO.Utils.getChecked('chkHideWhenEmpty', true)
         };
     }
     

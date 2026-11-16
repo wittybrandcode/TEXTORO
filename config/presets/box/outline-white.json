@@ -1,9 +1,10 @@
 {
   "name": "Outline White",
-  "icon": "⬜",
+  "id": "outline-white",
   "category": "box",
   "description": "إطار أبيض بدون تعبئة",
   "builtin": true,
+  "icon": "⬜",
   "values": {
     "paddingLeft": 25,
     "paddingRight": 25,
@@ -17,11 +18,19 @@
     "cornerBR": 6,
     "strokeWidth": 2,
     "strokeOpacity": 100,
-    "strokeColor": [1, 1, 1],
+    "strokeColor": [
+      1,
+      1,
+      1
+    ],
     "strokeDash": 0,
     "strokeGap": 0,
     "fillOpacity": 0,
-    "fillColor": [0, 0, 0],
+    "fillColor": [
+      0,
+      0,
+      0
+    ],
     "trimStart": 0,
     "trimEnd": 100,
     "trimOffset": 0,
