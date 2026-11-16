@@ -156,6 +156,13 @@
                 TEXTORO.UI.ContextMenu.init();
             }
         } catch(e) { TEXTORO.error('Failed to init ContextMenu: ' + e.message); }
+        
+        // CustomSelect
+        try {
+            if (TEXTORO.UI && TEXTORO.UI.CustomSelect) {
+                TEXTORO.UI.CustomSelect.initAll();
+            }
+        } catch(e) { TEXTORO.error('Failed to init CustomSelect: ' + e.message); }
     }
     
     /**
