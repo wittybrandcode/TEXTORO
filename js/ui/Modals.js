@@ -1,7 +1,7 @@
 /**
  * TEXTORO - Modals Module
  * النوافذ المنبثقة
- * @version 3.3.0
+ * @version 3.4.0
  */
 
 TEXTORO.UI = TEXTORO.UI || {};
@@ -11,9 +11,76 @@ TEXTORO.UI.Modals = (function() {
     
     var inputModal = null;
     var confirmModal = null;
+    var colorModal = null;
+
     var currentInputCallback = null;
     var currentConfirmCallback = null;
-    
+    var currentColorCallback = null;
+    var currentColorTargetInput = null;
+
+    var originalColor = '#FFFFFF';
+    var currentColor = '#FFFFFF';
+
+    var STUDIO_PALETTE = [
+        { hex: '#10B981', name: 'Emerald' },
+        { hex: '#34D399', name: 'Mint' },
+        { hex: '#059669', name: 'Dark Emerald' },
+        { hex: '#06B6D4', name: 'Cyan' },
+        { hex: '#3B82F6', name: 'Electric Blue' },
+        { hex: '#6366F1', name: 'Indigo' },
+        { hex: '#8B5CF6', name: 'Violet' },
+        { hex: '#EC4899', name: 'Pink' },
+        { hex: '#EF4444', name: 'Crimson' },
+        { hex: '#F97316', name: 'Orange' },
+        { hex: '#F59E0B', name: 'Amber Gold' },
+        { hex: '#EAB308', name: 'Yellow Gold' },
+        { hex: '#FFFFFF', name: 'Pure White' },
+        { hex: '#94A3B8', name: 'Slate Silver' },
+        { hex: '#334155', name: 'Slate Charcoal' },
+        { hex: '#000000', name: 'Deep Black' }
+    ];
+
+    /**
+     * تطبيع والتحقق من كود الـ Hex
+     * يقبل #RRGGBB أو RRGGBB أو #RGB أو RGB
+     * @param {string} input
+     * @returns {string|null}
+     */
+    function normalizeHex(input) {
+        if (!input) return null;
+        var str = String(input).trim().replace(/^#+/, '');
+        if (str.length === 3 && /^[0-9A-Fa-f]{3}$/.test(str)) {
+            str = str[0] + str[0] + str[1] + str[1] + str[2] + str[2];
+        }
+        if (str.length === 6 && /^[0-9A-Fa-f]{6}$/.test(str)) {
+            return '#' + str.toUpperCase();
+        }
+        return null;
+    }
+
+    /**
+     * تحويل RGB إلى كود Hex
+     */
+    function rgbToHex(r, g, b) {
+        r = Math.max(0, Math.min(255, Math.round(Number(r) || 0)));
+        g = Math.max(0, Math.min(255, Math.round(Number(g) || 0)));
+        b = Math.max(0, Math.min(255, Math.round(Number(b) || 0)));
+        return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+    }
+
+    /**
+     * تحويل كود Hex إلى RGB [0-255]
+     */
+    function hexToRgb255(hex) {
+        var norm = normalizeHex(hex);
+        if (!norm) return { r: 255, g: 255, b: 255 };
+        return {
+            r: parseInt(norm.substring(1, 3), 16),
+            g: parseInt(norm.substring(3, 5), 16),
+            b: parseInt(norm.substring(5, 7), 16)
+        };
+    }
+
     /**
      * تهيئة النوافذ المنبثقة
      */
@@ -21,7 +88,7 @@ TEXTORO.UI.Modals = (function() {
         inputModal = document.getElementById('inputModal');
         confirmModal = document.getElementById('confirmModal');
         
-        // Input Modal events - using IDs from HTML
+        // Input Modal events
         if (inputModal) {
             var okBtn = document.getElementById('btnInputOK');
             var cancelBtn = document.getElementById('btnInputCancel');
@@ -39,7 +106,7 @@ TEXTORO.UI.Modals = (function() {
             }
         }
         
-        // Confirm Modal events - using IDs from HTML
+        // Confirm Modal events
         if (confirmModal) {
             var confirmOk = document.getElementById('btnConfirmOK');
             var confirmCancel = document.getElementById('btnConfirmCancel');
@@ -49,8 +116,371 @@ TEXTORO.UI.Modals = (function() {
             if (confirmCancel) confirmCancel.addEventListener('click', closeConfirmModal);
             if (confirmClose) confirmClose.addEventListener('click', closeConfirmModal);
         }
+
+        // Color Modal events
+        initColorModal();
         
         TEXTORO.log('Modals initialized');
+    }
+
+    /**
+     * تهيئة نافذة الألوان الاحترافية (Studio Color Modal)
+     */
+    function initColorModal() {
+        colorModal = document.getElementById('colorModal');
+        if (!colorModal) return;
+
+        var okBtn = document.getElementById('btnColorOK');
+        var cancelBtn = document.getElementById('btnColorCancel');
+        var closeBtn = document.getElementById('btnCloseColor');
+        var copyBtn = document.getElementById('btnColorCopyHex');
+        var hexInput = document.getElementById('colorModalHex');
+        var picker = document.getElementById('colorModalPicker');
+        var rInput = document.getElementById('colorModalR');
+        var gInput = document.getElementById('colorModalG');
+        var bInput = document.getElementById('colorModalB');
+        var swatchesContainer = document.getElementById('colorModalSwatches');
+
+        if (okBtn) okBtn.addEventListener('click', submitColorModal);
+        if (cancelBtn) cancelBtn.addEventListener('click', closeColorModal);
+        if (closeBtn) closeBtn.addEventListener('click', closeColorModal);
+        if (copyBtn) copyBtn.addEventListener('click', copyHexToClipboard);
+
+        if (hexInput) {
+            hexInput.addEventListener('input', function() {
+                var val = hexInput.value.trim();
+                var norm = normalizeHex(val);
+                var status = document.getElementById('colorModalHexStatus');
+                if (norm) {
+                    updateCurrentColor(norm, false);
+                    hexInput.classList.remove('invalid');
+                    hexInput.classList.add('valid');
+                    if (status) {
+                        status.textContent = '';
+                        status.className = 'color-hex-status valid';
+                    }
+                } else {
+                    hexInput.classList.add('invalid');
+                    hexInput.classList.remove('valid');
+                    if (status) {
+                        status.textContent = 'Format: #RRGGBB or #RGB';
+                        status.className = 'color-hex-status error';
+                    }
+                }
+            });
+
+            hexInput.addEventListener('blur', function() {
+                var norm = normalizeHex(hexInput.value);
+                if (norm) {
+                    hexInput.value = norm;
+                    updateCurrentColor(norm, true);
+                } else {
+                    hexInput.value = currentColor;
+                    updateCurrentColor(currentColor, true);
+                }
+            });
+
+            hexInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') submitColorModal();
+                if (e.key === 'Escape') closeColorModal();
+            });
+        }
+
+        if (picker) {
+            picker.addEventListener('input', function() {
+                var norm = normalizeHex(picker.value);
+                if (norm) updateCurrentColor(norm, true);
+            });
+        }
+
+        function handleRgbChange() {
+            var r = rInput ? parseInt(rInput.value, 10) : 0;
+            var g = gInput ? parseInt(gInput.value, 10) : 0;
+            var b = bInput ? parseInt(bInput.value, 10) : 0;
+            var hex = rgbToHex(r, g, b);
+            updateCurrentColor(hex, true);
+        }
+        if (rInput) rInput.addEventListener('input', handleRgbChange);
+        if (gInput) gInput.addEventListener('input', handleRgbChange);
+        if (bInput) bInput.addEventListener('input', handleRgbChange);
+
+        // Populate studio swatches
+        if (swatchesContainer) {
+            swatchesContainer.innerHTML = '';
+            STUDIO_PALETTE.forEach(function(item) {
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'studio-color-swatch';
+                btn.style.backgroundColor = item.hex;
+                btn.title = item.name + ' (' + item.hex + ')';
+                btn.setAttribute('data-hex', item.hex);
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    updateCurrentColor(item.hex, true);
+                });
+                swatchesContainer.appendChild(btn);
+            });
+        }
+
+        // Auto-bind precision color boxes
+        bindColorInputs();
+    }
+
+    /**
+     * تحديث اللون الحالي وعكسه على واجهة المودال
+     */
+    function updateCurrentColor(hex, updateHexInput) {
+        var norm = normalizeHex(hex) || '#FFFFFF';
+        currentColor = norm;
+
+        // Preview box
+        var curBox = document.getElementById('colorModalCurBox');
+        if (curBox) curBox.style.backgroundColor = norm;
+
+        // Spectrum native picker
+        var picker = document.getElementById('colorModalPicker');
+        if (picker && picker.value.toLowerCase() !== norm.toLowerCase()) {
+            picker.value = norm;
+        }
+
+        // Hex input field
+        if (updateHexInput) {
+            var hexInput = document.getElementById('colorModalHex');
+            if (hexInput) {
+                hexInput.value = norm;
+                hexInput.classList.remove('invalid');
+                hexInput.classList.add('valid');
+            }
+            var status = document.getElementById('colorModalHexStatus');
+            if (status) {
+                status.textContent = '';
+                status.className = 'color-hex-status valid';
+            }
+        }
+
+        // RGB channel fields
+        var rgb = hexToRgb255(norm);
+        var rInput = document.getElementById('colorModalR');
+        var gInput = document.getElementById('colorModalG');
+        var bInput = document.getElementById('colorModalB');
+        if (rInput && document.activeElement !== rInput) rInput.value = rgb.r;
+        if (gInput && document.activeElement !== gInput) gInput.value = rgb.g;
+        if (bInput && document.activeElement !== bInput) bInput.value = rgb.b;
+
+        // Highlight matching swatch
+        var swatches = document.querySelectorAll('#colorModalSwatches .studio-color-swatch');
+        swatches.forEach(function(swatch) {
+            var sHex = swatch.getAttribute('data-hex');
+            if (sHex && sHex.toUpperCase() === norm.toUpperCase()) {
+                swatch.classList.add('active');
+            } else {
+                swatch.classList.remove('active');
+            }
+        });
+    }
+
+    /**
+     * عرض مودال اختيار الألوان الاحترافي
+     * @param {Object} options { title, value, onOK, targetInput }
+     */
+    function showColor(options) {
+        if (!colorModal) return;
+        options = options || {};
+
+        var titleEl = document.getElementById('colorModalTitle');
+        var prevBox = document.getElementById('colorModalPrevBox');
+        var hexInput = document.getElementById('colorModalHex');
+
+        var initialHex = normalizeHex(options.value) || '#FFFFFF';
+        originalColor = initialHex;
+        currentColor = initialHex;
+        currentColorCallback = options.onOK || null;
+        currentColorTargetInput = options.targetInput || null;
+
+        if (titleEl) {
+            titleEl.textContent = (options.title || 'SELECT COLOR').toUpperCase();
+        }
+        if (prevBox) {
+            prevBox.style.backgroundColor = originalColor;
+        }
+
+        updateCurrentColor(currentColor, true);
+
+        colorModal.style.display = 'flex';
+
+        if (hexInput) {
+            setTimeout(function() {
+                hexInput.focus();
+                hexInput.select();
+            }, 50);
+        }
+    }
+
+    /**
+     * إغلاق نافذة الألوان
+     */
+    function closeColorModal() {
+        if (colorModal) {
+            colorModal.style.display = 'none';
+        }
+        currentColorCallback = null;
+        currentColorTargetInput = null;
+    }
+
+    /**
+     * تأكيد وتطبيق اللون المختار
+     */
+    function submitColorModal() {
+        var hexInput = document.getElementById('colorModalHex');
+        var raw = hexInput ? hexInput.value : '';
+        var norm = normalizeHex(raw) || currentColor || originalColor || '#FFFFFF';
+
+        if (currentColorTargetInput) {
+            currentColorTargetInput.value = norm;
+            var box = currentColorTargetInput.closest('.precision-color-box');
+            if (box) updateBoxVisual(box, currentColorTargetInput);
+
+            currentColorTargetInput.dispatchEvent(new Event('input', { bubbles: true }));
+            currentColorTargetInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        if (currentColorCallback) {
+            currentColorCallback(norm);
+        }
+
+        closeColorModal();
+    }
+
+    /**
+     * نسخ كود الـ Hex إلى الحافظة
+     */
+    function copyHexToClipboard() {
+        var hexInput = document.getElementById('colorModalHex');
+        var copyBtn = document.getElementById('btnColorCopyHex');
+        var val = hexInput ? hexInput.value.trim() : currentColor;
+        var norm = normalizeHex(val) || currentColor;
+
+        function showCopied() {
+            if (!copyBtn) return;
+            var textSpan = copyBtn.querySelector('span');
+            var orig = textSpan ? textSpan.textContent : 'COPY';
+            copyBtn.classList.add('copied');
+            if (textSpan) textSpan.textContent = 'COPIED!';
+            setTimeout(function() {
+                copyBtn.classList.remove('copied');
+                if (textSpan) textSpan.textContent = orig;
+            }, 1200);
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(norm).then(showCopied).catch(fallback);
+        } else {
+            fallback();
+        }
+
+        function fallback() {
+            try {
+                if (hexInput) {
+                    hexInput.select();
+                    document.execCommand('copy');
+                    showCopied();
+                }
+            } catch(e) {
+                TEXTORO.warn('Copy to clipboard failed: ' + e);
+            }
+        }
+    }
+
+    /**
+     * تحديث المظهر المرئي لصندوق الألوان في اللوحة
+     */
+    function updateBoxVisual(box, input) {
+        if (!box || !input) return;
+        var hex = normalizeHex(input.value) || '#FFFFFF';
+
+        var hexTag = box.querySelector('.ci-hex-code');
+        if (!hexTag) {
+            hexTag = document.createElement('span');
+            hexTag.className = 'ci-hex-code';
+            var wrap = box.querySelector('.color-picker-wrap');
+            if (wrap) wrap.insertBefore(hexTag, input);
+            else box.appendChild(hexTag);
+        }
+        hexTag.textContent = hex;
+        input.title = hex;
+    }
+
+    /**
+     * فتح المودال لعنصر لون محدد
+     */
+    function showColorForInput(input) {
+        if (!input) return;
+        var box = input.closest('.precision-color-box');
+        var labelEl = box ? box.querySelector('.p-label') : null;
+        var labelText = labelEl ? labelEl.textContent.trim() : '';
+
+        var title = 'SELECT COLOR';
+        if (labelText && labelText !== 'COLOR') {
+            title = labelText + ' COLOR';
+        } else if (input.id === 'colorStroke' || input.id === 'sogaStrokeColor') {
+            title = 'STROKE COLOR';
+        } else if (input.id === 'colorFill' || input.id === 'sogaFillColor') {
+            title = 'FILL COLOR';
+        } else if (input.id === 'colorCursor' || input.id === 'sogaCursorColor') {
+            title = 'CURSOR COLOR';
+        } else if (input.id === 'colorText' || input.id === 'sogaTextColor') {
+            title = 'TEXT COLOR';
+        } else if (input.title) {
+            title = input.title;
+        }
+
+        showColor({
+            title: title,
+            value: input.value,
+            targetInput: input
+        });
+    }
+
+    /**
+     * ربط جميع حقول الألوان في التطبيق بالنظام الجديد
+     */
+    function bindColorInputs() {
+        var boxes = document.querySelectorAll('.precision-color-box');
+        boxes.forEach(function(box) {
+            var input = box.querySelector('input[type="color"], .ci');
+            if (!input) return;
+
+            updateBoxVisual(box, input);
+
+            if (input._boundColorModal) return;
+            input._boundColorModal = true;
+
+            input.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                showColorForInput(input);
+            });
+
+            input.addEventListener('keydown', function(e) {
+                if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    showColorForInput(input);
+                }
+            });
+
+            box.addEventListener('click', function(e) {
+                e.preventDefault();
+                showColorForInput(input);
+            });
+
+            input.addEventListener('input', function() {
+                updateBoxVisual(box, input);
+            });
+
+            input.addEventListener('change', function() {
+                updateBoxVisual(box, input);
+            });
+        });
     }
     
     /**
@@ -70,7 +500,7 @@ TEXTORO.UI.Modals = (function() {
         if (label) label.textContent = options.label || 'Value:';
         if (input) {
             input.value = options.value || '';
-            input.placeholder = options.placeholder || ''; // C-03: كان يُتجاهل
+            input.placeholder = options.placeholder || '';
         }
         
         // Icon picker
@@ -160,6 +590,7 @@ TEXTORO.UI.Modals = (function() {
     function closeAll() {
         closeInputModal();
         closeConfirmModal();
+        closeColorModal();
     }
     
     // Public API
@@ -169,17 +600,22 @@ TEXTORO.UI.Modals = (function() {
         closeInput: closeInputModal,
         showConfirm: showConfirm,
         closeConfirm: closeConfirmModal,
+        showColor: showColor,
+        closeColor: closeColorModal,
+        showColorForInput: showColorForInput,
+        bindColorInputs: bindColorInputs,
+        normalizeHex: normalizeHex,
         closeAll: closeAll
     };
 })();
 
 // Aliases للتوافق
-function initInputModal() {
-    // يتم في init()
-}
-
-function initConfirmModal() {
-    // يتم في init()
+function initInputModal() {}
+function initConfirmModal() {}
+function initColorModal() {
+    if (TEXTORO.UI && TEXTORO.UI.Modals) {
+        TEXTORO.UI.Modals.init();
+    }
 }
 
 function showInputModal(options) {
@@ -196,4 +632,12 @@ function showConfirmModal(options) {
 
 function closeConfirmModal() {
     TEXTORO.UI.Modals.closeConfirm();
+}
+
+function showColorModal(options) {
+    TEXTORO.UI.Modals.showColor(options);
+}
+
+function closeColorModal() {
+    TEXTORO.UI.Modals.closeColor();
 }

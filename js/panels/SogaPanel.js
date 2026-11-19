@@ -679,7 +679,10 @@ TEXTORO.Panels.Soga = (function() {
     
     function setColor(id, rgbArray) {
         var el = document.getElementById(id);
-        if (el && rgbArray) el.value = rgbToHex(rgbArray);
+        if (el && rgbArray) {
+            el.value = rgbToHex(rgbArray);
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+        }
     }
     
     // C-02: توحيد المحولات على TEXTORO.Utils

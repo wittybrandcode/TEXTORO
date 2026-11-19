@@ -157,9 +157,10 @@
                 </select>
                 <input type="text" id="txtCustomCursor" class="ti" style="width:36px;display:none" placeholder="▶" maxlength="2" title="Type custom cursor symbol">
             </div>
-            <div class="precision-color-box" style="flex: 1;">
+            <div class="precision-color-box" style="flex: 1;" title="Cursor color">
                 <span class="p-label">COLOR</span>
                 <div class="color-picker-wrap">
+                    <span class="ci-hex-code">#FFFFFF</span>
                     <input type="color" id="colorCursor" class="ci" value="#ffffff" title="Cursor color">
                 </div>
             </div>
@@ -259,9 +260,10 @@
                     </span>
                 </label>
             </div>
-            <div class="precision-color-box" style="flex: 1;">
+            <div class="precision-color-box" style="flex: 1;" title="Text color">
                 <span class="p-label">COLOR</span>
                 <div class="color-picker-wrap">
+                    <span class="ci-hex-code">#FFFFFF</span>
                     <input type="color" id="colorText" class="ci" value="#ffffff" title="Text color">
                 </div>
             </div>
@@ -481,9 +483,10 @@
                     <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
                 </div>
             </div>
-            <div class="precision-color-box">
+            <div class="precision-color-box" title="Stroke color">
                 <span class="p-label">COLOR</span>
                 <div class="color-picker-wrap">
+                    <span class="ci-hex-code">#FFFFFF</span>
                     <input type="color" id="colorStroke" class="ci" value="#ffffff" title="Stroke color">
                 </div>
             </div>
@@ -542,9 +545,10 @@
         <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
     </div>
 </div>
-            <div class="precision-color-box">
+            <div class="precision-color-box" title="Fill color">
                 <span class="p-label">COLOR</span>
                 <div class="color-picker-wrap">
+                    <span class="ci-hex-code">#10B981</span>
                     <input type="color" id="colorFill" class="ci" value="#10b981" title="Fill color">
                 </div>
             </div>
@@ -819,12 +823,14 @@
             <div class="precision-color-box" title="Cursor color">
                 <span class="p-label">CURSOR</span>
                 <div class="color-picker-wrap">
+                    <span class="ci-hex-code">#FFFFFF</span>
                     <input type="color" id="sogaCursorColor" class="ci" value="#ffffff">
                 </div>
             </div>
             <div class="precision-color-box" title="Text color">
                 <span class="p-label">TEXT</span>
                 <div class="color-picker-wrap">
+                    <span class="ci-hex-code">#FFFFFF</span>
                     <input type="color" id="sogaTextColor" class="ci" value="#ffffff">
                 </div>
             </div>
@@ -933,6 +939,7 @@
             <div class="precision-color-box" title="Choose stroke color">
                 <span class="p-label">COLOR</span>
                 <div class="color-picker-wrap">
+                    <span class="ci-hex-code">#FFFFFF</span>
                     <input type="color" id="sogaStrokeColor" class="ci" value="#ffffff">
                 </div>
             </div>
@@ -961,6 +968,7 @@
             <div class="precision-color-box" title="Choose fill color">
                 <span class="p-label">COLOR</span>
                 <div class="color-picker-wrap">
+                    <span class="ci-hex-code">#10B981</span>
                     <input type="color" id="sogaFillColor" class="ci" value="#10b981">
                 </div>
             </div>
@@ -2053,6 +2061,83 @@
 <div class="modal-footer">
 <button class="btn-s" id="btnConfirmCancel" title="Cancel action">Cancel</button>
 <button class="btn-s btn-danger" id="btnConfirmOK" title="Confirm deletion">Delete</button>
+</div>
+</div>
+</div>
+
+<!-- STUDIO COLOR MODAL -->
+<div class="modal-overlay" id="colorModal" style="display:none">
+<div class="modal color-modal">
+<div class="modal-header">
+    <span id="colorModalTitle">SELECT COLOR</span>
+    <button class="btn-close" id="btnCloseColor" title="Close dialog">×</button>
+</div>
+<div class="modal-content color-modal-content">
+    <!-- Split Preview Box (Original vs New) -->
+    <div class="color-preview-split">
+        <div class="color-preview-box prev-box" id="colorModalPrevBox" title="Previous color">
+            <span class="preview-badge">ORIGINAL</span>
+        </div>
+        <div class="color-preview-box new-box" id="colorModalCurBox" title="New color">
+            <span class="preview-badge">CURRENT</span>
+        </div>
+    </div>
+
+    <!-- Hex Color Code Input -->
+    <div class="color-modal-section">
+        <label class="color-section-label" for="colorModalHex">HEX COLOR CODE</label>
+        <div class="color-hex-bar">
+            <div class="color-hex-input-wrapper">
+                <span class="color-hex-hash">#</span>
+                <input type="text" id="colorModalHex" class="ti color-hex-field" maxlength="7" placeholder="FFFFFF" spellcheck="false" autocomplete="off" title="Enter Hex color code (#RRGGBB or #RGB)">
+            </div>
+            <button type="button" class="btn-s color-copy-btn" id="btnColorCopyHex" title="Copy Hex Code to Clipboard">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span>COPY</span>
+            </button>
+        </div>
+        <div class="color-hex-status" id="colorModalHexStatus"></div>
+    </div>
+
+    <!-- Visual Spectrum Picker -->
+    <div class="color-modal-section">
+        <label class="color-section-label">VISUAL SPECTRUM PICKER</label>
+        <div class="color-spectrum-wrapper">
+            <input type="color" id="colorModalPicker" class="color-spectrum-input" value="#ffffff" title="Click to open visual color palette">
+            <div class="color-spectrum-overlay">
+                <span class="color-spectrum-text">CLICK SPECTRUM TO PICK</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- RGB Channels Row -->
+    <div class="color-modal-section">
+        <label class="color-section-label">RGB CHANNELS (0-255)</label>
+        <div class="color-rgb-grid">
+            <div class="color-rgb-item">
+                <span class="rgb-label">R</span>
+                <input type="number" id="colorModalR" class="ni rgb-field" min="0" max="255" value="255">
+            </div>
+            <div class="color-rgb-item">
+                <span class="rgb-label">G</span>
+                <input type="number" id="colorModalG" class="ni rgb-field" min="0" max="255" value="255">
+            </div>
+            <div class="color-rgb-item">
+                <span class="rgb-label">B</span>
+                <input type="number" id="colorModalB" class="ni rgb-field" min="0" max="255" value="255">
+            </div>
+        </div>
+    </div>
+
+    <!-- Studio Palette Presets -->
+    <div class="color-modal-section">
+        <label class="color-section-label">STUDIO PALETTE</label>
+        <div class="color-swatches-grid" id="colorModalSwatches"></div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn-s" id="btnColorCancel" title="Cancel and discard">Cancel</button>
+    <button class="btn-s btn-primary" id="btnColorOK" title="Apply color">Apply</button>
 </div>
 </div>
 </div>

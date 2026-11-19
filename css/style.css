@@ -3621,11 +3621,12 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     overflow: hidden !important;
     transition: background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease !important;
+    cursor: pointer !important;
 }
 
 .precision-color-box:hover {
     background: #1f1f2c !important;
-    border-color: rgba(255, 255, 255, 0.16) !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
 }
 
 .precision-color-box:focus-within {
@@ -3646,6 +3647,8 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     align-items: center !important;
     flex-shrink: 0 !important;
     border-right: none !important;
+    pointer-events: none !important;
+    user-select: none !important;
 }
 
 .precision-color-box .color-picker-wrap {
@@ -3653,17 +3656,45 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     height: 100% !important;
     display: flex !important;
     align-items: center !important;
-    justify-content: center !important;
+    justify-content: flex-end !important;
     padding: 3px 6px !important;
+    gap: 6px !important;
+    min-width: 0 !important;
+}
+
+.precision-color-box .ci-hex-code {
+    font-family: 'Consolas', 'Courier New', monospace !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    color: #c9c9d4 !important;
+    letter-spacing: 0.5px !important;
+    pointer-events: none !important;
+    user-select: none !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 .precision-color-box input[type="color"] {
-    width: 100% !important;
-    height: 20px !important;
-    border: none !important;
+    width: 26px !important;
+    height: 18px !important;
+    min-width: 24px !important;
+    max-width: 28px !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
     padding: 0 !important;
     background: none !important;
     cursor: pointer !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+    flex-shrink: 0 !important;
+}
+
+.precision-color-box input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0 !important;
+}
+
+.precision-color-box input[type="color"]::-webkit-color-swatch {
+    border: none !important;
     border-radius: 0 !important;
 }
 
@@ -4702,4 +4733,300 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 .studio-combo-row .precision-input-box {
     flex: 1 1 auto !important;
     min-width: 85px !important;
+}
+
+/* ==========================================================================
+   19. STUDIO COLOR MODAL (Obsidian & Emerald Pro Theme)
+   ========================================================================== */
+.color-modal {
+    width: 320px !important;
+    max-width: calc(100vw - 24px) !important;
+    background: #131317 !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.75) !important;
+    border-radius: 0 !important;
+    animation: sp-modal-in 180ms ease !important;
+}
+
+.color-modal-content {
+    padding: 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    max-height: 80vh !important;
+    overflow-y: auto !important;
+    background: #131317 !important;
+}
+
+.color-preview-split {
+    display: flex !important;
+    height: 44px !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    overflow: hidden !important;
+    border-radius: 0 !important;
+}
+
+.color-preview-box {
+    flex: 1 !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+    padding: 4px 6px !important;
+    position: relative !important;
+    transition: background-color 0.1s ease !important;
+}
+
+.color-preview-box.prev-box {
+    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.color-preview-box .preview-badge {
+    font-size: 8.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    color: #ffffff !important;
+    background: rgba(0, 0, 0, 0.72) !important;
+    padding: 2px 5px !important;
+    line-height: 1 !important;
+    border-radius: 0 !important;
+    pointer-events: none !important;
+    user-select: none !important;
+}
+
+.color-modal-section {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+}
+
+.color-section-label {
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.6px !important;
+    color: #8c8ca0 !important;
+    text-transform: uppercase !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.color-hex-bar {
+    display: flex !important;
+    gap: 6px !important;
+    align-items: center !important;
+}
+
+.color-hex-input-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    background: #1c1c26 !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    flex: 1 !important;
+    height: 30px !important;
+    padding: 0 8px !important;
+    border-radius: 0 !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.color-hex-input-wrapper:focus-within {
+    border-color: #10b981 !important;
+    box-shadow: inset 0 0 0 1px #10b981 !important;
+}
+
+.color-hex-hash {
+    font-family: 'Consolas', monospace !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #10b981 !important;
+    padding-right: 4px !important;
+    user-select: none !important;
+}
+
+.color-hex-field {
+    flex: 1 !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    color: #ffffff !important;
+    font-family: 'Consolas', 'Courier New', monospace !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    padding: 0 !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+}
+
+.color-hex-field.invalid {
+    color: #f87171 !important;
+}
+
+.color-hex-status {
+    font-size: 9.5px !important;
+    min-height: 13px !important;
+    line-height: 13px !important;
+    transition: opacity 0.15s ease !important;
+}
+
+.color-hex-status.error {
+    color: #f87171 !important;
+}
+
+.color-hex-status.valid {
+    color: #10b981 !important;
+}
+
+.color-copy-btn {
+    height: 30px !important;
+    padding: 0 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    background: #1e1e28 !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #d1d5db !important;
+    cursor: pointer !important;
+    border-radius: 0 !important;
+    transition: all 0.15s ease !important;
+}
+
+.color-copy-btn:hover {
+    background: #252533 !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    color: #ffffff !important;
+}
+
+.color-copy-btn.copied {
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+    color: #ffffff !important;
+}
+
+/* Visual spectrum bar */
+.color-spectrum-wrapper {
+    position: relative !important;
+    height: 28px !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    overflow: hidden !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+}
+
+.color-spectrum-input {
+    position: absolute !important;
+    top: -10px !important;
+    left: -10px !important;
+    width: calc(100% + 20px) !important;
+    height: calc(100% + 20px) !important;
+    opacity: 0.01 !important;
+    cursor: pointer !important;
+    z-index: 3 !important;
+}
+
+.color-spectrum-overlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 1 !important;
+}
+
+.color-spectrum-text {
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.8px !important;
+    color: #ffffff !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+    padding: 3px 8px !important;
+    border-radius: 0 !important;
+    pointer-events: none !important;
+}
+
+/* RGB Grid */
+.color-rgb-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    gap: 6px !important;
+}
+
+.color-rgb-item {
+    display: flex !important;
+    align-items: center !important;
+    background: #181822 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    height: 26px !important;
+    border-radius: 0 !important;
+    padding: 0 4px !important;
+}
+
+.color-rgb-item:focus-within {
+    border-color: #10b981 !important;
+}
+
+.rgb-label {
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    color: #8c8ca0 !important;
+    padding: 0 4px !important;
+    user-select: none !important;
+}
+
+.rgb-field {
+    flex: 1 !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    color: #ffffff !important;
+    font-family: 'Consolas', monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-align: right !important;
+    padding-right: 4px !important;
+    width: 100% !important;
+    -moz-appearance: textfield !important;
+}
+
+.rgb-field::-webkit-inner-spin-button,
+.rgb-field::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}
+
+/* Studio Palette Grid */
+.color-swatches-grid {
+    display: grid !important;
+    grid-template-columns: repeat(8, 1fr) !important;
+    gap: 4px !important;
+}
+
+.studio-color-swatch {
+    height: 22px !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    cursor: pointer !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease !important;
+}
+
+.studio-color-swatch:hover {
+    transform: scale(1.1) !important;
+    border-color: #ffffff !important;
+    z-index: 5 !important;
+}
+
+.studio-color-swatch.active {
+    border-color: #10b981 !important;
+    box-shadow: inset 0 0 0 1.5px #10b981, 0 0 6px rgba(16, 185, 129, 0.6) !important;
+    z-index: 6 !important;
 }
