@@ -157,11 +157,17 @@ function hexToRgb(color) {
         // إزالة # إن وجد
         var hex = color.replace("#", "");
         
+        // دعم الألوان المختصرة بثلاث خانات مثل #FFF أو #F00
+        if (hex.length === 3) {
+            hex = hex.charAt(0) + hex.charAt(0) + hex.charAt(1) + hex.charAt(1) + hex.charAt(2) + hex.charAt(2);
+        }
+        
         // تحويل من hex إلى RGB
         var r = parseInt(hex.substring(0, 2), 16) / 255;
         var g = parseInt(hex.substring(2, 4), 16) / 255;
         var b = parseInt(hex.substring(4, 6), 16) / 255;
         
+        if (isNaN(r) || isNaN(g) || isNaN(b)) return [1, 1, 1];
         return [r, g, b];
     }
     

@@ -2,9 +2,14 @@
 // وميض المؤشر مع دعم مراحل الكتابة والحذف والانتظار
 // ═══════════════════════════════════════════════════════════════════
 
-var showCursor = effect("Show Cursor")(1);
-var blinkSpeed = effect("Blink Speed")(1);
-var blinkInHold = effect("Blink In Hold")(1);
+var showCursor = 1;
+try { showCursor = effect("Show Cursor")(1).value; } catch(e) { showCursor = 1; }
+
+var blinkSpeed = 2;
+try { blinkSpeed = Math.max(0.1, effect("Blink Speed")(1).value); } catch(e) { blinkSpeed = 2; }
+
+var blinkInHold = 1;
+try { blinkInHold = effect("Blink In Hold")(1).value; } catch(e) { blinkInHold = 1; }
 
 // قراءة Markers
 var inStart = -1, inEnd = -1, outStart = -1, outEnd = -1;
@@ -54,7 +59,7 @@ if (showCursor == 0) {
     } else {
         // حساب الوميض
         var frameNum = Math.floor(time / thisComp.frameDuration);
-        var blinkFrames = Math.round(10 / blinkSpeed);
+        var blinkFrames = Math.max(1, Math.round(10 / blinkSpeed));
         (frameNum % (blinkFrames * 2)) < blinkFrames ? 100 : 0;
     }
 }

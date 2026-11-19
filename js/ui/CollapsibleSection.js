@@ -344,6 +344,26 @@ TEXTORO.UI.CollapsibleSection = (function() {
             }
         });
         
+        // Soga Tab Sections
+        var sogaSections = [
+            { id: 'soga-tw', defaultCollapsed: false },
+            { id: 'soga-box', defaultCollapsed: false },
+            { id: 'soga-motion', defaultCollapsed: false }
+        ];
+        
+        sogaSections.forEach(function(s) {
+            var header = document.getElementById(s.id + '-header');
+            var content = document.getElementById(s.id + '-content');
+            if (header && content) {
+                init({
+                    id: s.id,
+                    header: header,
+                    content: content,
+                    defaultCollapsed: s.defaultCollapsed
+                });
+            }
+        });
+        
         TEXTORO.log('CollapsibleSections initialized');
     }
     

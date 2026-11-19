@@ -460,33 +460,43 @@ function _create4CornersBox(rectContents, opts) {
     
     _addStrokeDashes(stroke);
     
-    // Expression بسيط يقرأ من parent مباشرة
+    // Expression احتياطي متوافق مع path4corners.js
     var pathExpr = 
-'var rect = parent.sourceRectAtTime(time, false);\n' +
-'var pL = parent.effect("Padding Left")(1);\n' +
-'var pR = parent.effect("Padding Right")(1);\n' +
-'var pT = parent.effect("Padding Top")(1);\n' +
-'var pB = parent.effect("Padding Bottom")(1);\n' +
-'var w = rect.width + pL + pR;\n' +
-'var h = rect.height + pT + pB;\n' +
-'var cx = rect.left - pL + w/2;\n' +
-'var cy = rect.top + rect.height/2 + (pB - pT)/2;\n' +
-'var rTL = parent.effect("Corner TL")(1);\n' +
-'var rTR = parent.effect("Corner TR")(1);\n' +
-'var rBR = parent.effect("Corner BR")(1);\n' +
-'var rBL = parent.effect("Corner BL")(1);\n' +
-'var left = cx - w/2;\n' +
-'var right = cx + w/2;\n' +
-'var top = cy - h/2;\n' +
-'var bottom = cy + h/2;\n' +
-'var k = 0.5523;\n' +
-'var pts = [\n' +
-'    [left + rTL, top], [right - rTR, top], [right, top + rTR], [right, bottom - rBR],\n' +
-'    [right - rBR, bottom], [left + rBL, bottom], [left, bottom - rBL], [left, top + rTL]\n' +
-'];\n' +
-'var inT = [[-rTL*k, 0], [0, 0], [0, -rTR*k], [0, 0], [rBR*k, 0], [0, 0], [0, rBL*k], [0, 0]];\n' +
-'var outT = [[0, 0], [rTR*k, 0], [0, 0], [0, rBR*k], [0, 0], [-rBL*k, 0], [0, 0], [0, -rTL*k]];\n' +
-'createPath(pts, inT, outT, true);';
+'var hasParent = false; try { hasParent = (parent != null && parent.name != ""); } catch(e) {}\n' +
+'if (!hasParent) { value; } else {\n' +
+'    var pL = 0, pR = 0, pT = 0, pB = 0;\n' +
+'    try { pL = parent.effect("Padding Left")(1).value; } catch(e) { pL = 40; }\n' +
+'    try { pR = parent.effect("Padding Right")(1).value; } catch(e) { pR = 40; }\n' +
+'    try { pT = parent.effect("Padding Top")(1).value; } catch(e) { pT = 20; }\n' +
+'    try { pB = parent.effect("Padding Bottom")(1).value; } catch(e) { pB = 20; }\n' +
+'    var isLocked = 0; try { isLocked = parent.effect("Lock Box Size")(1).value; } catch(e) { isLocked = 0; }\n' +
+'    var w = 0, h = 0, left0 = 0, top0 = 0;\n' +
+'    if (isLocked == 1) {\n' +
+'        try { w = parent.effect("Locked Width")(1).value; } catch(e) { w = 0; }\n' +
+'        try { h = parent.effect("Locked Height")(1).value; } catch(e) { h = 0; }\n' +
+'        try { left0 = parent.effect("Locked Left")(1).value; } catch(e) { left0 = 0; }\n' +
+'        try { top0 = parent.effect("Locked Top")(1).value; } catch(e) { top0 = 0; }\n' +
+'        var liveRect = parent.sourceRectAtTime(time, false);\n' +
+'        if (w <= 15 || h <= 5) { w = liveRect.width; h = liveRect.height; left0 = liveRect.left; top0 = liveRect.top; }\n' +
+'    } else {\n' +
+'        var rect = parent.sourceRectAtTime(time, false); w = rect.width; h = rect.height; left0 = rect.left; top0 = rect.top;\n' +
+'    }\n' +
+'    var totalW = w + pL + pR; var totalH = h + pT + pB;\n' +
+'    var cx = left0 - pL + totalW/2; var cy = top0 + h/2 + (pB - pT)/2;\n' +
+'    var rTL = 0, rTR = 0, rBR = 0, rBL = 0;\n' +
+'    try { rTL = Math.max(0, parent.effect("Corner TL")(1).value); } catch(e) {}\n' +
+'    try { rTR = Math.max(0, parent.effect("Corner TR")(1).value); } catch(e) {}\n' +
+'    try { rBR = Math.max(0, parent.effect("Corner BR")(1).value); } catch(e) {}\n' +
+'    try { rBL = Math.max(0, parent.effect("Corner BL")(1).value); } catch(e) {}\n' +
+'    var maxRadius = Math.min(totalW, totalH) / 2;\n' +
+'    rTL = Math.min(rTL, maxRadius); rTR = Math.min(rTR, maxRadius); rBR = Math.min(rBR, maxRadius); rBL = Math.min(rBL, maxRadius);\n' +
+'    var left = cx - totalW/2; var right = cx + totalW/2; var top = cy - totalH/2; var bottom = cy + totalH/2;\n' +
+'    var k = 0.5523;\n' +
+'    var pts = [[left + rTL, top], [right - rTR, top], [right, top + rTR], [right, bottom - rBR], [right - rBR, bottom], [left + rBL, bottom], [left, bottom - rBL], [left, top + rTL]];\n' +
+'    var inT = [[-rTL*k, 0], [0, 0], [0, -rTR*k], [0, 0], [rBR*k, 0], [0, 0], [0, rBL*k], [0, 0]];\n' +
+'    var outT = [[0, 0], [rTR*k, 0], [0, 0], [0, rBR*k], [0, 0], [-rBL*k, 0], [0, 0], [0, -rTL*k]];\n' +
+'    createPath(pts, inT, outT, true);\n' +
+'}';
     
     rectContents.property(1).property("Path").expression = (typeof buildBoxPathExpr === "function" && buildBoxPathExpr()) ? buildBoxPathExpr() : pathExpr;
 }

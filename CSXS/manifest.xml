@@ -1,7 +1,7 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ExtensionManifest Version="6.0" ExtensionBundleId="com.textoro.panel" ExtensionBundleVersion="1.0.0" ExtensionBundleName="TEXTORO">
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionManifest Version="6.0" ExtensionBundleId="com.textoro.panel" ExtensionBundleVersion="1.1.0" ExtensionBundleName="TEXTORO">
     <ExtensionList>
-        <Extension Id="com.textoro.panel" Version="1.0.0"/>
+        <Extension Id="com.textoro.panel" Version="1.1.0"/>
     </ExtensionList>
     <ExecutionEnvironment>
         <HostList>

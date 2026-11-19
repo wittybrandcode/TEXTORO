@@ -1,4 +1,4 @@
-﻿/**
+/**
  * TEXTORO - Configuration Module
  * إعدادات التطبيق المركزية
  * @version 1.0.0
@@ -8,7 +8,7 @@ var TEXTORO = TEXTORO || {};
 
 TEXTORO.Config = {
     /** إصدار التطبيق */
-    VERSION: '1.0.0',
+    VERSION: '1.1.0',
     
     /** تفعيل وضع التصحيح */
     DEBUG: false,

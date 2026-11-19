@@ -1,14 +1,22 @@
 {
   "versions": {
-    "cursor/blink": "v1.0",
-    "box/path4corners": "v1.0",
     "typewriter/sourceText": "v1.4",
+    "cursor/blink": "v1.0",
     "cursor/range": "v1.0",
-    "cursor/rangeEnd": "v1.0"
+    "cursor/rangeEnd": "v1.0",
+    "box/path4corners": "v1.0",
+    "box/size": "v1.0",
+    "box/position": "v1.0",
+    "box/hideWhenEmpty": "v1.0",
+    "motion/opacity": "v1.0",
+    "motion/position": "v1.0",
+    "motion/rotation": "v1.0",
+    "motion/scale": "v1.0"
   },
   "fallback": "v1.0",
   "changelog": {
     "v1.4": "Live Text Mode - edit text directly on the layer / Premiere Essential Graphics (Mogrt-ready)",
-    "v1.3": "RTL Improvements - Smart Direction, Word Mode for Arabic, ZWJ Support"
+    "v1.3": "RTL Improvements - Smart Direction, Word Mode for Arabic, ZWJ Support",
+    "v1.0": "Initial stable unified engine release"
   }
 }

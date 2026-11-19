@@ -473,20 +473,26 @@ function _getEmbeddedExpression(category, name) {
     // Typewriter sourceText - النسخة الكاملة مع كل الميزات
     // ─────────────────────────────────────────────────────────────────
     if (category === "typewriter" && name === "sourceText") {
-        return '// TEXTORO Typewriter\n' +
+        return '// TEXTORO Typewriter v1.4\n' +
 'var X = "";\n' +
+'var customCursor = "";\n' +
+'var inStart = -1, inEnd = -1, outStart = -1, outEnd = -1;\n' +
 'var m = thisLayer.marker;\n' +
 'if (m.numKeys > 0) {\n' +
 '    for (var i = 1; i <= m.numKeys; i++) {\n' +
-'        var c = m.key(i).comment;\n' +
-'        if (c.indexOf("TW_TEXT:") == 0) { X = c.substr(8); break; }\n' +
+'        var c = m.key(i).comment; var t = m.key(i).time - inPoint;\n' +
+'        if (c.indexOf("TW_TEXT:") == 0) X = c.substring(8);\n' +
+'        else if (c.indexOf("CURSOR_CHAR:") == 0) customCursor = c.substring(12);\n' +
+'        else if (c == "IN_START") inStart = t;\n' +
+'        else if (c == "IN_END") inEnd = t;\n' +
+'        else if (c == "OUT_START") outStart = t;\n' +
+'        else if (c == "OUT_END") outEnd = t;\n' +
 '    }\n' +
 '}\n' +
-'var L = X.length;\n' +
 'var liveMode = 0;\n' +
-'try { liveMode = effect("Live Text")(1); } catch(e) { liveMode = 0; }\n' +
-'if (liveMode == 1) { try { var __d = value; X = (typeof __d === "string") ? __d : String(__d.text); } catch(e) {} }\n' +
-'L = X.length;\n' +
+'try { liveMode = effect("Live Text")(1); } catch (e) { liveMode = 0; }\n' +
+'if (liveMode == 1) { try { var __doc = value; X = (typeof __doc === "string") ? __doc : String(__doc.text); } catch (e) {} }\n' +
+'var L = X.length;\n' +
 'var progress = effect("TW Progress")(1);\n' +
 'var auto = effect("TW Auto")(1);\n' +
 'var reverse = effect("TW Reverse")(1);\n' +
@@ -494,50 +500,55 @@ function _getEmbeddedExpression(category, name) {
 'var showCursor = effect("Show Cursor")(1);\n' +
 'var beforeText = effect("Cursor Before Text")(1);\n' +
 'var cursorType = Math.round(effect("Cursor Type")(1));\n' +
-'var cursorChars = ["|", "_", "\\u2588", "\\u258C", "\\u258E", "\\u25CF", "\\u25C6"];\n' + // F-07: موحّد مع CONFIG.CURSOR_SHAPES
-'var customCursor = "";\n' +
-'if (m.numKeys > 0) { for (var j = 1; j <= m.numKeys; j++) { var cc = m.key(j).comment; if (cc.indexOf("CURSOR_CHAR:") == 0) { customCursor = cc.substr(12); break; } } }\n' +
+'var cursorChars = ["|", "_", "\\u2588", "\\u258C", "\\u258E", "\\u25CF", "\\u25C6"];\n' +
 'var spacing = Math.round(Math.max(0, effect("Cursor Spacing")(1)));\n' +
-'var inStart = -1, inEnd = -1, outStart = -1, outEnd = -1;\n' +
-'if (m.numKeys > 0) {\n' +
-'    for (var i = 1; i <= m.numKeys; i++) {\n' +
-'        var mc = m.key(i).comment;\n' +
-'        var t = m.key(i).time - inPoint;\n' +
-'        if (mc == "IN_START") inStart = t;\n' +
-'        else if (mc == "IN_END") inEnd = t;\n' +
-'        else if (mc == "OUT_START") outStart = t;\n' +
-'        else if (mc == "OUT_END") outEnd = t;\n' +
-'    }\n' +
-'}\n' +
+'var wordMode = effect("Word Mode")(1);\n' +
+'var isRTL = effect("Box RTL")(1);\n' +
+'var easingType = 1; var easingStrength = 1;\n' +
+'try { easingType = Math.round(effect("Easing Type")(1)); } catch(e) {}\n' +
+'try { easingStrength = effect("Easing Strength")(1) / 100; } catch(e) {}\n' +
+'function isArabicChar(ch) { var code = ch.charCodeAt(0); return (code >= 0x0600 && code <= 0x06FF) || (code >= 0x0750 && code <= 0x077F) || (code >= 0x08A0 && code <= 0x08FF) || (code >= 0xFB50 && code <= 0xFDFF) || (code >= 0xFE70 && code <= 0xFEFF); }\n' +
+'function isConnectingChar(ch) { var code = ch.charCodeAt(0); var nonConnecting = [0x0627, 0x062F, 0x0630, 0x0631, 0x0632, 0x0648, 0x0622, 0x0623, 0x0625, 0x0624, 0x0629]; for (var i = 0; i < nonConnecting.length; i++) { if (code == nonConnecting[i]) return false; } return isArabicChar(ch); }\n' +
+'function detectTextDirection(text) { var arabicCount = 0, latinCount = 0; for (var i = 0; i < text.length && i < 50; i++) { var ch = text.charAt(i); if (isArabicChar(ch)) arabicCount++; else if ((ch >= "A" && ch <= "Z") || (ch >= "a" && ch <= "z")) latinCount++; } return arabicCount > latinCount; }\n' +
+'function addZWJ(text) { if (text.length == 0) return text; var lastChar = text.charAt(text.length - 1); return isConnectingChar(lastChar) ? (text + "\\u200D") : text; }\n' +
+'function applyEasing(t, type) { t = clamp(t, 0, 1); if (type == 0) return t; if (type == 1) return 1 - (1 - t) * (1 - t); if (type == 2) return t * t; return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }\n' +
 'var inDuration = (inEnd > inStart && inStart >= 0) ? (inEnd - inStart) : 2;\n' +
 'var outDuration = (outEnd > outStart && outStart >= 0) ? (outEnd - outStart) : 2;\n' +
-'var p = 0;\n' +
-'var currentTime = time - inPoint;\n' +
+'var p = 0; var currentTime = time - inPoint;\n' +
 'if (auto == 1) {\n' +
 '    if (inStart < 0) inStart = 0;\n' +
 '    if (currentTime < inStart) p = 0;\n' +
 '    else if (currentTime < inEnd || inEnd < 0) {\n' +
 '        var elapsed = currentTime - inStart;\n' +
-'        p = (elapsed / Math.max(0.1, inDuration)) * 100;\n' +
-'        if (randomSpeed > 0 && p < 100 && p > 0) {\n' +
-'            var noise = Math.sin(time * 50) * Math.cos(time * 30);\n' +
-'            p = p + (noise * randomSpeed * 20);\n' +
-'        }\n' +
-'        p = clamp(p, 0, 100);\n' +
+'        var linearP = clamp(elapsed / Math.max(0.1, inDuration), 0, 1);\n' +
+'        var easedP = applyEasing(linearP, easingType);\n' +
+'        p = clamp((linearP + (easedP - linearP) * easingStrength) * 100, 0, 100);\n' +
+'        if (randomSpeed > 0 && p < 100 && p > 0) { seedRandom(index, true); p = clamp(p + ((random() - 0.5) * 2 * Math.sin(time * 40 + index * 10) * randomSpeed * 15), 0, 100); }\n' +
 '    } else if (outStart < 0 || currentTime < outStart) p = 100;\n' +
 '    else if (outEnd < 0 || currentTime < outEnd) {\n' +
 '        var elapsedOut = currentTime - outStart;\n' +
-'        p = 100 - clamp((elapsedOut / Math.max(0.1, outDuration)) * 100, 0, 100);\n' +
+'        var linearP = clamp(elapsedOut / Math.max(0.1, outDuration), 0, 1);\n' +
+'        var easedP = applyEasing(linearP, easingType);\n' +
+'        p = clamp(100 - (linearP + (easedP - linearP) * easingStrength) * 100, 0, 100);\n' +
 '    } else p = 0;\n' +
 '} else p = progress;\n' +
 'p = clamp(p, 0, 100);\n' +
-'var T = reverse == 1 ? Math.floor(L * (100 - p) / 100) : Math.floor(L * p / 100);\n' +
-'var visibleText = X.substr(0, T);\n' +
+'var visibleText = "";\n' +
+'var textIsRTL = (isRTL == 1) || detectTextDirection(X);\n' +
+'if (wordMode == 1 || textIsRTL) {\n' +
+'    var words = X.split(" "); var W = words.length;\n' +
+'    var visibleCount = Math.floor(W * p / 100);\n' +
+'    if (reverse == 1) visibleCount = W - visibleCount;\n' +
+'    visibleText = words.slice(0, visibleCount).join(" ");\n' +
+'} else {\n' +
+'    var T = reverse == 1 ? Math.floor(L * (100 - p) / 100) : Math.floor(L * p / 100);\n' +
+'    visibleText = X.substring(0, T);\n' +
+'    if (T > 0 && T < L) visibleText = addZWJ(visibleText);\n' +
+'}\n' +
 'var cursor = "";\n' +
-'if (showCursor == 1) { if (cursorType == -1 && customCursor != "") { cursor = customCursor; } else { cursor = cursorChars[clamp(cursorType, 0, 6)]; } }\n' +
-'var spaces = "";\n' +
-'for (var i = 0; i < spacing; i++) spaces += " ";\n' +
-'beforeText == 1 ? cursor + spaces + visibleText : visibleText + spaces + cursor;';
+'if (showCursor == 1) cursor = (cursorType == -1 && customCursor != "") ? customCursor : cursorChars[clamp(cursorType, 0, 6)];\n' +
+'var spaces = ""; for (var i = 0; i < spacing; i++) spaces += " ";\n' +
+'beforeText == 1 ? (cursor + spaces + visibleText) : (visibleText + spaces + cursor);';
     }
 
     // ─────────────────────────────────────────────────────────────────
@@ -578,9 +589,12 @@ function _getEmbeddedExpression(category, name) {
     // ─────────────────────────────────────────────────────────────────
     if (category === "cursor" && name === "blink") {
         return '// TEXTORO Cursor Blink\n' +
-'var showCursor = effect("Show Cursor")(1);\n' +
-'var blinkSpeed = effect("Blink Speed")(1);\n' +
-'var blinkInHold = effect("Blink In Hold")(1);\n' +
+'var showCursor = 1;\n' +
+'try { showCursor = effect("Show Cursor")(1).value; } catch(e) { showCursor = 1; }\n' +
+'var blinkSpeed = 2;\n' +
+'try { blinkSpeed = Math.max(0.1, effect("Blink Speed")(1).value); } catch(e) { blinkSpeed = 2; }\n' +
+'var blinkInHold = 1;\n' +
+'try { blinkInHold = effect("Blink In Hold")(1).value; } catch(e) { blinkInHold = 1; }\n' +
 'var inStart = -1, inEnd = -1, outStart = -1, outEnd = -1;\n' +
 'var blinkStart = -1, blinkEnd = -1;\n' +
 'var m = thisLayer.marker;\n' +
@@ -609,7 +623,7 @@ function _getEmbeddedExpression(category, name) {
 '    if (!shouldBlink) 0;\n' +
 '    else {\n' +
 '        var frameNum = Math.floor(time / thisComp.frameDuration);\n' +
-'        var blinkFrames = Math.round(10 / blinkSpeed);\n' +
+'        var blinkFrames = Math.max(1, Math.round(10 / blinkSpeed));\n' +
 '        (frameNum % (blinkFrames * 2)) < blinkFrames ? 100 : 0;\n' +
 '    }\n' +
 '}';
@@ -676,8 +690,17 @@ function _getEmbeddedExpression(category, name) {
     // Box hideWhenEmpty - إخفاء الصندوق عند فراغ النص
     // ─────────────────────────────────────────────────────────────────
     if (category === "box" && name === "hideWhenEmpty") {
-        return 'var txt = String(parent.text.sourceText).replace(/[\\| ]/g, "");\n' +
-'txt.length > 0 ? clamp(parent.effect("{{OPACITY_CONTROL}}")(1), 0, 100) : 0;';
+        return 'var hasParent = false;\n' +
+'try { hasParent = (parent != null && parent.name != ""); } catch(e) {}\n' +
+'if (!hasParent) { value; }\n' +
+'else {\n' +
+'    var src = "";\n' +
+'    try { src = String(parent.text.sourceText); } catch(e) { src = ""; }\n' +
+'    var txt = src.replace(/[\\|\\s_\\u2588\\u258C\\u258E\\u25CF\\u25C6]/g, "");\n' +
+'    var ctrlVal = 100;\n' +
+'    try { ctrlVal = parent.effect("{{OPACITY_CONTROL}}")(1).value; } catch(e) {}\n' +
+'    txt.length > 0 ? clamp(ctrlVal, 0, 100) : 0;\n' +
+'}';
     }
     
     // Default fallback

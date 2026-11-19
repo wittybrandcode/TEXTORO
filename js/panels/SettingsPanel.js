@@ -1,4 +1,4 @@
-﻿/**
+/**
  * TEXTORO - Settings Panel Module
  * Settings panel behavior and host bridge wiring.
  * @version 3.3.1
@@ -49,26 +49,28 @@ TEXTORO.Panels.Settings = (function() {
             });
         }
 
+        // Dynamically sync About version with Config
+        if (TEXTORO.Config && TEXTORO.Config.VERSION) {
+            var aboutVer = document.getElementById('aboutVersion');
+            if (aboutVer) aboutVer.textContent = 'v' + TEXTORO.Config.VERSION;
+        }
+
         initExpressionVersions();
         TEXTORO.log('SettingsPanel initialized');
     }
 
     /**
-     * Initialize expression version selectors.
+     * Initialize expression version indicators.
      */
     function initExpressionVersions() {
-        var categories = ['typewriter', 'cursor', 'box'];
+        var categories = ['typewriter', 'cursor', 'box', 'motion'];
 
         categories.forEach(function(category) {
             var selectId = 'selExpr' + category.charAt(0).toUpperCase() + category.slice(1);
-            var select = document.getElementById(selectId);
+            var element = document.getElementById(selectId);
 
-            if (select) {
-                loadExpressionVersions(category, select);
-
-                select.addEventListener('change', function() {
-                    saveExpressionVersion(category, this.value);
-                });
+            if (element) {
+                loadExpressionVersions(category, element);
             }
         });
     }
@@ -79,39 +81,45 @@ TEXTORO.Panels.Settings = (function() {
     function getExpressionName(category) {
         if (category === 'cursor') return 'blink';
         if (category === 'box') return 'path4corners';
+        if (category === 'motion') return 'opacity';
         return 'sourceText';
     }
 
     /**
-     * Load available expression versions from host.
+     * Load available expression versions from host and display active status.
      */
-    function loadExpressionVersions(category, selectElement) {
+    function loadExpressionVersions(category, element) {
+        if (category === 'motion') {
+            return;
+        }
+
         var params = {
             category: category,
             name: getExpressionName(category)
         };
 
         TEXTORO.HostBridge.run('getAvailableVersionsJS', params, function(res) {
-            if (res.success && res.data && res.data.versions && res.data.versions.length > 0) {
-                var versions = res.data.versions;
-                var current = res.data.current || 'v1.0';
-                selectElement.innerHTML = '';
-
-                versions.forEach(function(version) {
-                    var option = document.createElement('option');
-                    option.value = version;
-                    option.textContent = version + (version === current ? ' (active)' : '');
-                    if (version === current) option.selected = true;
-                    selectElement.appendChild(option);
-                });
+            if (res.success && res.data) {
+                var current = res.data.current || (category === 'typewriter' ? 'v1.4' : 'v1.0');
+                var descEl = element.querySelector ? element.querySelector('.engine-ver-desc') : null;
+                if (descEl) {
+                    var subtitle = '';
+                    if (category === 'typewriter') subtitle = ' (RTL & Live Text)';
+                    else if (category === 'cursor') subtitle = ' (Adaptive Blink)';
+                    else if (category === 'box') subtitle = ' (4-Corner Bezier)';
+                    descEl.textContent = current + subtitle;
+                } else if (element.tagName === 'SELECT') {
+                    element.innerHTML = '<option value="' + current + '">' + current + ' (active)</option>';
+                    element.disabled = true;
+                }
             } else if (!res.success) {
-                TEXTORO.UI.StatusBar.error('Failed to load versions: ' + formatHostError(res));
+                TEXTORO.log('Notice: using default engine versions: ' + formatHostError(res));
             }
         });
     }
 
     /**
-     * Save selected expression version.
+     * Save selected expression version (internal programmatic utility).
      */
     function saveExpressionVersion(category, version) {
         var params = {

@@ -81,7 +81,16 @@ TEXTORO.Panels.Soga = (function() {
             'sogaPadL', 'sogaPadR', 'sogaPadT', 'sogaPadB',
             'sogaCorner', 'sogaCornerTL', 'sogaCornerTR', 'sogaCornerBL', 'sogaCornerBR',
             'sogaStrokeW', 'sogaStrokeOp', 'sogaStrokeColor', 'sogaStrokeDash', 'sogaStrokeGap',
-            'sogaFillOp', 'sogaFillColor', 'sogaLockSize'
+            'sogaFillOp', 'sogaFillColor', 'sogaLockSize',
+            // Motion
+            'sogaMotionInStart', 'sogaMotionInEnd', 'sogaMotionOutStart', 'sogaMotionOutEnd',
+            'sogaMotionSyncEnable', 'sogaMotionPosEnable', 'sogaMotionPosFromX', 'sogaMotionPosFromY',
+            'sogaMotionPosToX', 'sogaMotionPosToY', 'sogaMotionScaleEnable', 'sogaMotionScaleFrom',
+            'sogaMotionScaleTo', 'sogaMotionRotEnable', 'sogaMotionRotFrom', 'sogaMotionRotTo',
+            'sogaMotionOpacityEnable', 'sogaMotionOpacityFrom', 'sogaMotionOpacityTo',
+            'sogaMotionPosOutFromX', 'sogaMotionPosOutFromY', 'sogaMotionPosOutToX', 'sogaMotionPosOutToY',
+            'sogaMotionScaleOutFrom', 'sogaMotionScaleOutTo', 'sogaMotionRotOutFrom', 'sogaMotionRotOutTo',
+            'sogaMotionOpacityOutFrom', 'sogaMotionOpacityOutTo', 'sogaMotionEasingType', 'sogaMotionEasingStrength'
         ];
         
         inputIds.forEach(function(id) {
@@ -194,6 +203,9 @@ TEXTORO.Panels.Soga = (function() {
 
                 formSnapshot = captureFormSnapshot(); // F-02
                 setButtonsEnabled(hasAnyEffect);
+                if (TEXTORO.UI && TEXTORO.UI.NumberSpinners && typeof TEXTORO.UI.NumberSpinners.init === 'function') {
+                    TEXTORO.UI.NumberSpinners.init();
+                }
             });
         });
     }
@@ -221,6 +233,9 @@ TEXTORO.Panels.Soga = (function() {
         formSnapshot = captureFormSnapshot(); // F-02
 
         setButtonsEnabled(true);
+        if (TEXTORO.UI && TEXTORO.UI.NumberSpinners && typeof TEXTORO.UI.NumberSpinners.init === 'function') {
+            TEXTORO.UI.NumberSpinners.init();
+        }
     }
     
     /**

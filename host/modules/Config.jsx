@@ -267,7 +267,7 @@ function checkAECompatibility() {
 var CONFIG = {
     DEBUG: false,
     SCRIPT_NAME: "TEXTORO",
-    VERSION: "1.0.0",
+    VERSION: "1.1.0",
     
     LIMITS: {
         MIN_DURATION: 0.1,
@@ -368,7 +368,7 @@ if (typeof $ !== "undefined" && $.global) {
 }
 
 var CONFIG_MODULE_LOADED = true;
-var CONFIG_MODULE_VERSION = "1.0.0";
+var CONFIG_MODULE_VERSION = "1.1.0";
 
 // فحص التوافق عند التحميل
 var _aeCompatCheck = checkAECompatibility();
