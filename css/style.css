@@ -3182,9 +3182,10 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     background: transparent !important;
 }
 
-.card-header-studio svg,
-.soga-title svg,
-.soga-title i {
+.card-title-studio > svg,
+.card-title-studio > i,
+.soga-title > svg:first-child,
+.soga-title > i:first-child {
     stroke: #10b981 !important;
     color: #10b981 !important;
     margin-right: 5px !important;
@@ -3342,13 +3343,14 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     justify-content: center !important;
     gap: 6px !important;
     padding: 0 10px !important;
-    background: #1c1c26 !important;
-    color: #9898aa !important;
+    background: #16161d !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #9ca3af !important;
     font-size: 10px !important;
     font-weight: 700 !important;
     letter-spacing: 0.5px !important;
-    border: none !important;
-    transition: background 0.12s ease, color 0.12s ease !important;
+    border-radius: 0 !important;
+    transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease !important;
     white-space: nowrap !important;
 }
 
@@ -3357,12 +3359,18 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 }
 
 .studio-toggle-chip:hover .chip-inner {
-    background: #252535 !important;
-    color: #e2e2ec !important;
+    background: #1d1d26 !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    color: #ffffff !important;
+}
+
+.studio-toggle-chip:hover .chip-inner svg {
+    stroke: #ffffff !important;
 }
 
 .studio-toggle-chip input[type="checkbox"]:checked + .chip-inner {
     background: #10b981 !important;
+    border-color: #10b981 !important;
     color: #ffffff !important;
 }
 
@@ -3371,8 +3379,15 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     stroke: #ffffff !important;
 }
 
+.studio-toggle-chip input[type="checkbox"]:checked + .chip-inner svg,
+.studio-toggle-chip input[type="checkbox"]:checked + .chip-inner .chip-label svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
 .studio-toggle-chip input[type="checkbox"]:checked:hover + .chip-inner {
     background: #34d399 !important;
+    border-color: #34d399 !important;
     color: #ffffff !important;
 }
 
@@ -3719,18 +3734,54 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 
 /* Link Button for Motion Pairing */
 .link-btn {
-    background: #1e1e28 !important;
-    color: #8c8ca0 !important;
-    border: none !important;
+    width: 26px !important;
+    height: 26px !important;
+    padding: 0 !important;
+    background: #16161d !important;
+    color: #9ca3af !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.12s ease !important;
+}
+
+.link-btn svg {
+    stroke: #9ca3af !important;
+    width: 12px !important;
+    height: 12px !important;
+    transition: stroke 0.12s ease !important;
+}
+
+.link-btn:hover {
+    background: #1d1d26 !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+.link-btn:hover svg {
+    stroke: #ffffff !important;
 }
 
 .link-btn.linked {
     background: #12201c !important;
+    border-color: rgba(16, 185, 129, 0.4) !important;
     color: #10b981 !important;
 }
 
 .link-btn.linked svg {
     stroke: #10b981 !important;
+}
+
+.link-btn.unlinked {
+    background: #16161d !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #64748b !important;
+}
+
+.link-btn.unlinked svg {
+    stroke: #64748b !important;
 }
 
 /* 11. Bottom Action Bar & Action Buttons */
@@ -4544,15 +4595,20 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 }
 
 .motion-power-chip {
-    width: 32px !important;
-    height: 24px !important;
-    min-width: 32px !important;
+    width: 28px !important;
+    height: 26px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
     padding: 0 !important;
 }
 
 .motion-power-chip .chip-inner {
+    width: 28px !important;
+    height: 26px !important;
     padding: 0 !important;
     justify-content: center !important;
+    background: #16161d !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 .motion-power-chip .chip-check {
@@ -4563,6 +4619,34 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.motion-power-chip .chip-label svg {
+    width: 12px !important;
+    height: 12px !important;
+    stroke: #9ca3af !important;
+    transition: stroke 0.12s ease !important;
+}
+
+.motion-power-chip:hover .chip-label svg {
+    stroke: #ffffff !important;
+}
+
+.motion-power-chip input[type="checkbox"]:checked + .chip-inner {
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+}
+
+.motion-power-chip input[type="checkbox"]:checked + .chip-inner .chip-label svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+.motion-power-chip input[type="checkbox"]:checked:hover + .chip-inner {
+    background: #34d399 !important;
+    border-color: #34d399 !important;
 }
 
 .studio-icon-filter-bar {

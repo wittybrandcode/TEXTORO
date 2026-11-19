@@ -961,7 +961,7 @@
             <div class="precision-color-box" title="Choose fill color">
                 <span class="p-label">COLOR</span>
                 <div class="color-picker-wrap">
-                    <input type="color" id="sogaFillColor" class="ci" value="#3366e6">
+                    <input type="color" id="sogaFillColor" class="ci" value="#10b981">
                 </div>
             </div>
             <label class="studio-toggle-chip" title="Lock box size (prevent auto-resize)">
@@ -1016,40 +1016,63 @@
                 <span class="unit-tag">s</span>
             </div>
         </div>
-        <div class="mb-6">
-            <label class="studio-toggle-chip" title="Sync timing with Typewriter markers">
+        <!-- Timing & Mode Row: Segmented IN/OUT Tabs + SYNC in ONE Line -->
+        <div class="studio-row-split mb-6">
+            <div class="soga-motion-tabs" style="flex:1; margin-bottom:0;">
+                <button type="button" class="soga-motion-tab active" data-tab="in" title="IN animation values">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                    ANIMATION IN
+                </button>
+                <button type="button" class="soga-motion-tab" data-tab="out" title="OUT animation values">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    ANIMATION OUT
+                </button>
+            </div>
+            <label class="studio-toggle-chip" style="width:auto; flex-shrink:0; height:26px;" title="Sync timing with Typewriter markers">
                 <input type="checkbox" id="sogaMotionSyncEnable">
-                <span class="chip-inner">
-                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span class="chip-label"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;vertical-align:-1px;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>SYNC WITH TYPEWRITER</span>
+                <span class="chip-inner" style="padding:0 8px;">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                    <span style="font-size:9.5px;font-weight:700;">SYNC</span>
                 </span>
             </label>
         </div>
 
-        <!-- Segmented IN/OUT Tabs -->
-        <div class="soga-motion-tabs mb-6">
-            <button type="button" class="soga-motion-tab active" data-tab="in" title="IN animation values">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
-                ANIMATION IN
-            </button>
-            <button type="button" class="soga-motion-tab" data-tab="out" title="OUT animation values">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                ANIMATION OUT
-            </button>
+        <!-- Motion Channels (Single Line 4-Channel Icon Toggles) -->
+        <div class="metrics-grid-4 mb-6">
+            <label class="studio-toggle-chip" title="Enable Position animation">
+                <input type="checkbox" id="sogaMotionPosEnable">
+                <span class="chip-inner">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"></polyline><polyline points="9 5 12 2 15 5"></polyline><polyline points="15 19 12 22 9 19"></polyline><polyline points="19 9 22 12 19 15"></polyline><line x1="2" y1="12" x2="22" y2="12"></line><line x1="12" y1="2" x2="12" y2="22"></line></svg>
+                    <span class="chip-label">POS</span>
+                </span>
+            </label>
+            <label class="studio-toggle-chip" title="Enable Scale animation">
+                <input type="checkbox" id="sogaMotionScaleEnable">
+                <span class="chip-inner">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                    <span class="chip-label">SCALE</span>
+                </span>
+            </label>
+            <label class="studio-toggle-chip" title="Enable Rotation animation">
+                <input type="checkbox" id="sogaMotionRotEnable">
+                <span class="chip-inner">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+                    <span class="chip-label">ROT</span>
+                </span>
+            </label>
+            <label class="studio-toggle-chip" title="Enable Opacity animation">
+                <input type="checkbox" id="sogaMotionOpacityEnable">
+                <span class="chip-inner">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 0 20z" fill="currentColor"></path></svg>
+                    <span class="chip-label">OPAC</span>
+                </span>
+            </label>
         </div>
 
         <!-- IN Tab Content -->
         <div class="soga-motion-content" id="sogaMotionInContent">
             <!-- Position IN -->
-            <div class="mb-6">
-                <label class="studio-toggle-chip" title="Enable Position animation">
-                    <input type="checkbox" id="sogaMotionPosEnable">
-                    <span class="chip-inner">
-                        <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        <span class="chip-label">POSITION</span>
-                    </span>
-                </label>
-            </div>
+            <div class="studio-sub-header">POSITION IN</div>
             <div class="metrics-grid-4 mb-6">
                 <div class="precision-input-box" title="Position IN From X">
                     <span class="p-label">FROM X</span>
@@ -1070,14 +1093,8 @@
             </div>
 
             <!-- Scale IN -->
-            <div class="studio-combo-row mb-6">
-                <label class="studio-toggle-chip" style="width:110px;flex-shrink:0;" title="Enable Scale animation">
-                    <input type="checkbox" id="sogaMotionScaleEnable">
-                    <span class="chip-inner">
-                        <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        <span class="chip-label">SCALE</span>
-                    </span>
-                </label>
+            <div class="studio-sub-header">SCALE IN</div>
+            <div class="metrics-grid-2 mb-6">
                 <div class="precision-input-box" title="Scale IN From %">
                     <span class="p-label">FROM</span>
                     <input type="number" id="sogaMotionScaleFrom" class="ni" value="100" step="10" min="0">
@@ -1091,14 +1108,8 @@
             </div>
 
             <!-- Rotation IN -->
-            <div class="studio-combo-row mb-6">
-                <label class="studio-toggle-chip" style="width:110px;flex-shrink:0;" title="Enable Rotation animation">
-                    <input type="checkbox" id="sogaMotionRotEnable">
-                    <span class="chip-inner">
-                        <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        <span class="chip-label">ROTATION</span>
-                    </span>
-                </label>
+            <div class="studio-sub-header">ROTATION IN</div>
+            <div class="metrics-grid-2 mb-6">
                 <div class="precision-input-box" title="Rotation IN From °">
                     <span class="p-label">FROM</span>
                     <input type="number" id="sogaMotionRotFrom" class="ni" value="0" step="15">
@@ -1112,14 +1123,8 @@
             </div>
 
             <!-- Opacity IN -->
-            <div class="studio-combo-row mb-6">
-                <label class="studio-toggle-chip" style="width:110px;flex-shrink:0;" title="Enable Opacity animation">
-                    <input type="checkbox" id="sogaMotionOpacityEnable">
-                    <span class="chip-inner">
-                        <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        <span class="chip-label">OPACITY</span>
-                    </span>
-                </label>
+            <div class="studio-sub-header">OPACITY IN</div>
+            <div class="metrics-grid-2 mb-6">
                 <div class="precision-input-box" title="Opacity IN From %">
                     <span class="p-label">FROM</span>
                     <input type="number" id="sogaMotionOpacityFrom" class="ni" value="0" step="10" min="0" max="100">
@@ -1136,7 +1141,7 @@
         <!-- OUT Tab Content -->
         <div class="soga-motion-content" id="sogaMotionOutContent" style="display:none">
             <!-- Position OUT -->
-            <div class="studio-sub-header mb-6">POSITION OUT</div>
+            <div class="studio-sub-header">POSITION OUT</div>
             <div class="metrics-grid-4 mb-6">
                 <div class="precision-input-box" title="Position OUT From X">
                     <span class="p-label">FROM X</span>
@@ -1157,42 +1162,45 @@
             </div>
 
             <!-- Scale OUT -->
-            <div class="studio-combo-row mb-6">
-                <div class="precision-input-box" style="flex:1" title="Scale OUT From %">
-                    <span class="p-label">SCALE FROM</span>
+            <div class="studio-sub-header">SCALE OUT</div>
+            <div class="metrics-grid-2 mb-6">
+                <div class="precision-input-box" title="Scale OUT From %">
+                    <span class="p-label">FROM</span>
                     <input type="number" id="sogaMotionScaleOutFrom" class="ni" value="100" step="10" min="0">
                     <span class="unit-tag">%</span>
                 </div>
-                <div class="precision-input-box" style="flex:1" title="Scale OUT To %">
-                    <span class="p-label">SCALE TO</span>
+                <div class="precision-input-box" title="Scale OUT To %">
+                    <span class="p-label">TO</span>
                     <input type="number" id="sogaMotionScaleOutTo" class="ni" value="100" step="10" min="0">
                     <span class="unit-tag">%</span>
                 </div>
             </div>
 
             <!-- Rotation OUT -->
-            <div class="studio-combo-row mb-6">
-                <div class="precision-input-box" style="flex:1" title="Rotation OUT From °">
-                    <span class="p-label">ROT FROM</span>
+            <div class="studio-sub-header">ROTATION OUT</div>
+            <div class="metrics-grid-2 mb-6">
+                <div class="precision-input-box" title="Rotation OUT From °">
+                    <span class="p-label">FROM</span>
                     <input type="number" id="sogaMotionRotOutFrom" class="ni" value="0" step="15">
                     <span class="unit-tag">°</span>
                 </div>
-                <div class="precision-input-box" style="flex:1" title="Rotation OUT To °">
-                    <span class="p-label">ROT TO</span>
+                <div class="precision-input-box" title="Rotation OUT To °">
+                    <span class="p-label">TO</span>
                     <input type="number" id="sogaMotionRotOutTo" class="ni" value="0" step="15">
                     <span class="unit-tag">°</span>
                 </div>
             </div>
 
             <!-- Opacity OUT -->
-            <div class="studio-combo-row mb-6">
-                <div class="precision-input-box" style="flex:1" title="Opacity OUT From %">
-                    <span class="p-label">OPAC FROM</span>
+            <div class="studio-sub-header">OPACITY OUT</div>
+            <div class="metrics-grid-2 mb-6">
+                <div class="precision-input-box" title="Opacity OUT From %">
+                    <span class="p-label">FROM</span>
                     <input type="number" id="sogaMotionOpacityOutFrom" class="ni" value="100" step="10" min="0" max="100">
                     <span class="unit-tag">%</span>
                 </div>
-                <div class="precision-input-box" style="flex:1" title="Opacity OUT To %">
-                    <span class="p-label">OPAC TO</span>
+                <div class="precision-input-box" title="Opacity OUT To %">
+                    <span class="p-label">TO</span>
                     <input type="number" id="sogaMotionOpacityOutTo" class="ni" value="0" step="10" min="0" max="100">
                     <span class="unit-tag">%</span>
                 </div>
@@ -1509,11 +1517,10 @@
             <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </span>
         <div class="studio-btn-group">
-            <label class="studio-toggle-chip" title="Enable position animation">
+            <label class="studio-toggle-chip motion-power-chip" title="Enable position animation">
                 <input type="checkbox" id="motionPosEnable">
                 <span class="chip-inner">
-                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span class="chip-label"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg></span>
+                    <span class="chip-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg></span>
                 </span>
             </label>
             <button type="button" class="square-icon-btn link-btn linked" id="motionPosLink" title="Link/Unlink OUT values">
@@ -1614,11 +1621,10 @@
             <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </span>
         <div class="studio-btn-group">
-            <label class="studio-toggle-chip" title="Enable scale animation">
+            <label class="studio-toggle-chip motion-power-chip" title="Enable scale animation">
                 <input type="checkbox" id="motionScaleEnable">
                 <span class="chip-inner">
-                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span class="chip-label"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg></span>
+                    <span class="chip-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg></span>
                 </span>
             </label>
             <button type="button" class="square-icon-btn link-btn linked" id="motionScaleLink" title="Link/Unlink OUT values">
@@ -1681,11 +1687,10 @@
             <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </span>
         <div class="studio-btn-group">
-            <label class="studio-toggle-chip" title="Enable rotation animation">
+            <label class="studio-toggle-chip motion-power-chip" title="Enable rotation animation">
                 <input type="checkbox" id="motionRotEnable">
                 <span class="chip-inner">
-                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span class="chip-label"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg></span>
+                    <span class="chip-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg></span>
                 </span>
             </label>
             <button type="button" class="square-icon-btn link-btn linked" id="motionRotLink" title="Link/Unlink OUT values">
@@ -1748,11 +1753,10 @@
             <span class="collapsible-chevron" title="Toggle section"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </span>
         <div class="studio-btn-group">
-            <label class="studio-toggle-chip" title="Enable opacity animation">
+            <label class="studio-toggle-chip motion-power-chip" title="Enable opacity animation">
                 <input type="checkbox" id="motionOpacityEnable">
                 <span class="chip-inner">
-                    <svg class="chip-check" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span class="chip-label"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg></span>
+                    <span class="chip-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg></span>
                 </span>
             </label>
             <button type="button" class="square-icon-btn link-btn linked" id="motionOpacityLink" title="Link/Unlink OUT values">
