@@ -98,13 +98,26 @@ TEXTORO.UI.CustomSelect = (function() {
                     this.parentBox.classList.add('select-open');
                 }
                 this.trigger.setAttribute('aria-expanded', 'true');
+
+                // حساب وتطبيق التموضع الذكي (Dropup أو Dropdown وضبط الحدود)
+                updatePlacement(this);
+
+                // تمرير الخيار المحدد إلى مجال الرؤية داخل القائمة
+                var selectedOpt = this.dropdown.querySelector('.custom-select-opt.selected');
+                if (selectedOpt && typeof selectedOpt.scrollIntoView === 'function') {
+                    selectedOpt.scrollIntoView({ block: 'nearest' });
+                }
             },
             close: function() {
                 this.isOpen = false;
                 this.wrapper.classList.remove('open');
+                this.wrapper.classList.remove('dropup');
                 if (this.parentBox) {
                     this.parentBox.classList.remove('select-open');
+                    this.parentBox.classList.remove('dropup');
                 }
+                this.dropdown.classList.remove('align-right');
+                this.dropdown.style.maxHeight = '';
                 this.trigger.setAttribute('aria-expanded', 'false');
             },
             toggle: function() {
@@ -213,6 +226,89 @@ TEXTORO.UI.CustomSelect = (function() {
     }
     
     /**
+     * حساب وتحديث التموضع الذكي للقائمة المنسدلة (اتجاه الفتح والحدود)
+     * يمنع الفتح إلى ما وراء شريط الإجراءات أو حدود الشاشة
+     * @param {Object} controller
+     */
+    function updatePlacement(controller) {
+        if (!controller || !controller.isOpen) return;
+
+        var trigger = controller.trigger;
+        var dropdown = controller.dropdown;
+        var wrapper = controller.wrapper;
+        var parentBox = controller.parentBox;
+
+        var triggerRect = trigger.getBoundingClientRect();
+        var viewportHeight = window.innerHeight || (document.documentElement ? document.documentElement.clientHeight : 600);
+        var viewportWidth = window.innerWidth || (document.documentElement ? document.documentElement.clientWidth : 800);
+
+        // 1. الحد السفلي: مراعاة شريط الإجراءات السفلي (Action Bar)
+        var bottomBoundary = viewportHeight;
+        var actionBar = document.querySelector('.action-bar');
+        if (actionBar) {
+            var actionRect = actionBar.getBoundingClientRect();
+            if (actionRect.top > 0 && actionRect.top < bottomBoundary) {
+                bottomBoundary = actionRect.top;
+            }
+        }
+
+        // 2. الحد العلوي: مراعاة الهيدر وشريط التبويبات العلوي
+        var topBoundary = 0;
+        var header = document.querySelector('.header') || document.querySelector('header');
+        if (header) {
+            var headerRect = header.getBoundingClientRect();
+            if (headerRect.bottom > 0 && headerRect.bottom < triggerRect.top) {
+                topBoundary = headerRect.bottom;
+            }
+        }
+
+        // حساب المساحة المتاحة للأعلى والأسفل مع هامش أمان 8px
+        var spaceBelow = Math.max(0, bottomBoundary - triggerRect.bottom - 8);
+        var spaceAbove = Math.max(0, triggerRect.top - topBoundary - 8);
+
+        // قياس الارتفاع الفعلي المطلوب للقائمة
+        dropdown.style.visibility = 'hidden';
+        dropdown.style.display = 'block';
+        dropdown.style.maxHeight = 'none';
+        var neededHeight = dropdown.scrollHeight || 180;
+        dropdown.style.display = '';
+        dropdown.style.visibility = '';
+
+        // القرار الذكي:
+        // إذا كانت المساحة بالأسفل غير كافية، والمساحة بالأعلى أكبر، نفتح للأعلى (Dropup)
+        var isDropup = false;
+        var availableHeight = spaceBelow;
+
+        if (spaceBelow < neededHeight && spaceAbove > spaceBelow) {
+            isDropup = true;
+            availableHeight = spaceAbove;
+        } else {
+            isDropup = false;
+            availableHeight = spaceBelow;
+        }
+
+        if (isDropup) {
+            wrapper.classList.add('dropup');
+            if (parentBox) parentBox.classList.add('dropup');
+        } else {
+            wrapper.classList.remove('dropup');
+            if (parentBox) parentBox.classList.remove('dropup');
+        }
+
+        // تحديد أقصى ارتفاع مسموح به بحيث لا تتجاوز القائمة أي حد خارجي
+        var finalMaxHeight = Math.max(65, Math.min(neededHeight, availableHeight));
+        dropdown.style.maxHeight = finalMaxHeight + 'px';
+
+        // 3. فحص الحدود الأفقية (اليمين واليسار)
+        var dropRect = dropdown.getBoundingClientRect();
+        if (dropRect.right > viewportWidth - 6 && triggerRect.left > 80) {
+            dropdown.classList.add('align-right');
+        } else {
+            dropdown.classList.remove('align-right');
+        }
+    }
+
+    /**
      * مستمع عام للنقر خارج القوائم لإغلاقها
      */
     document.addEventListener('click', function(e) {
@@ -225,6 +321,14 @@ TEXTORO.UI.CustomSelect = (function() {
         if (e.key === 'Escape') {
             closeAll();
         }
+    });
+
+    window.addEventListener('scroll', function() {
+        closeAll();
+    }, true);
+
+    window.addEventListener('resize', function() {
+        closeAll();
     });
     
     /**
