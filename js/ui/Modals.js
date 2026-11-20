@@ -148,7 +148,10 @@ TEXTORO.UI.Modals = (function() {
 
         if (hexInput) {
             hexInput.addEventListener('input', function() {
-                var val = hexInput.value.trim();
+                var val = hexInput.value.trim().replace(/^#+/, '');
+                if (hexInput.value.indexOf('#') !== -1) {
+                    hexInput.value = val;
+                }
                 var norm = normalizeHex(val);
                 var status = document.getElementById('colorModalHexStatus');
                 if (norm) {
@@ -163,7 +166,7 @@ TEXTORO.UI.Modals = (function() {
                     hexInput.classList.add('invalid');
                     hexInput.classList.remove('valid');
                     if (status) {
-                        status.textContent = 'Format: #RRGGBB or #RGB';
+                        status.textContent = 'Format: 6 hex digits (e.g. 10B981)';
                         status.className = 'color-hex-status error';
                     }
                 }
@@ -172,10 +175,10 @@ TEXTORO.UI.Modals = (function() {
             hexInput.addEventListener('blur', function() {
                 var norm = normalizeHex(hexInput.value);
                 if (norm) {
-                    hexInput.value = norm;
+                    hexInput.value = norm.replace(/^#/, '');
                     updateCurrentColor(norm, true);
                 } else {
-                    hexInput.value = currentColor;
+                    hexInput.value = currentColor.replace(/^#/, '');
                     updateCurrentColor(currentColor, true);
                 }
             });
@@ -247,7 +250,7 @@ TEXTORO.UI.Modals = (function() {
         if (updateHexInput) {
             var hexInput = document.getElementById('colorModalHex');
             if (hexInput) {
-                hexInput.value = norm;
+                hexInput.value = norm.replace(/^#/, '');
                 hexInput.classList.remove('invalid');
                 hexInput.classList.add('valid');
             }

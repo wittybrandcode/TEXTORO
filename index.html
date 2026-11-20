@@ -2042,25 +2042,25 @@
 <!-- MODALS -->
 <div class="modal-overlay" id="inputModal" style="display:none">
 <div class="modal modal-small">
-<div class="modal-header"><span id="inputModalTitle">Enter Value</span><button class="btn-close" id="btnCloseInput" title="Close dialog">×</button></div>
+<div class="modal-header"><span id="inputModalTitle">Enter Value</span><button class="btn-close" id="btnCloseInput" title="Close dialog"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div>
 <div class="modal-content">
 <div class="row"><label id="inputModalLabel">Name:</label><input type="text" id="inputModalValue" class="ti" title="Enter a value"></div>
 <div class="row" id="inputModalIconRow" style="display:none"><label>Icon:</label><input type="text" id="inputModalIcon" class="ti" style="width:50px" maxlength="2" title="Enter an emoji or symbol"></div>
 </div>
 <div class="modal-footer">
-<button class="btn-s" id="btnInputCancel" title="Cancel and close">Cancel</button>
-<button class="btn-s btn-primary" id="btnInputOK" title="Confirm and save">OK</button>
+<button class="square-icon-btn modal-btn-cancel" id="btnInputCancel" title="Cancel (Esc)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+<button class="square-icon-btn btn-primary" id="btnInputOK" title="Confirm and save (Enter)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
 </div>
 </div>
 </div>
 
 <div class="modal-overlay" id="confirmModal" style="display:none">
 <div class="modal modal-small">
-<div class="modal-header"><span id="confirmModalTitle">Confirm</span><button class="btn-close" id="btnCloseConfirm" title="Close dialog">×</button></div>
+<div class="modal-header"><span id="confirmModalTitle">Confirm</span><button class="btn-close" id="btnCloseConfirm" title="Close dialog"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div>
 <div class="modal-content"><p id="confirmModalMessage" class="confirm-message">Are you sure?</p></div>
 <div class="modal-footer">
-<button class="btn-s" id="btnConfirmCancel" title="Cancel action">Cancel</button>
-<button class="btn-s btn-danger" id="btnConfirmOK" title="Confirm deletion">Delete</button>
+<button class="square-icon-btn modal-btn-cancel" id="btnConfirmCancel" title="Cancel (Esc)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+<button class="square-icon-btn btn-danger" id="btnConfirmOK" title="Confirm deletion"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg></button>
 </div>
 </div>
 </div>
@@ -2070,7 +2070,7 @@
 <div class="modal color-modal">
 <div class="modal-header">
     <span id="colorModalTitle">SELECT COLOR</span>
-    <button class="btn-close" id="btnCloseColor" title="Close dialog">×</button>
+    <button class="btn-close" id="btnCloseColor" title="Close dialog"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
 </div>
 <div class="modal-content color-modal-content">
     <!-- Split Preview Box (Original vs New) -->
@@ -2136,8 +2136,12 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn-s" id="btnColorCancel" title="Cancel and discard">Cancel</button>
-    <button class="btn-s btn-primary" id="btnColorOK" title="Apply color">Apply</button>
+    <button class="square-icon-btn modal-btn-cancel" id="btnColorCancel" title="Cancel (Esc)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <button class="square-icon-btn btn-primary" id="btnColorOK" title="Apply color (Enter)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </button>
 </div>
 </div>
 </div>
