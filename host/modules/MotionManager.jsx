@@ -1,4 +1,4 @@
-﻿/**
+/**
  * TEXTORO Motion Manager Module
  * تحريك طبقات النص ككتلة كاملة
  * Version: 2.4.0 - Smart ControllerManager Integration

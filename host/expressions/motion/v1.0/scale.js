@@ -1,4 +1,4 @@
-﻿/**
+/**
  * TEXTORO Motion Expression - Scale
  * حركة الحجم IN/OUT مع دعم محرك الفيزياء التحليلي
  * 

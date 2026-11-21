@@ -10,7 +10,7 @@ TEXTORO.UI.CustomSelect = (function() {
     'use strict';
     
     var instances = [];
-    var CHEVRON_SVG = '<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+    var CHEVRON_SVG = '<i class="ph-bold ph-caret-down"></i>';
     
     /**
      * إغلاق جميع القوائم المفتوحة

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * TEXTORO Motion Expression - Opacity
  * حركة الشفافية IN/OUT مع دعم محرك الفيزياء التحليلي
  * 

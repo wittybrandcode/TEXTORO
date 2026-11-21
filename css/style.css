@@ -5334,3 +5334,165 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     color: #10b981 !important;
     font-weight: 700 !important;
 }
+
+/* ============================================================
+   PHOSPHOR ICONS INTEGRATION & HIGH-CONTRAST CONTROLS
+   ============================================================ */
+.ph-bold, .ph {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    vertical-align: middle !important;
+    line-height: 1 !important;
+    font-style: normal !important;
+}
+
+/* Tabs: Bold Phosphor Icons */
+.tab.square-icon-btn i.ph-bold,
+.studio-tab-btn i.ph-bold {
+    font-size: 15px !important;
+    line-height: 1 !important;
+    color: #8c8ca0 !important;
+    transition: color 0.12s ease !important;
+}
+.tab.square-icon-btn:hover i.ph-bold,
+.studio-tab-btn:hover i.ph-bold {
+    color: #ffffff !important;
+}
+.tab.square-icon-btn.active i.ph-bold,
+.studio-tab-btn.active i.ph-bold {
+    color: #ffffff !important;
+}
+
+/* Card Header Titles */
+.card-title-studio > i.ph-bold,
+.soga-title > i.ph-bold {
+    font-size: 13px !important;
+    color: #10b981 !important;
+    margin-right: 5px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Collapsible Chevrons */
+.collapsible-chevron i.ph-bold {
+    font-size: 12px !important;
+    color: #64748b !important;
+    transition: color 0.12s ease !important;
+}
+.collapsible-header:hover .collapsible-chevron i.ph-bold {
+    color: #34d399 !important;
+}
+
+/* Buttons (Generic Square Icon Buttons) */
+.square-icon-btn i.ph-bold,
+.ib i.ph-bold,
+.tb i.ph-bold {
+    font-size: 13px !important;
+    line-height: 1 !important;
+}
+.square-icon-btn.active i.ph-bold,
+.tb.active i.ph-bold {
+    color: #ffffff !important;
+}
+
+/* Primary Action Buttons (Green Fill -> Strict Pure White Icon, NEVER green-on-green) */
+.ab-p.square-icon-btn i.ph-bold,
+.btn-primary i.ph-bold,
+.modal-footer .btn-primary i.ph-bold {
+    color: #ffffff !important;
+    font-size: 14px !important;
+}
+
+/* Danger / Delete Buttons (Crimson Red Icon -> White on Hover) */
+.ab-d.square-icon-btn i.ph-bold,
+.btn-del i.ph-bold,
+.btn-danger i.ph-bold,
+.modal-footer .btn-danger i.ph-bold {
+    color: #f87171 !important;
+    font-size: 14px !important;
+}
+.ab-d.square-icon-btn:hover i.ph-bold,
+.btn-del:hover i.ph-bold,
+.btn-danger:hover i.ph-bold,
+.modal-footer .btn-danger:hover i.ph-bold {
+    color: #ffffff !important;
+}
+
+/* Secondary Action Buttons (Refresh, Split, etc.) */
+.ab.square-icon-btn i.ph-bold {
+    color: inherit !important;
+    font-size: 14px !important;
+}
+.ab.square-icon-btn:hover i.ph-bold {
+    color: #ffffff !important;
+}
+
+/* Modal Cancel & Close Buttons */
+.modal-btn-cancel i.ph-bold,
+.btn-close i.ph-bold {
+    color: #94a3b8 !important;
+    font-size: 13px !important;
+}
+.modal-btn-cancel:hover i.ph-bold,
+.btn-close:hover i.ph-bold {
+    color: #ffffff !important;
+}
+
+/* Toggle Chips & Markers Chips */
+.studio-toggle-chip i.ph-bold.chip-check {
+    font-size: 11px !important;
+    color: #ffffff !important;
+    display: none !important;
+}
+.studio-toggle-chip input[type="checkbox"]:checked + .chip-inner i.ph-bold.chip-check {
+    display: inline-flex !important;
+}
+.studio-toggle-chip .chip-label i.ph-bold {
+    font-size: 11px !important;
+    color: inherit !important;
+}
+.studio-toggle-chip input[type="checkbox"]:checked + .chip-inner .chip-label i.ph-bold {
+    color: #ffffff !important;
+}
+.m-chip-check.ph-bold {
+    font-size: 11px !important;
+    opacity: 0 !important;
+    transition: opacity 0.12s ease !important;
+}
+.marker-filter-chip input[type="checkbox"]:checked + .m-chip-body .m-chip-check.ph-bold {
+    opacity: 1 !important;
+}
+.marker-filter-chip.chip-in input[type="checkbox"]:checked + .m-chip-body .m-chip-check.ph-bold {
+    color: #10b981 !important;
+}
+.marker-filter-chip.chip-out input[type="checkbox"]:checked + .m-chip-body .m-chip-check.ph-bold {
+    color: #ef4444 !important;
+}
+.marker-filter-chip.chip-blink input[type="checkbox"]:checked + .m-chip-body .m-chip-check.ph-bold {
+    color: #f59e0b !important;
+}
+
+/* Motion Link Buttons */
+.link-btn i.ph-bold {
+    font-size: 13px !important;
+    line-height: 1 !important;
+    color: #9ca3af !important;
+    transition: color 0.12s ease !important;
+}
+.link-btn:hover i.ph-bold {
+    color: #ffffff !important;
+}
+.link-btn.linked i.ph-bold {
+    color: #10b981 !important;
+}
+.link-btn.unlinked i.ph-bold {
+    color: #64748b !important;
+}
+
+/* Custom Select Dropdown Chevron */
+.custom-select-arrow i.ph-bold {
+    font-size: 11px !important;
+    line-height: 1 !important;
+    color: inherit !important;
+}
+

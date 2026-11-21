@@ -21,8 +21,10 @@ package-lock.json
 .env
 .env.local
 # Backup / duplicate files with spaces
-*OLD*
+*_OLD*
+*OLD.*
 *copy.json
+!css/phosphor/bold/
 # Build
 dist/
 build/

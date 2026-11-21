@@ -10,7 +10,7 @@ TEXTORO.UI.CollapsibleSection = (function() {
     'use strict';
     
     var sections = {};
-    var CHEVRON_SVG = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+    var CHEVRON_SVG = '<i class="ph-bold ph-caret-down"></i>';
     
     /**
      * تهيئة قسم قابل للطي

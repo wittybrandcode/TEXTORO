@@ -1,4 +1,4 @@
-﻿/**
+/**
  * TEXTORO - Controller Manager Module
  * إدارة المتحكمات المركزية
  * 

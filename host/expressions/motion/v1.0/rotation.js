@@ -1,4 +1,4 @@
-﻿/**
+/**
  * TEXTORO Motion Expression - Rotation
  * حركة الدوران IN/OUT مع دعم محرك الفيزياء التحليلي
  * 

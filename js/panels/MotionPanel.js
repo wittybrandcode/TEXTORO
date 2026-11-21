@@ -276,7 +276,7 @@ TEXTORO.Panels.Motion = (function() {
         if (isLinked) {
             btn.classList.remove('linked');
             btn.classList.add('unlinked');
-            btn.innerHTML = '<i class="fa-solid fa-link-slash"></i>';
+            btn.innerHTML = '<i class="ph-bold ph-link-break"></i>';
             btn.title = 'Click to link OUT with IN (reverse)';
             
             rowIds.forEach(function(rowId) {
@@ -286,7 +286,7 @@ TEXTORO.Panels.Motion = (function() {
         } else {
             btn.classList.remove('unlinked');
             btn.classList.add('linked');
-            btn.innerHTML = '<i class="fa-solid fa-link"></i>';
+            btn.innerHTML = '<i class="ph-bold ph-link"></i>';
             btn.title = 'Click to set independent OUT values';
             
             rowIds.forEach(function(rowId) {
@@ -312,7 +312,7 @@ TEXTORO.Panels.Motion = (function() {
         if (unlinked) {
             btn.classList.remove('linked');
             btn.classList.add('unlinked');
-            btn.innerHTML = '<i class="fa-solid fa-link-slash"></i>';
+            btn.innerHTML = '<i class="ph-bold ph-link-break"></i>';
             btn.title = 'Click to link OUT with IN (reverse)';
             rows.forEach(function(rowId) {
                 var row = document.getElementById(rowId);
@@ -321,7 +321,7 @@ TEXTORO.Panels.Motion = (function() {
         } else {
             btn.classList.remove('unlinked');
             btn.classList.add('linked');
-            btn.innerHTML = '<i class="fa-solid fa-link"></i>';
+            btn.innerHTML = '<i class="ph-bold ph-link"></i>';
             btn.title = 'Click to set independent OUT values';
             rows.forEach(function(rowId) {
                 var row = document.getElementById(rowId);

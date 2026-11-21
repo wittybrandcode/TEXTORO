@@ -1,4 +1,4 @@
-﻿/**
+/**
  * TEXTORO Motion Expression - Position
  * حركة الموقع IN/OUT مع دعم محرك الفيزياء التحليلي والامتداد الديناميكي
  * 
