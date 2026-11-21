@@ -54,8 +54,11 @@
 
             // F-12: مزامنة FPS عند تبديل التبويبات أيضاً
             if (TEXTORO.UI.TabManager && TEXTORO.UI.TabManager.onChange) {
-                TEXTORO.UI.TabManager.onChange(function() {
+                TEXTORO.UI.TabManager.onChange(function(activeTab) {
                     syncCompFPS(false);
+                    if (activeTab === 'motion' && TEXTORO.UI && TEXTORO.UI.PhysicsVisualizer) {
+                        setTimeout(function() { TEXTORO.UI.PhysicsVisualizer.render(); }, 50);
+                    }
                 });
             }
         }
@@ -163,6 +166,13 @@
                 TEXTORO.UI.CustomSelect.initAll();
             }
         } catch(e) { TEXTORO.error('Failed to init CustomSelect: ' + e.message); }
+
+        // PhysicsVisualizer
+        try {
+            if (TEXTORO.UI && TEXTORO.UI.PhysicsVisualizer) {
+                TEXTORO.UI.PhysicsVisualizer.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init PhysicsVisualizer: ' + e.message); }
     }
     
     /**

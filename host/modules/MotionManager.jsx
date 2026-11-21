@@ -37,7 +37,8 @@ var MOTION_EASING_TYPES = {
     EASE_IN_OUT: 3,
     BOUNCE: 4,
     ELASTIC: 5,
-    SPRING: 6
+    SPRING: 6,
+    ELASTIC_PHYSICS: 7
 };
 
 // ═══════════════════════════════════════════════════════════════════
@@ -45,7 +46,7 @@ var MOTION_EASING_TYPES = {
 // ═══════════════════════════════════════════════════════════════════
 
 /**
- * دالة Easing المشتركة - تُستخدم في كل Motion Expressions
+ * دالة Easing المشتركة ومحرك الفيزياء التحليلي
  * الآن تستخدم ControllerManager.getEaseValCode() إذا كان متاحاً
  */
 var EASE_VAL_CODE = (typeof getEaseValCode === "function") ? getEaseValCode() :
@@ -55,9 +56,12 @@ var EASE_VAL_CODE = (typeof getEaseValCode === "function") ? getEaseValCode() :
         'if(eT==2)return Math.pow(p,2);' +
         'if(eT==3)return p<0.5?2*p*p:1-Math.pow(-2*p+2,2)/2;' +
         'if(eT==4){var n=7.5625,d=2.75;if(p<1/d)return n*p*p;if(p<2/d)return n*(p-=1.5/d)*p+0.75;if(p<2.5/d)return n*(p-=2.25/d)*p+0.9375;return n*(p-=2.625/d)*p+0.984375;}' +
-        'if(eT==5)return p==0?0:p==1?1:Math.pow(2,-10*p)*Math.sin((p*10-0.75)*2.094)+1;' +
-        'if(eT==6)return 1+2.7*Math.pow(p-1,3)+1.7*Math.pow(p-1,2);' +
-        'return p;}';
+        'if(eT==5)return p<=0?0:p>=1?1:Math.pow(2,-10*p)*Math.sin((p*10-0.75)*2.094)+1;' +
+        'if(eT==6)return p<=0?0:p>=1?1:1-Math.exp(-6.91*p)*(Math.cos(9.213*p)+0.75*Math.sin(9.213*p));' +
+        'if(eT==7)return p<=0?0:p>=1?1:1-Math.exp(-4.5*p)*(Math.cos(14.5*p)+0.4*Math.sin(14.5*p));' +
+        'return p;}' +
+        'function solveSpring(t,k,c,m,v){if(t<=0)return 0;var sm=Math.max(0.001,m||1),sk=Math.max(0.1,k||180),sc=Math.max(0,c||18),v0=v||0;var w0=Math.sqrt(sk/sm),zeta=sc/(2*Math.sqrt(sk*sm)),a=zeta*w0;if(Math.abs(zeta-1)<0.001)return 1-Math.exp(-w0*t)*(1+(w0-v0)*t);if(zeta<1){var wd=w0*Math.sqrt(1-zeta*zeta),b=(a-v0)/wd;return 1-Math.exp(-a*t)*(Math.cos(wd*t)+b*Math.sin(wd*t));}var wh=w0*Math.sqrt(zeta*zeta-1);return 1-(1/(2*wh))*((wh+a-v0)*Math.exp((-a+wh)*t)+(wh-a+v0)*Math.exp((-a-wh)*t));}' +
+        'function solveSettlingTime(k,c,m){var sm=Math.max(0.001,m||1),sk=Math.max(0.1,k||180),sc=Math.max(0.001,c||18);var a=(sc/(2*Math.sqrt(sk*sm)))*Math.sqrt(sk/sm);return a<=0.0001?5:Math.min(10,6.91/a);}';
 
 /**
  * كود قراءة التوقيت والـ Sync - مشترك بين كل الـ Expressions
@@ -174,7 +178,13 @@ function _mapOptsToControllerNames(opts) {
         
         // Easing
         "Motion Easing Type": opts.easingType || 1,
-        "Motion Easing Strength": opts.easingStrength || 100
+        "Motion Easing Strength": opts.easingStrength || 100,
+        
+        // Physics Dynamics
+        "Spring Stiffness": _toFiniteNumber(opts.springStiffness, 180),
+        "Spring Damping": _toFiniteNumber(opts.springDamping, 18),
+        "Spring Mass": _toFiniteNumber(opts.springMass, 1.0),
+        "Spring Velocity Boost": _toFiniteNumber(opts.springVelocityBoost, 0)
     };
 }
 
@@ -291,7 +301,13 @@ function _applyMotion(layer, opts) {
         
         // Easing
         "Motion Easing Type": opts.easingType || 1,
-        "Motion Easing Strength": opts.easingStrength || 100
+        "Motion Easing Strength": opts.easingStrength || 100,
+        
+        // Physics Dynamics
+        "Spring Stiffness": _toFiniteNumber(opts.springStiffness, 180),
+        "Spring Damping": _toFiniteNumber(opts.springDamping, 18),
+        "Spring Mass": _toFiniteNumber(opts.springMass, 1.0),
+        "Spring Velocity Boost": _toFiniteNumber(opts.springVelocityBoost, 0)
     };
     
     // ═══════════════════════════════════════════════════════════════
@@ -362,6 +378,14 @@ function _applyMotion(layer, opts) {
         // Easing
         addSlider(fx, "Motion Easing Type", controllerValues["Motion Easing Type"]);
         addSlider(fx, "Motion Easing Strength", controllerValues["Motion Easing Strength"]);
+
+        // Physics Dynamics (if spring or elastic physics or usePhysics)
+        if (opts.easingType == 6 || opts.easingType == 7 || opts.usePhysics) {
+            addSlider(fx, "Spring Stiffness", controllerValues["Spring Stiffness"]);
+            addSlider(fx, "Spring Damping", controllerValues["Spring Damping"]);
+            addSlider(fx, "Spring Mass", controllerValues["Spring Mass"]);
+            addSlider(fx, "Spring Velocity Boost", controllerValues["Spring Velocity Boost"]);
+        }
     }
     
     $.writeln("[TEXTORO] Motion controllers created successfully");
@@ -616,18 +640,43 @@ function _getMotionPositionExprV2() {
         'var outTX=linkMode==0?fX:effect("Pos Out To X")(1).value;' +
         'var outTY=linkMode==0?fY:effect("Pos Out To Y")(1).value;' +
         'var oX=tX,oY=tY;' +
-        'if(t<inS){oX=fX;oY=fY;}' +
-        'else if(t<=inE){' +
-            'var d=inE-inS;if(d<=0)d=0.5;' +
-            'var p=(t-inS)/d;p=easeVal(p,eT);' +
-            'oX=fX+(tX-fX)*p;oY=fY+(tY-fY)*p;' +
+        'var isPhys=(eT==6||eT==7);' +
+        'if(isPhys){' +
+            'var k=180,c=18,m=1.0,v0=0;' +
+            'try{k=effect("Spring Stiffness")(1).value;}catch(e){}' +
+            'try{c=effect("Spring Damping")(1).value;}catch(e){}' +
+            'try{m=effect("Spring Mass")(1).value;}catch(e){}' +
+            'try{v0=effect("Spring Velocity Boost")(1).value/100;}catch(e){}' +
+            'try{var str=effect("Motion Easing Strength")(1).value/100;if(str>0&&str!=1){k*=str;}}catch(e){}' +
+            'var tSettle=solveSettlingTime(k,c,m);' +
+            'if(t<inS){oX=fX;oY=fY;}' +
+            'else if(outS>=0&&t>=outS){' +
+                'var tauOut=t-outS;' +
+                'if(tauOut<tSettle){' +
+                    'var pOut=solveSpring(tauOut,k,c,m,v0);' +
+                    'oX=outFX+(outTX-outFX)*pOut;oY=outFY+(outTY-outFY)*pOut;' +
+                '}else{oX=outTX;oY=outTY;}' +
+            '}else{' +
+                'var tauIn=t-inS;' +
+                'if(tauIn<tSettle){' +
+                    'var pIn=solveSpring(tauIn,k,c,m,v0);' +
+                    'oX=fX+(tX-fX)*pIn;oY=fY+(tY-fY)*pIn;' +
+                '}else{oX=tX;oY=tY;}' +
+            '}' +
+        '}else{' +
+            'if(t<inS){oX=fX;oY=fY;}' +
+            'else if(t<=inE){' +
+                'var d=inE-inS;if(d<=0)d=0.5;' +
+                'var p=(t-inS)/d;p=easeVal(p,eT);' +
+                'oX=fX+(tX-fX)*p;oY=fY+(tY-fY)*p;' +
+            '}' +
+            'else if(outS>=0&&t>=outS&&t<=outE){' +
+                'var d=outE-outS;if(d<=0)d=0.5;' +
+                'var p=(t-outS)/d;p=easeVal(p,eT);' +
+                'oX=outFX+(outTX-outFX)*p;oY=outFY+(outTY-outFY)*p;' +
+            '}' +
+            'else if(outS>=0&&t>outE){oX=outTX;oY=outTY;}' +
         '}' +
-        'else if(outS>=0&&t>=outS&&t<=outE){' +
-            'var d=outE-outS;if(d<=0)d=0.5;' +
-            'var p=(t-outS)/d;p=easeVal(p,eT);' +
-            'oX=outFX+(outTX-outFX)*p;oY=outFY+(outTY-outFY)*p;' +
-        '}' +
-        'else if(outS>=0&&t>outE){oX=outTX;oY=outTY;}' +
         'value+[oX,oY];}';
 }
 
@@ -642,10 +691,35 @@ function _getMotionScaleExprV2() {
         'var outF=linkMode==0?sT:effect("Scale Out From")(1).value;' +
         'var outT=linkMode==0?sF:effect("Scale Out To")(1).value;' +
         'var sv=sT;' +
-        'if(t<inS){sv=sF;}' +
-        'else if(t<=inE){var d=inE-inS;if(d<=0)d=0.5;var p=(t-inS)/d;p=easeVal(p,eT);sv=sF+(sT-sF)*p;}' +
-        'else if(outS>=0&&t>=outS&&t<=outE){var d=outE-outS;if(d<=0)d=0.5;var p=(t-outS)/d;p=easeVal(p,eT);sv=outF+(outT-outF)*p;}' +
-        'else if(outS>=0&&t>outE){sv=outT;}' +
+        'var isPhys=(eT==6||eT==7);' +
+        'if(isPhys){' +
+            'var k=180,c=18,m=1.0,v0=0;' +
+            'try{k=effect("Spring Stiffness")(1).value;}catch(e){}' +
+            'try{c=effect("Spring Damping")(1).value;}catch(e){}' +
+            'try{m=effect("Spring Mass")(1).value;}catch(e){}' +
+            'try{v0=effect("Spring Velocity Boost")(1).value/100;}catch(e){}' +
+            'try{var str=effect("Motion Easing Strength")(1).value/100;if(str>0&&str!=1){k*=str;}}catch(e){}' +
+            'var tSettle=solveSettlingTime(k,c,m);' +
+            'if(t<inS){sv=sF;}' +
+            'else if(outS>=0&&t>=outS){' +
+                'var tauOut=t-outS;' +
+                'if(tauOut<tSettle){' +
+                    'var pOut=solveSpring(tauOut,k,c,m,v0);' +
+                    'sv=outF+(outT-outF)*pOut;' +
+                '}else{sv=outT;}' +
+            '}else{' +
+                'var tauIn=t-inS;' +
+                'if(tauIn<tSettle){' +
+                    'var pIn=solveSpring(tauIn,k,c,m,v0);' +
+                    'sv=sF+(sT-sF)*pIn;' +
+                '}else{sv=sT;}' +
+            '}' +
+        '}else{' +
+            'if(t<inS){sv=sF;}' +
+            'else if(t<=inE){var d=inE-inS;if(d<=0)d=0.5;var p=(t-inS)/d;p=easeVal(p,eT);sv=sF+(sT-sF)*p;}' +
+            'else if(outS>=0&&t>=outS&&t<=outE){var d=outE-outS;if(d<=0)d=0.5;var p=(t-outS)/d;p=easeVal(p,eT);sv=outF+(outT-outF)*p;}' +
+            'else if(outS>=0&&t>outE){sv=outT;}' +
+        '}' +
         'value*(sv/100);}';
 }
 
@@ -660,10 +734,35 @@ function _getMotionRotationExprV2() {
         'var outF=linkMode==0?rT:effect("Rot Out From")(1).value;' +
         'var outT=linkMode==0?rF:effect("Rot Out To")(1).value;' +
         'var rv=rT;' +
-        'if(t<inS){rv=rF;}' +
-        'else if(t<=inE){var d=inE-inS;if(d<=0)d=0.5;var p=(t-inS)/d;p=easeVal(p,eT);rv=rF+(rT-rF)*p;}' +
-        'else if(outS>=0&&t>=outS&&t<=outE){var d=outE-outS;if(d<=0)d=0.5;var p=(t-outS)/d;p=easeVal(p,eT);rv=outF+(outT-outF)*p;}' +
-        'else if(outS>=0&&t>outE){rv=outT;}' +
+        'var isPhys=(eT==6||eT==7);' +
+        'if(isPhys){' +
+            'var k=180,c=18,m=1.0,v0=0;' +
+            'try{k=effect("Spring Stiffness")(1).value;}catch(e){}' +
+            'try{c=effect("Spring Damping")(1).value;}catch(e){}' +
+            'try{m=effect("Spring Mass")(1).value;}catch(e){}' +
+            'try{v0=effect("Spring Velocity Boost")(1).value/100;}catch(e){}' +
+            'try{var str=effect("Motion Easing Strength")(1).value/100;if(str>0&&str!=1){k*=str;}}catch(e){}' +
+            'var tSettle=solveSettlingTime(k,c,m);' +
+            'if(t<inS){rv=rF;}' +
+            'else if(outS>=0&&t>=outS){' +
+                'var tauOut=t-outS;' +
+                'if(tauOut<tSettle){' +
+                    'var pOut=solveSpring(tauOut,k,c,m,v0);' +
+                    'rv=outF+(outT-outF)*pOut;' +
+                '}else{rv=outT;}' +
+            '}else{' +
+                'var tauIn=t-inS;' +
+                'if(tauIn<tSettle){' +
+                    'var pIn=solveSpring(tauIn,k,c,m,v0);' +
+                    'rv=rF+(rT-rF)*pIn;' +
+                '}else{rv=rT;}' +
+            '}' +
+        '}else{' +
+            'if(t<inS){rv=rF;}' +
+            'else if(t<=inE){var d=inE-inS;if(d<=0)d=0.5;var p=(t-inS)/d;p=easeVal(p,eT);rv=rF+(rT-rF)*p;}' +
+            'else if(outS>=0&&t>=outS&&t<=outE){var d=outE-outS;if(d<=0)d=0.5;var p=(t-outS)/d;p=easeVal(p,eT);rv=outF+(outT-outF)*p;}' +
+            'else if(outS>=0&&t>outE){rv=outT;}' +
+        '}' +
         'value+rv;}';
 }
 
@@ -678,10 +777,36 @@ function _getMotionOpacityExprV2() {
         'var outF=linkMode==0?oT:effect("Opacity Out From")(1).value;' +
         'var outT=linkMode==0?oF:effect("Opacity Out To")(1).value;' +
         'var ov=oT;' +
-        'if(t<inS){ov=oF;}' +
-        'else if(t<=inE){var d=inE-inS;if(d<=0)d=0.5;var p=(t-inS)/d;p=easeVal(p,eT);ov=oF+(oT-oF)*p;}' +
-        'else if(outS>=0&&t>=outS&&t<=outE){var d=outE-outS;if(d<=0)d=0.5;var p=(t-outS)/d;p=easeVal(p,eT);ov=outF+(outT-outF)*p;}' +
-        'else if(outS>=0&&t>outE){ov=outT;}' +
+        'var isPhys=(eT==6||eT==7);' +
+        'if(isPhys){' +
+            'var k=180,c=18,m=1.0,v0=0;' +
+            'try{k=effect("Spring Stiffness")(1).value;}catch(e){}' +
+            'try{c=effect("Spring Damping")(1).value;}catch(e){}' +
+            'try{m=effect("Spring Mass")(1).value;}catch(e){}' +
+            'try{v0=effect("Spring Velocity Boost")(1).value/100;}catch(e){}' +
+            'try{var str=effect("Motion Easing Strength")(1).value/100;if(str>0&&str!=1){k*=str;}}catch(e){}' +
+            'var tSettle=solveSettlingTime(k,c,m);' +
+            'if(t<inS){ov=oF;}' +
+            'else if(outS>=0&&t>=outS){' +
+                'var tauOut=t-outS;' +
+                'if(tauOut<tSettle){' +
+                    'var pOut=solveSpring(tauOut,k,c,m,v0);' +
+                    'ov=outF+(outT-outF)*pOut;' +
+                '}else{ov=outT;}' +
+            '}else{' +
+                'var tauIn=t-inS;' +
+                'if(tauIn<tSettle){' +
+                    'var pIn=solveSpring(tauIn,k,c,m,v0);' +
+                    'ov=oF+(oT-oF)*pIn;' +
+                '}else{ov=oT;}' +
+            '}' +
+            'ov=Math.max(0,Math.min(100,ov));' +
+        '}else{' +
+            'if(t<inS){ov=oF;}' +
+            'else if(t<=inE){var d=inE-inS;if(d<=0)d=0.5;var p=(t-inS)/d;p=easeVal(p,eT);ov=oF+(oT-oF)*p;}' +
+            'else if(outS>=0&&t>=outS&&t<=outE){var d=outE-outS;if(d<=0)d=0.5;var p=(t-outS)/d;p=easeVal(p,eT);ov=outF+(outT-outF)*p;}' +
+            'else if(outS>=0&&t>outE){ov=outT;}' +
+        '}' +
         'ov;}';
 }
 

@@ -1,8 +1,8 @@
 ﻿/**
  * TEXTORO Motion Expression - Scale
- * حركة الحجم IN/OUT
+ * حركة الحجم IN/OUT مع دعم محرك الفيزياء التحليلي
  * 
- * Version: 1.0.0
+ * Version: 2.5.0
  * Requires: shared/easing.js, shared/timing.js
  * 
  * Controllers Used:
@@ -12,6 +12,7 @@
  *   - Scale Link Mode (0=Linked/reverse, 1=Independent)
  *   - Scale Out From (OUT start - when independent)
  *   - Scale Out To (OUT end - when independent)
+ *   - Spring Stiffness, Spring Damping, Spring Mass, Spring Velocity Boost (optional physics)
  * 
  * Timing Controllers (from shared/timing.js):
  *   - Motion In Start, Motion In End
@@ -28,7 +29,7 @@ if (anim == 0) {
     value;
 } else {
     // === SHARED CODE INJECTION POINT ===
-    // easeVal() function from shared/easing.js
+    // easeVal(), solveSpring(), solveSettlingTime() from shared/easing.js
     // Timing variables (inS, inE, outS, outE, eT, t) from shared/timing.js
     
     // Read IN scale values
@@ -46,32 +47,61 @@ if (anim == 0) {
     // Calculate current scale
     var sv = sT;
     
-    // Before IN animation
-    if (t < inS) {
-        sv = sF;
-    }
-    // During IN animation
-    else if (t <= inE) {
-        var d = inE - inS;
-        if (d <= 0) d = 0.5;
-        var p = (t - inS) / d;
-        p = easeVal(p, eT);
-        sv = sF + (sT - sF) * p;
-    }
-    // During OUT animation (if enabled)
-    else if (outS >= 0 && t >= outS && t <= outE) {
-        var d = outE - outS;
-        if (d <= 0) d = 0.5;
-        var p = (t - outS) / d;
-        p = easeVal(p, eT);
-        sv = outF + (outT - outF) * p;
-    }
-    // After OUT animation
-    else if (outS >= 0 && t > outE) {
-        sv = outT;
+    // Physics Mode Detection (eT == 6 Spring, eT == 7 Elastic Physics)
+    var isPhys = (eT == 6 || eT == 7);
+    
+    if (isPhys) {
+        var k = 180, c = 18, m = 1.0, v0 = 0;
+        try { k = effect("Spring Stiffness")(1).value; } catch(e) {}
+        try { c = effect("Spring Damping")(1).value; } catch(e) {}
+        try { m = effect("Spring Mass")(1).value; } catch(e) {}
+        try { v0 = effect("Spring Velocity Boost")(1).value / 100; } catch(e) {}
+        try {
+            var str = effect("Motion Easing Strength")(1).value / 100;
+            if (str > 0 && str != 1) { k *= str; }
+        } catch(e) {}
+        
+        var tSettle = solveSettlingTime(k, c, m);
+        
+        if (t < inS) {
+            sv = sF;
+        } else if (outS >= 0 && t >= outS) {
+            var tauOut = t - outS;
+            if (tauOut < tSettle) {
+                var pOut = solveSpring(tauOut, k, c, m, v0);
+                sv = outF + (outT - outF) * pOut;
+            } else {
+                sv = outT;
+            }
+        } else {
+            var tauIn = t - inS;
+            if (tauIn < tSettle) {
+                var pIn = solveSpring(tauIn, k, c, m, v0);
+                sv = sF + (sT - sF) * pIn;
+            } else {
+                sv = sT;
+            }
+        }
+    } else {
+        if (t < inS) {
+            sv = sF;
+        } else if (t <= inE) {
+            var d = inE - inS;
+            if (d <= 0) d = 0.5;
+            var p = (t - inS) / d;
+            p = easeVal(p, eT);
+            sv = sF + (sT - sF) * p;
+        } else if (outS >= 0 && t >= outS && t <= outE) {
+            var d = outE - outS;
+            if (d <= 0) d = 0.5;
+            var p = (t - outS) / d;
+            p = easeVal(p, eT);
+            sv = outF + (outT - outF) * p;
+        } else if (outS >= 0 && t > outE) {
+            sv = outT;
+        }
     }
     
     // Apply scale multiplier to original value
     value * (sv / 100);
 }
-

@@ -40,4 +40,8 @@ Write-Host '[SMOKE] Running File.encoding order checks...'
 node "$PSScriptRoot/check-encoding-order.js"
 if ($LASTEXITCODE -ne 0) { throw 'Encoding order check failed.' }
 
+Write-Host '[SMOKE] Running Physics Engine mathematical and controller checks...'
+node "$PSScriptRoot/check-physics-engine.js"
+if ($LASTEXITCODE -ne 0) { throw 'Physics engine check failed.' }
+
 Write-Host '[SMOKE] ALL CHECKS PASSED'

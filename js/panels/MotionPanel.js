@@ -31,6 +31,7 @@ TEXTORO.Panels.Motion = (function() {
             initPresetTabs();
             initSyncToggle();
             initLinkButtons();
+            initPhysicsTuning();
             TEXTORO.log('MotionPanel initialized with ' + loadedPresets.length + ' presets');
         });
     }
@@ -238,6 +239,32 @@ TEXTORO.Panels.Motion = (function() {
                 });
             }
         });
+    }
+
+    /**
+     * تهيئة محرك وضوابط الفيزياء والمعاينة الحية
+     */
+    function initPhysicsTuning() {
+        if (TEXTORO.UI && TEXTORO.UI.PhysicsVisualizer) {
+            TEXTORO.UI.PhysicsVisualizer.init();
+        }
+        var easingEl = document.getElementById('motionEasingType');
+        var drawer = document.getElementById('motionPhysicsDrawer');
+        if (easingEl && drawer) {
+            function updateDrawerVisibility() {
+                var val = parseInt(easingEl.value, 10);
+                if (val === 6 || val === 7) {
+                    drawer.style.display = 'block';
+                    if (TEXTORO.UI && TEXTORO.UI.PhysicsVisualizer) {
+                        TEXTORO.UI.PhysicsVisualizer.render();
+                    }
+                } else {
+                    drawer.style.display = 'none';
+                }
+            }
+            easingEl.addEventListener('change', updateDrawerVisibility);
+            updateDrawerVisibility();
+        }
     }
     
     /**
@@ -637,7 +664,15 @@ TEXTORO.Panels.Motion = (function() {
             opacityOutTo: getNumOrDefault('motionOpacityOutTo', 0),
             
             easingType: getIntOrDefault('motionEasingType', 1),
-            easingStrength: getNumOrDefault('motionEasingStrength', 100)
+            easingStrength: getNumOrDefault('motionEasingStrength', 100),
+            springStiffness: getNumOrDefault('motionSpringStiffness', 180),
+            springDamping: getNumOrDefault('motionSpringDamping', 18),
+            springMass: getNumOrDefault('motionSpringMass', 1.0),
+            springVelocityBoost: getNumOrDefault('motionSpringVelocityBoost', 0),
+            usePhysics: (function() {
+                var et = getIntOrDefault('motionEasingType', 1);
+                return (et === 6 || et === 7);
+            })()
         };
         
         if (layerCount > 1) {
@@ -740,7 +775,11 @@ TEXTORO.Panels.Motion = (function() {
                 var easingVal = parseInt(easingEl ? easingEl.value : '', 10);
                 return isNaN(easingVal) ? 1 : easingVal;
             })(),
-            easingStrength: getVal('motionEasingStrength', 100)
+            easingStrength: getVal('motionEasingStrength', 100),
+            springStiffness: getVal('motionSpringStiffness', 180),
+            springDamping: getVal('motionSpringDamping', 18),
+            springMass: getVal('motionSpringMass', 1.0),
+            springVelocityBoost: getVal('motionSpringVelocityBoost', 0)
         };
     }
     
@@ -801,6 +840,13 @@ TEXTORO.Panels.Motion = (function() {
         
         setValue('motionEasingType', v.easingType);
         setValue('motionEasingStrength', v.easingStrength);
+        if (v.springStiffness !== undefined) setValue('motionSpringStiffness', v.springStiffness);
+        if (v.springDamping !== undefined) setValue('motionSpringDamping', v.springDamping);
+        if (v.springMass !== undefined) setValue('motionSpringMass', v.springMass);
+        if (v.springVelocityBoost !== undefined) setValue('motionSpringVelocityBoost', v.springVelocityBoost);
+        if (TEXTORO.UI && TEXTORO.UI.PhysicsVisualizer) {
+            TEXTORO.UI.PhysicsVisualizer.render();
+        }
         
         applyFromUI();
         TEXTORO.UI.StatusBar.success('Applied preset: ' + preset.name);

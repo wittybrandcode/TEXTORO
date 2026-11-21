@@ -67,6 +67,12 @@
       "labelEn": "Easing",
       "order": 10,
       "controllers": ["Motion Easing Type", "Motion Easing Strength"]
+    },
+    "physics": {
+      "label": "محرك الفيزياء والزنبرك",
+      "labelEn": "Physics & Spring Dynamics",
+      "order": 11,
+      "controllers": ["Spring Stiffness", "Spring Damping", "Spring Mass", "Spring Velocity Boost"]
     }
   },
 
@@ -451,8 +457,8 @@
       "type": "slider",
       "default": 1,
       "min": 0,
-      "max": 6,
-      "values": [0, 1, 2, 3, 4, 5, 6],
+      "max": 7,
+      "values": [0, 1, 2, 3, 4, 5, 6, 7],
       "valueLabels": {
         "0": "Linear",
         "1": "Ease Out",
@@ -460,7 +466,8 @@
         "3": "Ease In Out",
         "4": "Bounce",
         "5": "Elastic",
-        "6": "Spring"
+        "6": "Spring",
+        "7": "Elastic Physics"
       },
       "group": "easing",
       "description": "نوع التسهيل",
@@ -479,6 +486,51 @@
       "description": "قوة التسهيل",
       "descriptionEn": "Easing strength",
       "expressionRef": "effect(\"Motion Easing Strength\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"]
+    },
+    "Spring Stiffness": {
+      "type": "slider",
+      "default": 180,
+      "min": 10,
+      "max": 800,
+      "group": "physics",
+      "description": "صلابة الزنبرك والشد",
+      "descriptionEn": "Spring stiffness / tension",
+      "expressionRef": "effect(\"Spring Stiffness\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"]
+    },
+    "Spring Damping": {
+      "type": "slider",
+      "default": 18,
+      "min": 2,
+      "max": 100,
+      "group": "physics",
+      "description": "احتكاك وتخميد الحركة",
+      "descriptionEn": "Spring damping / friction",
+      "expressionRef": "effect(\"Spring Damping\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"]
+    },
+    "Spring Mass": {
+      "type": "slider",
+      "default": 1,
+      "min": 0.1,
+      "max": 10,
+      "group": "physics",
+      "description": "كتلة وعطالة العنصر",
+      "descriptionEn": "Spring mass / inertia",
+      "expressionRef": "effect(\"Spring Mass\")(\"Slider\").value",
+      "usedInExpressions": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"]
+    },
+    "Spring Velocity Boost": {
+      "type": "slider",
+      "default": 0,
+      "min": -500,
+      "max": 500,
+      "unit": "percent",
+      "group": "physics",
+      "description": "دفعة السرعة الأولية",
+      "descriptionEn": "Initial velocity boost",
+      "expressionRef": "effect(\"Spring Velocity Boost\")(\"Slider\").value",
       "usedInExpressions": ["motion/position", "motion/scale", "motion/rotation", "motion/opacity"]
     }
   },

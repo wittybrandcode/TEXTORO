@@ -90,7 +90,8 @@ TEXTORO.Panels.Soga = (function() {
             'sogaMotionOpacityEnable', 'sogaMotionOpacityFrom', 'sogaMotionOpacityTo',
             'sogaMotionPosOutFromX', 'sogaMotionPosOutFromY', 'sogaMotionPosOutToX', 'sogaMotionPosOutToY',
             'sogaMotionScaleOutFrom', 'sogaMotionScaleOutTo', 'sogaMotionRotOutFrom', 'sogaMotionRotOutTo',
-            'sogaMotionOpacityOutFrom', 'sogaMotionOpacityOutTo', 'sogaMotionEasingType', 'sogaMotionEasingStrength'
+            'sogaMotionOpacityOutFrom', 'sogaMotionOpacityOutTo', 'sogaMotionEasingType', 'sogaMotionEasingStrength',
+            'sogaSpringStiffness', 'sogaSpringDamping', 'sogaSpringMass', 'sogaSpringVelocityBoost'
         ];
         
         inputIds.forEach(function(id) {
@@ -106,6 +107,15 @@ TEXTORO.Panels.Soga = (function() {
                 }, TEXTORO.Config.TIMING.SOGA_DEBOUNCE_DELAY);
             });
         });
+
+        var sogaEasingEl = document.getElementById('sogaMotionEasingType');
+        var sogaPhysDrawer = document.getElementById('sogaPhysicsDrawer');
+        if (sogaEasingEl && sogaPhysDrawer) {
+            sogaEasingEl.addEventListener('change', function() {
+                var v = parseInt(this.value, 10);
+                sogaPhysDrawer.style.display = (v === 6 || v === 7) ? 'block' : 'none';
+            });
+        }
         
         TEXTORO.log('Soga Live Edit enabled');
     }
@@ -376,9 +386,18 @@ TEXTORO.Panels.Soga = (function() {
         setValue('sogaMotionOpacityOutFrom', opacityLinkMode === 0 ? (mt.opacityTo != null ? mt.opacityTo : 100) : (mt.opacityOutFrom != null ? mt.opacityOutFrom : 100));
         setValue('sogaMotionOpacityOutTo', opacityLinkMode === 0 ? (mt.opacityFrom != null ? mt.opacityFrom : 0) : (mt.opacityOutTo != null ? mt.opacityOutTo : 0));
         
-        // Easing
-        setValue('sogaMotionEasingType', mt.easingType != null ? mt.easingType : 1);
+        // Easing & Physics
+        var eType = mt.easingType != null ? mt.easingType : 1;
+        setValue('sogaMotionEasingType', eType);
         setValue('sogaMotionEasingStrength', mt.easingStrength != null ? mt.easingStrength : 100);
+        setValue('sogaSpringStiffness', mt.springStiffness != null ? mt.springStiffness : 180);
+        setValue('sogaSpringDamping', mt.springDamping != null ? mt.springDamping : 18);
+        setValue('sogaSpringMass', mt.springMass != null ? mt.springMass : 1.0);
+        setValue('sogaSpringVelocityBoost', mt.springVelocityBoost != null ? mt.springVelocityBoost : 0);
+        var sogaPhysDrawer = document.getElementById('sogaPhysicsDrawer');
+        if (sogaPhysDrawer) {
+            sogaPhysDrawer.style.display = (eType === 6 || eType === 7) ? 'block' : 'none';
+        }
     }
     
     /**
@@ -624,7 +643,16 @@ TEXTORO.Panels.Soga = (function() {
                 var easingVal = parseInt(easingEl ? easingEl.value : '', 10);
                 return isNaN(easingVal) ? 1 : easingVal;
             })(),
-            easingStrength: getNumSafe('sogaMotionEasingStrength', 100)
+            easingStrength: getNumSafe('sogaMotionEasingStrength', 100),
+            springStiffness: getNumSafe('sogaSpringStiffness', 180),
+            springDamping: getNumSafe('sogaSpringDamping', 18),
+            springMass: getNumSafe('sogaSpringMass', 1.0),
+            springVelocityBoost: getNumSafe('sogaSpringVelocityBoost', 0),
+            usePhysics: (function() {
+                var easingEl = document.getElementById('sogaMotionEasingType');
+                var easingVal = parseInt(easingEl ? easingEl.value : '', 10);
+                return (easingVal === 6 || easingVal === 7);
+            })()
         };
     }
     

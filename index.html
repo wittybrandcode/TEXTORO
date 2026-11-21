@@ -1228,12 +1228,38 @@
                     <option value="4">Bounce</option>
                     <option value="5">Elastic</option>
                     <option value="6">Spring</option>
+                    <option value="7">Elastic Physics</option>
                 </select>
             </div>
             <div class="precision-input-box" style="flex: 1;" title="Easing strength %">
                 <span class="p-label">STR</span>
                 <input type="number" id="sogaMotionEasingStrength" class="ni" value="100" step="10" min="0" max="200">
                 <span class="unit-tag">%</span>
+            </div>
+        </div>
+
+        <!-- Soga Live Physics Tuning Drawer -->
+        <div id="sogaPhysicsDrawer" class="physics-dynamics-drawer" style="display: none; margin-top: 5px;">
+            <div class="metrics-grid-2">
+                <div class="precision-input-box" title="Spring Stiffness / Tension">
+                    <span class="p-label">TENSION</span>
+                    <input type="number" id="sogaSpringStiffness" class="ni" value="180" step="10" min="10" max="800">
+                </div>
+                <div class="precision-input-box" title="Spring Damping / Friction">
+                    <span class="p-label">FRICTION</span>
+                    <input type="number" id="sogaSpringDamping" class="ni" value="18" step="1" min="2" max="100">
+                </div>
+            </div>
+            <div class="metrics-grid-2" style="margin-top: 4px;">
+                <div class="precision-input-box" title="Element Mass">
+                    <span class="p-label">MASS</span>
+                    <input type="number" id="sogaSpringMass" class="ni" value="1.0" step="0.1" min="0.1" max="10.0">
+                </div>
+                <div class="precision-input-box" title="Initial Velocity Boost %">
+                    <span class="p-label">BOOST</span>
+                    <input type="number" id="sogaSpringVelocityBoost" class="ni" value="0" step="10" min="-500" max="500">
+                    <span class="unit-tag">%</span>
+                </div>
             </div>
         </div>
     </div>
@@ -1839,6 +1865,7 @@
                 <option value="4">Bounce</option>
                 <option value="5">Elastic</option>
                 <option value="6">Spring</option>
+                <option value="7">Elastic Physics</option>
             </select>
         </div>
         <div class="precision-input-box" title="Easing strength %">
@@ -1850,6 +1877,94 @@
         <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
     </div>
 </div>
+    </div>
+
+    <!-- Physics & Spring Dynamics Drawer -->
+    <div id="motionPhysicsDrawer" class="physics-dynamics-drawer">
+        <div class="physics-drawer-header">
+            <span class="physics-badge">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8M12 8v8"></path></svg>
+                SPRING DYNAMICS HARMONIC TUNER
+            </span>
+            <button type="button" id="btnPhysicsTestSim" class="physics-sim-btn" title="Simulate kinetic bounce">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                TEST
+            </button>
+        </div>
+
+        <!-- Real-Time High-DPI Canvas & Kinetic Test Box -->
+        <div class="physics-canvas-container">
+            <canvas id="physicsCurveCanvas" height="80"></canvas>
+            <div class="physics-test-stage">
+                <div id="physicsTestBox" class="physics-test-box">TEXTORO</div>
+            </div>
+        </div>
+
+        <!-- Kinetic Telemetry Badges -->
+        <div class="physics-telemetry-row">
+            <div class="telemetry-item" title="Settling Time (99.9% decay)">
+                <span class="telemetry-lbl">SETTLE</span>
+                <span id="physicsTelemetrySettle" class="telemetry-val">0.77s</span>
+            </div>
+            <div class="telemetry-item" title="Maximum Peak Overshoot">
+                <span class="telemetry-lbl">PEAK</span>
+                <span id="physicsTelemetryOvershoot" class="telemetry-val">+5.8%</span>
+            </div>
+            <div class="telemetry-item" title="Natural Oscillation Frequency">
+                <span class="telemetry-lbl">FREQ</span>
+                <span id="physicsTelemetryFreq" class="telemetry-val">2.1Hz</span>
+            </div>
+        </div>
+
+        <!-- Physics Sliders Matrix -->
+        <div class="metrics-grid-2" style="margin-top: 6px;">
+            <div class="precision-input-box" title="Spring Stiffness / Tension (k)">
+                <span class="p-label">TENSION</span>
+                <input type="number" id="motionSpringStiffness" class="ni" value="180" step="10" min="10" max="800">
+                <div class="stepper-actions">
+                    <button type="button" class="step-arrow step-up" tabindex="-1">▲</button>
+                    <button type="button" class="step-arrow step-down" tabindex="-1">▼</button>
+                </div>
+            </div>
+            <div class="precision-input-box" title="Spring Damping / Friction (c)">
+                <span class="p-label">FRICTION</span>
+                <input type="number" id="motionSpringDamping" class="ni" value="18" step="1" min="2" max="100">
+                <div class="stepper-actions">
+                    <button type="button" class="step-arrow step-up" tabindex="-1">▲</button>
+                    <button type="button" class="step-arrow step-down" tabindex="-1">▼</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="metrics-grid-2" style="margin-top: 5px;">
+            <div class="precision-input-box" title="Element Mass / Inertia (m)">
+                <span class="p-label">MASS</span>
+                <input type="number" id="motionSpringMass" class="ni" value="1.0" step="0.1" min="0.1" max="10.0">
+                <div class="stepper-actions">
+                    <button type="button" class="step-arrow step-up" tabindex="-1">▲</button>
+                    <button type="button" class="step-arrow step-down" tabindex="-1">▼</button>
+                </div>
+            </div>
+            <div class="precision-input-box" title="Initial Velocity Boost (v0 %)">
+                <span class="p-label">BOOST</span>
+                <input type="number" id="motionSpringVelocityBoost" class="ni" value="0" step="10" min="-500" max="500">
+                <span class="unit-tag">%</span>
+                <div class="stepper-actions">
+                    <button type="button" class="step-arrow step-up" tabindex="-1">▲</button>
+                    <button type="button" class="step-arrow step-down" tabindex="-1">▼</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Physics Presets Arena -->
+        <div class="physics-presets-row">
+            <button type="button" class="physics-preset-pill" data-preset="ios" title="Snappy, Zero Overshoot (iOS feel)">🍏 iOS Fluid</button>
+            <button type="button" class="physics-preset-pill active" data-preset="bouncy" title="Playful Harmonic Bounce">🏀 Bouncy</button>
+            <button type="button" class="physics-preset-pill" data-preset="heavy" title="Substantial Kinetic Slam">🥊 Heavy</button>
+            <button type="button" class="physics-preset-pill" data-preset="jelly" title="Soft Elastic Wobble">🍮 Jelly</button>
+            <button type="button" class="physics-preset-pill" data-preset="magnetic" title="Instantaneous Lock-in">🏎️ Snap</button>
+            <button type="button" class="physics-preset-pill" data-preset="overdamped" title="Hydraulic Viscous Glide">🌊 Glide</button>
+        </div>
     </div>
     </div>
 </div>
@@ -2173,6 +2288,7 @@
 <script src="js/ui/ContextMenu.js?v=1.1.0"></script>
 <script src="js/ui/Tooltip.js?v=1.1.0"></script>
 <script src="js/ui/CustomSelect.js?v=1.1.0"></script>
+<script src="js/ui/PhysicsVisualizer.js?v=1.1.0"></script>
 
 <!-- Operations Modules -->
 <script src="js/operations/MarkersOps.js?v=1.1.0"></script>
