@@ -78,8 +78,8 @@
     background: var(--bg-card);
     border-bottom: 1px solid var(--border-subtle);
     border-radius: 0 !important;
-    height: 36px;
-    min-height: 36px;
+    height: 32px;
+    min-height: 32px;
     width: 100%;
     position: relative;
     z-index: 1000;
@@ -187,11 +187,11 @@
     background: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: 0 !important;
-    padding: 7px 8px;
-    margin-bottom: 6px;
+    padding: 4px 6px;
+    margin-bottom: 3px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 3.5px;
 }
 
 .card-title,
@@ -827,7 +827,7 @@ html, body { height: 100%; }
 .tab:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
 
 /* Content */
-.content { flex: 1; overflow-y: auto; padding: 12px; padding-bottom: 65px; }
+.content { flex: 1; overflow-y: auto; padding: 4px 6px !important; padding-bottom: 36px !important; }
 
 /* ═══════════════════════════════════════════
    ACTION BAR - Spectrum Style
@@ -1478,25 +1478,25 @@ html, body { height: 100%; }
 .presets-list {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    max-height: calc(100vh - 300px);
+    gap: 1.5px;
+    max-height: calc(100vh - 105px);
     overflow-y: auto;
-    margin-bottom: 12px;
+    margin-bottom: 3px;
 }
 
 /* Spectrum Preset Item (Clean Borderless Baseline) */
 .preset-item {
     display: flex;
     align-items: center;
-    padding: 0 10px;
-    height: 36px;
+    padding: 0 6px;
+    height: 26px;
     border-radius: 0;
     background: #161620;
     border: none;
     cursor: pointer;
     transition: background 120ms ease;
-    gap: 8px;
-    margin-bottom: 3px;
+    gap: 6px;
+    margin-bottom: 1px;
 }
 .preset-item:hover {
     background: #20202e;
@@ -3076,50 +3076,52 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 /* 2. Top Header & Studio Navigation Tabs */
 .header,
 .unified-top-bar {
-    height: 38px !important;
+    height: 32px !important;
+    min-height: 32px !important;
     background: #111116 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
-    padding: 0 8px !important;
+    padding: 0 6px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    margin-bottom: 6px !important;
+    margin-bottom: 2px !important;
 }
 
 .header-brand {
     display: flex !important;
     align-items: center !important;
-    gap: 6px !important;
+    gap: 4px !important;
     border: none !important;
     padding: 0 !important;
 }
 
 .brand-text {
-    font-size: 12px !important;
+    font-size: 11px !important;
     font-weight: 800 !important;
     letter-spacing: 0.8px !important;
     color: #e2e2ec !important;
 }
 
 .brand-version {
-    font-size: 9px !important;
+    font-size: 8.5px !important;
     font-weight: 600 !important;
     color: #68687a !important;
     background: #171720 !important;
-    padding: 2px 4px !important;
+    padding: 1px 3px !important;
 }
 
 .tabs.studio-tab-row {
     display: flex !important;
     align-items: center !important;
-    gap: 3px !important;
+    gap: 2px !important;
 }
 
 /* Inactive Tab Button: Solid Dark Slate (No Border, No Stroke) */
 .tab.square-icon-btn,
 .studio-tab-btn {
-    width: 28px !important;
-    height: 28px !important;
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
     background: #1a1a24 !important;
     border: none !important;
     color: #8c8ca0 !important;
@@ -3129,6 +3131,7 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     cursor: pointer !important;
     transition: background 0.12s ease, color 0.12s ease !important;
     padding: 0 !important;
+    font-size: 13.5px !important;
 }
 
 .tab.square-icon-btn svg,
@@ -3161,8 +3164,9 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 .studio-card {
     background: #16161f !important;
     border: none !important;
-    padding: 8px 10px !important;
-    margin-bottom: 6px !important;
+    padding: 4px 6px !important;
+    margin-bottom: 3px !important;
+    gap: 3.5px !important;
     box-shadow: none !important;
 }
 
@@ -3171,12 +3175,12 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    font-size: 10px !important;
+    font-size: 9.5px !important;
     font-weight: 700 !important;
     letter-spacing: 0.6px !important;
     text-transform: uppercase !important;
     color: #9898aa !important;
-    margin-bottom: 6px !important;
+    margin-bottom: 2.5px !important;
     border: none !important;
     padding: 0 !important;
     background: transparent !important;
@@ -3202,7 +3206,7 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 .metrics-grid-4 {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 4px !important;
+    gap: 2.5px !important;
     width: 100% !important;
 }
 @media (min-width: 350px) {
@@ -3214,14 +3218,14 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 .metrics-grid-2 {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 4px !important;
+    gap: 2.5px !important;
     width: 100% !important;
 }
 
 .metrics-grid-3 {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
-    gap: 4px !important;
+    gap: 2.5px !important;
     width: 100% !important;
 }
 
@@ -3229,7 +3233,7 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 6px !important;
+    gap: 4px !important;
     width: 100% !important;
 }
 
@@ -3589,7 +3593,7 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8) !important;
     border-radius: 0 !important;
     z-index: 10006 !important;
-    max-height: 220px !important;
+    max-height: 220px;
     overflow-y: auto !important;
     box-sizing: border-box !important;
 }
@@ -3829,19 +3833,28 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 
 /* 11. Bottom Action Bar & Action Buttons */
 .action-bar {
-    height: 40px !important;
+    height: 32px !important;
     background: #111115 !important;
     border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
-    padding: 0 10px !important;
+    padding: 0 6px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
 }
 
-.action-bar .actions {
+.action-bar .status {
+    flex: 1 !important;
+    font-size: 9.5px !important;
+    color: #8c8ca0 !important;
     display: flex !important;
     align-items: center !important;
     gap: 4px !important;
+}
+
+.action-bar .actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 3px !important;
 }
 
 /* Primary Action Button (Apply): Solid Emerald Studio Fill */
@@ -3850,8 +3863,10 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     background: #10b981 !important;
     border: none !important;
     color: #ffffff !important;
-    width: 28px !important;
-    height: 28px !important;
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    font-size: 13px !important;
 }
 
 .ab-p.square-icon-btn svg,
@@ -3876,8 +3891,10 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     background: #261619 !important;
     border: none !important;
     color: #f87171 !important;
-    width: 28px !important;
-    height: 28px !important;
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    font-size: 13px !important;
 }
 
 .ab-d.square-icon-btn svg,
@@ -3984,19 +4001,20 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 /* Presets Panel - Industrial Slate Design (Zero Borders & Unified Palette) */
 .presets-filter {
     display: flex !important;
-    gap: 4px !important;
-    margin-bottom: 8px !important;
+    gap: 2px !important;
+    margin-bottom: 3px !important;
     flex-wrap: wrap !important;
 }
 
 .filter-btn {
-    height: 26px !important;
-    padding: 0 8px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    padding: 0 !important;
     background: #161620 !important;
     border: 1px solid rgba(255, 255, 255, 0.06) !important;
     border-radius: 0 !important;
     color: #8c8ca0 !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
     font-weight: 700 !important;
     letter-spacing: 0.4px !important;
     display: inline-flex !important;
@@ -4024,13 +4042,13 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 .presets-search {
     display: flex !important;
     align-items: center !important;
-    gap: 6px !important;
+    gap: 4px !important;
     background: #161620 !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 0 !important;
-    height: 28px !important;
-    padding: 0 4px 0 8px !important;
-    margin-bottom: 6px !important;
+    height: 26px !important;
+    padding: 0 4px 0 6px !important;
+    margin-bottom: 3px !important;
     box-sizing: border-box !important;
 }
 
@@ -4048,7 +4066,7 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     background: transparent !important;
     border: none !important;
     color: #ffffff !important;
-    font-size: 11px !important;
+    font-size: 10.5px !important;
     font-weight: 600 !important;
     outline: none !important;
     flex: 1 !important;
@@ -4058,14 +4076,14 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 }
 
 .presets-search-clear {
-    width: 18px !important;
-    height: 18px !important;
+    width: 16px !important;
+    height: 16px !important;
     padding: 0 !important;
     background: rgba(255, 255, 255, 0.08) !important;
     border: none !important;
     border-radius: 0 !important;
     color: #8c8ca0 !important;
-    font-size: 10px !important;
+    font-size: 9px !important;
     cursor: pointer !important;
     display: inline-flex !important;
     align-items: center !important;
@@ -4079,8 +4097,8 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 }
 
 #presetsRefreshBtn {
-    width: 22px !important;
-    height: 22px !important;
+    width: 20px !important;
+    height: 20px !important;
     padding: 0 !important;
     background: transparent !important;
     border: none !important;
@@ -4099,24 +4117,34 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     color: #ffffff !important;
 }
 
+/* Presets List */
+.presets-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5px !important;
+    max-height: calc(100vh - 105px) !important;
+    overflow-y: auto !important;
+    margin-bottom: 3px !important;
+}
+
 /* Preset Cards - Solid Borderless Architecture */
 .preset-item,
 .preset-card,
 .preset {
     display: flex !important;
     align-items: center !important;
-    height: 36px !important;
-    padding: 0 10px !important;
+    height: 26px !important;
+    padding: 0 6px !important;
     background: #161620 !important;
     border: none !important;
     border-radius: 0 !important;
     cursor: pointer !important;
     transition: background 0.12s ease !important;
     position: relative !important;
-    gap: 8px !important;
+    gap: 6px !important;
     box-sizing: border-box !important;
     user-select: none !important;
-    margin-bottom: 3px !important;
+    margin-bottom: 1px !important;
 }
 
 .preset-item:hover,
@@ -4141,9 +4169,9 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 }
 
 .preset-item .preset-icon {
-    font-size: 14px !important;
-    width: 22px !important;
-    height: 22px !important;
+    font-size: 13px !important;
+    width: 18px !important;
+    height: 18px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -4153,19 +4181,20 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 
 .preset-item .preset-name {
     flex: 1 !important;
-    font-size: 11.5px !important;
+    font-size: 11px !important;
     font-weight: 600 !important;
     color: #f1f5f9 !important;
     letter-spacing: 0.3px !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
+    line-height: 26px !important;
 }
 
 .preset-item .preset-badge {
-    height: 18px !important;
-    padding: 0 6px !important;
-    font-size: 8.5px !important;
+    height: 16px !important;
+    padding: 0 5px !important;
+    font-size: 8px !important;
     font-weight: 700 !important;
     letter-spacing: 0.5px !important;
     display: inline-flex !important;
@@ -4174,6 +4203,7 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     border-radius: 0 !important;
     text-transform: uppercase !important;
     flex-shrink: 0 !important;
+    line-height: 16px !important;
 }
 
 .preset-badge.type { background: #10b981 !important; color: #ffffff !important; }
@@ -4184,8 +4214,8 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 .preset-badge.toro { background: #10b981 !important; color: #ffffff !important; }
 
 .preset-item .preset-fav-btn {
-    width: 20px !important;
-    height: 20px !important;
+    width: 18px !important;
+    height: 18px !important;
     border: none !important;
     border-radius: 0 !important;
     background: transparent !important;
@@ -4193,7 +4223,7 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    font-size: 12px !important;
+    font-size: 11px !important;
     cursor: pointer !important;
     transition: color 0.12s ease !important;
     flex-shrink: 0 !important;
@@ -4214,8 +4244,8 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 }
 
 .preset-item .preset-apply-btn {
-    width: 22px !important;
-    height: 22px !important;
+    width: 20px !important;
+    height: 20px !important;
     border: none !important;
     border-radius: 0 !important;
     background: #10b981 !important;
@@ -4240,8 +4270,8 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 }
 
 .preset-item .preset-delete-btn {
-    width: 22px !important;
-    height: 22px !important;
+    width: 20px !important;
+    height: 20px !important;
     border: none !important;
     border-radius: 0 !important;
     background: transparent !important;
@@ -4264,11 +4294,19 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     color: #ffffff !important;
 }
 
+.presets-actions {
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+}
+
 #openPresetsFolderBtn {
     border-radius: 0 !important;
     background: #161620 !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     color: #cbd5e1 !important;
+    height: 24px !important;
+    font-size: 9.5px !important;
+    padding: 0 8px !important;
 }
 
 #openPresetsFolderBtn:hover {
@@ -4362,7 +4400,7 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
     border-radius: 0 !important;
     z-index: 10005 !important;
     display: none !important;
-    max-height: 200px !important;
+    max-height: 200px;
     overflow-y: auto !important;
     box-sizing: border-box !important;
 }
@@ -4553,9 +4591,12 @@ button, input, select, textarea, div, span, table, td, th, label, .modal, .toolt
 }
 
 /* 16. Spacers & Utility Margins */
-.mt-4 { margin-top: 4px !important; }
-.mt-6 { margin-top: 6px !important; }
-.mb-6 { margin-bottom: 6px !important; }
+.mt-2 { margin-top: 2px !important; }
+.mb-2 { margin-bottom: 2px !important; }
+.mt-4 { margin-top: 2px !important; }
+.mb-4 { margin-bottom: 2px !important; }
+.mt-6 { margin-top: 3px !important; }
+.mb-6 { margin-bottom: 3px !important; }
 
 /* Alignment and Chip SVGs */
 .studio-toggle-chip .chip-label svg {

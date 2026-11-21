@@ -332,7 +332,7 @@ TEXTORO.Panels.Presets = (function() {
         // زر المفضلة
         var favBtn = document.createElement('button');
         favBtn.className = 'preset-fav-btn' + (isFavorite(preset) ? ' active' : '');
-        favBtn.innerHTML = '<i class="fa-solid fa-star"></i>';
+        favBtn.innerHTML = '<i class="ph-bold ph-star"></i>';
         favBtn.title = isFavorite(preset) ? 'Remove from favorites' : 'Add to favorites';
         favBtn.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -366,7 +366,7 @@ TEXTORO.Panels.Presets = (function() {
             // زر التطبيق المباشر للبريسات الكاملة
             var applyBtn = document.createElement('button');
             applyBtn.className = 'preset-apply-btn';
-            applyBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            applyBtn.innerHTML = '<i class="ph-bold ph-play"></i>';
             applyBtn.title = 'Apply full motion (IN + OUT)';
             applyBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -382,7 +382,7 @@ TEXTORO.Panels.Presets = (function() {
             // زر التطبيق للبريسات الأخرى
             var applyBtn = document.createElement('button');
             applyBtn.className = 'preset-apply-btn';
-            applyBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+            applyBtn.innerHTML = '<i class="ph-bold ph-check"></i>';
             applyBtn.title = 'Apply preset';
             applyBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -409,7 +409,7 @@ TEXTORO.Panels.Presets = (function() {
         if (!preset.builtin) {
             var deleteBtn = document.createElement('button');
             deleteBtn.className = 'preset-delete-btn';
-            deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+            deleteBtn.innerHTML = '<i class="ph-bold ph-trash"></i>';
             deleteBtn.title = 'Delete preset';
             deleteBtn.addEventListener('click', function(e) {
                 e.stopPropagation();

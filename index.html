@@ -12,7 +12,7 @@
 <body>
 <div class="app">
 <!-- UNIFIED TOP BAR (Industrial Slate Studio Header) -->
-<header class="header unified-top-bar" id="main-header" title="TEXTORO">
+<header class="header unified-top-bar" id="main-header">
     <div class="header-brand">
         <span class="brand-text">TEXTORO</span>
         <span class="ver brand-version" id="verBadge" title="Current version">v1.1.0</span>
@@ -645,24 +645,24 @@
 
 <!-- Search Bar -->
 <div class="presets-search">
-<i class="fa-solid fa-search presets-search-icon"></i>
+<i class="ph-bold ph-magnifying-glass presets-search-icon"></i>
 <input type="text" id="presetsSearchInput" class="ti" placeholder="Search presets..." title="Search presets by name">
-<button class="ib presets-search-clear" id="presetsSearchClear" title="Clear search" style="display:none"><i class="fa-solid fa-xmark"></i></button>
+<button class="ib presets-search-clear" id="presetsSearchClear" title="Clear search" style="display:none"><i class="ph-bold ph-x"></i></button>
 <select id="presetsSortSelect" class="sel presets-sort" title="Sort presets">
 <option value="name-asc">Name A-Z</option>
 <option value="name-desc">Name Z-A</option>
 <option value="category">Category</option>
 <option value="favorites">Favorites First</option>
 </select>
-<button class="ib" id="presetsRefreshBtn" title="Refresh presets"><i class="fa-solid fa-sync"></i></button>
+<button class="ib" id="presetsRefreshBtn" title="Refresh presets"><i class="ph-bold ph-arrow-counter-clockwise"></i></button>
 </div>
 
 <!-- Motion Sync Option (visible only for motion-full filter) -->
 <div class="presets-motion-options" id="presetsMotionOptions" style="display:none">
 <label class="ck" title="Use timing from layer markers (IN_START, IN_END, OUT_START, OUT_END)">
 <input type="checkbox" id="presetsMotionSync">
-<span class="cb"><i class="fa-solid fa-check"></i></span>
-<span class="cl"><i class="fa-solid fa-tags"></i> Sync with Markers</span>
+<span class="cb"><i class="ph-bold ph-check"></i></span>
+<span class="cl"><i class="ph-bold ph-tag"></i> Sync with Markers</span>
 </label>
 </div>
 
@@ -2051,9 +2051,9 @@
 </section>
 </main>
 <!-- ACTION BAR -->
-<div class="action-bar" title="Status and actions">
-<div class="status" title="Current status"><span class="target-indicator-dot" id="statusDot"></span><span id="status">Ready</span></div>
-<div class="actions" id="actionBtns" title="Available actions"></div>
+<div class="action-bar">
+<div class="status"><span class="target-indicator-dot" id="statusDot"></span><span id="status">Ready</span></div>
+<div class="actions" id="actionBtns"></div>
 </div>
 </div>
 

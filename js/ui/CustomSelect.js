@@ -117,7 +117,7 @@ TEXTORO.UI.CustomSelect = (function() {
                     this.parentBox.classList.remove('dropup');
                 }
                 this.dropdown.classList.remove('align-right');
-                this.dropdown.style.maxHeight = '';
+                this.dropdown.style.removeProperty('max-height');
                 this.trigger.setAttribute('aria-expanded', 'false');
             },
             toggle: function() {
@@ -269,7 +269,7 @@ TEXTORO.UI.CustomSelect = (function() {
         // قياس الارتفاع الفعلي المطلوب للقائمة
         dropdown.style.visibility = 'hidden';
         dropdown.style.display = 'block';
-        dropdown.style.maxHeight = 'none';
+        dropdown.style.setProperty('max-height', 'none', 'important');
         var neededHeight = dropdown.scrollHeight || 180;
         dropdown.style.display = '';
         dropdown.style.visibility = '';
@@ -297,7 +297,7 @@ TEXTORO.UI.CustomSelect = (function() {
 
         // تحديد أقصى ارتفاع مسموح به بحيث لا تتجاوز القائمة أي حد خارجي
         var finalMaxHeight = Math.max(65, Math.min(neededHeight, availableHeight));
-        dropdown.style.maxHeight = finalMaxHeight + 'px';
+        dropdown.style.setProperty('max-height', finalMaxHeight + 'px', 'important');
 
         // 3. فحص الحدود الأفقية (اليمين واليسار)
         var dropRect = dropdown.getBoundingClientRect();
