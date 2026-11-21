@@ -11,6 +11,15 @@ TEXTORO.UI.TabManager = (function() {
     
     var activeTab = 'type';
     var callbacks = [];
+    var TAB_LABELS = {
+        type: 'TYPE',
+        box: 'BOX',
+        presets: 'PRESETS',
+        soga: 'CONTROL',
+        markers: 'MARKERS',
+        motion: 'MOTION',
+        settings: 'CONFIG'
+    };
     
     /**
      * التبديل إلى تبويب
@@ -52,7 +61,7 @@ TEXTORO.UI.TabManager = (function() {
             try { cb(tabName); } catch(e) {}
         });
         
-        TEXTORO.log('Switched to tab: ' + tabName);
+        TEXTORO.log('Switched to tab: ' + (TAB_LABELS[tabName] || tabName));
     }
     
     /**
@@ -168,6 +177,10 @@ TEXTORO.UI.TabManager = (function() {
         switchTo: switchTo,
         getActive: getActive,
         getActiveTab: getActiveTab,
+        getTabLabel: function(tabName) {
+            return TAB_LABELS[tabName || activeTab] || tabName;
+        },
+        TAB_LABELS: TAB_LABELS,
         onChange: onChange,
         isActive: isActive
     };
