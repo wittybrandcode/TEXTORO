@@ -1,0 +1,40 @@
+/* ============================================================
+   TEXTORO PANEL: CONFIG (Settings & System Layout)
+   ============================================================ */
+
+#panel-settings .studio-card {
+    gap: 6px !important;
+}
+
+.btn-s {
+    height: 28px;
+    background: #161620;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0 !important;
+    color: #cbd5e1;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background 0.12s ease, color 0.12s ease;
+}
+
+.btn-s:hover {
+    background: #20202e;
+    color: #ffffff;
+}
+
+.path-status {
+    font-size: 10px;
+    color: #8c8ca0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.path-status i {
+    color: #f59e0b;
+}

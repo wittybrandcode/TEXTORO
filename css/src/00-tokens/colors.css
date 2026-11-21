@@ -1,0 +1,44 @@
+/* ============================================================
+   TEXTORO COLOR SYSTEM - Solid Obsidian & Emerald Studio
+   ============================================================ */
+
+:root {
+    /* Surfaces */
+    --bg-base:          #0c0c10;
+    --bg-card:          #16161f;
+    --bg-card-hover:    #1d1d28;
+    --bg-input:         #181822;
+    --bg-input-hover:   #1f1f2c;
+    --bg-header:        #111116;
+    --bg-3:             #161620;
+    --bg-selected:      #12201c;
+
+    /* Borders */
+    --border-subtle:    rgba(255, 255, 255, 0.05);
+    --border-medium:    rgba(255, 255, 255, 0.08);
+    --border-highlight: rgba(255, 255, 255, 0.16);
+
+    /* Accents */
+    --accent:           #10b981;
+    --accent-primary:   #10b981;
+    --accent-h:         #34d399;
+    --accent-active:    #059669;
+    --accent-danger:    #ef4444;
+    --accent-danger-bg: #261619;
+    --accent-danger-fg: #f87171;
+
+    /* Text */
+    --text-primary:     #ffffff;
+    --text-bright:      #e2e2ec;
+    --text-secondary:   #9898aa;
+    --text-muted:       #68687a;
+    --t1:               #ffffff;
+    --t2:               #9898aa;
+    --t3:               #68687a;
+
+    /* Statuses */
+    --pos:              #10b981;
+    --neg:              #ef4444;
+    --warn:             #f59e0b;
+    --info:             #378ef0;
+}

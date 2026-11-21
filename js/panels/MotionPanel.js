@@ -102,7 +102,7 @@ TEXTORO.Panels.Motion = (function() {
         
         // توليد زر لكل بريست
         // SEC-01: حقول البريس غير موثوقة (مستوردة) - بناء DOM صريح بلا innerHTML
-        var FA_ICON_RE = /^fa-(solid|regular|brands) fa-[a-z0-9-]+$/;
+        var FA_ICON_RE = /^(fa-(solid|regular|brands) fa-[a-z0-9-]+|ph(-bold)? ph-[a-z0-9-]+)$/;
 
         loadedPresets.forEach(function(preset, index) {
             var btn = document.createElement('button');
@@ -121,7 +121,7 @@ TEXTORO.Panels.Motion = (function() {
                 iconEl.textContent = String(preset.icon);
             } else {
                 iconEl = document.createElement('i');
-                iconEl.className = 'fa-solid fa-play';
+                iconEl.className = 'ph-bold ph-play';
             }
 
             var nameEl = document.createElement('span');

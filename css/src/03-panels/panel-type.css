@@ -1,0 +1,48 @@
+/* ============================================================
+   TEXTORO PANEL: TYPE (Typography & Direction Layout)
+   ============================================================ */
+
+.panel {
+    display: none;
+    flex-direction: column;
+}
+
+.panel.active {
+    display: flex !important;
+}
+
+#panel-type .studio-textarea {
+    min-height: 52px;
+}
+
+/* Direction Button Group */
+.tg.studio-btn-group,
+.studio-btn-group {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+}
+
+.tg button.tb {
+    background: #181822;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #8c8ca0;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.12s ease, color 0.12s ease;
+}
+
+.tg button.tb:hover {
+    background: #222232;
+    color: #ffffff;
+}
+
+.tg button.tb.active {
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+    color: #ffffff !important;
+}
+
+.tg button.tb.active i {
+    color: #ffffff !important;
+}

@@ -1,0 +1,83 @@
+/* ============================================================
+   TEXTORO PRECISION GRID SYSTEMS & ROWS
+   ============================================================ */
+
+.metrics-grid-4 {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 2.5px !important;
+    width: 100% !important;
+}
+
+@media (min-width: 350px) {
+    .metrics-grid-4 {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+}
+
+.metrics-grid-2 {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 2.5px !important;
+    width: 100% !important;
+}
+
+.metrics-grid-3 {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2.5px !important;
+    width: 100% !important;
+}
+
+.studio-row-split {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 4px !important;
+    width: 100% !important;
+}
+
+.studio-combo-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    width: 100% !important;
+}
+
+/* Baseline row utilities */
+.row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+}
+
+.row-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+}
+
+.row-flex {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.field-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.field-group {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.field-mini {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}

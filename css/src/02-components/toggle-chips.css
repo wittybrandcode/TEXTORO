@@ -1,0 +1,68 @@
+/* ============================================================
+   TEXTORO STUDIO TOGGLE CHIPS (Solid Surface Switches)
+   ============================================================ */
+
+.studio-toggle-chip {
+    display: flex !important;
+    align-items: center !important;
+    height: 28px !important;
+    position: relative !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+.studio-toggle-chip input[type="checkbox"] {
+    position: absolute !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    margin: 0 !important;
+}
+
+.studio-toggle-chip .chip-inner {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 0 10px !important;
+    background: #16161d !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #9ca3af !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    border-radius: 0 !important;
+    transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease !important;
+    white-space: nowrap !important;
+}
+
+.studio-toggle-chip .chip-check {
+    display: none !important;
+}
+
+.studio-toggle-chip:hover .chip-inner {
+    background: #1d1d26 !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    color: #ffffff !important;
+}
+
+/* Checked State: Solid Emerald Studio Active Fill */
+.studio-toggle-chip input[type="checkbox"]:checked + .chip-inner {
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+    color: #ffffff !important;
+}
+
+.studio-toggle-chip input[type="checkbox"]:checked + .chip-inner .chip-check {
+    display: inline-block !important;
+    color: #ffffff !important;
+}
+
+.studio-toggle-chip input[type="checkbox"]:checked:hover + .chip-inner {
+    background: #34d399 !important;
+    border-color: #34d399 !important;
+    color: #ffffff !important;
+}

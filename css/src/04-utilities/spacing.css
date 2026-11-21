@@ -1,0 +1,16 @@
+/* ============================================================
+   TEXTORO HIGH-DENSITY SPACING & UTILITY MARGINS
+   ============================================================ */
+
+.mt-2 { margin-top: 2px !important; }
+.mb-2 { margin-bottom: 2px !important; }
+.mt-4 { margin-top: 2px !important; }
+.mb-4 { margin-bottom: 2px !important; }
+.mt-6 { margin-top: 3px !important; }
+.mb-6 { margin-bottom: 3px !important; }
+.mt-8 { margin-top: 4px !important; }
+.mb-8 { margin-bottom: 4px !important; }
+
+.spacer {
+    flex: 1;
+}

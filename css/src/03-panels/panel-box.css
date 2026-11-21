@@ -1,0 +1,45 @@
+/* ============================================================
+   TEXTORO PANEL: BOX (Bounding Box & Styling Layout)
+   ============================================================ */
+
+#btnAlignLeft,
+#btnAlignCenter,
+#btnAlignRight {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    padding: 0 !important;
+}
+
+#btnAlignLeft.active,
+#btnAlignCenter.active,
+#btnAlignRight.active {
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+    color: #ffffff !important;
+}
+
+#btnAlignLeft.active i,
+#btnAlignCenter.active i,
+#btnAlignRight.active i {
+    color: #ffffff !important;
+}
+
+/* Link Button for Padding Constraints */
+.link-btn {
+    width: 22px !important;
+    height: 22px !important;
+    background: #1a1a24 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #10b981 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+}
+
+.link-btn.unlinked {
+    background: #16161d !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #64748b !important;
+}

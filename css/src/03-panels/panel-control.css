@@ -1,0 +1,15 @@
+/* ============================================================
+   TEXTORO PANEL: CONTROL (SOGA Master Live Controls)
+   ============================================================ */
+
+#panel-soga .studio-card {
+    gap: 4px !important;
+}
+
+.soga-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 0 !important;
+    background: #10b981;
+    display: inline-block;
+}

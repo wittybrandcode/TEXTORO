@@ -185,7 +185,7 @@ TEXTORO.Panels.Presets = (function() {
         }
         if (!elements.container) return;
         
-        elements.container.innerHTML = '<div class="presets-loading"><i class="fa-solid fa-spinner fa-spin"></i><p>Loading...</p></div>';
+        elements.container.innerHTML = '<div class="presets-loading"><i class="ph-bold ph-spinner ph-spin"></i><p>Loading...</p></div>';
         
         var categories = TEXTORO.Config.PRESET_CATEGORIES;
         var loadedCount = 0;
@@ -220,7 +220,7 @@ TEXTORO.Panels.Presets = (function() {
                     if (!allPresets.length && failCount > 0) {
                         TEXTORO.UI.StatusBar.error('Presets failed to load (' + failCount + '/' + categories.length + '): ' + lastError);
                         var safeMsg = String(lastError).replace(/[<>&]/g, '');
-                        elements.container.innerHTML = '<div class="presets-loading"><i class="fa-solid fa-triangle-exclamation"></i><p>Failed to load presets<br><small>' +
+                        elements.container.innerHTML = '<div class="presets-loading"><i class="ph-bold ph-warning"></i><p>Failed to load presets<br><small>' +
                             safeMsg + '</small></p></div>';
                     } else if (failCount > 0) {
                         TEXTORO.UI.StatusBar.warning(failCount + ' preset category(ies) failed: ' + lastError);
@@ -310,7 +310,7 @@ TEXTORO.Panels.Presets = (function() {
                 : (searchQuery
                     ? 'No presets match "' + safeQuery + '"'
                     : 'No presets in this category');
-            elements.container.innerHTML = '<div class="presets-empty"><i class="fa-solid fa-box-open"></i><p>' + emptyMsg + '</p></div>';
+            elements.container.innerHTML = '<div class="presets-empty"><i class="ph-bold ph-package"></i><p>' + emptyMsg + '</p></div>';
             return;
         }
         
@@ -553,13 +553,13 @@ TEXTORO.Panels.Presets = (function() {
         TEXTORO.UI.ContextMenu.show(e, [
             {
                 label: 'Apply',
-                icon: 'fa-solid fa-play',
+                icon: 'ph-bold ph-play',
                 action: function() { apply(preset); }
             },
             { separator: true },
             {
                 label: preset.builtin ? 'Delete (Built-in)' : 'Delete',
-                icon: 'fa-solid fa-trash',
+                icon: 'ph-bold ph-trash',
                 disabled: preset.builtin,
                 danger: !preset.builtin,
                 action: function() { confirmDelete(preset); }

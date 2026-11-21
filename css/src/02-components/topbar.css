@@ -1,0 +1,109 @@
+/* ============================================================
+   TEXTORO TOP BAR & STUDIO NAVIGATION TABS (32px High-Density)
+   ============================================================ */
+
+.header,
+.unified-top-bar {
+    height: 32px !important;
+    min-height: 32px !important;
+    background: #111116 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    padding: 0 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 2px !important;
+    position: relative;
+    z-index: var(--z-header, 1000);
+    width: 100%;
+}
+
+.header-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    border: none !important;
+    padding: 0 !important;
+    flex-shrink: 0;
+}
+
+.brand-text,
+.header-brand .logo {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.8px !important;
+    color: #e2e2ec !important;
+}
+
+.brand-version,
+.header-brand .ver {
+    font-size: 8.5px !important;
+    font-weight: 600 !important;
+    color: #68687a !important;
+    background: #171720 !important;
+    padding: 1px 3px !important;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.tabs.studio-tab-row,
+.tabs.studio-tabs-row,
+.tabs {
+    display: flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+/* Inactive Tab Button: Solid Dark Slate */
+.tab.square-icon-btn,
+.studio-tab-btn,
+.square-icon-btn {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    flex: 0 0 26px;
+    background: #1a1a24 !important;
+    border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    border-radius: 0 !important;
+    color: #8c8ca0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: background 0.12s ease, color 0.12s ease !important;
+    padding: 0 !important;
+    font-size: 13.5px !important;
+    user-select: none;
+}
+
+.tab.square-icon-btn i,
+.studio-tab-btn i,
+.square-icon-btn i {
+    font-size: 13.5px !important;
+}
+
+.tab.square-icon-btn:hover,
+.studio-tab-btn:hover,
+.square-icon-btn:hover {
+    background: #242432 !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Active Tab Button: Solid Emerald Fill with Crisp White Icon */
+.tab.square-icon-btn.active,
+.studio-tab-btn.active,
+.square-icon-btn.active {
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+    color: #ffffff !important;
+}
+
+.tab.square-icon-btn.active i,
+.studio-tab-btn.active i,
+.square-icon-btn.active i {
+    color: #ffffff !important;
+}

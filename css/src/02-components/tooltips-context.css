@@ -1,0 +1,102 @@
+/* ============================================================
+   TEXTORO TOOLTIPS & CONTEXT MENUS (High-Contrast Industrial)
+   ============================================================ */
+
+/* Crisp White Tooltip */
+.tt {
+    position: absolute;
+    background: #ffffff !important;
+    color: #111116 !important;
+    padding: 3px 6px !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    border-radius: 0 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+    z-index: var(--z-tooltip, 20000) !important;
+    pointer-events: none !important;
+    white-space: nowrap !important;
+    display: none;
+    line-height: 1.2 !important;
+}
+
+.tt.show {
+    display: block !important;
+}
+
+.tt-key {
+    display: inline-block !important;
+    margin-left: 6px !important;
+    padding: 1px 4px !important;
+    background: rgba(0, 0, 0, 0.08) !important;
+    color: #333333 !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    border-radius: 0 !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+}
+
+/* Context Menu */
+.ctx {
+    position: absolute;
+    background: #14141c;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0 !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85);
+    z-index: var(--z-tooltip, 20000);
+    padding: 2px 0;
+    min-width: 140px;
+    display: none;
+}
+
+.ctx.show {
+    display: block !important;
+}
+
+.ctx-item {
+    padding: 5px 10px;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.1s ease, color 0.1s ease;
+}
+
+.ctx-item i {
+    font-size: 11px;
+    width: 14px;
+    text-align: center;
+    color: #8c8ca0;
+}
+
+.ctx-item:hover {
+    background: #20202e;
+    color: #ffffff;
+}
+
+.ctx-item:hover i {
+    color: #10b981;
+}
+
+.ctx-item.disabled {
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.ctx-item.danger:hover {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+.ctx-item.danger:hover i {
+    color: #ffffff;
+}
+
+.ctx-sep {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+    margin: 2px 0;
+}

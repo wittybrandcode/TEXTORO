@@ -6,6 +6,13 @@ All notable changes to TEXTORO are documented in this file.
 
 ## [Unreleased]
 
+### 🎨 Modular CSS Architecture & Dead-Weight Purge — 2026-11-21
+- **Modular CSS Source Tree**: Deconstructed monolithic `style.css` into 25 clean, modular files organized under `css/src/` (Tokens, Base, Shared Components, Panels, Utilities), each scoped between 50-250 lines.
+- **Zero-Dependency Fast CSS Bundler**: Added `tools/build-css.js` compiling modular sources into a unified production `css/style.css` (reduced from 150KB to 53KB, compiled in ~7ms), integrated with `--watch` development mode and automated smoke gate.
+- **Dead-Weight & Font Purge**: Removed 100% of legacy FontAwesome icons in favor of Phosphor Bold; deleted `css/fontawesome/` and `css/webfonts/` freeing over 1.2MB of dead weight; deleted ghost files `spectrum-components.css`, `spectrum-vars.css`, `spectrum-bundle.css`, and `css/spectrum/`.
+- **Zero Visual Regression**: 100% preservation of all Obsidian dark surfaces, Emerald active states, zero-radius aesthetics, 32px top/action bars, and 26px high-density preset list items.
+- **Automated Smoke Gate**: Integrated CSS compilation and syntax verification directly into `tools/smoke/run-smoke-checks.ps1` with 11/11 automated checks passing.
+
 ### 🧹 Cleanup, Parity & Quality Hardening — 2026-11-11
 - **Repo & Extension Parity**: Full cleanup of CEP installed extension matching git repository (removed dead code `SpectrumStepper.js`, removed duplicate `TITOUF copy.json`, cleaned 59 obsolete draft documents).
 - **P2-5 Presets Category Parity**: Included `motion-full` category in `getAllPresets()` and added strict allowlist validation to `getPresetList()`.

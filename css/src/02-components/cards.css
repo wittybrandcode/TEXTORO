@@ -1,0 +1,77 @@
+/* ============================================================
+   TEXTORO CARDS & SECTIONS (Solid Dark Contrast Surface)
+   ============================================================ */
+
+.soga-box,
+.studio-card {
+    background: #16161f !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 4px 6px !important;
+    margin-bottom: 3px !important;
+    gap: 3.5px !important;
+    box-shadow: none !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header-studio,
+.soga-title {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.6px !important;
+    text-transform: uppercase !important;
+    color: #9898aa !important;
+    margin-bottom: 2.5px !important;
+    border: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+.card-title-studio {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+
+.card-title-studio > i,
+.soga-title > i:first-child {
+    color: #10b981 !important;
+    margin-right: 5px !important;
+    flex-shrink: 0 !important;
+    font-size: 12px !important;
+}
+
+/* Collapsible Section Headers */
+.collapsible-header {
+    cursor: pointer !important;
+    user-select: none !important;
+}
+
+.collapsible-header:hover .card-title-studio {
+    color: #e2e2ec !important;
+}
+
+.collapsible-chevron {
+    color: #8c8ca0 !important;
+    font-size: 11px !important;
+    transition: transform 0.15s ease !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapsible-header.collapsed .collapsible-chevron {
+    transform: rotate(-90deg) !important;
+}
+
+.collapsible-content {
+    display: block !important;
+}
+
+.collapsible-content.collapsed {
+    display: none !important;
+}

@@ -1,0 +1,25 @@
+/* ============================================================
+   TEXTORO INDUSTRIAL SCROLLBARS - Sharp Dark Slate Styling
+   ============================================================ */
+
+::-webkit-scrollbar {
+    width: 4px !important;
+    height: 4px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: #111116 !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #252534 !important;
+    border-radius: 0 !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #10b981 !important;
+}
+
+::-webkit-scrollbar-corner {
+    background: #111116 !important;
+}

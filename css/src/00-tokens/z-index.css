@@ -1,0 +1,15 @@
+/* ============================================================
+   TEXTORO Z-INDEX TOKENS - Strict Vertical Stacking Order
+   ============================================================ */
+
+:root {
+    --z-base:           1;
+    --z-card:           10;
+    --z-sticky:         100;
+    --z-actionbar:      200;
+    --z-header:         1000;
+    --z-dropdown:       10005;
+    --z-dropdown-pop:   10006;
+    --z-modal:          11000;
+    --z-tooltip:        20000;
+}

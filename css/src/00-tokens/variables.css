@@ -1,0 +1,98 @@
+/* ============================================================
+   TEXTORO DESIGN TOKENS - Design System Variables & Theme Aliases
+   ============================================================ */
+
+:root {
+    /* ═══════════════════════════════════════════
+       GRAY SCALE (Industrial Slate Palette)
+       ═══════════════════════════════════════════ */
+    --sp-gray-50: #1a1a1a;
+    --sp-gray-75: #1e1e1e;
+    --sp-gray-100: #252525;
+    --sp-gray-200: #2d2d2d;
+    --sp-gray-300: #3a3a3a;
+    --sp-gray-400: #4a4a4a;
+    --sp-gray-500: #5c5c5c;
+    --sp-gray-600: #7c7c7c;
+    --sp-gray-700: #a0a0a0;
+    --sp-gray-800: #c8c8c8;
+    --sp-gray-900: #e5e5e5;
+    
+    /* ═══════════════════════════════════════════
+       COLOR ACCENTS
+       ═══════════════════════════════════════════ */
+    --sp-blue-400: #378ef0;
+    --sp-blue-500: #2680eb;
+    --sp-blue-600: #1473e6;
+    --sp-blue-700: #0d66d0;
+    
+    --sp-green-400: #33ab84;
+    --sp-green-500: #10b981;
+    --sp-green-600: #059669;
+    
+    --sp-red-400: #e34850;
+    --sp-red-500: #ef4444;
+    --sp-red-600: #dc2626;
+    
+    --sp-orange-400: #f29423;
+    --sp-orange-500: #f59e0b;
+    --sp-orange-600: #d97706;
+
+    /* ═══════════════════════════════════════════
+       SEMANTIC TOKENS
+       ═══════════════════════════════════════════ */
+    --sp-positive: var(--sp-green-500);
+    --sp-positive-hover: var(--sp-green-400);
+    --sp-negative: var(--sp-red-500);
+    --sp-negative-hover: var(--sp-red-400);
+    --sp-warning: var(--sp-orange-500);
+    --sp-warning-hover: var(--sp-orange-400);
+    --sp-info: var(--sp-blue-500);
+    --sp-info-hover: var(--sp-blue-400);
+
+    /* ═══════════════════════════════════════════
+       TYPOGRAPHY
+       ═══════════════════════════════════════════ */
+    --sp-font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    --sp-font-family-mono: 'SF Mono', 'Consolas', 'Monaco', monospace;
+    
+    --sp-font-size-50: 9px;
+    --sp-font-size-75: 10px;
+    --sp-font-size-100: 11px;
+    --sp-font-size-200: 12px;
+    --sp-font-size-300: 13px;
+    --sp-font-size-400: 14px;
+    --sp-font-size-500: 16px;
+    
+    --sp-font-weight-regular: 400;
+    --sp-font-weight-medium: 500;
+    --sp-font-weight-semibold: 600;
+    --sp-font-weight-bold: 700;
+    
+    --sp-line-height-100: 1.3;
+    --sp-line-height-200: 1.5;
+
+    /* ═══════════════════════════════════════════
+       SIZING & SPACING
+       ═══════════════════════════════════════════ */
+    --sp-component-height-xs: 20px;
+    --sp-component-height-sm: 24px;
+    --sp-component-height-md: 28px;
+    --sp-component-height-lg: 32px;
+    
+    --sp-radius-none: 0;
+    --sp-radius-sm: 0;
+    --sp-radius-md: 0;
+    --sp-radius-lg: 0;
+    --sp-radius-xl: 0;
+    
+    --sp-transition-fast: 100ms ease;
+    --sp-transition-normal: 150ms ease;
+    --sp-transition-slow: 200ms ease;
+    
+    --sp-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --sp-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.4);
+    --sp-shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.5);
+    --sp-shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.6);
+    --sp-shadow-focus: 0 0 0 1px #10b981;
+}

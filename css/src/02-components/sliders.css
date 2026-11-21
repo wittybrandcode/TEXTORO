@@ -1,0 +1,54 @@
+/* ============================================================
+   TEXTORO PRECISION SLIDERS (Studio Range Controls)
+   ============================================================ */
+
+.studio-slider-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    height: 28px !important;
+    background: #1c1c26 !important;
+    padding: 0 8px !important;
+    user-select: none !important;
+    width: 100% !important;
+}
+
+.studio-slider-row .slider-label {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    color: #8c8ca0 !important;
+    flex-shrink: 0 !important;
+    width: 95px !important;
+}
+
+.studio-slider-row .slider-track-wrap {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.studio-slider-row input[type="range"] {
+    -webkit-appearance: none !important;
+    width: 100% !important;
+    height: 4px !important;
+    background: #28283a !important;
+    outline: none !important;
+    border: none !important;
+    margin: 0 !important;
+}
+
+.studio-slider-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    width: 12px !important;
+    height: 16px !important;
+    background: #10b981 !important;
+    cursor: ew-resize !important;
+    border: none !important;
+    border-radius: 0 !important;
+    transition: background 0.12s ease !important;
+}
+
+.studio-slider-row input[type="range"]::-webkit-slider-thumb:hover {
+    background: #34d399 !important;
+}

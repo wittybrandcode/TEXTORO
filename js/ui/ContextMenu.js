@@ -105,7 +105,7 @@ TEXTORO.UI.ContextMenu = (function() {
         var items = [
             {
                 label: 'Create New Text',
-                icon: 'fa-solid fa-plus',
+                icon: 'ph-bold ph-plus',
                 action: function() {
                     // C-03: ربط بالمضيف عبر HostBridge (كانت تستدعي دالة غير موجودة)
                     TEXTORO.HostBridge.run('createNewTextLayer', null, function(res) {
@@ -123,7 +123,7 @@ TEXTORO.UI.ContextMenu = (function() {
             { separator: true },
             {
                 label: 'Apply Typewriter',
-                icon: 'fa-solid fa-keyboard',
+                icon: 'ph-bold ph-keyboard',
                 disabled: !hasSelection,
                 action: function() {
                     if (typeof applyTypewriter === 'function') applyTypewriter();
@@ -131,7 +131,7 @@ TEXTORO.UI.ContextMenu = (function() {
             },
             {
                 label: 'Create Box',
-                icon: 'fa-solid fa-square',
+                icon: 'ph-bold ph-bounding-box',
                 disabled: !hasSelection,
                 action: function() {
                     if (typeof createBox === 'function') createBox();
@@ -140,7 +140,7 @@ TEXTORO.UI.ContextMenu = (function() {
             { separator: true },
             {
                 label: 'Remove Typewriter',
-                icon: 'fa-solid fa-trash',
+                icon: 'ph-bold ph-trash',
                 disabled: !hasSelection,
                 danger: true,
                 action: function() {
@@ -149,7 +149,7 @@ TEXTORO.UI.ContextMenu = (function() {
             },
             {
                 label: 'Remove Box',
-                icon: 'fa-solid fa-trash',
+                icon: 'ph-bold ph-trash',
                 disabled: !hasSelection,
                 danger: true,
                 action: function() {
@@ -159,7 +159,7 @@ TEXTORO.UI.ContextMenu = (function() {
             { separator: true },
             {
                 label: 'Settings',
-                icon: 'fa-solid fa-gear',
+                icon: 'ph-bold ph-gear-six',
                 action: function() {
                     TEXTORO.UI.TabManager.switchTo('settings');
                 }

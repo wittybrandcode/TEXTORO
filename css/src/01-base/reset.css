@@ -1,0 +1,58 @@
+/* ============================================================
+   TEXTORO GLOBAL RESET & 100% ZERO-RADIUS ENFORCEMENT
+   ============================================================ */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* 1. Global Zero Radius Enforced Across Entire DOM */
+*, *::before, *::after,
+button, input, select, textarea, div, span, table, td, th, label, .modal, .tooltip, .ctx {
+    border-radius: 0 !important;
+}
+
+html {
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: var(--sp-font-family);
+    font-size: 11px;
+    font-weight: var(--sp-font-weight-regular);
+    line-height: var(--sp-line-height-100);
+    color: var(--text-primary, #ffffff);
+    background: var(--bg-base, #0c0c10);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+}
+
+:focus {
+    outline: none;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    background: var(--bg-base, #0c0c10);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Content Container with High-Density Compact Spacing */
+.content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 4px 6px !important;
+    padding-bottom: 36px !important;
+}

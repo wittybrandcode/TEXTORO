@@ -1,0 +1,41 @@
+/* ============================================================
+   TEXTORO PANEL: MARKERS (Timeline Synchronization Layout)
+   ============================================================ */
+
+#panel-markers .studio-card {
+    gap: 4px !important;
+}
+
+.markers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+.marker-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 26px;
+    padding: 0 6px;
+    background: #181822;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.marker-item:hover {
+    background: #20202e;
+}
+
+.marker-item .marker-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #e2e2ec;
+}
+
+.marker-item .marker-time {
+    font-size: 10px;
+    color: #8c8ca0;
+    font-family: monospace;
+}

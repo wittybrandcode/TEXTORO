@@ -1,0 +1,115 @@
+/* ============================================================
+   TEXTORO BOTTOM ACTION BAR & BUTTONS (32px High-Density)
+   ============================================================ */
+
+.action-bar {
+    height: 32px !important;
+    background: #111115 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+    padding: 0 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: var(--z-actionbar, 200) !important;
+}
+
+.action-bar .status {
+    flex: 1 !important;
+    font-size: 9.5px !important;
+    color: #8c8ca0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+.action-bar .status #status.success { color: var(--sp-green-500, #10b981); }
+.action-bar .status #status.error   { color: var(--sp-red-500, #ef4444); }
+.action-bar .status #status.warning { color: var(--sp-orange-500, #f59e0b); }
+.action-bar .status #status.info    { color: var(--sp-blue-500, #378ef0); }
+
+/* Status dot pulse indicator */
+.target-indicator-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 0 !important;
+    background: #10b981;
+    display: inline-block;
+    flex-shrink: 0;
+    transition: background 0.2s ease;
+}
+
+.action-bar .actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+}
+
+/* Primary Action Button (Apply): Solid Emerald Studio Fill */
+.ab-p.square-icon-btn,
+.btn-primary {
+    background: #10b981 !important;
+    border: none !important;
+    color: #ffffff !important;
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    font-size: 13px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+}
+
+.ab-p.square-icon-btn i,
+.btn-primary i {
+    color: #ffffff !important;
+}
+
+.ab-p.square-icon-btn:hover,
+.btn-primary:hover {
+    background: #34d399 !important;
+    color: #ffffff !important;
+}
+
+.ab-p.square-icon-btn:active,
+.btn-primary:active {
+    background: #059669 !important;
+    color: #ffffff !important;
+}
+
+/* Danger / Delete Action Button: Solid Dark Slate with Crimson Icon */
+.ab-d.square-icon-btn,
+.btn-del,
+.btn-danger {
+    background: #261619 !important;
+    border: none !important;
+    color: #f87171 !important;
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    font-size: 13px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+}
+
+.ab-d.square-icon-btn:hover,
+.btn-del:hover,
+.btn-danger:hover {
+    background: #ef4444 !important;
+    color: #ffffff !important;
+}
+
+/* Secondary Action Buttons */
+.ab.square-icon-btn {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    font-size: 13px !important;
+}

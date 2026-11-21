@@ -1,0 +1,23 @@
+/* ============================================================
+   TEXTORO ANIMATIONS & TRANSITIONS
+   ============================================================ */
+
+@keyframes ph-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.ph-spin,
+.fa-spin {
+    animation: ph-spin 1s linear infinite !important;
+    display: inline-block;
+}
+
+@keyframes target-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.9); }
+}
+
+.target-indicator-dot {
+    animation: target-pulse 2s ease infinite;
+}
