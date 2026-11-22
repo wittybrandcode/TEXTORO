@@ -7,6 +7,11 @@ All notable changes to TEXTORO are documented in this file.
 ## [Unreleased]
 
 ### 🛠️ Full Studio Component Styling Restoration & 100% Panel CSS Coverage — 2026-11-22
+- **Spacious 4x4 Motion Arena & Live Kinematic Hover Discs**:
+  - Re-architected the Motion Presets Arena into a balanced 4x4 grid matrix (`repeat(4, 1fr)`), expanding button height to 34px with comfortable padding and zero clipping.
+  - Restored distinct Phosphor Bold vector icons for all 16 motion presets (`ph-basketball`, `ph-wave-sine`, `ph-lightning`, `ph-sparkle`, `ph-drop`, etc.) replacing generic fallback icons.
+  - Implemented interactive hover kinematics: hovering over any preset hides the static icon and triggers a glowing 7px circular disc (`.preset-motion-disc`) executing the exact physics-based motion trajectory (bounce, elastic oscillation, heavy slam, fluid overshoot, spin, glide, pop, rise, etc.).
+  - Preserved SEC-01 preset UI safety with strict `FA_ICON_RE` allowlist validation and safe `textContent` DOM nodes.
 - **Persistent Tooltip Bug Fix**: Resolved sticky tooltips across all tabs. Active tab buttons are now strictly barred from opening tooltips; tooltips immediately vanish on `mouseout`, `mousedown`, `click`, `tab switch`, and panel `blur` with complete race condition prevention.
 - **Motion Presets Arena Styling**: Restored `.motion-preset-btn`, `.selected-in`, `.selected-out`, and `.preset-emoji` dark slate styling across all 16 motion preset buttons in the Motion tab, replacing stark white rectangles.
 - **Presets Panel Item Polish & Search**: Restored `.preset-apply-btn` (hidden by default, revealed on hover with emerald `#10b981`), `.preset-badge` category chips (`Type`, `Box`, `Mix`, `Motion`, `Toro`), and single-row `.presets-search` flex layout with sort select and refresh button.

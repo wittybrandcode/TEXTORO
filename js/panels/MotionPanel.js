@@ -104,34 +104,79 @@ TEXTORO.Panels.Motion = (function() {
         // SEC-01: حقول البريس غير موثوقة (مستوردة) - بناء DOM صريح بلا innerHTML
         var FA_ICON_RE = /^(fa-(solid|regular|brands) fa-[a-z0-9-]+|ph(-bold)? ph-[a-z0-9-]+)$/;
 
+        var MOTION_ICONS = {
+            'bounce': 'ph-bold ph-basketball',
+            'down': 'ph-bold ph-arrow-down',
+            'drop': 'ph-bold ph-arrow-fat-line-down',
+            'elastic': 'ph-bold ph-wave-sine',
+            'fade': 'ph-bold ph-eye-slash',
+            'flip': 'ph-bold ph-arrow-clockwise',
+            'glide': 'ph-bold ph-wind',
+            'left': 'ph-bold ph-arrow-left',
+            'pop': 'ph-bold ph-sparkle',
+            'right': 'ph-bold ph-arrow-right',
+            'rise': 'ph-bold ph-trend-up',
+            'spin': 'ph-bold ph-arrows-clockwise',
+            'spring-fluid': 'ph-bold ph-drop',
+            'spring-heavy': 'ph-bold ph-lightning',
+            'up': 'ph-bold ph-arrow-up',
+            'zoom': 'ph-bold ph-arrows-out'
+        };
+
+        function getPresetMotionKey(p) {
+            var raw = String(p.id || p.fileName || p.name || '').toLowerCase().replace(/\.json$/, '');
+            if (raw.indexOf('bounce') !== -1) return 'bounce';
+            if (raw.indexOf('down') !== -1) return 'down';
+            if (raw.indexOf('drop') !== -1) return 'drop';
+            if (raw.indexOf('elastic') !== -1) return 'elastic';
+            if (raw.indexOf('fade') !== -1) return 'fade';
+            if (raw.indexOf('flip') !== -1) return 'flip';
+            if (raw.indexOf('glide') !== -1) return 'glide';
+            if (raw.indexOf('slam') !== -1 || raw.indexOf('heavy') !== -1) return 'spring-heavy';
+            if (raw.indexOf('fluid') !== -1) return 'spring-fluid';
+            if (raw.indexOf('left') !== -1) return 'left';
+            if (raw.indexOf('right') !== -1) return 'right';
+            if (raw.indexOf('pop') !== -1) return 'pop';
+            if (raw.indexOf('rise') !== -1) return 'rise';
+            if (raw.indexOf('spin') !== -1) return 'spin';
+            if (raw.indexOf('up') !== -1) return 'up';
+            if (raw.indexOf('zoom') !== -1) return 'zoom';
+            return 'bounce';
+        }
+
         loadedPresets.forEach(function(preset, index) {
             var btn = document.createElement('button');
             btn.className = 'motion-preset-btn';
             btn.setAttribute('data-preset', index);
             btn.setAttribute('title', preset.description || preset.name || '');
 
-            // الأيقونة: faIcon موثّق بنمط صارم، أو emoji كنص، أو افتراضي
-            var iconEl;
-            if (preset.faIcon && FA_ICON_RE.test(String(preset.faIcon))) {
-                iconEl = document.createElement('i');
-                iconEl.className = String(preset.faIcon);
-            } else if (preset.icon) {
-                iconEl = document.createElement('span');
-                iconEl.className = 'preset-emoji';
-                iconEl.textContent = String(preset.icon);
-            } else {
-                iconEl = document.createElement('i');
-                iconEl.className = 'ph-bold ph-play';
-            }
+            var mKey = getPresetMotionKey(preset);
+            var iconClass = (preset.faIcon && FA_ICON_RE.test(String(preset.faIcon)))
+                ? String(preset.faIcon)
+                : (MOTION_ICONS[mKey] || 'ph-bold ph-play');
+
+            // حاوية المعاينة التفاعلية: الأيقونة الثابتة وقرص الحركة المتحرك عند التحويم
+            var previewWrap = document.createElement('div');
+            previewWrap.className = 'preset-motion-preview';
+
+            var iconEl = document.createElement('i');
+            iconEl.className = iconClass + ' preset-motion-icon';
+
+            var discEl = document.createElement('span');
+            discEl.className = 'preset-motion-disc disc-' + mKey;
+
+            previewWrap.appendChild(iconEl);
+            previewWrap.appendChild(discEl);
 
             var nameEl = document.createElement('span');
+            nameEl.className = 'preset-motion-name';
             nameEl.textContent = String(preset.name || '');
 
-            btn.appendChild(iconEl);
-            btn.appendChild(document.createTextNode(' '));
+            btn.appendChild(previewWrap);
             btn.appendChild(nameEl);
             grid.appendChild(btn);
         });
+
         
         TEXTORO.log('Rendered ' + loadedPresets.length + ' preset buttons');
     }
