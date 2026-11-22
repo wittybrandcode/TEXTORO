@@ -6,6 +6,30 @@ All notable changes to TEXTORO are documented in this file.
 
 ## [Unreleased]
 
+### 🎨 World-Class Studio Color Modal & Precision Color Elevating Across All Panels — 2026-11-22
+- **World-Class Interactive 2D Color Spectrum & Hue Engine**:
+  - Replaced legacy squished native color input with a 2D Saturation / Value (`SV`) interactive Canvas engine with tactile crosshair target pin.
+  - Implemented continuous 1D Hue rainbow slider (0° to 360°) with custom slider thumb and smooth real-time color recalculation via HSV/RGB color space algorithms.
+  - Added Chromium `EyeDropper` API integration (`#btnColorEyeDropper`) with phosphor bold vector icon, allowing one-click sampling from the composition and screen with graceful native picker fallback.
+- **Bi-Directional Split Comparison Bar**:
+  - Replaced unstyled preview box with a split dual-preview (`ORIGINAL` vs `CURRENT`) complete with subtle transparency checkerboard backing.
+  - Clicking the `ORIGINAL` box immediately reverts the color to the initial state without closing the dialog.
+- **Precision Hex Bar & Real-Time Feedback**:
+  - Monospace uppercase Hex input field with emerald `#` prefix tag, validation badge, and keyboard shortcuts (`Enter` to apply, `Esc` to cancel).
+  - Quick-copy button with live animated `COPIED!` emerald feedback.
+- **Multi-Channel RGB Sliders & Precision Steppers**:
+  - Three color-coded RGB channel rows with high-contrast channel badges (`R`: `#ef4444`, `G`: `#10b981`, `B`: `#3b82f6`).
+  - Interactive range sliders with live color gradients synced 2-way with numeric steppers (0-255).
+- **Curated Studio Palette & Persistent Recent Colors Memory**:
+  - 16-color curated professional studio palette in a clean 8x2 grid.
+  - Added persistent Recent Colors memory (`localStorage['textoro_recent_colors']`) saving up to 8 recent project colors with dedicated `CLEAR` button.
+  - Visual active ring indicator on swatches matching the current color.
+- **Elevated Precision Color Inputs Across Panels**:
+  - Upgraded `.precision-color-box` across Typewriter (`#colorCursor`, `#colorText`), Box (`#colorStroke`, `#colorFill`), and Control/SOGA (`#sogaCursorColor`, `#sogaTextColor`, `#sogaStrokeColor`, `#sogaFillColor`).
+  - Tactile studio styling with emerald border glow on hover, monospace hex code badge, crisp swatch thumbnail with border, and one-click modal opening.
+- **Design System & Zero-Radius Compliance**:
+  - 100% English UI, zero emojis, strict `border-radius: 0 !important`, passed all 13 smoke tests with 100% CSS coverage.
+
 ### 📌 Fixed Sticky SubBars & Critical Quick Toggle Strips Across All Panels — 2026-11-22
 - **Pinned Top Navigation & Secondary SubBar Dock**:
   - Enforced sticky behavior (`position: sticky; top: -4px; z-index: var(--z-subbar, 900)`) on `.panel-subbar` across all 7 panels.

@@ -24,20 +24,24 @@ TEXTORO.UI.Modals = (function() {
 
     var originalColor = '#FFFFFF';
     var currentColor = '#FFFFFF';
+    var currentHue = 0;       // 0 - 360
+    var currentSat = 0;       // 0 - 1
+    var currentVal = 1;       // 0 - 1
+    var isDraggingSv = false;
 
     var STUDIO_PALETTE = [
         { hex: '#10B981', name: 'Emerald' },
         { hex: '#34D399', name: 'Mint' },
-        { hex: '#059669', name: 'Dark Emerald' },
         { hex: '#06B6D4', name: 'Cyan' },
         { hex: '#3B82F6', name: 'Electric Blue' },
         { hex: '#6366F1', name: 'Indigo' },
         { hex: '#8B5CF6', name: 'Violet' },
-        { hex: '#EC4899', name: 'Pink' },
-        { hex: '#EF4444', name: 'Crimson' },
-        { hex: '#F97316', name: 'Orange' },
+        { hex: '#EC4899', name: 'Hot Pink' },
+        { hex: '#EF4444', name: 'Crimson Red' },
+        { hex: '#F97316', name: 'Bright Orange' },
         { hex: '#F59E0B', name: 'Amber Gold' },
         { hex: '#EAB308', name: 'Yellow Gold' },
+        { hex: '#84CC16', name: 'Lime' },
         { hex: '#FFFFFF', name: 'Pure White' },
         { hex: '#94A3B8', name: 'Slate Silver' },
         { hex: '#334155', name: 'Slate Charcoal' },
@@ -86,6 +90,125 @@ TEXTORO.UI.Modals = (function() {
     }
 
     /**
+     * تحويل RGB إلى HSV
+     */
+    function rgbToHsv(r, g, b) {
+        r = Math.max(0, Math.min(255, r)) / 255;
+        g = Math.max(0, Math.min(255, g)) / 255;
+        b = Math.max(0, Math.min(255, b)) / 255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var d = max - min;
+        var h = 0;
+        var s = max === 0 ? 0 : d / max;
+        var v = max;
+        if (max !== min) {
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
+        return { h: Math.round(h * 360), s: s, v: v };
+    }
+
+    /**
+     * تحويل HSV إلى RGB
+     */
+    function hsvToRgb(h, s, v) {
+        h = (h % 360 + 360) % 360;
+        s = Math.max(0, Math.min(1, s));
+        v = Math.max(0, Math.min(1, v));
+        var c = v * s;
+        var x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        var m = v - c;
+        var r1 = 0, g1 = 0, b1 = 0;
+        if (h < 60) { r1 = c; g1 = x; }
+        else if (h < 120) { r1 = x; g1 = c; }
+        else if (h < 180) { g1 = c; b1 = x; }
+        else if (h < 240) { g1 = x; b1 = c; }
+        else if (h < 300) { r1 = x; b1 = c; }
+        else { r1 = c; b1 = x; }
+        return {
+            r: Math.round((r1 + m) * 255),
+            g: Math.round((g1 + m) * 255),
+            b: Math.round((b1 + m) * 255)
+        };
+    }
+
+    /**
+     * استرجاع قائمة الألوان المستخدمة مؤخراً من التخزين المحلي
+     */
+    function getRecentColors() {
+        try {
+            var raw = localStorage.getItem('textoro_recent_colors');
+            if (raw) {
+                var arr = JSON.parse(raw);
+                if (Array.isArray(arr)) return arr;
+            }
+        } catch(e) {}
+        return [];
+    }
+
+    /**
+     * حفظ لون جديد في قائمة الألوان الأخيرة
+     */
+    function saveRecentColor(hex) {
+        var norm = normalizeHex(hex);
+        if (!norm) return;
+        var list = getRecentColors();
+        list = list.filter(function(item) { return item.toUpperCase() !== norm.toUpperCase(); });
+        list.unshift(norm);
+        if (list.length > 8) list = list.slice(0, 8);
+        try {
+            localStorage.setItem('textoro_recent_colors', JSON.stringify(list));
+        } catch(e) {}
+    }
+
+    /**
+     * مسح قائمة الألوان الأخيرة
+     */
+    function clearRecentColors() {
+        try {
+            localStorage.removeItem('textoro_recent_colors');
+        } catch(e) {}
+        renderRecentColors();
+    }
+
+    /**
+     * عرض الألوان الأخيرة في شبكة المودال
+     */
+    function renderRecentColors() {
+        var container = document.getElementById('colorModalRecentSwatches');
+        if (!container) return;
+        container.innerHTML = '';
+        var list = getRecentColors();
+        if (list.length === 0) {
+            var emptyNotice = document.createElement('span');
+            emptyNotice.className = 'empty-recent-notice';
+            emptyNotice.textContent = 'No recent colors used yet';
+            container.appendChild(emptyNotice);
+            return;
+        }
+        list.forEach(function(hex) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'recent-color-swatch studio-color-swatch';
+            btn.style.backgroundColor = hex;
+            btn.title = hex;
+            btn.setAttribute('data-hex', hex);
+            if (currentColor && currentColor.toUpperCase() === hex.toUpperCase()) {
+                btn.classList.add('active');
+            }
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                updateCurrentColor(hex, true);
+            });
+            container.appendChild(btn);
+        });
+    }
+
+    /**
      * تهيئة النوافذ المنبثقة
      */
     function init() {
@@ -131,6 +254,69 @@ TEXTORO.UI.Modals = (function() {
     }
 
     /**
+     * رسم مستطيل التشبع والقيمة (2D SV Canvas)
+     */
+    function drawSvCanvas() {
+        var canvas = document.getElementById('colorModalSvCanvas');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        var w = canvas.width;
+        var h = canvas.height;
+
+        // 1. Base pure hue fill
+        ctx.fillStyle = 'hsl(' + currentHue + ', 100%, 50%)';
+        ctx.fillRect(0, 0, w, h);
+
+        // 2. Horizontal gradient: white -> transparent
+        var gradWhite = ctx.createLinearGradient(0, 0, w, 0);
+        gradWhite.addColorStop(0, 'rgba(255,255,255,1)');
+        gradWhite.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = gradWhite;
+        ctx.fillRect(0, 0, w, h);
+
+        // 3. Vertical gradient: transparent -> black
+        var gradBlack = ctx.createLinearGradient(0, 0, 0, h);
+        gradBlack.addColorStop(0, 'rgba(0,0,0,0)');
+        gradBlack.addColorStop(1, 'rgba(0,0,0,1)');
+        ctx.fillStyle = gradBlack;
+        ctx.fillRect(0, 0, w, h);
+    }
+
+    /**
+     * تحديث موضع مؤشر الـ 2D Canvas
+     */
+    function updateSvCursor(s, v) {
+        var cursor = document.getElementById('colorModalSvCursor');
+        if (!cursor) return;
+        var leftPct = Math.max(0, Math.min(100, s * 100));
+        var topPct = Math.max(0, Math.min(100, (1 - v) * 100));
+        cursor.style.left = leftPct + '%';
+        cursor.style.top = topPct + '%';
+    }
+
+    /**
+     * معالجة السحب على الـ 2D SV Canvas
+     */
+    function handleSvDrag(e) {
+        var container = document.getElementById('colorModalSvContainer');
+        if (!container) return;
+        var rect = container.getBoundingClientRect();
+        var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        var x = Math.max(0, Math.min(rect.width, clientX - rect.left));
+        var y = Math.max(0, Math.min(rect.height, clientY - rect.top));
+
+        currentSat = rect.width > 0 ? (x / rect.width) : 0;
+        currentVal = rect.height > 0 ? (1 - (y / rect.height)) : 0;
+
+        updateSvCursor(currentSat, currentVal);
+        var rgb = hsvToRgb(currentHue, currentSat, currentVal);
+        var hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+        updateCurrentColor(hex, true, 'canvas');
+    }
+
+    /**
      * تهيئة نافذة الألوان الاحترافية (Studio Color Modal)
      */
     function initColorModal() {
@@ -141,8 +327,17 @@ TEXTORO.UI.Modals = (function() {
         var cancelBtn = document.getElementById('btnColorCancel');
         var closeBtn = document.getElementById('btnCloseColor');
         var copyBtn = document.getElementById('btnColorCopyHex');
+        var eyeDropperBtn = document.getElementById('btnColorEyeDropper');
+        var clearRecentBtn = document.getElementById('btnClearRecentColors');
+        var prevBox = document.getElementById('colorModalPrevBox');
         var hexInput = document.getElementById('colorModalHex');
         var picker = document.getElementById('colorModalPicker');
+        var svContainer = document.getElementById('colorModalSvContainer');
+        var hueSlider = document.getElementById('colorModalHueSlider');
+
+        var rSlider = document.getElementById('colorModalRSlider');
+        var gSlider = document.getElementById('colorModalGSlider');
+        var bSlider = document.getElementById('colorModalBSlider');
         var rInput = document.getElementById('colorModalR');
         var gInput = document.getElementById('colorModalG');
         var bInput = document.getElementById('colorModalB');
@@ -152,7 +347,73 @@ TEXTORO.UI.Modals = (function() {
         if (cancelBtn) cancelBtn.addEventListener('click', closeColorModal);
         if (closeBtn) closeBtn.addEventListener('click', closeColorModal);
         if (copyBtn) copyBtn.addEventListener('click', copyHexToClipboard);
+        if (clearRecentBtn) clearRecentBtn.addEventListener('click', clearRecentColors);
 
+        // Split preview: Click original box to restore initial color
+        if (prevBox) {
+            prevBox.addEventListener('click', function(e) {
+                e.preventDefault();
+                updateCurrentColor(originalColor, true);
+            });
+        }
+
+        // Eyedropper support (Chromium EyeDropper API with native picker fallback)
+        if (eyeDropperBtn) {
+            eyeDropperBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (window.EyeDropper) {
+                    var eyeDropper = new window.EyeDropper();
+                    eyeDropper.open().then(function(result) {
+                        if (result && result.sRGBHex) {
+                            updateCurrentColor(result.sRGBHex, true);
+                        }
+                    }).catch(function() {
+                        // User canceled sampling
+                    });
+                } else if (picker) {
+                    picker.click();
+                }
+            });
+        }
+
+        // 2D Saturation / Value Canvas interaction
+        if (svContainer) {
+            svContainer.addEventListener('mousedown', function(e) {
+                isDraggingSv = true;
+                handleSvDrag(e);
+            });
+            svContainer.addEventListener('touchstart', function(e) {
+                isDraggingSv = true;
+                handleSvDrag(e);
+            }, { passive: true });
+
+            window.addEventListener('mousemove', function(e) {
+                if (isDraggingSv) handleSvDrag(e);
+            });
+            window.addEventListener('touchmove', function(e) {
+                if (isDraggingSv) handleSvDrag(e);
+            }, { passive: true });
+
+            window.addEventListener('mouseup', function() {
+                isDraggingSv = false;
+            });
+            window.addEventListener('touchend', function() {
+                isDraggingSv = false;
+            });
+        }
+
+        // Hue rainbow slider interaction
+        if (hueSlider) {
+            hueSlider.addEventListener('input', function() {
+                currentHue = parseInt(hueSlider.value, 10) || 0;
+                drawSvCanvas();
+                var rgb = hsvToRgb(currentHue, currentSat, currentVal);
+                var hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+                updateCurrentColor(hex, true, 'hue');
+            });
+        }
+
+        // Hex input field events
         if (hexInput) {
             hexInput.addEventListener('input', function() {
                 var val = hexInput.value.trim().replace(/^#+/, '');
@@ -162,7 +423,7 @@ TEXTORO.UI.Modals = (function() {
                 var norm = normalizeHex(val);
                 var status = document.getElementById('colorModalHexStatus');
                 if (norm) {
-                    updateCurrentColor(norm, false);
+                    updateCurrentColor(norm, false, 'hexInput');
                     hexInput.classList.remove('invalid');
                     hexInput.classList.add('valid');
                     if (status) {
@@ -173,7 +434,7 @@ TEXTORO.UI.Modals = (function() {
                     hexInput.classList.add('invalid');
                     hexInput.classList.remove('valid');
                     if (status) {
-                        status.textContent = 'Format: 6 hex digits (e.g. 10B981)';
+                        status.textContent = '6 Hex digits';
                         status.className = 'color-hex-status error';
                     }
                 }
@@ -196,6 +457,7 @@ TEXTORO.UI.Modals = (function() {
             });
         }
 
+        // Native color picker fallback
         if (picker) {
             picker.addEventListener('input', function() {
                 var norm = normalizeHex(picker.value);
@@ -203,16 +465,30 @@ TEXTORO.UI.Modals = (function() {
             });
         }
 
-        function handleRgbChange() {
-            var r = rInput ? parseInt(rInput.value, 10) : 0;
-            var g = gInput ? parseInt(gInput.value, 10) : 0;
-            var b = bInput ? parseInt(bInput.value, 10) : 0;
+        // RGB Sliders & Number inputs sync
+        function handleRgbSliderChange() {
+            var r = rSlider ? parseInt(rSlider.value, 10) : 0;
+            var g = gSlider ? parseInt(gSlider.value, 10) : 0;
+            var b = bSlider ? parseInt(bSlider.value, 10) : 0;
             var hex = rgbToHex(r, g, b);
-            updateCurrentColor(hex, true);
+            updateCurrentColor(hex, true, 'rgbSlider');
         }
-        if (rInput) rInput.addEventListener('input', handleRgbChange);
-        if (gInput) gInput.addEventListener('input', handleRgbChange);
-        if (bInput) bInput.addEventListener('input', handleRgbChange);
+
+        function handleRgbInputChange() {
+            var r = rInput ? Math.max(0, Math.min(255, parseInt(rInput.value, 10) || 0)) : 0;
+            var g = gInput ? Math.max(0, Math.min(255, parseInt(gInput.value, 10) || 0)) : 0;
+            var b = bInput ? Math.max(0, Math.min(255, parseInt(bInput.value, 10) || 0)) : 0;
+            var hex = rgbToHex(r, g, b);
+            updateCurrentColor(hex, true, 'rgbInput');
+        }
+
+        if (rSlider) rSlider.addEventListener('input', handleRgbSliderChange);
+        if (gSlider) gSlider.addEventListener('input', handleRgbSliderChange);
+        if (bSlider) bSlider.addEventListener('input', handleRgbSliderChange);
+
+        if (rInput) rInput.addEventListener('input', handleRgbInputChange);
+        if (gInput) gInput.addEventListener('input', handleRgbInputChange);
+        if (bInput) bInput.addEventListener('input', handleRgbInputChange);
 
         // Populate studio swatches
         if (swatchesContainer) {
@@ -232,6 +508,9 @@ TEXTORO.UI.Modals = (function() {
             });
         }
 
+        // Render Recent Colors row
+        renderRecentColors();
+
         // Auto-bind precision color boxes
         bindColorInputs();
     }
@@ -239,7 +518,7 @@ TEXTORO.UI.Modals = (function() {
     /**
      * تحديث اللون الحالي وعكسه على واجهة المودال
      */
-    function updateCurrentColor(hex, updateHexInput) {
+    function updateCurrentColor(hex, updateHexInput, source) {
         var norm = normalizeHex(hex) || '#FFFFFF';
         currentColor = norm;
 
@@ -247,14 +526,35 @@ TEXTORO.UI.Modals = (function() {
         var curBox = document.getElementById('colorModalCurBox');
         if (curBox) curBox.style.backgroundColor = norm;
 
-        // Spectrum native picker
+        var rgb = hexToRgb255(norm);
+
+        // Update 2D SV Canvas & Hue slider if not initiated from them
+        if (source !== 'canvas' && source !== 'hue') {
+            var hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            currentHue = hsv.h;
+            currentSat = hsv.s;
+            currentVal = hsv.v;
+
+            var hueSlider = document.getElementById('colorModalHueSlider');
+            if (hueSlider) hueSlider.value = currentHue;
+
+            drawSvCanvas();
+            updateSvCursor(currentSat, currentVal);
+        } else if (source === 'hue') {
+            drawSvCanvas();
+            updateSvCursor(currentSat, currentVal);
+        } else if (source === 'canvas') {
+            updateSvCursor(currentSat, currentVal);
+        }
+
+        // Native picker sync
         var picker = document.getElementById('colorModalPicker');
         if (picker && picker.value.toLowerCase() !== norm.toLowerCase()) {
             picker.value = norm;
         }
 
         // Hex input field
-        if (updateHexInput) {
+        if (updateHexInput && source !== 'hexInput') {
             var hexInput = document.getElementById('colorModalHex');
             if (hexInput) {
                 hexInput.value = norm.replace(/^#/, '');
@@ -268,17 +568,28 @@ TEXTORO.UI.Modals = (function() {
             }
         }
 
-        // RGB channel fields
-        var rgb = hexToRgb255(norm);
-        var rInput = document.getElementById('colorModalR');
-        var gInput = document.getElementById('colorModalG');
-        var bInput = document.getElementById('colorModalB');
-        if (rInput && document.activeElement !== rInput) rInput.value = rgb.r;
-        if (gInput && document.activeElement !== gInput) gInput.value = rgb.g;
-        if (bInput && document.activeElement !== bInput) bInput.value = rgb.b;
+        // RGB channel sliders sync
+        if (source !== 'rgbSlider') {
+            var rSlider = document.getElementById('colorModalRSlider');
+            var gSlider = document.getElementById('colorModalGSlider');
+            var bSlider = document.getElementById('colorModalBSlider');
+            if (rSlider) rSlider.value = rgb.r;
+            if (gSlider) gSlider.value = rgb.g;
+            if (bSlider) bSlider.value = rgb.b;
+        }
 
-        // Highlight matching swatch
-        var swatches = document.querySelectorAll('#colorModalSwatches .studio-color-swatch');
+        // RGB channel numeric fields sync
+        if (source !== 'rgbInput') {
+            var rInput = document.getElementById('colorModalR');
+            var gInput = document.getElementById('colorModalG');
+            var bInput = document.getElementById('colorModalB');
+            if (rInput && document.activeElement !== rInput) rInput.value = rgb.r;
+            if (gInput && document.activeElement !== gInput) gInput.value = rgb.g;
+            if (bInput && document.activeElement !== bInput) bInput.value = rgb.b;
+        }
+
+        // Highlight matching swatch in Studio and Recent palettes
+        var swatches = document.querySelectorAll('#colorModalSwatches .studio-color-swatch, #colorModalRecentSwatches .recent-color-swatch');
         swatches.forEach(function(swatch) {
             var sHex = swatch.getAttribute('data-hex');
             if (sHex && sHex.toUpperCase() === norm.toUpperCase()) {
@@ -315,15 +626,18 @@ TEXTORO.UI.Modals = (function() {
         }
 
         updateCurrentColor(currentColor, true);
+        renderRecentColors();
 
         colorModal.style.display = 'flex';
 
-        if (hexInput) {
-            setTimeout(function() {
+        setTimeout(function() {
+            drawSvCanvas();
+            updateSvCursor(currentSat, currentVal);
+            if (hexInput) {
                 hexInput.focus();
                 hexInput.select();
-            }, 50);
-        }
+            }
+        }, 30);
     }
 
     /**
@@ -345,8 +659,12 @@ TEXTORO.UI.Modals = (function() {
         var raw = hexInput ? hexInput.value : '';
         var norm = normalizeHex(raw) || currentColor || originalColor || '#FFFFFF';
 
+        // Save to recent colors
+        saveRecentColor(norm);
+        renderRecentColors();
+
         if (currentColorTargetInput) {
-            currentColorTargetInput.value = norm;
+            currentColorTargetInput.value = norm.toLowerCase();
             var box = currentColorTargetInput.closest('.precision-color-box');
             if (box) updateBoxVisual(box, currentColorTargetInput);
 
@@ -416,8 +734,9 @@ TEXTORO.UI.Modals = (function() {
             if (wrap) wrap.insertBefore(hexTag, input);
             else box.appendChild(hexTag);
         }
-        hexTag.textContent = hex;
-        input.title = hex;
+        hexTag.textContent = hex.toUpperCase();
+        input.value = hex.toLowerCase();
+        input.title = hex.toUpperCase();
     }
 
     /**

@@ -2227,74 +2227,110 @@
 <!-- STUDIO COLOR MODAL -->
 <div class="modal-overlay" id="colorModal" style="display:none">
 <div class="modal color-modal">
-<div class="modal-header">
-    <span id="colorModalTitle">SELECT COLOR</span>
-    <button class="btn-close" id="btnCloseColor" title="Close dialog"><i class="ph-bold ph-x"></i></button>
-</div>
-<div class="modal-content color-modal-content">
-    <!-- Split Preview Box (Original vs New) -->
-    <div class="color-preview-split">
-        <div class="color-preview-box prev-box" id="colorModalPrevBox" title="Previous color">
-            <span class="preview-badge">ORIGINAL</span>
+    <!-- Modal Header -->
+    <div class="modal-header">
+        <div class="color-header-title-wrap">
+            <i class="ph-bold ph-palette color-modal-icon"></i>
+            <span id="colorModalTitle">SELECT COLOR</span>
         </div>
-        <div class="color-preview-box new-box" id="colorModalCurBox" title="New color">
-            <span class="preview-badge">CURRENT</span>
+        <button class="btn-close" id="btnCloseColor" title="Close dialog"><i class="ph-bold ph-x"></i></button>
+    </div>
+
+    <!-- Modal Content -->
+    <div class="modal-content color-modal-content">
+        <!-- Split Preview Box (Original vs Current) -->
+        <div class="color-preview-split">
+            <div class="color-preview-box prev-box" id="colorModalPrevBox" title="Click to restore original color">
+                <span class="preview-badge"><i class="ph-bold ph-arrow-counter-clockwise"></i> ORIGINAL</span>
+            </div>
+            <div class="color-preview-box new-box" id="colorModalCurBox" title="Current selected color">
+                <span class="preview-badge">CURRENT</span>
+            </div>
+        </div>
+
+        <!-- 2D Saturation / Value Canvas & Hue Slider -->
+        <div class="color-picker-interactive-area">
+            <div class="color-sv-canvas-container" id="colorModalSvContainer">
+                <canvas id="colorModalSvCanvas" width="286" height="120" class="color-sv-canvas"></canvas>
+                <div class="color-sv-cursor" id="colorModalSvCursor"></div>
+            </div>
+            <div class="color-hue-slider-container">
+                <input type="range" id="colorModalHueSlider" class="color-hue-slider" min="0" max="360" step="1" value="0" title="Hue spectrum">
+            </div>
+        </div>
+
+        <!-- Precision Hex Bar with Eyedropper & Copy -->
+        <div class="color-modal-section">
+            <div class="color-section-header">
+                <label class="color-section-label" for="colorModalHex">HEX COLOR CODE</label>
+                <div class="color-hex-status" id="colorModalHexStatus"></div>
+            </div>
+            <div class="color-hex-bar">
+                <div class="color-hex-input-wrapper">
+                    <span class="color-hex-hash">#</span>
+                    <input type="text" id="colorModalHex" class="ti color-hex-field" maxlength="7" placeholder="FFFFFF" spellcheck="false" autocomplete="off" title="Enter Hex color code (#RRGGBB or #RGB)">
+                </div>
+                <button type="button" class="btn-s color-action-btn color-copy-btn" id="btnColorCopyHex" title="Copy Hex Code to Clipboard">
+                    <i class="ph-bold ph-copy"></i><span>COPY</span>
+                </button>
+                <button type="button" class="btn-s color-action-btn color-eyedropper-btn" id="btnColorEyeDropper" title="Sample color from screen (Eyedropper)">
+                    <i class="ph-bold ph-eyedropper"></i>
+                </button>
+                <!-- Hidden fallback native picker -->
+                <input type="color" id="colorModalPicker" class="color-spectrum-native-hidden" value="#ffffff" title="Native Color Picker">
+            </div>
+        </div>
+
+        <!-- RGB Precision Channels with Sliders & Numeric Inputs -->
+        <div class="color-modal-section">
+            <label class="color-section-label">RGB CHANNELS (0-255)</label>
+            <div class="color-rgb-sliders-list">
+                <div class="color-rgb-row">
+                    <span class="rgb-channel-badge badge-red">R</span>
+                    <input type="range" id="colorModalRSlider" class="color-rgb-range range-red" min="0" max="255" value="255" title="Red Channel Slider">
+                    <input type="number" id="colorModalR" class="ni rgb-field" min="0" max="255" value="255" title="Red Channel (0-255)">
+                </div>
+                <div class="color-rgb-row">
+                    <span class="rgb-channel-badge badge-green">G</span>
+                    <input type="range" id="colorModalGSlider" class="color-rgb-range range-green" min="0" max="255" value="255" title="Green Channel Slider">
+                    <input type="number" id="colorModalG" class="ni rgb-field" min="0" max="255" value="255" title="Green Channel (0-255)">
+                </div>
+                <div class="color-rgb-row">
+                    <span class="rgb-channel-badge badge-blue">B</span>
+                    <input type="range" id="colorModalBSlider" class="color-rgb-range range-blue" min="0" max="255" value="255" title="Blue Channel Slider">
+                    <input type="number" id="colorModalB" class="ni rgb-field" min="0" max="255" value="255" title="Blue Channel (0-255)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Studio Swatches Palette -->
+        <div class="color-modal-section">
+            <div class="color-section-header">
+                <label class="color-section-label">STUDIO PALETTE</label>
+                <span class="color-section-sub">16 PRESETS</span>
+            </div>
+            <div class="color-swatches-grid" id="colorModalSwatches"></div>
+        </div>
+
+        <!-- Recent Colors Memory -->
+        <div class="color-modal-section">
+            <div class="color-section-header">
+                <label class="color-section-label">RECENT COLORS</label>
+                <button type="button" class="btn-clear-recent" id="btnClearRecentColors" title="Clear Recent Colors">CLEAR</button>
+            </div>
+            <div class="color-swatches-grid recent-swatches-grid" id="colorModalRecentSwatches"></div>
         </div>
     </div>
 
-    <!-- Hex Color Code Input -->
-    <div class="color-modal-section">
-        <label class="color-section-label" for="colorModalHex">HEX COLOR CODE</label>
-        <div class="color-hex-bar">
-            <div class="color-hex-input-wrapper">
-                <span class="color-hex-hash">#</span>
-                <input type="text" id="colorModalHex" class="ti color-hex-field" maxlength="7" placeholder="FFFFFF" spellcheck="false" autocomplete="off" title="Enter Hex color code (#RRGGBB or #RGB)">
-            </div>
-            <button type="button" class="btn-s color-copy-btn" id="btnColorCopyHex" title="Copy Hex Code to Clipboard"><i class="ph-bold ph-copy" style="margin-right:4px;"></i><span>COPY</span></button>
-        </div>
-        <div class="color-hex-status" id="colorModalHexStatus"></div>
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+        <button class="btn-s modal-btn-cancel" id="btnColorCancel" title="Cancel (Esc)">
+            <i class="ph-bold ph-x" style="margin-right: 4px;"></i>CANCEL
+        </button>
+        <button class="btn-s btn-primary modal-btn-ok" id="btnColorOK" title="Apply color (Enter)">
+            <i class="ph-bold ph-check" style="margin-right: 4px;"></i>APPLY
+        </button>
     </div>
-
-    <!-- Visual Spectrum Picker -->
-    <div class="color-modal-section">
-        <label class="color-section-label">VISUAL SPECTRUM PICKER</label>
-        <div class="color-spectrum-wrapper">
-            <input type="color" id="colorModalPicker" class="color-spectrum-input" value="#ffffff" title="Click to open visual color palette">
-            <div class="color-spectrum-overlay">
-                <span class="color-spectrum-text">CLICK SPECTRUM TO PICK</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- RGB Channels Row -->
-    <div class="color-modal-section">
-        <label class="color-section-label">RGB CHANNELS (0-255)</label>
-        <div class="color-rgb-grid">
-            <div class="color-rgb-item">
-                <span class="rgb-label">R</span>
-                <input type="number" id="colorModalR" class="ni rgb-field" min="0" max="255" value="255">
-            </div>
-            <div class="color-rgb-item">
-                <span class="rgb-label">G</span>
-                <input type="number" id="colorModalG" class="ni rgb-field" min="0" max="255" value="255">
-            </div>
-            <div class="color-rgb-item">
-                <span class="rgb-label">B</span>
-                <input type="number" id="colorModalB" class="ni rgb-field" min="0" max="255" value="255">
-            </div>
-        </div>
-    </div>
-
-    <!-- Studio Palette Presets -->
-    <div class="color-modal-section">
-        <label class="color-section-label">STUDIO PALETTE</label>
-        <div class="color-swatches-grid" id="colorModalSwatches"></div>
-    </div>
-</div>
-<div class="modal-footer">
-    <button class="square-icon-btn modal-btn-cancel" id="btnColorCancel" title="Cancel (Esc)"><i class="ph-bold ph-x"></i></button>
-    <button class="square-icon-btn btn-primary" id="btnColorOK" title="Apply color (Enter)"><i class="ph-bold ph-check"></i></button>
-</div>
 </div>
 </div>
 

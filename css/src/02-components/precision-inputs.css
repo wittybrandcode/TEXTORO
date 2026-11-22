@@ -160,22 +160,23 @@ textarea.ta:focus {
     display: flex !important;
     align-items: center !important;
     height: 28px !important;
-    background: #181822 !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    padding: 0 4px !important;
+    background: #161622 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 0 5px !important;
     position: relative !important;
     border-radius: 0 !important;
+    cursor: pointer !important;
+    transition: border-color 0.15s ease, background-color 0.15s ease !important;
+    box-sizing: border-box !important;
 }
 
-.precision-color-box input[type="color"],
-.precision-color-box input.ci {
-    width: 22px !important;
-    height: 20px !important;
-    border: none !important;
-    padding: 0 !important;
-    background: transparent !important;
-    cursor: pointer !important;
-    border-radius: 0 !important;
+.precision-color-box:hover {
+    border-color: rgba(16, 185, 129, 0.6) !important;
+    background: #1a1a28 !important;
+}
+
+.precision-color-box:focus-within {
+    border-color: #10b981 !important;
 }
 
 .precision-color-box .color-picker-wrap {
@@ -184,20 +185,48 @@ textarea.ta:focus {
     display: flex !important;
     align-items: center !important;
     justify-content: flex-end !important;
-    padding: 3px 6px !important;
+    padding: 2px 4px !important;
     gap: 6px !important;
     min-width: 0 !important;
+    cursor: pointer !important;
 }
 
 .precision-color-box .ci-hex-code {
     font-family: 'Consolas', 'Courier New', monospace !important;
     font-size: 10px !important;
-    font-weight: 600 !important;
-    color: #c9c9d4 !important;
-    letter-spacing: 0.5px !important;
+    font-weight: 700 !important;
+    color: #cbd5e1 !important;
+    letter-spacing: 0.6px !important;
     pointer-events: none !important;
     user-select: none !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    text-transform: uppercase !important;
+    transition: color 0.12s ease !important;
+}
+
+.precision-color-box:hover .ci-hex-code {
+    color: #ffffff !important;
+}
+
+.precision-color-box input[type="color"],
+.precision-color-box input.ci {
+    width: 22px !important;
+    height: 18px !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    padding: 0 !important;
+    background: transparent !important;
+    cursor: pointer !important;
+    border-radius: 0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+    transition: transform 0.1s ease, border-color 0.1s ease !important;
+}
+
+.precision-color-box:hover input[type="color"],
+.precision-color-box:hover input.ci {
+    border-color: #10b981 !important;
+    transform: scale(1.05) !important;
 }
