@@ -42,8 +42,8 @@ $.writeln("[TEXTORO] index.jsx loaded - v1.0.0 Modular");
 // 6. إدارة Multi-Lines (تعتمد على TypewriterManager, BoxManager)
 #include "modules/MultiLinesManager.jsx"
 
-// 7. إدارة Soga Panel - قراءة/كتابة Effect Controls
-#include "modules/SogaManager.jsx"
+// 7. Layer Inspector Panel - Read/Write Effect Controls
+#include "modules/InspectorManager.jsx"
 
 // 8. عمليات الطبقات (تعتمد على الوحدات السابقة)
 #include "modules/LayerOperations.jsx"
@@ -71,7 +71,7 @@ if (typeof EXPRESSIONLOADER_MODULE_LOADED !== "undefined") _loadedModules.push("
 if (typeof TYPEWRITERMANAGER_MODULE_LOADED !== "undefined") _loadedModules.push("TypewriterManager");
 if (typeof BOXMANAGER_MODULE_LOADED !== "undefined") _loadedModules.push("BoxManager");
 if (typeof MULTILINESMANAGER_MODULE_LOADED !== "undefined") _loadedModules.push("MultiLinesManager");
-if (typeof SOGAMANAGER_MODULE_LOADED !== "undefined") _loadedModules.push("SogaManager");
+if (typeof INSPECTORMANAGER_MODULE_LOADED !== "undefined") _loadedModules.push("InspectorManager");
 if (typeof LAYEROPERATIONS_MODULE_LOADED !== "undefined") _loadedModules.push("LayerOperations");
 if (typeof PRESETMANAGER_MODULE_LOADED !== "undefined") _loadedModules.push("PresetManager");
 if (typeof IMPORTEXPORT_MODULE_LOADED !== "undefined") _loadedModules.push("ImportExport");

@@ -47,5 +47,5 @@
     "springMass": 1,
     "springVelocityBoost": 0
   },
-  "arena": true
+  "inLibrary": true
 }

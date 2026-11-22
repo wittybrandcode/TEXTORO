@@ -42,6 +42,6 @@
     "easingType": 1,
     "easingStrength": 120
   },
-  "arena": false,
+  "inLibrary": false,
   "faIcon": "ph-bold ph-arrows-clockwise"
 }

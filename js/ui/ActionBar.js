@@ -37,6 +37,8 @@ TEXTORO.UI.ActionBar = (function() {
         presets: '<button class="ab ab-icon ab-p square-icon-btn" id="btnPresetsApply" title="Apply to Selected Text">' + PH_CHECK + '</button>' +
                  '<button class="ab ab-icon square-icon-btn" id="btnPresetsNew" title="Create New Preset from Layer">' + PH_PLUS + '</button>',
                
+        inspector: '<button class="ab ab-icon ab-p square-icon-btn" id="btnSogaApply" title="Apply Changes">' + PH_CHECK + '</button>' +
+              '<button class="ab ab-icon square-icon-btn" id="btnSogaRefresh2" title="Refresh from Layer">' + PH_REFRESH + '</button>',
         soga: '<button class="ab ab-icon ab-p square-icon-btn" id="btnSogaApply" title="Apply Changes">' + PH_CHECK + '</button>' +
               '<button class="ab ab-icon square-icon-btn" id="btnSogaRefresh2" title="Refresh from Layer">' + PH_REFRESH + '</button>',
               
@@ -116,6 +118,7 @@ TEXTORO.UI.ActionBar = (function() {
                 });
                 break;
                 
+            case 'inspector':
             case 'soga':
                 bindClick('btnSogaApply', function() {
                     if (TEXTORO.Panels && TEXTORO.Panels.Soga) {

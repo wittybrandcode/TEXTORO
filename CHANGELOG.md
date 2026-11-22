@@ -6,6 +6,20 @@ All notable changes to TEXTORO are documented in this file.
 
 ## [Unreleased]
 
+### 🏛️ Complete Technical Nomenclature Purge: Soga -> Inspector & Arena -> Motion Library — 2026-11-22
+- **Unified Layer Inspector Architecture (`Inspector`)**:
+  - Fully purged all legacy `Soga` terminology across client and host ExtendScript layers.
+  - Renamed `host/modules/SogaManager.jsx` -> `host/modules/InspectorManager.jsx` with standard `InspectorManager` exports and clean logging.
+  - Renamed `js/panels/SogaPanel.js` -> `js/panels/InspectorPanel.js` with `TEXTORO.Panels.Inspector`.
+  - Updated `index.html` tab to `data-tab="inspector"` (`title="Layer Inspector"`), `#panel-inspector`, and modular `.inspector-card` styles.
+  - Updated `TabManager.js`, `ActionBar.js`, `SelectionMonitor.js`, and `main-entry.js` with first-class `inspector` tab handling and zero-breakage backward compatibility aliases for `soga`.
+- **Motion Library Grid Standard (`inLibrary`)**:
+  - Purged legacy `arena` flag across all 19 presets in `config/presets/motion/` and updated `config/presets/_schema.json` to standardized `inLibrary: boolean`.
+  - Updated `MotionPanel.js` and `PresetsOps.js` to reference `libraryPresets` with transparent backward compatibility.
+- **Quality & Contract Compliance**:
+  - Recompiled production modular CSS (`css/style.css`).
+  - 100% pass across all 13 automated smoke validation checks.
+
 ### 🎛️ Unified Studio Steppers & Browser Spin-Button Suppression Across All Inputs — 2026-11-22
 - **Global Browser Native Spin-Button Suppression**:
   - Completely removed Chromium's default white `::-webkit-inner-spin-button` and `::-webkit-outer-spin-button` via CSS `-webkit-appearance: none !important; display: none !important;`.

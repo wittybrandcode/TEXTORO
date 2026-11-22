@@ -15,7 +15,8 @@ TEXTORO.UI.TabManager = (function() {
         type: 'TYPE',
         box: 'BOX',
         presets: 'PRESETS',
-        soga: 'CONTROL',
+        inspector: 'INSPECTOR',
+        soga: 'INSPECTOR',
         markers: 'MARKERS',
         motion: 'MOTION',
         settings: 'CONFIG'
@@ -117,10 +118,14 @@ TEXTORO.UI.TabManager = (function() {
                 }
                 break;
                 
+            case 'inspector':
             case 'soga':
-                // تحديث Soga
-                if (TEXTORO.Panels && TEXTORO.Panels.Soga) {
-                    TEXTORO.Panels.Soga.refresh();
+                // Refresh Inspector panel
+                if (TEXTORO.Panels && (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga)) {
+                    var insp = TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga;
+                    insp.refresh();
+                } else if (typeof refreshInspectorPanel === 'function') {
+                    refreshInspectorPanel();
                 } else if (typeof refreshSogaFromLayer === 'function') {
                     refreshSogaFromLayer();
                 }

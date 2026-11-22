@@ -1,5 +1,5 @@
 /**
- * TEXTORO - Soga Manager Module
+ * TEXTORO - Inspector Manager Module
  * لوحة التحكم السريع - قراءة وكتابة Effect Controls
  * v1.2.0 - ControllerManager Defaults Integration
  * 
@@ -15,13 +15,14 @@
  * - Can use validateControllerValue() for value validation
  */
 
-$.writeln("[TEXTORO] Loading SogaManager module...");
+$.writeln("[TEXTORO] Loading InspectorManager module...");
 
 var CONFIG = (typeof $.global !== "undefined" && $.global.CONFIG) ? $.global.CONFIG : (typeof CONFIG !== "undefined" ? CONFIG : { DEBUG: false, TEXT: { RTL: "", LTR: "" } });
 var BOX_CONFIG = (typeof $.global !== "undefined" && $.global.BOX_CONFIG) ? $.global.BOX_CONFIG : (typeof BOX_CONFIG !== "undefined" ? BOX_CONFIG : {});
 
 
 // Module load flag
+var INSPECTORMANAGER_MODULE_LOADED = true;
 var SOGAMANAGER_MODULE_LOADED = true;
 
 // ═══════════════════════════════════════════════════════════════════
@@ -39,16 +40,16 @@ function _getDefaultsWithFallback(category) {
         try {
             var defaults = getControllerDefaults(category);
             if (defaults && txKeyCount(defaults) > 0) {
-                $.writeln("[TEXTORO Soga] Using ControllerManager defaults for " + category);
+                $.writeln("[TEXTORO Inspector] Using ControllerManager defaults for " + category);
                 return defaults;
             }
         } catch(e) {
-            $.writeln("[TEXTORO Soga] ControllerManager error: " + e.toString());
+            $.writeln("[TEXTORO Inspector] ControllerManager error: " + e.toString());
         }
     }
     
     // Fallback للقيم المكتوبة
-    $.writeln("[TEXTORO Soga] Using hardcoded defaults for " + category);
+    $.writeln("[TEXTORO Inspector] Using hardcoded defaults for " + category);
     return _getHardcodedDefaults(category);
 }
 
@@ -395,13 +396,13 @@ function setLayerEffectValues(optsJSON) {
         
         var fx = layer.property("ADBE Effect Parade");
         
-        app.beginUndoGroup("TEXTORO - Soga Update");
+        app.beginUndoGroup("TEXTORO - Inspector Update");
         undoStarted = true;
         
         if (opts.typewriter) _writeTypewriterValues(fx, opts.typewriter);
         if (opts.box) _writeBoxValues(fx, opts.box);
         if (opts.motion) {
-            $.writeln("[TEXTORO Soga] setLayerEffectValues - Motion update started");
+            $.writeln("[TEXTORO Inspector] setLayerEffectValues - Motion update started");
             _writeMotionValues(fx, opts.motion);
         }
         
@@ -627,7 +628,7 @@ function setLayerEffectValuesMulti(optsJSON) {
         var layers = getSelectedTextLayers(comp);
         if (layers.length === 0) return error("Select text layers");
         
-        app.beginUndoGroup("TEXTORO - Soga Multi Update");
+        app.beginUndoGroup("TEXTORO - Inspector Multi Update");
         undoStarted = true;
         
         var updatedCount = 0;
@@ -651,9 +652,9 @@ function setLayerEffectValuesMulti(optsJSON) {
             
             // تحديث قيم Motion إذا كان موجوداً
             var hasMT = typeof hasMotion === "function" ? hasMotion(layer) : false;
-            if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO Soga] hasMotion: " + hasMT + ", opts.motion: " + (opts.motion ? "yes" : "no"));
+            if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO Inspector] hasMotion: " + hasMT + ", opts.motion: " + (opts.motion ? "yes" : "no"));
             if (hasMT && opts.motion) {
-                $.writeln("[TEXTORO Soga] Motion OUT values: posLinkMode=" + opts.motion.posLinkMode);
+                $.writeln("[TEXTORO Inspector] Motion OUT values: posLinkMode=" + opts.motion.posLinkMode);
                 _writeMotionValues(fx, opts.motion);
             }
         }
@@ -861,6 +862,11 @@ function _ensureTextColorAnimator(textLayer, animators, fx, textColor) {
     }
 }
 
-$.writeln("[TEXTORO] SogaManager module loaded!");
+$.writeln("[TEXTORO] InspectorManager module loaded!");
 
 
+
+
+// Backward compatibility aliases
+var InspectorManager = this;
+var SogaManager = InspectorManager;

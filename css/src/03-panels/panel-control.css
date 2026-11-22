@@ -1,8 +1,8 @@
 /* ============================================================
-   TEXTORO PANEL: CONTROL (SOGA Master Live Controls)
+   TEXTORO PANEL: INSPECTOR (Live Layer Properties Inspector)
    ============================================================ */
 
-#panel-soga .studio-card {
+#panel-inspector .studio-card, #panel-soga .studio-card {
     gap: 4px !important;
 }
 
@@ -15,8 +15,7 @@
 }
 
 /* Studio Slate Soga Layer Info Bar */
-.soga-header,
-.studio-layer-bar { 
+.inspector-header, .soga-header, .studio-layer-bar { 
     background: #131317 !important; 
     border: 1px solid rgba(255, 255, 255, 0.08) !important; 
     border-radius: 0 !important; 
@@ -28,8 +27,7 @@
     gap: 8px !important; 
 }
 
-.soga-icon,
-.studio-layer-icon { 
+.inspector-icon, .soga-icon, .studio-layer-icon { 
     width: 26px !important; 
     height: 26px !important; 
     background: #16161d !important; 

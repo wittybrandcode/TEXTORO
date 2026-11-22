@@ -45,7 +45,7 @@ TEXTORO.Ops.Presets = (function() {
                 scriptName = 'applyPreset';
                 break;
             case 'motion':
-                scriptName = (preset.values && (preset.values.in || preset.values.out || preset.arena)) ? 'applyMotionPreset' : 'applyPreset';
+                scriptName = (preset.values && (preset.values.in || preset.values.out || (preset.inLibrary || preset.arena))) ? 'applyMotionPreset' : 'applyPreset';
                 break;
             default:
                 scriptName = 'applyPreset';

@@ -21,7 +21,7 @@
       "builtin",
       "author",
       "created",
-      "arena"
+      "inLibrary"
     ],
     "fields": {
       "name": "string - Human-readable preset name (Required)",
@@ -32,7 +32,7 @@
       "builtin": "boolean - Flag indicating factory preset status (Optional, default: false)",
       "author": "string - Creator or studio attribution (Optional)",
       "created": "string - ISO 8601 creation timestamp (Optional)",
-      "arena": "boolean - Display flag for Motion Arena grid (Optional)"
+      "inLibrary": "boolean - Display flag for Motion Arena grid (Optional)"
     }
   },
   "type": {

@@ -1,12 +1,12 @@
 /**
- * TEXTORO - Soga Panel Module
- * لوحة Soga (تعديل الطبقات المحددة)
+ * TEXTORO - Inspector Panel Module
+ * Layer Inspector Panel (Live Layer Control)
  * @version 3.3.0
  */
 
 TEXTORO.Panels = TEXTORO.Panels || {};
 
-TEXTORO.Panels.Soga = (function() {
+TEXTORO.Panels.Inspector = (function() {
     'use strict';
     
     // متغيرات خاصة
@@ -64,7 +64,7 @@ TEXTORO.Panels.Soga = (function() {
         // Motion tabs
         initMotionTabs();
         
-        TEXTORO.log('SogaPanel initialized');
+        TEXTORO.log('InspectorPanel initialized');
     }
     
     /**
@@ -160,7 +160,7 @@ TEXTORO.Panels.Soga = (function() {
             if (!selRes.success) {
                 // E-01: فشل المضيف لا يُطوى كـ"لا تحديد"
                 var errS = (selRes && selRes.error) || 'Unknown error';
-                TEXTORO.error('[SogaPanel] getMultiSelectionInfo failed: ' + errS);
+                TEXTORO.error('[InspectorPanel] getMultiSelectionInfo failed: ' + errS);
                 TEXTORO.UI.StatusBar.warning('Soga: ' + errS);
             }
             var count = (selRes.success && selRes.data) ? selRes.data.count : 0;
@@ -733,11 +733,15 @@ TEXTORO.Panels.Soga = (function() {
 })();
 
 // Aliases للتوافق
-function initSogaPanel() { TEXTORO.Panels.Soga.init(); }
-function initSogaMotionTabs() { /* handled in init */ }
-function refreshSogaPanel() { TEXTORO.Panels.Soga.refresh(); }
-function refreshSogaFromLayer() { TEXTORO.Panels.Soga.refresh(); }
-function applySogaChanges() { TEXTORO.Panels.Soga.applyChanges(); }
-function showSogaEmpty() { TEXTORO.Panels.Soga.showEmpty(); }
-var sogaMultiCount = 0;
-var sogaDebounceTimer = null;
+// Backward compatibility aliases
+    TEXTORO.Panels.Soga = TEXTORO.Panels.Inspector;
+    window.initInspectorPanel = function() { TEXTORO.Panels.Inspector.init(); };
+    window.refreshInspectorPanel = function() { TEXTORO.Panels.Inspector.refresh(); };
+    window.applyInspectorChanges = function() { TEXTORO.Panels.Inspector.applyChanges(); };
+    window.initSogaPanel = window.initInspectorPanel;
+    window.refreshSogaPanel = window.refreshInspectorPanel;
+    window.refreshSogaFromLayer = window.refreshInspectorPanel;
+    window.applySogaChanges = window.applyInspectorChanges;
+    window.showSogaEmpty = function() { TEXTORO.Panels.Inspector.showEmpty(); };
+    var sogaMultiCount = 0;
+    var sogaDebounceTimer = null;

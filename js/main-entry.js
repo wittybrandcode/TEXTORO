@@ -49,9 +49,9 @@
                 }
 
                 // Update Soga panel if active
-                if (TEXTORO.UI.TabManager && TEXTORO.UI.TabManager.isActive('soga')) {
-                    if (TEXTORO.Panels && TEXTORO.Panels.Soga) {
-                        TEXTORO.Panels.Soga.refresh();
+                if (TEXTORO.UI.TabManager && (TEXTORO.UI.TabManager.isActive('inspector') || TEXTORO.UI.TabManager.isActive('soga'))) {
+                    if (TEXTORO.Panels && (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga)) {
+                        (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga).refresh();
                     }
                 }
                 
@@ -217,12 +217,12 @@
             }
         } catch(e) { TEXTORO.error('Failed to init BoxPanel: ' + e.message); }
         
-        // Soga Panel
+        // Inspector Panel (formerly Soga)
         try {
-            if (TEXTORO.Panels && TEXTORO.Panels.Soga) {
-                TEXTORO.Panels.Soga.init();
+            if (TEXTORO.Panels && (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga)) {
+                (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga).init();
             }
-        } catch(e) { TEXTORO.error('Failed to init SogaPanel: ' + e.message); }
+        } catch(e) { TEXTORO.error('Failed to init InspectorPanel: ' + e.message); }
         
         // Markers Panel
         try {
