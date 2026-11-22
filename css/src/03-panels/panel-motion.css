@@ -167,6 +167,67 @@
     padding: 4px 0 !important;
 }
 
+/* Motion Presets Arena Button (Zero-Radius Studio Dark Style) */
+.motion-preset-btn {
+    height: 26px !important;
+    background: #181822 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 0 !important;
+    color: #cbd5e1 !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    cursor: pointer !important;
+    padding: 0 4px !important;
+    user-select: none !important;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+.motion-preset-btn:hover {
+    background: #20202e !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+}
+
+.motion-preset-btn i {
+    font-size: 10px !important;
+    color: #10b981 !important;
+}
+
+.motion-preset-btn:hover i {
+    color: #34d399 !important;
+}
+
+.motion-preset-btn.selected-in {
+    background: #12201c !important;
+    border-color: #10b981 !important;
+    color: #ffffff !important;
+}
+
+.motion-preset-btn.selected-out {
+    background: #241d14 !important;
+    border-color: #f59e0b !important;
+    color: #ffffff !important;
+}
+
+.motion-preset-btn.selected-in.selected-out {
+    background: linear-gradient(135deg, #12201c 0%, #241d14 100%) !important;
+    border-color: #10b981 !important;
+    color: #ffffff !important;
+}
+
+.preset-emoji {
+    font-size: 11px !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+}
+
 /* Motion Presets Loading State */
 .presets-loading {
     text-align: center !important;
@@ -180,4 +241,3 @@
     margin-bottom: 6px !important;
     color: #10b981 !important;
 }
-

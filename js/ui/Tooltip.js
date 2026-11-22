@@ -1,7 +1,7 @@
 /**
  * TEXTORO - Smart Tooltip System
- * Single DOM element, 400ms delay, smart positioning, ES5 & XSS safe
- * @version 1.0.1
+ * Single DOM element, delay, smart positioning, ES5 & XSS safe
+ * @version 1.1.0
  */
 var Tooltip = (function() {
     'use strict';
@@ -9,7 +9,7 @@ var Tooltip = (function() {
     var el = null;
     var showTimer = null;
     var currentTarget = null;
-    var DELAY = 400; // ms before showing
+    var DELAY = 350; // ms before showing
     
     /**
      * Initialize tooltip system
@@ -24,11 +24,14 @@ var Tooltip = (function() {
             document.body.appendChild(el);
         }
         
-        // Event delegation - single listener for performance
+        // Event delegation - listeners with aggressive cleanup
         document.addEventListener('mouseover', handleMouseOver);
         document.addEventListener('mouseout', handleMouseOut);
         document.addEventListener('scroll', hide, true);
         document.addEventListener('click', hide);
+        document.addEventListener('mousedown', hide);
+        document.addEventListener('mouseleave', hide);
+        window.addEventListener('blur', hide);
         
         if (typeof TEXTORO !== 'undefined' && TEXTORO.log) {
             TEXTORO.log('[Tooltip] Initialized');
@@ -39,8 +42,19 @@ var Tooltip = (function() {
      * Handle mouse over - start delay timer
      */
     function handleMouseOver(e) {
-        var target = e.target.closest('[data-tip], [title]');
-        if (!target || target === currentTarget) return;
+        var target = e.target ? e.target.closest('[data-tip], [title]') : null;
+        if (!target) {
+            hide();
+            return;
+        }
+        
+        // Never show tooltips on active tab buttons
+        if (target.classList.contains('tab') && target.classList.contains('active')) {
+            hide();
+            return;
+        }
+        
+        if (target === currentTarget) return;
         
         // Migrate native title to data-tip so the OS tooltip doesn't clash
         if (target.hasAttribute('title')) {
@@ -60,23 +74,33 @@ var Tooltip = (function() {
     }
     
     /**
-     * Handle mouse out - cancel timer and hide
+     * Handle mouse out - cancel timer and hide immediately
      */
     function handleMouseOut(e) {
-        var target = e.target.closest('[data-tip]');
-        if (!target) return;
-        
-        clearTimeout(showTimer);
-        if (currentTarget === target) {
+        var target = e.target ? e.target.closest('[data-tip]') : null;
+        if (!target) {
             hide();
-            currentTarget = null;
+            return;
         }
+        
+        // If the mouse moved into a child element inside the SAME target, do not hide
+        if (e.relatedTarget && target.contains(e.relatedTarget)) {
+            return;
+        }
+        
+        hide();
     }
     
     /**
      * Show tooltip for target element
      */
     function show(target) {
+        // Guard against stale triggers or disconnected elements
+        if (!target || target !== currentTarget || !target.isConnected) return;
+        
+        // Guard against active tab
+        if (target.classList.contains('tab') && target.classList.contains('active')) return;
+        
         var text = target.getAttribute('data-tip');
         var key = target.getAttribute('data-key');
         
@@ -135,11 +159,15 @@ var Tooltip = (function() {
     }
     
     /**
-     * Hide tooltip
+     * Hide tooltip and cancel any pending timers
      */
     function hide() {
+        clearTimeout(showTimer);
+        showTimer = null;
+        currentTarget = null;
         if (el) {
             el.classList.remove('show');
+            el.style.display = 'none';
         }
     }
     

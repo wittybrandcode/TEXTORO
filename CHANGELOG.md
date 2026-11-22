@@ -7,10 +7,14 @@ All notable changes to TEXTORO are documented in this file.
 ## [Unreleased]
 
 ### 🛠️ Full Studio Component Styling Restoration & 100% Panel CSS Coverage — 2026-11-22
+- **Persistent Tooltip Bug Fix**: Resolved sticky tooltips across all tabs. Active tab buttons are now strictly barred from opening tooltips; tooltips immediately vanish on `mouseout`, `mousedown`, `click`, `tab switch`, and panel `blur` with complete race condition prevention.
+- **Motion Presets Arena Styling**: Restored `.motion-preset-btn`, `.selected-in`, `.selected-out`, and `.preset-emoji` dark slate styling across all 16 motion preset buttons in the Motion tab, replacing stark white rectangles.
+- **Presets Panel Item Polish & Search**: Restored `.preset-apply-btn` (hidden by default, revealed on hover with emerald `#10b981`), `.preset-badge` category chips (`Type`, `Box`, `Mix`, `Motion`, `Toro`), and single-row `.presets-search` flex layout with sort select and refresh button.
+- **Modal & Swatch Styles**: Added `.color-hex-status`, `.studio-color-swatch`, `button.copied`, and `.precision-custom-wrap`.
+- **Dynamic JS CSS Coverage Smoke Gate**: Added `tools/smoke/check-js-css-coverage.js` verifying that 100% of classes dynamically injected by JS files have compiled CSS definitions; suite expanded to 13/13 passing automated checks.
 - **Numeric Precision Steppers**: Restored dark slate `.stepper-actions` and `.step-arrow` styling across all numeric inputs, replacing stark white browser default button boxes with integrated subtle arrows and emerald hover feedback.
 - **Markers Panel Full Architecture**: Restored all 31 missing component rules for `FILTER BY TYPE` chips (color-coded Emerald `IN`, Crimson `OUT`, Amber `BLINK`), markers table container, sort headers, empty message alignment, and unified obsidian operation buttons (`< M`, `M >`, `< L`, `L >`, `ALIGN M`, `ALIGN L`).
 - **Control (SOGA) Panel Studio Empty State & Layer Bar**: Restored full studio empty state container with dashed slate border, centered cursor icon, and descriptive typography; restored `.soga-header` layer info bar and square refresh button.
-- **Automated Smoke Gate (100% Coverage Guard)**: Created `tools/smoke/check-css-coverage.js` verifying that every class present across all 7 panels in `index.html` has complete CSS definitions; integrated into `tools/smoke/run-smoke-checks.ps1` with 12/12 automated checks passing.
 - **CEP Mirror & Repository Sync**: 100% synchronized with Adobe CEP mirror and verified.
 
 ### 🎨 Modular CSS Architecture & Dead-Weight Purge — 2026-11-21

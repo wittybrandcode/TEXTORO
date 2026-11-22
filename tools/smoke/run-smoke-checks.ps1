@@ -8,6 +8,10 @@ Write-Host '[SMOKE] Verifying Panel CSS Class Coverage...'
 node "$PSScriptRoot/check-css-coverage.js"
 if ($LASTEXITCODE -ne 0) { throw 'CSS coverage check failed.' }
 
+Write-Host '[SMOKE] Verifying Dynamic JS CSS Coverage...'
+node "$PSScriptRoot/check-js-css-coverage.js"
+if ($LASTEXITCODE -ne 0) { throw 'Dynamic JS CSS coverage check failed.' }
+
 Write-Host '[SMOKE] Running UI syntax checks...'
 node "$PSScriptRoot/check-ui-syntax.js"
 if ($LASTEXITCODE -ne 0) { throw 'UI syntax check failed.' }

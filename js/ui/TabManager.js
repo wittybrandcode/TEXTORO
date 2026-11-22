@@ -26,6 +26,12 @@ TEXTORO.UI.TabManager = (function() {
      * @param {string} tabName
      */
     function switchTo(tabName) {
+        // إخفاء أي تلميح نشط فوراً
+        if (typeof Tooltip !== 'undefined' && Tooltip.hide) Tooltip.hide();
+        if (typeof TEXTORO !== 'undefined' && TEXTORO.UI && TEXTORO.UI.Tooltip && TEXTORO.UI.Tooltip.hide) {
+            TEXTORO.UI.Tooltip.hide();
+        }
+
         // إخفاء كل التبويبات
         document.querySelectorAll('.tab').forEach(function(t) {
             t.classList.remove('active');

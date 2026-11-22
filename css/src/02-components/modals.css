@@ -104,3 +104,33 @@
     background: #ef4444 !important;
     color: #ffffff !important;
 }
+
+/* Color Hex Status */
+.color-hex-status {
+    font-size: 10px !important;
+    font-weight: 600 !important;
+}
+.color-hex-status.valid { color: #10b981 !important; }
+.color-hex-status.error { color: #ef4444 !important; }
+
+/* Studio Color Swatches */
+.studio-color-swatch {
+    width: 22px !important;
+    height: 22px !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    transition: transform 0.1s ease, border-color 0.1s ease !important;
+    box-sizing: border-box !important;
+}
+.studio-color-swatch:hover {
+    transform: scale(1.08) !important;
+    border-color: #ffffff !important;
+}
+
+/* Copied button state */
+button.copied {
+    background: #10b981 !important;
+    color: #ffffff !important;
+}
+
