@@ -2,18 +2,18 @@
    TEXTORO TOOLTIPS & CONTEXT MENUS (High-Contrast Industrial)
    ============================================================ */
 
-/* Crisp High-Contrast Tooltip */
+/* Crisp Studio Dark Tooltip */
 #tooltip,
 .tt {
     position: absolute !important;
-    background: #ffffff !important;
-    color: #111116 !important;
-    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    background: #181824 !important;
+    color: #f1f5f9 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
     font-size: 10.5px !important;
     font-weight: 600 !important;
     line-height: 1.35 !important;
     padding: 4px 8px !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
     border-radius: 0 !important;
     white-space: normal !important;
     word-wrap: break-word !important;
@@ -31,7 +31,7 @@
     position: absolute !important;
     width: 6px !important;
     height: 6px !important;
-    background: #ffffff !important;
+    background: #181824 !important;
     border: none !important;
     transform: rotate(45deg) !important;
 }
@@ -40,8 +40,8 @@
     bottom: -3px !important;
     left: 50% !important;
     margin-left: -3px !important;
-    border-right: 1px solid rgba(0, 0, 0, 0.15) !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-left: none !important;
     border-top: none !important;
 }
@@ -50,8 +50,8 @@
     top: -3px !important;
     left: 50% !important;
     margin-left: -3px !important;
-    border-left: 1px solid rgba(0, 0, 0, 0.15) !important;
-    border-top: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-right: none !important;
     border-bottom: none !important;
 }
@@ -60,9 +60,9 @@
     display: inline-block !important;
     margin-left: 6px !important;
     padding: 1px 4px !important;
-    background: rgba(0, 0, 0, 0.08) !important;
-    color: #333333 !important;
-    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #10b981 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-radius: 0 !important;
     font-size: 9px !important;
     font-weight: 700 !important;

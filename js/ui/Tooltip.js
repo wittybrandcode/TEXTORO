@@ -8,6 +8,7 @@ var Tooltip = (function() {
     
     var el = null;
     var showTimer = null;
+    var autoHideTimer = null;
     var currentTarget = null;
     var DELAY = 350; // ms before showing
     
@@ -48,8 +49,8 @@ var Tooltip = (function() {
             return;
         }
         
-        // Never show tooltips on active tab buttons
-        if (target.classList.contains('tab') && target.classList.contains('active')) {
+        // Never show tooltips on header tab buttons
+        if (target.classList.contains('tab') || (target.closest && (target.closest('.tabs') || target.closest('.studio-tab-row') || target.closest('.tab')))) {
             hide();
             return;
         }
@@ -162,6 +163,10 @@ var Tooltip = (function() {
         } else {
             el.classList.add('show');
         }
+        
+        // Safety: auto-hide after 3 seconds so tooltips never get stuck indefinitely
+        clearTimeout(autoHideTimer);
+        autoHideTimer = setTimeout(hide, 3000);
     }
     
     /**
@@ -169,7 +174,9 @@ var Tooltip = (function() {
      */
     function hide() {
         clearTimeout(showTimer);
+        clearTimeout(autoHideTimer);
         showTimer = null;
+        autoHideTimer = null;
         currentTarget = null;
         if (el) {
             el.classList.remove('show');

@@ -6,6 +6,26 @@ All notable changes to TEXTORO are documented in this file.
 
 ## [Unreleased]
 
+### 🛠️ Methodical Presets Live Preview Engine, Studio Dark Tooltips & 100% English UI — 2026-11-22
+- **Spacious Studio Presets Preview Stage (124px Height)**:
+  - Substantially expanded Presets card height to 124px (92px upper viewport + 32px lower meta strip), completely eliminating vertical clipping on box borders (such as Outline Clean and Outline White) and motion trajectories.
+  - Composition stage features an authentic AE dark canvas (`#09090e`) with a subtle 10px dot grid (`radial-gradient`).
+- **Authentic After Effects Shape & Type Simulation Engine**:
+  - `Box`: Renders real After Effects shape geometry directly from preset values (exact fill color and opacity, stroke width, stroke color, and proportional corner radius: sharp 0px vs rounded 16px).
+  - `Type`: Live typewriter engine running on hover with blinking cursor indicator (`|`, `_`, or `█`) in letter-by-letter or word-by-word mode.
+  - `Mix` & `Toro`: Combined true shape geometry and live typing typography.
+  - `Motion` & `Motion-Full`: Renders centered in idle state, executing single-play CSS keyframe animations (bounce, slide up, spin zoom) strictly on hover.
+- **On-Hover-Exclusively Interactive Playback**:
+  - Live typing and motion animations run strictly on `mouseenter` / `:hover` and cleanly reset to idle upon `mouseleave`, avoiding distracting continuous looping.
+- **Dual Action Header & ActionBar Workflow**:
+  - Primary **Apply to Selected Text** button (`ph-check`) and **Create New Preset from Layer** button (`ph-plus`) in both ActionBar and header toolbar.
+  - Hover quick-apply overlay button on each card with single-click and double-click execution.
+- **Tab Header Tooltip Elimination & Studio Dark Theme**:
+  - Removed tooltips from header tab buttons to prevent visual obstruction.
+  - Added strict isolation in `Tooltip.js` barring tabs and motion presets, added a 3-second safety auto-dismiss timer, and transformed tooltip styling from harsh white to sleek studio dark (`#181824`, `#f1f5f9` text, emerald accent).
+- **English-Only Standardization**:
+  - Converted remaining ExtendScript host messages in `MultiLinesManager.jsx` and `PresetManager.jsx` into English.
+
 ### 🛠️ Full Studio Component Styling Restoration & 100% Panel CSS Coverage — 2026-11-22
 - **Realistic Presets Live Preview Cards & Dual Action Workflow**:
   - Re-architected Presets list items into tactile, extended cards (82px height) featuring a realistic upper preview window and lower meta strip matching user specifications.

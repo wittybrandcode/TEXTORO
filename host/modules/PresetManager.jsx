@@ -1701,7 +1701,7 @@ function applyPreset(optsJSON) {
         app.endUndoGroup();
         undoStarted = false;
 
-        var msg = createdNew ? "تم إنشاء نص وتطبيق الـ Preset" : "تم تطبيق الـ Preset على " + layers.length + " طبقة";
+        var msg = createdNew ? "Created text layer and applied preset" : "Applied preset to " + layers.length + " layer(s)";
         return success(msg, { createdNew: createdNew, count: layers.length });
 
     } catch(e) {

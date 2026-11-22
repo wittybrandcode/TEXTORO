@@ -398,7 +398,7 @@ function splitAndApply(optsJSON) {
         app.endUndoGroup();
         undoStarted = false;
         
-        var msg = "تم تقسيم " + splitResult.data.count + " أسطر";
+        var msg = "Split into " + splitResult.data.count + " lines";
         if (opts.applyType) msg += " + Typewriter";
         if (opts.applyBox) msg += " + Box";
         
