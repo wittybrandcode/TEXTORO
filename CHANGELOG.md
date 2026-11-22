@@ -7,6 +7,18 @@ All notable changes to TEXTORO are documented in this file.
 ## [Unreleased]
 
 ### 🛠️ Full Studio Component Styling Restoration & 100% Panel CSS Coverage — 2026-11-22
+- **Realistic Presets Live Preview Cards & Dual Action Workflow**:
+  - Re-architected Presets list items into tactile, extended cards (82px height) featuring a realistic upper preview window and lower meta strip matching user specifications.
+  - Built live miniature rendering system:
+    - `Box`: Real background color/opacity, stroke width, and corner radius (rounded vs sharp) with styled text inside.
+    - `Type`: Live typewriter typography with blinking cursor indicator (`|`, `_`, or `█`).
+    - `Mix`: Combined real box shape + typewriter typography.
+    - `Motion / Motion-Full`: Live CSS keyframe animations (bounce, slide up, spin zoom).
+    - `Toro`: Complete unified template preview.
+  - Implemented dual action workflow:
+    - Primary **Apply to Selected Text** icon button (`ph-check`) in both ActionBar and header toolbar.
+    - **Create New Preset from Layer** icon button (`ph-plus`) in both ActionBar and header toolbar.
+    - Hover quick-apply overlay button on each card with single-click and double-click execution.
 - **Large Square Motion Arena Cards & Dedicated Kinematic Discs**:
   - Re-architected Motion Presets Arena into square tactile studio cards (`aspect-ratio: 1/1`, min-height 64px) matching user specifications.
   - Implemented upper preview stage with circular vector icon container (`.preset-motion-icon-wrap`, Phosphor Bold) for idle state, and glowing kinematic disc (`.preset-motion-disc`) executing real-time trajectory upon hover.

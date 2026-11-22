@@ -34,11 +34,8 @@ TEXTORO.UI.ActionBar = (function() {
         box: '<button class="ab ab-icon ab-p square-icon-btn" id="btnCreateBox" title="Create Box">' + PH_PLUS + '</button>' +
              '<button class="ab ab-icon ab-d square-icon-btn" id="btnRemoveBox" title="Remove Box">' + PH_TRASH + '</button>',
              
-        presets: '<button class="ab ab-icon ab-toro square-icon-btn" id="btnSaveToro" title="Save TORO (Type+Box+Motion)">' + PH_STAR + '</button>' +
-               '<button class="ab ab-icon square-icon-btn" id="btnSaveType" title="Save Type Preset">' + PH_TYPE + '</button>' +
-               '<button class="ab ab-icon square-icon-btn" id="btnSaveBox" title="Save Box Preset">' + PH_BOX + '</button>' +
-               '<button class="ab ab-icon square-icon-btn" id="btnSaveMix" title="Save Mix Preset">' + PH_LAYERS + '</button>' +
-               '<button class="ab ab-icon square-icon-btn" id="btnSaveMotion" title="Save Motion Preset">' + PH_WIND + '</button>',
+        presets: '<button class="ab ab-icon ab-p square-icon-btn" id="btnPresetsApply" title="Apply to Selected Text">' + PH_CHECK + '</button>' +
+                 '<button class="ab ab-icon square-icon-btn" id="btnPresetsNew" title="Create New Preset from Layer">' + PH_PLUS + '</button>',
                
         soga: '<button class="ab ab-icon ab-p square-icon-btn" id="btnSogaApply" title="Apply Changes">' + PH_CHECK + '</button>' +
               '<button class="ab ab-icon square-icon-btn" id="btnSogaRefresh2" title="Refresh from Layer">' + PH_REFRESH + '</button>',
@@ -107,20 +104,15 @@ TEXTORO.UI.ActionBar = (function() {
                 break;
                 
             case 'presets':
-                bindClick('btnSaveToro', function() {
-                    if (typeof savePresetFromLayer === 'function') savePresetFromLayer('toro');
+                bindClick('btnPresetsApply', function() {
+                    if (TEXTORO.Panels && TEXTORO.Panels.Presets && typeof TEXTORO.Panels.Presets.applySelected === 'function') {
+                        TEXTORO.Panels.Presets.applySelected();
+                    }
                 });
-                bindClick('btnSaveType', function() {
-                    if (typeof savePresetFromLayer === 'function') savePresetFromLayer('type');
-                });
-                bindClick('btnSaveBox', function() {
-                    if (typeof savePresetFromLayer === 'function') savePresetFromLayer('box');
-                });
-                bindClick('btnSaveMix', function() {
-                    if (typeof savePresetFromLayer === 'function') savePresetFromLayer('mix');
-                });
-                bindClick('btnSaveMotion', function() {
-                    if (typeof savePresetFromLayer === 'function') savePresetFromLayer('motion');
+                bindClick('btnPresetsNew', function() {
+                    if (TEXTORO.Panels && TEXTORO.Panels.Presets && typeof TEXTORO.Panels.Presets.createFromLayer === 'function') {
+                        TEXTORO.Panels.Presets.createFromLayer();
+                    }
                 });
                 break;
                 

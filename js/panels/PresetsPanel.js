@@ -14,6 +14,7 @@ TEXTORO.Panels.Presets = (function() {
     var currentSort = 'name-asc';
     var searchQuery = '';
     var favorites = [];
+    var selectedPreset = null;
     
     var elements = {
         container: null,
@@ -103,6 +104,16 @@ TEXTORO.Panels.Presets = (function() {
         // زر التحديث
         TEXTORO.Utils.bindClick('presetsRefreshBtn', function() {
             load(true);
+        });
+
+        // زر التطبيق في شريط البحث / الرأس
+        TEXTORO.Utils.bindClick('presetsHeaderApplyBtn', function() {
+            applySelected();
+        });
+
+        // زر إنشاء جديد في شريط البحث / الرأس
+        TEXTORO.Utils.bindClick('presetsHeaderNewBtn', function() {
+            createFromLayer();
         });
         
         // زر فتح المجلد
@@ -321,15 +332,215 @@ TEXTORO.Panels.Presets = (function() {
     }
     
     /**
-     * إنشاء عنصر بريست
+     * Helper to parse color values from preset
+     */
+    function parsePresetColor(c, defaultR, defaultG, defaultB) {
+        if (Array.isArray(c)) {
+            return [
+                Math.round((c[0] != null ? c[0] : defaultR) * 255),
+                Math.round((c[1] != null ? c[1] : defaultG) * 255),
+                Math.round((c[2] != null ? c[2] : defaultB) * 255)
+            ];
+        }
+        if (typeof c === 'string' && c.indexOf('#') === 0) {
+            var rgb = (TEXTORO.Utils && typeof TEXTORO.Utils.hexToRgb === 'function') ? TEXTORO.Utils.hexToRgb(c) : [1, 1, 1];
+            return [Math.round(rgb[0] * 255), Math.round(rgb[1] * 255), Math.round(rgb[2] * 255)];
+        }
+        return [defaultR, defaultG, defaultB];
+    }
+
+    /**
+     * Helper to apply real box styling to preview shape
+     */
+    function applyBoxStyles(el, vals) {
+        if (!vals) return;
+        var rgb = parsePresetColor(vals.fillColor, 20, 20, 28);
+        var fillOp = (vals.fillOpacity != null) ? (vals.fillOpacity / 100) : 0.85;
+        
+        el.style.backgroundColor = (fillOp <= 0.02) ? 'transparent' : 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + fillOp + ')';
+        
+        var rad = (vals.cornerRadius != null) ? vals.cornerRadius : 0;
+        el.style.borderRadius = Math.min(rad, 10) + 'px';
+        
+        var sWidth = vals.strokeWidth || 0;
+        var sOp = (vals.strokeOpacity != null) ? (vals.strokeOpacity / 100) : 1;
+        if (sWidth > 0 && sOp > 0.05) {
+            var sRgb = parsePresetColor(vals.strokeColor, 255, 255, 255);
+            el.style.border = Math.min(Math.max(sWidth, 1), 2) + 'px solid rgba(' + sRgb[0] + ',' + sRgb[1] + ',' + sRgb[2] + ',' + sOp + ')';
+        } else {
+            el.style.border = '1px solid rgba(255, 255, 255, 0.08)';
+        }
+    }
+
+    /**
+     * Determine animation keyframe class for motion presets
+     */
+    function getMotionPreviewClass(preset) {
+        var raw = String(preset.id || preset.fileName || preset.name || '').toLowerCase();
+        if (raw.indexOf('bounce') !== -1 || raw.indexOf('pop') !== -1) return 'bounce';
+        if (raw.indexOf('slide') !== -1 || raw.indexOf('up') !== -1 || raw.indexOf('down') !== -1 || raw.indexOf('rise') !== -1) return 'slide-up';
+        if (raw.indexOf('spin') !== -1 || raw.indexOf('zoom') !== -1 || raw.indexOf('flip') !== -1) return 'spin-zoom';
+        return 'bounce';
+    }
+
+    /**
+     * Build realistic live preview window stage
+     */
+    function buildPresetPreview(preset) {
+        var stage = document.createElement('div');
+        stage.className = 'preset-preview-stage';
+        
+        var cat = (preset.category || '').toLowerCase();
+        var vals = preset.values || {};
+        
+        if (cat === 'box') {
+            var boxEl = document.createElement('div');
+            boxEl.className = 'preview-box-shape';
+            applyBoxStyles(boxEl, vals);
+            
+            var textEl = document.createElement('span');
+            textEl.className = 'preview-box-text';
+            textEl.textContent = 'TEXTORO';
+            boxEl.appendChild(textEl);
+            
+            stage.appendChild(boxEl);
+        } else if (cat === 'type') {
+            var twWrap = document.createElement('div');
+            twWrap.className = 'preview-type-wrap';
+            
+            var textEl = document.createElement('span');
+            textEl.className = 'preview-type-text';
+            textEl.textContent = (vals.wordMode ? 'TEXT ORO' : 'TEXTORO');
+            twWrap.appendChild(textEl);
+            
+            if (vals.showCursor !== false) {
+                var cursorEl = document.createElement('span');
+                var cType = vals.cursorType || 0;
+                var cursorChar = (cType === 1) ? '_' : ((cType === 2) ? '█' : '|');
+                cursorEl.className = 'preview-cursor';
+                cursorEl.textContent = cursorChar;
+                twWrap.appendChild(cursorEl);
+            }
+            
+            stage.appendChild(twWrap);
+        } else if (cat === 'mix') {
+            var boxVals = vals.box || {};
+            var typeVals = vals.type || {};
+            
+            var boxEl = document.createElement('div');
+            boxEl.className = 'preview-box-shape';
+            applyBoxStyles(boxEl, boxVals);
+            
+            var twWrap = document.createElement('div');
+            twWrap.className = 'preview-type-wrap';
+            
+            var textEl = document.createElement('span');
+            textEl.className = 'preview-type-text';
+            textEl.textContent = 'TEXTORO';
+            twWrap.appendChild(textEl);
+            
+            if (typeVals.showCursor !== false) {
+                var cursorEl = document.createElement('span');
+                cursorEl.className = 'preview-cursor';
+                cursorEl.textContent = '|';
+                twWrap.appendChild(cursorEl);
+            }
+            
+            boxEl.appendChild(twWrap);
+            stage.appendChild(boxEl);
+        } else if (cat === 'motion' || cat === 'motion-full') {
+            var motionWrap = document.createElement('div');
+            var mKey = getMotionPreviewClass(preset);
+            motionWrap.className = 'preview-motion-wrap anim-' + mKey;
+            
+            var textEl = document.createElement('span');
+            textEl.className = 'preview-motion-text';
+            textEl.textContent = 'TEXTORO';
+            motionWrap.appendChild(textEl);
+            
+            stage.appendChild(motionWrap);
+        } else if (cat === 'toro') {
+            var boxVals = vals.box || {};
+            
+            var motionWrap = document.createElement('div');
+            motionWrap.className = 'preview-motion-wrap anim-toro';
+            
+            var boxEl = document.createElement('div');
+            boxEl.className = 'preview-box-shape';
+            applyBoxStyles(boxEl, boxVals);
+            
+            var textEl = document.createElement('span');
+            textEl.className = 'preview-type-text';
+            textEl.textContent = 'TEXTORO';
+            boxEl.appendChild(textEl);
+            
+            motionWrap.appendChild(boxEl);
+            stage.appendChild(motionWrap);
+        } else {
+            var genericText = document.createElement('span');
+            genericText.className = 'preview-type-text';
+            genericText.textContent = preset.name || 'TEXTORO';
+            stage.appendChild(genericText);
+        }
+        
+        return stage;
+    }
+
+    /**
+     * إنشاء عنصر بريست (بطاقة معاينة واقعية ممتدة مع شريط الاسم والنوع)
      */
     function createPresetItem(preset) {
         var item = document.createElement('div');
         item.className = 'preset-item' + (preset.builtin ? ' builtin' : '');
+        if (selectedPreset && (selectedPreset.id === preset.id || selectedPreset.fileName === preset.fileName)) {
+            item.classList.add('selected');
+        }
         item.dataset.category = preset.category;
         item.dataset.filename = preset.fileName || '';
         
-        // زر المفضلة
+        // 1. Realistic Preview Window (Upper Viewport)
+        var previewWindow = document.createElement('div');
+        previewWindow.className = 'preset-preview-window';
+        
+        var previewStage = buildPresetPreview(preset);
+        previewWindow.appendChild(previewStage);
+        
+        // Apply Button in Preview Window
+        var applyBtn = document.createElement('button');
+        applyBtn.className = 'preset-apply-btn';
+        applyBtn.innerHTML = '<i class="ph-bold ph-check"></i>';
+        applyBtn.title = 'Apply to selected text layer';
+        applyBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (preset.category === 'motion-full') {
+                applyMotionFull(preset);
+            } else {
+                apply(preset);
+            }
+        });
+        previewWindow.appendChild(applyBtn);
+        item.appendChild(previewWindow);
+        
+        // 2. Bottom Meta Bar (Name, Badge, Star, Delete)
+        var metaBar = document.createElement('div');
+        metaBar.className = 'preset-meta-bar';
+        
+        var nameSpan = document.createElement('span');
+        nameSpan.className = 'preset-name';
+        nameSpan.textContent = String(preset.name || '');
+        metaBar.appendChild(nameSpan);
+        
+        var metaRight = document.createElement('div');
+        metaRight.className = 'preset-meta-right';
+        
+        var badge = document.createElement('span');
+        var badgeCategory = (preset.category || '').replace('-full', '');
+        badge.className = 'preset-badge ' + badgeCategory;
+        var badgeText = preset.category === 'motion-full' ? 'Motion' : 
+                        (preset.category.charAt(0).toUpperCase() + preset.category.slice(1));
+        badge.textContent = badgeText;
+        metaRight.appendChild(badge);
+        
         var favBtn = document.createElement('button');
         favBtn.className = 'preset-fav-btn' + (isFavorite(preset) ? ' active' : '');
         favBtn.innerHTML = '<i class="ph-bold ph-star"></i>';
@@ -338,65 +549,42 @@ TEXTORO.Panels.Presets = (function() {
             e.stopPropagation();
             toggleFavorite(preset);
         });
-        item.appendChild(favBtn);
+        metaRight.appendChild(favBtn);
         
-        // الأيقونة
-        var icon = document.createElement('span');
-        icon.className = 'preset-icon';
-        icon.textContent = preset.icon || '📄';
-        item.appendChild(icon);
-        
-        // الاسم
-        var name = document.createElement('span');
-        name.className = 'preset-name';
-        name.textContent = preset.name;
-        item.appendChild(name);
-        
-        // الشارة
-        var badge = document.createElement('span');
-        badge.className = 'preset-badge ' + preset.category.replace('-full', '');
-        var badgeText = preset.category === 'motion-full' ? 'Motion' : 
-                        (preset.category.charAt(0).toUpperCase() + preset.category.slice(1));
-        badge.textContent = badgeText;
-        item.appendChild(badge);
-        
-        // motion-full: بريسات كاملة - زر تطبيق مباشر
-        // motion: بريسات بسيطة - لا تظهر هنا (تظهر في تبويب Motion فقط)
-        if (preset.category === 'motion-full') {
-            // زر التطبيق المباشر للبريسات الكاملة
-            var applyBtn = document.createElement('button');
-            applyBtn.className = 'preset-apply-btn';
-            applyBtn.innerHTML = '<i class="ph-bold ph-play"></i>';
-            applyBtn.title = 'Apply full motion (IN + OUT)';
-            applyBtn.addEventListener('click', function(e) {
+        if (!preset.builtin) {
+            var delBtn = document.createElement('button');
+            delBtn.className = 'preset-delete-btn';
+            delBtn.innerHTML = '<i class="ph-bold ph-trash"></i>';
+            delBtn.title = 'Delete preset';
+            delBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
-                applyMotionFull(preset);
+                confirmDelete(preset);
             });
-            item.appendChild(applyBtn);
-            
-            // النقر للتطبيق
-            item.addEventListener('click', function() {
-                applyMotionFull(preset);
-            });
-        } else {
-            // زر التطبيق للبريسات الأخرى
-            var applyBtn = document.createElement('button');
-            applyBtn.className = 'preset-apply-btn';
-            applyBtn.innerHTML = '<i class="ph-bold ph-check"></i>';
-            applyBtn.title = 'Apply preset';
-            applyBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                apply(preset);
-            });
-            item.appendChild(applyBtn);
-            
-            // النقر للتطبيق
-            item.addEventListener('click', function() {
-                apply(preset);
-            });
+            metaRight.appendChild(delBtn);
         }
         
-        // قائمة السياق
+        metaBar.appendChild(metaRight);
+        item.appendChild(metaBar);
+        
+        // Click to select
+        item.addEventListener('click', function() {
+            document.querySelectorAll('.preset-item.selected').forEach(function(el) {
+                el.classList.remove('selected');
+            });
+            item.classList.add('selected');
+            selectedPreset = preset;
+        });
+        
+        // Double click to apply
+        item.addEventListener('dblclick', function() {
+            if (preset.category === 'motion-full') {
+                applyMotionFull(preset);
+            } else {
+                apply(preset);
+            }
+        });
+        
+        // Context menu
         item.addEventListener('contextmenu', function(e) {
             e.preventDefault();
             showContextMenu(e, preset);
@@ -404,19 +592,6 @@ TEXTORO.Panels.Presets = (function() {
         
         // Tooltip
         item.title = buildTooltip(preset);
-        
-        // زر الحذف (للمستخدم فقط)
-        if (!preset.builtin) {
-            var deleteBtn = document.createElement('button');
-            deleteBtn.className = 'preset-delete-btn';
-            deleteBtn.innerHTML = '<i class="ph-bold ph-trash"></i>';
-            deleteBtn.title = 'Delete preset';
-            deleteBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                confirmDelete(preset);
-            });
-            item.appendChild(deleteBtn);
-        }
         
         return item;
     }
@@ -567,12 +742,51 @@ TEXTORO.Panels.Presets = (function() {
         ]);
     }
     
+    /**
+     * تطبيق البريست المحدد حالياً
+     */
+    function applySelected() {
+        if (!selectedPreset) {
+            var firstItem = elements.container ? elements.container.querySelector('.preset-item') : null;
+            if (firstItem && cache.length > 0) {
+                var fname = firstItem.dataset.filename;
+                selectedPreset = cache.find(function(p) { return p.fileName === fname; }) || cache[0];
+                if (firstItem) firstItem.classList.add('selected');
+            }
+        }
+        
+        if (!selectedPreset) {
+            TEXTORO.UI.StatusBar.warning('Select a preset to apply');
+            return;
+        }
+        
+        if (selectedPreset.category === 'motion-full') {
+            applyMotionFull(selectedPreset);
+        } else {
+            apply(selectedPreset);
+        }
+    }
+    
+    /**
+     * إنشاء بريست جديد من الطبقة النشطة
+     */
+    function createFromLayer() {
+        var cat = (currentFilter !== 'all' && currentFilter !== 'favorites') ? currentFilter : 'toro';
+        if (TEXTORO.Ops && TEXTORO.Ops.Presets && typeof TEXTORO.Ops.Presets.saveFromLayer === 'function') {
+            TEXTORO.Ops.Presets.saveFromLayer(cat);
+        } else {
+            TEXTORO.UI.StatusBar.error('Preset save operation unavailable');
+        }
+    }
+    
     // Public API
     return {
         init: init,
         load: load,
         render: render,
         apply: apply,
+        applySelected: applySelected,
+        createFromLayer: createFromLayer,
         isFavorite: isFavorite,
         toggleFavorite: toggleFavorite
     };
