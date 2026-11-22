@@ -6,6 +6,18 @@ All notable changes to TEXTORO are documented in this file.
 
 ## [Unreleased]
 
+### 🏷️ Pro-Grade Vector Icon Badges for Precision Inputs Across Panels — 2026-11-22
+- **Universal Phosphor Bold Icon Badges (`.p-label`)**:
+  - Replaced clipped, truncated text labels (`PAD L`, `PAD R`, `C-TL`, `WIDTH`, `OPACITY`, `COLOR`, `DASH`, `IN S`, etc.) with crisp, intuitive Phosphor Bold vector icons across 50+ inputs in Typewriter, Box, and Control (Soga) panels.
+  - Directional icons for padding (`ph-arrow-line-left`, `ph-arrow-line-right`, `ph-arrow-line-up`, `ph-arrow-line-down`) and independent corner radii (`ph-arrow-up-left`, `ph-arrow-up-right`, `ph-arrow-down-left`, `ph-arrow-down-right`).
+  - Pro-grade design icons for width (`ph-ruler`), colors (`ph-palette`), opacity (`ph-drop`), dashed patterns (`ph-circle-dashed`), trim controls (`ph-play`, `ph-stop`, `ph-arrows-clockwise`), and cursor timing (`ph-sign-in`, `ph-sign-out`, `ph-speedometer`, `ph-timer`).
+  - Added native responsive tooltips (`title`) on all labels and precision wrappers for instant clarity.
+- **Micro-Interaction Polish & Pro CSS Styling (`precision-inputs.css`)**:
+  - Precision icon sizing at 13px with flex alignment and subtle emerald hover/focus-within illumination.
+  - Squeezed out 50%+ horizontal overhead per input, giving numeric values, unit badges, and steppers generous breathing space with zero clipping in narrow CEP panel docking.
+- **Robust Title Fallback (`Modals.js`)**:
+  - Updated color modal header resolution to read parent box `title` or `data-title` seamlessly when icons are present.
+
 ### 🏛️ Methodological Architecture Overhaul: Canonical Presets, Parametric Kinematics & Zero-Radius Arena — 2026-11-22
 - **Canonical Presets System Architecture & Directory Restructuring**:
   - Standardized on 5 canonical technical roles: `type`, `box`, `motion`, `compound`, and `templates`.

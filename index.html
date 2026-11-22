@@ -74,7 +74,7 @@
     <div id="type-timing-content" class="collapsible-content">
     <div class="metrics-grid-4">
         <div class="precision-input-box" title="IN Start Time (s)">
-            <span class="p-label">IN S</span>
+            <span class="p-label" title="IN Start Cue (s)"><i class="ph-bold ph-sign-in"></i><small>S</small></span>
             <input type="number" id="numInStart" class="ni" value="2" step="0.1" min="0">
             <span class="unit-tag">s</span>
     <div class="stepper-actions">
@@ -83,7 +83,7 @@
     </div>
 </div>
         <div class="precision-input-box" title="IN End Time (s)">
-            <span class="p-label">IN E</span>
+            <span class="p-label" title="IN End Cue (s)"><i class="ph-bold ph-sign-in"></i><small>E</small></span>
             <input type="number" id="numInEnd" class="ni" value="3" step="0.1" min="0">
             <span class="unit-tag">s</span>
     <div class="stepper-actions">
@@ -92,7 +92,7 @@
     </div>
 </div>
         <div class="precision-input-box" title="OUT Start Time (s)">
-            <span class="p-label">OUT S</span>
+            <span class="p-label" title="OUT Start Cue (s)"><i class="ph-bold ph-sign-out"></i><small>S</small></span>
             <input type="number" id="numOutStart" class="ni" value="6" step="0.1" min="0">
             <span class="unit-tag">s</span>
     <div class="stepper-actions">
@@ -101,7 +101,7 @@
     </div>
 </div>
         <div class="precision-input-box" title="OUT End Time (s)">
-            <span class="p-label">OUT E</span>
+            <span class="p-label" title="OUT End Cue (s)"><i class="ph-bold ph-sign-out"></i><small>E</small></span>
             <input type="number" id="numOutEnd" class="ni" value="7" step="0.1" min="0">
             <span class="unit-tag">s</span>
     <div class="stepper-actions">
@@ -148,7 +148,7 @@
         </div>
         <div class="studio-combo-row mt-6">
             <div class="precision-select-box" style="flex: 2;" title="Cursor shape / symbol (Bar, Underscore, Block, Dot, Diamond, Custom)">
-                <span class="p-label" title="Cursor shape / symbol">SHAPE</span>
+                <span class="p-label" title="Cursor shape / symbol"><i class="ph-bold ph-cursor-text"></i></span>
                 <select id="selCursorType" class="sel" title="Cursor shape / symbol">
                     <option value="0">| Bar</option>
                     <option value="1">_ Underscore</option>
@@ -162,7 +162,7 @@
                 <input type="text" id="txtCustomCursor" class="ti" style="width:36px;display:none" placeholder="▶" maxlength="2" title="Type custom cursor symbol">
             </div>
             <div class="precision-color-box" style="flex: 1;" title="Cursor color">
-                <span class="p-label">COLOR</span>
+                <span class="p-label" title="Color"><i class="ph-bold ph-palette"></i></span>
                 <div class="color-picker-wrap">
                     <span class="ci-hex-code">#FFFFFF</span>
                     <input type="color" id="colorCursor" class="ci" value="#ffffff" title="Cursor color">
@@ -171,7 +171,7 @@
         </div>
         <div class="metrics-grid-2 mt-6">
             <div class="precision-input-box" title="Cursor Spacing (px)">
-                <span class="p-label">SPACING</span>
+                <span class="p-label" title="Cursor Spacing (px)"><i class="ph-bold ph-arrows-horizontal"></i></span>
                 <input type="number" id="numCursorSpacing" class="ni" value="1" step="1" min="0">
                 <span class="unit-tag">px</span>
     <div class="stepper-actions">
@@ -180,7 +180,7 @@
     </div>
 </div>
             <div class="precision-input-box" title="Blink Speed (Hz)">
-                <span class="p-label">RATE</span>
+                <span class="p-label" title="Blink Rate (Hz)"><i class="ph-bold ph-speedometer"></i></span>
                 <input type="number" id="numBlinkSpeed" class="ni" value="2" step="0.5" min="0.5">
                 <span class="unit-tag">Hz</span>
     <div class="stepper-actions">
@@ -191,7 +191,7 @@
         </div>
         <div class="metrics-grid-2 mt-6">
             <div class="precision-input-box" title="Blink Start Time (s)">
-                <span class="p-label">START</span>
+                <span class="p-label" title="Blink Start Time (s)"><i class="ph-bold ph-timer"></i><small>S</small></span>
                 <input type="number" id="numBlinkStart" class="ni" value="1" step="0.1" min="0">
                 <span class="unit-tag">s</span>
     <div class="stepper-actions">
@@ -200,7 +200,7 @@
     </div>
 </div>
             <div class="precision-input-box" title="Blink End Time (s)">
-                <span class="p-label">END</span>
+                <span class="p-label" title="Blink End Time (s)"><i class="ph-bold ph-timer"></i><small>E</small></span>
                 <input type="number" id="numBlinkEnd" class="ni" value="10" step="0.1" min="0">
                 <span class="unit-tag">s</span>
     <div class="stepper-actions">
@@ -263,7 +263,7 @@
                 </label>
             </div>
             <div class="precision-color-box" style="flex: 1;" title="Text color">
-                <span class="p-label">COLOR</span>
+                <span class="p-label" title="Color"><i class="ph-bold ph-palette"></i></span>
                 <div class="color-picker-wrap">
                     <span class="ci-hex-code">#FFFFFF</span>
                     <input type="color" id="colorText" class="ci" value="#ffffff" title="Text color">
@@ -272,7 +272,7 @@
         </div>
         <div class="metrics-grid-2 mt-6">
             <div class="precision-select-box">
-                <span class="p-label">EASE</span>
+                <span class="p-label" title="Easing curve"><i class="ph-bold ph-wave-sine"></i></span>
                 <select id="selEasingType" class="sel" title="Easing curve">
                     <option value="0">Linear</option>
                     <option value="1" selected>Ease Out</option>
@@ -281,7 +281,7 @@
                 </select>
             </div>
             <div class="precision-input-box" title="Easing strength (0-100%)">
-                <span class="p-label">POWER</span>
+                <span class="p-label" title="Easing strength (0-100%)"><i class="ph-bold ph-lightning"></i></span>
                 <input type="number" id="numEasingStrength" class="ni" value="100" step="10" min="0" max="100">
                 <span class="unit-tag">%</span>
     <div class="stepper-actions">
@@ -303,7 +303,7 @@
     <div id="type-multilines-content" class="collapsible-content">
         <div class="metrics-grid-2">
             <div class="precision-input-box" title="Line Spacing (px)">
-                <span class="p-label">SPACING</span>
+                <span class="p-label" title="Line Spacing (px)"><i class="ph-bold ph-arrows-vertical"></i></span>
                 <input type="number" id="numLineSpacing" class="ni" value="10" step="5" min="0">
                 <span class="unit-tag">px</span>
     <div class="stepper-actions">
@@ -312,7 +312,7 @@
     </div>
 </div>
             <div class="precision-input-box" title="Stagger Delay (seconds)">
-                <span class="p-label">STAGGER</span>
+                <span class="p-label" title="Stagger Delay (seconds)"><i class="ph-bold ph-clock"></i></span>
                 <input type="number" id="numStagger" class="ni" value="0.5" step="0.1" min="0">
                 <span class="unit-tag">s</span>
     <div class="stepper-actions">
@@ -362,7 +362,7 @@
     <div id="box-padding-content" class="collapsible-content">
     <div class="metrics-grid-4">
         <div class="precision-input-box" title="Padding Left (px)">
-            <span class="p-label">PAD L</span>
+            <span class="p-label" title="Padding Left (px)"><i class="ph-bold ph-arrow-line-left"></i></span>
             <input type="number" id="numPadL" class="ni" value="40" step="5" min="0">
             <span class="unit-tag">px</span>
     <div class="stepper-actions">
@@ -371,7 +371,7 @@
     </div>
 </div>
         <div class="precision-input-box" title="Padding Right (px)">
-            <span class="p-label">PAD R</span>
+            <span class="p-label" title="Padding Right (px)"><i class="ph-bold ph-arrow-line-right"></i></span>
             <input type="number" id="numPadR" class="ni" value="40" step="5" min="0">
             <span class="unit-tag">px</span>
     <div class="stepper-actions">
@@ -380,7 +380,7 @@
     </div>
 </div>
         <div class="precision-input-box" title="Padding Top (px)">
-            <span class="p-label">PAD T</span>
+            <span class="p-label" title="Padding Top (px)"><i class="ph-bold ph-arrow-line-up"></i></span>
             <input type="number" id="numPadT" class="ni" value="20" step="5" min="0">
             <span class="unit-tag">px</span>
     <div class="stepper-actions">
@@ -389,7 +389,7 @@
     </div>
 </div>
         <div class="precision-input-box" title="Padding Bottom (px)">
-            <span class="p-label">PAD B</span>
+            <span class="p-label" title="Padding Bottom (px)"><i class="ph-bold ph-arrow-line-down"></i></span>
             <input type="number" id="numPadB" class="ni" value="20" step="5" min="0">
             <span class="unit-tag">px</span>
     <div class="stepper-actions">
@@ -419,7 +419,7 @@
         </label>
         <div id="singleCornerRow">
             <div class="precision-input-box" style="width:120px" title="Uniform corner radius">
-                <span class="p-label">ALL</span>
+                <span class="p-label" title="Uniform corner radius (px)"><i class="ph-bold ph-corners-out"></i></span>
                 <input type="number" id="numCorner" class="ni" value="15" step="1" min="0">
                 <span class="unit-tag">px</span>
     <div class="stepper-actions">
@@ -431,7 +431,7 @@
     </div>
     <div id="fourCornersRow" class="metrics-grid-4 mt-6" style="display:none">
         <div class="precision-input-box" title="Top-Left Corner (px)">
-            <span class="p-label">C-TL</span>
+            <span class="p-label" title="Top-Left Corner (px)"><i class="ph-bold ph-arrow-up-left"></i></span>
             <input type="number" id="numCornerTL" class="ni" value="15" step="1" min="0">
             <span class="unit-tag">px</span>
     <div class="stepper-actions">
@@ -440,7 +440,7 @@
     </div>
 </div>
         <div class="precision-input-box" title="Top-Right Corner (px)">
-            <span class="p-label">C-TR</span>
+            <span class="p-label" title="Top-Right Corner (px)"><i class="ph-bold ph-arrow-up-right"></i></span>
             <input type="number" id="numCornerTR" class="ni" value="15" step="1" min="0">
             <span class="unit-tag">px</span>
     <div class="stepper-actions">
@@ -449,7 +449,7 @@
     </div>
 </div>
         <div class="precision-input-box" title="Bottom-Left Corner (px)">
-            <span class="p-label">C-BL</span>
+            <span class="p-label" title="Bottom-Left Corner (px)"><i class="ph-bold ph-arrow-down-left"></i></span>
             <input type="number" id="numCornerBL" class="ni" value="15" step="1" min="0">
             <span class="unit-tag">px</span>
     <div class="stepper-actions">
@@ -458,7 +458,7 @@
     </div>
 </div>
         <div class="precision-input-box" title="Bottom-Right Corner (px)">
-            <span class="p-label">C-BR</span>
+            <span class="p-label" title="Bottom-Right Corner (px)"><i class="ph-bold ph-arrow-down-right"></i></span>
             <input type="number" id="numCornerBR" class="ni" value="15" step="1" min="0">
             <span class="unit-tag">px</span>
     <div class="stepper-actions">
@@ -480,7 +480,7 @@
     <div id="box-stroke-content" class="collapsible-content">
         <div class="metrics-grid-2">
             <div class="precision-input-box" title="Stroke width (px)">
-                <span class="p-label">WIDTH</span>
+                <span class="p-label" title="Stroke width (px)"><i class="ph-bold ph-ruler"></i></span>
                 <input type="number" id="numStrokeW" class="ni" value="2" step="1" min="0">
                 <span class="unit-tag">px</span>
                 <div class="stepper-actions">
@@ -489,7 +489,7 @@
                 </div>
             </div>
             <div class="precision-color-box" title="Stroke color">
-                <span class="p-label">COLOR</span>
+                <span class="p-label" title="Color"><i class="ph-bold ph-palette"></i></span>
                 <div class="color-picker-wrap">
                     <span class="ci-hex-code">#FFFFFF</span>
                     <input type="color" id="colorStroke" class="ci" value="#ffffff" title="Stroke color">
@@ -498,7 +498,7 @@
         </div>
         <div class="metrics-grid-2 mt-6">
             <div class="precision-input-box" title="Stroke opacity (%)">
-                <span class="p-label">OPACITY</span>
+                <span class="p-label" title="Stroke opacity (%)"><i class="ph-bold ph-drop"></i></span>
                 <input type="number" id="numStrokeOp" class="ni" value="100" step="5" min="0" max="100">
                 <span class="unit-tag">%</span>
                 <div class="stepper-actions">
@@ -507,7 +507,7 @@
                 </div>
             </div>
             <div class="precision-input-box" title="Dash pattern length">
-                <span class="p-label">DASH</span>
+                <span class="p-label" title="Dash pattern length (px)"><i class="ph-bold ph-circle-dashed"></i></span>
                 <input type="number" id="numStrokeDash" class="ni" value="0" step="5" min="0">
                 <span class="unit-tag">px</span>
                 <div class="stepper-actions">
@@ -518,7 +518,7 @@
         </div>
         <div class="metrics-grid-2 mt-6">
             <div class="precision-input-box" title="Gap between dashes">
-                <span class="p-label">GAP</span>
+                <span class="p-label" title="Gap between dashes (px)"><i class="ph-bold ph-arrows-left-right"></i></span>
                 <input type="number" id="numStrokeGap" class="ni" value="0" step="5" min="0">
                 <span class="unit-tag">px</span>
                 <div class="stepper-actions">
@@ -540,7 +540,7 @@
     <div id="box-fill-content" class="collapsible-content">
         <div class="metrics-grid-2">
             <div class="precision-input-box" title="Fill opacity (%)">
-                <span class="p-label">OPACITY</span>
+                <span class="p-label" title="Fill opacity (%)"><i class="ph-bold ph-drop"></i></span>
                 <input type="number" id="numFillOp" class="ni" value="100" step="5" min="0" max="100">
                 <span class="unit-tag">%</span>
     <div class="stepper-actions">
@@ -549,7 +549,7 @@
     </div>
 </div>
             <div class="precision-color-box" title="Fill color">
-                <span class="p-label">COLOR</span>
+                <span class="p-label" title="Color"><i class="ph-bold ph-palette"></i></span>
                 <div class="color-picker-wrap">
                     <span class="ci-hex-code">#10B981</span>
                     <input type="color" id="colorFill" class="ci" value="#10b981" title="Fill color">
@@ -569,7 +569,7 @@
     <div id="box-trim-content" class="collapsible-content">
         <div class="metrics-grid-2">
             <div class="precision-input-box" title="Trim start %">
-                <span class="p-label">START</span>
+                <span class="p-label" title="Trim start %"><i class="ph-bold ph-play"></i></span>
                 <input type="number" id="numTrimStart" class="ni" value="0" step="5" min="0" max="100">
                 <span class="unit-tag">%</span>
     <div class="stepper-actions">
@@ -578,7 +578,7 @@
     </div>
 </div>
             <div class="precision-input-box" title="Trim end %">
-                <span class="p-label">END</span>
+                <span class="p-label" title="Trim end %"><i class="ph-bold ph-stop"></i></span>
                 <input type="number" id="numTrimEnd" class="ni" value="100" step="5" min="0" max="100">
                 <span class="unit-tag">%</span>
     <div class="stepper-actions">
@@ -589,7 +589,7 @@
         </div>
         <div class="metrics-grid-2 mt-6">
             <div class="precision-input-box" title="Trim offset rotation angle">
-                <span class="p-label">OFFSET</span>
+                <span class="p-label" title="Trim offset angle (°)"><i class="ph-bold ph-arrows-clockwise"></i></span>
                 <input type="number" id="numTrimOffset" class="ni" value="0" step="15" min="0" max="360">
                 <span class="unit-tag">°</span>
     <div class="stepper-actions">
@@ -598,7 +598,7 @@
     </div>
 </div>
             <div class="precision-input-box" title="Path expansion / contraction offset">
-                <span class="p-label">PATH OFF</span>
+                <span class="p-label" title="Path expansion / contraction offset (px)"><i class="ph-bold ph-arrows-out-simple"></i></span>
                 <input type="number" id="numPathOffset" class="ni" value="0" step="2">
                 <span class="unit-tag">px</span>
     <div class="stepper-actions">
@@ -744,7 +744,7 @@
         <!-- Progress & Auto -->
         <div class="metrics-grid-2 mb-6">
             <div class="precision-input-box" title="Typewriter animation progress (0-100%)">
-                <span class="p-label">PROG</span>
+                <span class="p-label" title="Typewriter progress %"><i class="ph-bold ph-chart-line-up"></i></span>
                 <input type="number" id="sogaTwProgress" class="ni" value="0" step="1" min="0" max="100">
                 <span class="unit-tag">%</span>
             </div>
@@ -778,7 +778,7 @@
         <!-- Random Speed & Cursor Toggle -->
         <div class="metrics-grid-2 mb-6">
             <div class="precision-input-box" title="Random speed variation (0-100%)">
-                <span class="p-label">RANDOM</span>
+                <span class="p-label" title="Random speed variation %"><i class="ph-bold ph-shuffle"></i></span>
                 <input type="number" id="sogaRandomSpeed" class="ni" value="0" step="5" min="0" max="100">
                 <span class="unit-tag">%</span>
             </div>
@@ -794,12 +794,12 @@
         <!-- Spacing & Blink -->
         <div class="metrics-grid-2 mb-6">
             <div class="precision-input-box" title="Space between cursor and text">
-                <span class="p-label">SPACE</span>
+                <span class="p-label" title="Cursor spacing (px)"><i class="ph-bold ph-arrows-horizontal"></i></span>
                 <input type="number" id="sogaCursorSpacing" class="ni" value="0" step="1" min="0">
                 <span class="unit-tag">px</span>
             </div>
             <div class="precision-input-box" title="Cursor blink speed (blinks per second)">
-                <span class="p-label">BLINK</span>
+                <span class="p-label" title="Cursor blink speed (Hz)"><i class="ph-bold ph-speedometer"></i></span>
                 <input type="number" id="sogaBlinkSpeed" class="ni" value="2" step="0.5" min="0.5">
                 <span class="unit-tag">Hz</span>
             </div>
@@ -833,14 +833,14 @@
         <!-- Cursor & Text Colors -->
         <div class="metrics-grid-2 mb-6">
             <div class="precision-color-box" title="Cursor color">
-                <span class="p-label">CURSOR</span>
+                <span class="p-label" title="Cursor color"><i class="ph-bold ph-palette"></i></span>
                 <div class="color-picker-wrap">
                     <span class="ci-hex-code">#FFFFFF</span>
                     <input type="color" id="sogaCursorColor" class="ci" value="#ffffff">
                 </div>
             </div>
             <div class="precision-color-box" title="Text color">
-                <span class="p-label">TEXT</span>
+                <span class="p-label" title="Text color"><i class="ph-bold ph-palette"></i></span>
                 <div class="color-picker-wrap">
                     <span class="ci-hex-code">#FFFFFF</span>
                     <input type="color" id="sogaTextColor" class="ci" value="#ffffff">
@@ -851,7 +851,7 @@
         <!-- Easing -->
         <div class="studio-combo-row">
             <div class="precision-select-box" style="flex: 1.4;" title="Animation easing curve">
-                <span class="p-label">EASE</span>
+                <span class="p-label" title="Animation easing curve"><i class="ph-bold ph-wave-sine"></i></span>
                 <select id="sogaEasingType" class="sel">
                     <option value="0">Linear</option>
                     <option value="1">Ease Out</option>
@@ -860,7 +860,7 @@
                 </select>
             </div>
             <div class="precision-input-box" style="flex: 1;" title="Easing strength (0-100%)">
-                <span class="p-label">STR</span>
+                <span class="p-label" title="Easing strength (0-100%)"><i class="ph-bold ph-lightning"></i></span>
                 <input type="number" id="sogaEasingStrength" class="ni" value="100" step="10" min="0" max="100">
                 <span class="unit-tag">%</span>
             </div>
@@ -880,22 +880,22 @@
         <div class="studio-sub-header">PADDING (PX)</div>
         <div class="metrics-grid-4 mb-6">
             <div class="precision-input-box" title="Left padding (px)">
-                <span class="p-label">PAD L</span>
+                <span class="p-label" title="Left padding (px)"><i class="ph-bold ph-arrow-line-left"></i></span>
                 <input type="number" id="sogaPadL" class="ni" value="40" step="5" min="0">
                 <span class="unit-tag">px</span>
             </div>
             <div class="precision-input-box" title="Right padding (px)">
-                <span class="p-label">PAD R</span>
+                <span class="p-label" title="Right padding (px)"><i class="ph-bold ph-arrow-line-right"></i></span>
                 <input type="number" id="sogaPadR" class="ni" value="40" step="5" min="0">
                 <span class="unit-tag">px</span>
             </div>
             <div class="precision-input-box" title="Top padding (px)">
-                <span class="p-label">PAD T</span>
+                <span class="p-label" title="Top padding (px)"><i class="ph-bold ph-arrow-line-up"></i></span>
                 <input type="number" id="sogaPadT" class="ni" value="20" step="5" min="0">
                 <span class="unit-tag">px</span>
             </div>
             <div class="precision-input-box" title="Bottom padding (px)">
-                <span class="p-label">PAD B</span>
+                <span class="p-label" title="Bottom padding (px)"><i class="ph-bold ph-arrow-line-down"></i></span>
                 <input type="number" id="sogaPadB" class="ni" value="20" step="5" min="0">
                 <span class="unit-tag">px</span>
             </div>
@@ -905,29 +905,29 @@
         <div class="studio-sub-header">CORNER RADIUS (PX)</div>
         <div class="metrics-grid-4 mb-6" id="soga4CornersRow">
             <div class="precision-input-box" title="Top-Left radius">
-                <span class="p-label">TL</span>
+                <span class="p-label" title="Top-Left radius (px)"><i class="ph-bold ph-arrow-up-left"></i></span>
                 <input type="number" id="sogaCornerTL" class="ni" value="15" step="1" min="0">
                 <span class="unit-tag">px</span>
             </div>
             <div class="precision-input-box" title="Top-Right radius">
-                <span class="p-label">TR</span>
+                <span class="p-label" title="Top-Right radius (px)"><i class="ph-bold ph-arrow-up-right"></i></span>
                 <input type="number" id="sogaCornerTR" class="ni" value="15" step="1" min="0">
                 <span class="unit-tag">px</span>
             </div>
             <div class="precision-input-box" title="Bottom-Left radius">
-                <span class="p-label">BL</span>
+                <span class="p-label" title="Bottom-Left radius (px)"><i class="ph-bold ph-arrow-down-left"></i></span>
                 <input type="number" id="sogaCornerBL" class="ni" value="15" step="1" min="0">
                 <span class="unit-tag">px</span>
             </div>
             <div class="precision-input-box" title="Bottom-Right radius">
-                <span class="p-label">BR</span>
+                <span class="p-label" title="Bottom-Right radius (px)"><i class="ph-bold ph-arrow-down-right"></i></span>
                 <input type="number" id="sogaCornerBR" class="ni" value="15" step="1" min="0">
                 <span class="unit-tag">px</span>
             </div>
         </div>
         <div id="sogaSingleCornerRow" class="mb-6" style="display:none">
             <div class="precision-input-box" title="Uniform corner radius (px)">
-                <span class="p-label">RADIUS</span>
+                <span class="p-label" title="Uniform corner radius (px)"><i class="ph-bold ph-corners-out"></i></span>
                 <input type="number" id="sogaCorner" class="ni" value="15" step="1" min="0">
                 <span class="unit-tag">px</span>
             </div>
@@ -937,17 +937,17 @@
         <div class="studio-sub-header">STROKE & BORDER</div>
         <div class="metrics-grid-3 mb-6">
             <div class="precision-input-box" title="Stroke width (px)">
-                <span class="p-label">WIDTH</span>
+                <span class="p-label" title="Stroke width (px)"><i class="ph-bold ph-ruler"></i></span>
                 <input type="number" id="sogaStrokeW" class="ni" value="2" step="1" min="0">
                 <span class="unit-tag">px</span>
             </div>
             <div class="precision-input-box" title="Stroke opacity %">
-                <span class="p-label">OPAC</span>
+                <span class="p-label" title="Stroke opacity (%)"><i class="ph-bold ph-drop"></i></span>
                 <input type="number" id="sogaStrokeOp" class="ni" value="100" step="5" min="0" max="100">
                 <span class="unit-tag">%</span>
             </div>
             <div class="precision-color-box" title="Choose stroke color">
-                <span class="p-label">COLOR</span>
+                <span class="p-label" title="Color"><i class="ph-bold ph-palette"></i></span>
                 <div class="color-picker-wrap">
                     <span class="ci-hex-code">#FFFFFF</span>
                     <input type="color" id="sogaStrokeColor" class="ci" value="#ffffff">
@@ -956,12 +956,12 @@
         </div>
         <div class="metrics-grid-2 mb-6">
             <div class="precision-input-box" title="Dash length (px)">
-                <span class="p-label">DASH</span>
+                <span class="p-label" title="Dash length (px)"><i class="ph-bold ph-circle-dashed"></i></span>
                 <input type="number" id="sogaStrokeDash" class="ni" value="0" step="5" min="0">
                 <span class="unit-tag">px</span>
             </div>
             <div class="precision-input-box" title="Gap between dashes (px)">
-                <span class="p-label">GAP</span>
+                <span class="p-label" title="Gap between dashes (px)"><i class="ph-bold ph-arrows-left-right"></i></span>
                 <input type="number" id="sogaStrokeGap" class="ni" value="0" step="5" min="0">
                 <span class="unit-tag">px</span>
             </div>
@@ -971,12 +971,12 @@
         <div class="studio-sub-header">FILL & DIMENSIONS</div>
         <div class="metrics-grid-3">
             <div class="precision-input-box" title="Fill opacity %">
-                <span class="p-label">OPAC</span>
+                <span class="p-label" title="Fill opacity (%)"><i class="ph-bold ph-drop"></i></span>
                 <input type="number" id="sogaFillOp" class="ni" value="100" step="5" min="0" max="100">
                 <span class="unit-tag">%</span>
             </div>
             <div class="precision-color-box" title="Choose fill color">
-                <span class="p-label">COLOR</span>
+                <span class="p-label" title="Color"><i class="ph-bold ph-palette"></i></span>
                 <div class="color-picker-wrap">
                     <span class="ci-hex-code">#10B981</span>
                     <input type="color" id="sogaFillColor" class="ci" value="#10b981">

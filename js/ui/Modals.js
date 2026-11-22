@@ -763,9 +763,8 @@ TEXTORO.UI.Modals = (function() {
         var labelText = labelEl ? labelEl.textContent.trim() : '';
 
         var title = 'SELECT COLOR';
-        if (labelText && labelText !== 'COLOR') {
-            title = labelText + ' COLOR';
-        } else if (input.id === 'colorStroke' || input.id === 'sogaStrokeColor') {
+        var boxTitle = box ? (box.getAttribute('title') || '') : '';
+        if (input.id === 'colorStroke' || input.id === 'sogaStrokeColor') {
             title = 'STROKE COLOR';
         } else if (input.id === 'colorFill' || input.id === 'sogaFillColor') {
             title = 'FILL COLOR';
@@ -773,6 +772,10 @@ TEXTORO.UI.Modals = (function() {
             title = 'CURSOR COLOR';
         } else if (input.id === 'colorText' || input.id === 'sogaTextColor') {
             title = 'TEXT COLOR';
+        } else if (boxTitle) {
+            title = boxTitle.toUpperCase();
+        } else if (labelText && labelText !== 'COLOR') {
+            title = labelText + ' COLOR';
         } else if (input.title) {
             title = input.title;
         }
