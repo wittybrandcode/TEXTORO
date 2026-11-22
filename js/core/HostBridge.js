@@ -23,7 +23,7 @@ TEXTORO.HostBridge = (function() {
     // P0-2: Allowlist - prevents arbitrary HostBridge code execution
     var ALLOWED_HOST_FUNCS = {
         'loadPresets':1, 'getPreset':1, 'savePreset':1, 'deletePreset':1, 'renamePreset':1,
-        'applyPreset':1, 'applyMotionPreset':1, 'applyMotion':1, 'removeMotion':1,
+        'applyPreset':1, 'applyMotionPreset':1, 'applyMotion':1, 'applyMotionMulti':1, 'removeMotion':1,
         'createBox':1, 'removeBox':1, 'hasBox':1, 'getAllTextoroLayers':1,
         'applyTypewriter':1, 'removeTypewriter':1, 'getLayerText':1, 'updateLayerText':1, 'hasTypewriter':1,
         'getLayerEffectValues':1, 'setLayerEffectValues':1, 'setLayerEffectValuesMulti':1,
@@ -31,7 +31,7 @@ TEXTORO.HostBridge = (function() {
         'collectTextoroMarkers':1, 'offsetTextoroMarkers':1, 'staggerTextoroMarkers':1, 'alignTextoroMarkers':1, 'deleteTextoroMarkers':1,
         'offsetSelectedLayers':1, 'staggerSelectedLayers':1, 'alignSelectedLayers':1,
         'splitTextToLayers':1, 'splitAndApply':1, 'applyTypewriterMulti':1, 'createBoxMulti':1,
-        'getMotionSelectionCount':1, 'getMotionValuesForPreset':1, 'getToroValuesForPreset':1, 'getLayerValuesForPreset':1,
+        'getMotionSelectionCount':1, 'getMotionValuesForPreset':1, 'getToroValuesForPreset':1, 'getLayerValuesForPreset':1, 'inspectLayerForPreset':1,
         'getAvailableVersionsJS':1, 'setActiveVersionJS':1, 'clearExpressionCache':1,
         'getPresetsPathSetting':1, 'setPresetsPathSetting':1, 'browseForPresetsFolder':1, 'openPresetsFolder':1,
         'exportPreset':1, 'exportAllPresets':1, 'importPresets':1, 'importPresetFromPath':1, 'exportPresetByFileName':1,

@@ -64,10 +64,24 @@ for (const file of hostFiles) {
     }
 }
 
-const missing = Array.from(uiCalls).filter((fn) => !hostFns.has(fn)).sort();
+// Read ALLOWED_HOST_FUNCS from HostBridge.js
+const hbFile = fs.readFileSync(path.join(uiRoot, 'core', 'HostBridge.js'), 'utf8');
+const allowlistMatch = hbFile.match(/ALLOWED_HOST_FUNCS\s*=\s*\{([^}]+)\}/);
+const allowedHostFuncs = new Set();
+if (allowlistMatch) {
+    const matches = allowlistMatch[1].matchAll(/['"]([^'"]+)['"]/g);
+    for (const m of matches) {
+        allowedHostFuncs.add(m[1]);
+    }
+}
+
+const missingInHost = Array.from(uiCalls).filter((fn) => !hostFns.has(fn)).sort();
+const missingInAllowlist = Array.from(uiCalls).filter((fn) => !allowedHostFuncs.has(fn)).sort();
+const allowlistMissingInHost = Array.from(allowedHostFuncs).filter((fn) => !hostFns.has(fn)).sort();
 
 console.log('[SMOKE][contract] UI literal HostBridge methods: ' + uiCalls.size);
 console.log('[SMOKE][contract] Host function definitions: ' + hostFns.size);
+console.log('[SMOKE][contract] HostBridge allowed methods: ' + allowedHostFuncs.size);
 console.log('[SMOKE][contract] Dynamic HostBridge.run calls detected: ' + dynamicCalls.length);
 
 if (dynamicCalls.length > 0) {
@@ -80,12 +94,34 @@ if (dynamicCalls.length > 0) {
     }
 }
 
-if (missing.length > 0) {
+let hasError = false;
+
+if (missingInHost.length > 0) {
+    hasError = true;
     console.error('[SMOKE][contract] FAIL - missing host functions for literal calls:');
-    for (const fn of missing) {
+    for (const fn of missingInHost) {
         console.error('  - ' + fn);
     }
+}
+
+if (missingInAllowlist.length > 0) {
+    hasError = true;
+    console.error('[SMOKE][contract] FAIL - UI calls blocked by HostBridge ALLOWED_HOST_FUNCS:');
+    for (const fn of missingInAllowlist) {
+        console.error('  - ' + fn);
+    }
+}
+
+if (allowlistMissingInHost.length > 0) {
+    hasError = true;
+    console.error('[SMOKE][contract] FAIL - HostBridge ALLOWED_HOST_FUNCS contains undefined host functions:');
+    for (const fn of allowlistMissingInHost) {
+        console.error('  - ' + fn);
+    }
+}
+
+if (hasError) {
     process.exit(1);
 }
 
-console.log('[SMOKE][contract] PASS - all literal UI calls mapped to host functions.');
+console.log('[SMOKE][contract] PASS - all literal UI calls permitted by allowlist and mapped to host functions.');

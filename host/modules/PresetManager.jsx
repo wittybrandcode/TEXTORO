@@ -1311,19 +1311,20 @@ function _extractTypeValues(layer) {
         blinkEnd: null
     };
     
-    // قراءة Markers
-    for (var i = 1; i <= markers.numKeys; i++) {
-        var comment = markers.keyValue(i).comment;
-        var time = markers.keyTime(i) - inPoint;
-        
-        if (comment === "IN_START") values.inStart = time;
-        else if (comment === "IN_END") values.inEnd = time;
-        else if (comment === "OUT_START") values.outStart = time;
-        else if (comment === "OUT_END") values.outEnd = time;
-        else if (comment === "BLINK_START") values.blinkStart = time;
-        else if (comment === "BLINK_END") values.blinkEnd = time;
+    // قراءة Markers بأمان تام
+    if (markers && typeof markers.numKeys !== "undefined" && markers.numKeys > 0) {
+        for (var i = 1; i <= markers.numKeys; i++) {
+            var comment = markers.keyValue(i).comment;
+            var time = markers.keyTime(i) - inPoint;
+            
+            if (comment === "IN_START") values.inStart = time;
+            else if (comment === "IN_END") values.inEnd = time;
+            else if (comment === "OUT_START") values.outStart = time;
+            else if (comment === "OUT_END") values.outEnd = time;
+            else if (comment === "BLINK_START") values.blinkStart = time;
+            else if (comment === "BLINK_END") values.blinkEnd = time;
+        }
     }
-    
     return values;
 }
 
@@ -1434,6 +1435,64 @@ function _extractMotionValues(layer) {
                 hasMotionEffect = true;
                 break;
             }
+        }
+        if (!hasMotionEffect) return null;
+        return {
+            inStart: _getEffectValue(fx, "Motion In Start", 0),
+            inEnd: _getEffectValue(fx, "Motion In End", 1),
+            outEnable: _getEffectValue(fx, "Motion Out Start", -1) >= 0,
+            outStart: _getEffectValue(fx, "Motion Out Start", -1),
+            outEnd: _getEffectValue(fx, "Motion Out End", -1),
+            syncMode: _getEffectValue(fx, "Motion Sync Mode", 0),
+            
+            // Position IN & OUT
+            animatePosition: _getEffectValue(fx, "Animate Position", 0) == 1,
+            posFromX: _getEffectValue(fx, "Pos From X", 0),
+            posFromY: _getEffectValue(fx, "Pos From Y", 0),
+            posToX: _getEffectValue(fx, "Pos To X", 0),
+            posToY: _getEffectValue(fx, "Pos To Y", 0),
+            posLinkMode: _getEffectValue(fx, "Pos Link Mode", 0),
+            posOutFromX: _getEffectValue(fx, "Pos Out From X", 0),
+            posOutFromY: _getEffectValue(fx, "Pos Out From Y", 0),
+            posOutToX: _getEffectValue(fx, "Pos Out To X", 0),
+            posOutToY: _getEffectValue(fx, "Pos Out To Y", 0),
+            
+            // Scale IN & OUT
+            animateScale: _getEffectValue(fx, "Animate Scale", 0) == 1,
+            scaleFrom: _getEffectValue(fx, "Scale From", 100),
+            scaleTo: _getEffectValue(fx, "Scale To", 100),
+            scaleLinkMode: _getEffectValue(fx, "Scale Link Mode", 0),
+            scaleOutFrom: _getEffectValue(fx, "Scale Out From", 100),
+            scaleOutTo: _getEffectValue(fx, "Scale Out To", 100),
+            
+            // Rotation IN & OUT
+            animateRotation: _getEffectValue(fx, "Animate Rotation", 0) == 1,
+            rotFrom: _getEffectValue(fx, "Rot From", 0),
+            rotTo: _getEffectValue(fx, "Rot To", 0),
+            rotLinkMode: _getEffectValue(fx, "Rot Link Mode", 0),
+            rotOutFrom: _getEffectValue(fx, "Rot Out From", 0),
+            rotOutTo: _getEffectValue(fx, "Rot Out To", 0),
+            
+            // Opacity IN & OUT
+            animateOpacity: _getEffectValue(fx, "Animate Opacity", 0) == 1,
+            opacityFrom: _getEffectValue(fx, "Opacity From", 0),
+            opacityTo: _getEffectValue(fx, "Opacity To", 100),
+            opacityLinkMode: _getEffectValue(fx, "Opacity Link Mode", 0),
+            opacityOutFrom: _getEffectValue(fx, "Opacity Out From", 100),
+            opacityOutTo: _getEffectValue(fx, "Opacity Out To", 0),
+            
+            // Easing & Physics
+            easingType: _getEffectValue(fx, "Motion Easing Type", 1),
+            easingStrength: _getEffectValue(fx, "Motion Easing Strength", 100),
+            springStiffness: _getEffectValue(fx, "Spring Stiffness", 180),
+            springDamping: _getEffectValue(fx, "Spring Damping", 18),
+            springMass: _getEffectValue(fx, "Spring Mass", 1.0),
+            springVelocityBoost: _getEffectValue(fx, "Spring Velocity Boost", 0)
+        };
+    } catch(e) {
+        return null;
+    }
+}
         }
         if (!hasMotionEffect) return null;
         return {
