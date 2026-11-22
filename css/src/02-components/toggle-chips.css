@@ -39,6 +39,22 @@
     white-space: nowrap !important;
 }
 
+.studio-toggle-chip .chip-label {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+
+.studio-toggle-chip .chip-label svg {
+    stroke: currentColor !important;
+    flex-shrink: 0 !important;
+}
+
+.studio-toggle-chip .chip-label i.ph-bold {
+    font-size: 11px !important;
+    color: inherit !important;
+}
+
 .studio-toggle-chip .chip-check {
     display: none !important;
 }
@@ -58,6 +74,16 @@
 
 .studio-toggle-chip input[type="checkbox"]:checked + .chip-inner .chip-check {
     display: inline-block !important;
+    color: #ffffff !important;
+}
+
+.studio-toggle-chip input[type="checkbox"]:checked + .chip-inner svg,
+.studio-toggle-chip input[type="checkbox"]:checked + .chip-inner .chip-label svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+.studio-toggle-chip input[type="checkbox"]:checked + .chip-inner .chip-label i.ph-bold {
     color: #ffffff !important;
 }
 

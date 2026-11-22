@@ -13,6 +13,7 @@
     position: relative !important;
     transition: background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease !important;
     width: 100% !important;
+    min-width: 0 !important;
 }
 
 .precision-input-box:hover {
@@ -83,6 +84,54 @@ input.ni {
     font-weight: 500 !important;
 }
 
+/* Stepper Actions (Dark Slate, Zero-Radius, Crisp Clickable Controls) */
+.stepper-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 14px !important;
+    height: 100% !important;
+    flex-shrink: 0 !important;
+    background: transparent !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.06) !important;
+    overflow: hidden !important;
+}
+
+.step-arrow {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+    font-size: 6.5px !important;
+    line-height: 1 !important;
+    color: #8c8ca0 !important;
+    user-select: none !important;
+    transition: background 0.08s ease, color 0.08s ease !important;
+    outline: none !important;
+    border-radius: 0 !important;
+}
+
+.step-arrow.step-up {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+
+.step-arrow.step-down {
+    border-top: none !important;
+}
+
+.step-arrow:hover {
+    background: #10b981 !important;
+    color: #ffffff !important;
+}
+
+.step-arrow:active {
+    background: #059669 !important;
+    color: #ffffff !important;
+}
+
 /* Textarea Component */
 .studio-textarea,
 textarea.ta {
@@ -115,13 +164,40 @@ textarea.ta:focus {
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     padding: 0 4px !important;
     position: relative !important;
+    border-radius: 0 !important;
 }
 
-.precision-color-box input[type="color"] {
+.precision-color-box input[type="color"],
+.precision-color-box input.ci {
     width: 22px !important;
     height: 20px !important;
     border: none !important;
     padding: 0 !important;
     background: transparent !important;
     cursor: pointer !important;
+    border-radius: 0 !important;
+}
+
+.precision-color-box .color-picker-wrap {
+    flex: 1 !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    padding: 3px 6px !important;
+    gap: 6px !important;
+    min-width: 0 !important;
+}
+
+.precision-color-box .ci-hex-code {
+    font-family: 'Consolas', 'Courier New', monospace !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    color: #c9c9d4 !important;
+    letter-spacing: 0.5px !important;
+    pointer-events: none !important;
+    user-select: none !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }

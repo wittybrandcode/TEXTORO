@@ -2,25 +2,58 @@
    TEXTORO TOOLTIPS & CONTEXT MENUS (High-Contrast Industrial)
    ============================================================ */
 
-/* Crisp White Tooltip */
+/* Crisp High-Contrast Tooltip */
+#tooltip,
 .tt {
-    position: absolute;
+    position: absolute !important;
     background: #ffffff !important;
     color: #111116 !important;
-    padding: 3px 6px !important;
-    font-size: 10px !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    font-size: 10.5px !important;
     font-weight: 600 !important;
+    line-height: 1.35 !important;
+    padding: 4px 8px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
     border-radius: 0 !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
-    z-index: var(--z-tooltip, 20000) !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
     pointer-events: none !important;
-    white-space: nowrap !important;
+    z-index: var(--z-tooltip, 20000) !important;
     display: none;
-    line-height: 1.2 !important;
 }
 
 .tt.show {
     display: block !important;
+}
+
+.tt::before {
+    content: '' !important;
+    position: absolute !important;
+    width: 6px !important;
+    height: 6px !important;
+    background: #ffffff !important;
+    border: none !important;
+    transform: rotate(45deg) !important;
+}
+
+.tt.pos-top::before {
+    bottom: -3px !important;
+    left: 50% !important;
+    margin-left: -3px !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-left: none !important;
+    border-top: none !important;
+}
+
+.tt.pos-bottom::before {
+    top: -3px !important;
+    left: 50% !important;
+    margin-left: -3px !important;
+    border-left: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-right: none !important;
+    border-bottom: none !important;
 }
 
 .tt-key {

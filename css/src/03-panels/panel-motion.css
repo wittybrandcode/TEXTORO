@@ -1,44 +1,183 @@
 /* ============================================================
-   TEXTORO PANEL: MOTION (Curves, Easing & Motion Presets)
+   TEXTORO PANEL: MOTION (Kinetic Engine Architecture)
    ============================================================ */
 
-#panel-motion .soga-box,
 #panel-motion .studio-card {
     gap: 4px !important;
 }
 
+/* Motion Power Chip */
+.motion-power-chip {
+    width: 28px !important;
+    height: 26px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
+    padding: 0 !important;
+}
+
+.motion-power-chip .chip-inner {
+    width: 28px !important;
+    height: 26px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    background: #16161d !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 0 !important;
+}
+
+.motion-power-chip .chip-check {
+    display: none !important;
+}
+
+.motion-power-chip .chip-label {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.motion-power-chip .chip-label svg {
+    width: 12px !important;
+    height: 12px !important;
+    stroke: #9ca3af !important;
+    transition: stroke 0.12s ease !important;
+}
+
+.motion-power-chip:hover .chip-label svg {
+    stroke: #ffffff !important;
+}
+
+.motion-power-chip input[type="checkbox"]:checked + .chip-inner {
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+}
+
+.motion-power-chip input[type="checkbox"]:checked + .chip-inner .chip-label svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+.motion-power-chip input[type="checkbox"]:checked:hover + .chip-inner {
+    background: #34d399 !important;
+    border-color: #34d399 !important;
+}
+
+/* Link Button States (Zero-radius Studio Slate) */
+.link-btn {
+    width: 26px !important;
+    height: 26px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #181822 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease !important;
+}
+
+.link-btn:hover {
+    background: #1d1d26 !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+.link-btn.linked {
+    background: #12201c !important;
+    border-color: rgba(16, 185, 129, 0.4) !important;
+    color: #10b981 !important;
+}
+
+.link-btn.linked svg {
+    stroke: #10b981 !important;
+}
+
+.link-btn.linked i.ph-bold {
+    color: #10b981 !important;
+}
+
+.link-btn.unlinked {
+    background: #16161d !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #64748b !important;
+}
+
+.link-btn.unlinked svg {
+    stroke: #64748b !important;
+}
+
+.link-btn.unlinked i.ph-bold {
+    color: #64748b !important;
+}
+
+/* Motion Preset Tabs (Zero-radius Studio Slate) */
+.motion-presets-tabs {
+    display: flex !important;
+    gap: 4px !important;
+    margin-bottom: 8px !important;
+}
+
+.preset-tab {
+    flex: 1 !important;
+    padding: 6px 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: #181822 !important;
+    color: #8c8ca0 !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+}
+
+.preset-tab:hover {
+    background: #20202e !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+.preset-tab.active {
+    color: #ffffff !important;
+}
+
+.preset-tab[data-tab="in"].active {
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+}
+
+.preset-tab[data-tab="out"].active {
+    background: #f59e0b !important;
+    border-color: #f59e0b !important;
+}
+
+.preset-selection {
+    font-size: 10px !important;
+    color: #8c8ca0 !important;
+}
+
+/* Motion Presets Grid Layout */
 .motion-presets-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 3px;
-    width: 100%;
+    display: grid !important;
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 4px !important;
+    padding: 4px 0 !important;
 }
 
-.motion-preset-btn {
-    height: 26px;
-    background: #161620;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    color: #e2e2ec;
-    font-size: 10px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    cursor: pointer;
-    transition: background 0.12s ease, border-color 0.12s ease;
+/* Motion Presets Loading State */
+.presets-loading {
+    text-align: center !important;
+    padding: 20px 8px !important;
+    color: #64748b !important;
+    font-size: 10px !important;
 }
 
-.motion-preset-btn:hover {
-    background: #20202e;
-    border-color: rgba(255, 255, 255, 0.14);
+.presets-loading i {
+    font-size: 18px !important;
+    margin-bottom: 6px !important;
+    color: #10b981 !important;
 }
 
-.motion-preset-btn i {
-    font-size: 11px;
-    color: #10b981;
-}
-
-.motion-preset-btn:hover i {
-    color: #34d399;
-}

@@ -1,24 +1,183 @@
 /* ============================================================
-   TEXTORO PANEL: PRESETS (High-Density 26px Architecture)
+   TEXTORO PANEL: PRESETS (Visual Browser & Card Grid)
    ============================================================ */
 
-.presets-filter,
-.studio-icon-filter-bar {
+/* 26px Ultra-Compact Presets List Items */
+.preset-item {
+    display: flex !important;
+    align-items: center !important;
+    height: 26px !important;
+    padding: 0 8px !important;
+    gap: 6px !important;
+    background: #131317 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    position: relative !important;
+    border-radius: 0 !important;
+    transition: background 0.1s ease !important;
+}
+
+.preset-item:hover {
+    background: #1a1a24 !important;
+}
+
+.preset-item.selected {
+    background: #172420 !important;
+    border-left: 2px solid #10b981 !important;
+}
+
+/* Preset Favorite Star */
+.preset-fav-btn {
+    width: 14px !important;
+    height: 14px !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #4a4a5a !important;
+    font-size: 11px !important;
+    transition: color 0.1s ease !important;
+}
+
+.preset-fav-btn:hover,
+.preset-fav-btn.active {
+    color: #f59e0b !important;
+}
+
+/* Preset Icon / Category Dot */
+.preset-type-dot {
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.preset-item .preset-name {
+    flex: 1 !important;
+    font-size: 10.5px !important;
+    font-weight: 600 !important;
+    color: #e2e2ec !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    letter-spacing: 0.2px !important;
+}
+
+.preset-item:hover .preset-name {
+    color: #ffffff !important;
+}
+
+/* Preset Category Tag */
+.preset-tag {
+    font-size: 8px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    padding: 1px 4px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #8c8ca0 !important;
+    border-radius: 0 !important;
+    text-transform: uppercase !important;
+    flex-shrink: 0 !important;
+}
+
+/* Search and Filter Bar */
+.presets-search-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 6px 8px !important;
+    background: #14141c !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.presets-search-row .precision-input-box {
+    height: 26px !important;
+}
+
+/* Sort Select & Wrapper */
+.presets-sort-wrap {
+    min-width: 105px !important;
+    margin-left: auto !important;
+}
+
+.presets-sort-wrap .custom-select-trigger {
+    height: 24px !important;
+    font-size: 10px !important;
+}
+
+.presets-sort-wrap .custom-select-dropdown {
+    min-width: 120px !important;
+    right: 0 !important;
+    left: auto !important;
+}
+
+.presets-sort {
+    width: 100px !important;
+    font-size: 10px !important;
+    padding: 4px 6px !important;
+    margin-left: auto !important;
+}
+
+/* Motion Sync Options */
+.presets-motion-options {
+    padding: 8px 10px !important;
+    margin-bottom: 8px !important;
+    background: rgba(245, 158, 11, 0.08) !important;
+    border: 1px solid rgba(245, 158, 11, 0.25) !important;
+    border-radius: 0 !important;
+}
+
+.presets-motion-options .ck {
+    font-size: 10px !important;
+}
+
+.presets-motion-options .cl i {
+    color: #f59e0b !important;
+    margin-right: 4px !important;
+}
+
+/* Presets Container Scroll Area */
+#presetsContainer {
+    max-height: calc(100vh - 170px) !important;
+    overflow-y: auto !important;
+}
+
+/* Presets List Container */
+.presets-list {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Presets Filter Bar */
+.presets-filter {
     display: flex !important;
     gap: 2px !important;
     margin-bottom: 3px !important;
     flex-wrap: wrap !important;
 }
 
+.studio-icon-filter-bar {
+    display: flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+}
+
 .filter-btn {
     height: 24px !important;
     min-width: 24px !important;
-    padding: 0 !important;
+    padding: 0 6px !important;
     background: #161620 !important;
     border: 1px solid rgba(255, 255, 255, 0.06) !important;
     border-radius: 0 !important;
     color: #8c8ca0 !important;
-    font-size: 11px !important;
+    font-size: 10px !important;
     font-weight: 700 !important;
     letter-spacing: 0.4px !important;
     display: inline-flex !important;
@@ -26,7 +185,15 @@
     justify-content: center !important;
     gap: 4px !important;
     cursor: pointer !important;
-    transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease !important;
+    user-select: none !important;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease !important;
+}
+
+.studio-icon-filter-bar .filter-btn {
+    flex: 1 1 auto !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    padding: 0 !important;
 }
 
 .filter-btn:hover {
@@ -43,296 +210,54 @@
     color: #ffffff !important;
 }
 
-/* Presets Search Bar */
-.presets-search {
-    display: flex !important;
-    align-items: center !important;
-    gap: 4px !important;
-    background: #161620 !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 0 !important;
-    height: 26px !important;
-    padding: 0 4px 0 6px !important;
-    margin-bottom: 3px !important;
-    box-sizing: border-box !important;
+.filter-btn.toro {
+    font-weight: 800 !important;
 }
 
-.presets-search:focus-within {
+.filter-btn.toro.active {
+    background: #10b981 !important;
     border-color: #10b981 !important;
+    color: #ffffff !important;
 }
 
-.presets-search-icon {
-    color: #8c8ca0 !important;
-    font-size: 11px !important;
+.filter-btn svg {
+    stroke: currentColor !important;
     flex-shrink: 0 !important;
 }
 
-.presets-search input {
-    background: transparent !important;
-    border: none !important;
-    color: #ffffff !important;
-    font-size: 10.5px !important;
-    font-weight: 600 !important;
-    outline: none !important;
-    flex: 1 !important;
-    padding: 0 !important;
-    height: 100% !important;
-    min-width: 50px !important;
+.filter-btn.active svg {
+    stroke: #ffffff !important;
+    fill: #ffffff !important;
+}
+
+/* Presets Search Input Elements */
+.presets-search-icon {
+    color: #68687a !important;
+    font-size: 11px !important;
+    margin-right: 4px !important;
 }
 
 .presets-search-clear {
-    width: 16px !important;
-    height: 16px !important;
-    padding: 0 !important;
-    background: rgba(255, 255, 255, 0.08) !important;
+    background: transparent !important;
     border: none !important;
-    border-radius: 0 !important;
-    color: #8c8ca0 !important;
-    font-size: 9px !important;
+    color: #68687a !important;
     cursor: pointer !important;
+    padding: 0 4px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    flex-shrink: 0 !important;
 }
 
 .presets-search-clear:hover {
-    background: #ef4444 !important;
     color: #ffffff !important;
 }
 
-#presetsRefreshBtn {
-    width: 20px !important;
-    height: 20px !important;
-    padding: 0 !important;
-    background: transparent !important;
-    border: none !important;
-    border-radius: 0 !important;
-    color: #8c8ca0 !important;
-    font-size: 11px !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    transition: color 0.12s ease !important;
-}
-
-#presetsRefreshBtn:hover {
-    color: #ffffff !important;
-}
-
-/* Presets List Container */
-.presets-list {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 1.5px !important;
-    max-height: calc(100vh - 105px) !important;
-    overflow-y: auto !important;
-    margin-bottom: 3px !important;
-}
-
-/* Preset Item (26px High-Density Row) */
-.preset-item,
-.preset-card,
-.preset {
-    display: flex !important;
-    align-items: center !important;
-    height: 26px !important;
-    padding: 0 6px !important;
-    background: #161620 !important;
-    border: none !important;
-    border-radius: 0 !important;
-    cursor: pointer !important;
-    transition: background 0.12s ease !important;
-    position: relative !important;
-    gap: 6px !important;
-    box-sizing: border-box !important;
-    user-select: none !important;
-    margin-bottom: 1px !important;
-}
-
-.preset-item:hover,
-.preset-card:hover,
-.preset:hover {
-    background: #20202e !important;
-    border: none !important;
-    transform: none !important;
-}
-
-.preset-item.builtin {
-    border: none !important;
-    border-left: none !important;
-}
-
-.preset-item.active,
-.preset-card.active,
-.preset.active {
-    background: #12201c !important;
-    box-shadow: inset 2px 0 0 #10b981 !important;
-    border: none !important;
-}
-
-.preset-item .preset-icon {
-    font-size: 13px !important;
-    width: 18px !important;
-    height: 18px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    line-height: 1 !important;
-}
-
-.preset-item .preset-name {
-    flex: 1 !important;
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    color: #f1f5f9 !important;
-    letter-spacing: 0.3px !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
-    line-height: 26px !important;
-}
-
-.preset-item .preset-badge {
-    height: 16px !important;
-    padding: 0 5px !important;
-    font-size: 8px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.5px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border-radius: 0 !important;
-    text-transform: uppercase !important;
-    flex-shrink: 0 !important;
-    line-height: 16px !important;
-}
-
-.preset-badge.type { background: #10b981 !important; color: #ffffff !important; }
-.preset-badge.box { background: #059669 !important; color: #ffffff !important; }
-.preset-badge.mix { background: #047857 !important; color: #ffffff !important; }
-.preset-badge.motion,
-.preset-badge.motion-full { background: #334155 !important; color: #ffffff !important; }
-.preset-badge.toro { background: #10b981 !important; color: #ffffff !important; }
-
-.preset-item .preset-fav-btn {
-    width: 18px !important;
-    height: 18px !important;
-    border: none !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    color: #475569 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 11px !important;
-    cursor: pointer !important;
-    transition: color 0.12s ease !important;
-    flex-shrink: 0 !important;
-    padding: 0 !important;
-}
-
-.preset-item:hover .preset-fav-btn {
-    color: #94a3b8 !important;
-}
-
-.preset-item .preset-fav-btn.active {
-    color: #fbbf24 !important;
-}
-
-.preset-item .preset-apply-btn {
-    width: 20px !important;
-    height: 20px !important;
-    border: none !important;
-    border-radius: 0 !important;
-    background: #10b981 !important;
-    color: #ffffff !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 10px !important;
-    cursor: pointer !important;
-    opacity: 0 !important;
-    transition: opacity 0.12s ease, background 0.12s ease !important;
-    flex-shrink: 0 !important;
-    padding: 0 !important;
-}
-
-.preset-item:hover .preset-apply-btn {
-    opacity: 1 !important;
-}
-
-.preset-item .preset-apply-btn:hover {
-    background: #059669 !important;
-}
-
-.preset-item .preset-delete-btn {
-    width: 20px !important;
-    height: 20px !important;
-    border: none !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    color: #64748b !important;
-    cursor: pointer !important;
-    display: none !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 10px !important;
-    flex-shrink: 0 !important;
-    padding: 0 !important;
-}
-
-.preset-item[data-source="user"]:hover .preset-delete-btn {
-    display: inline-flex !important;
-}
-
-.preset-item .preset-delete-btn:hover {
-    background: #ef4444 !important;
-    color: #ffffff !important;
-}
-
+/* Presets Action Footer */
 .presets-actions {
-    margin-top: 2px !important;
-    margin-bottom: 2px !important;
+    display: flex !important;
+    gap: 6px !important;
+    padding-top: 6px !important;
+    margin-top: 4px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
 }
 
-#openPresetsFolderBtn {
-    border-radius: 0 !important;
-    background: #161620 !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    color: #cbd5e1 !important;
-    height: 24px !important;
-    font-size: 9.5px !important;
-    padding: 0 8px !important;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-}
-
-#openPresetsFolderBtn:hover {
-    background: #222232 !important;
-    color: #ffffff !important;
-}
-
-/* Loading & Empty States */
-.presets-loading,
-.presets-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 24px 12px;
-    color: #8c8ca0;
-    gap: 8px;
-    font-size: 11px;
-}
-
-.presets-loading i,
-.presets-empty i {
-    font-size: 20px;
-    color: #10b981;
-}

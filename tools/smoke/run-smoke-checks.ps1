@@ -4,6 +4,10 @@ Write-Host '[SMOKE] Building & verifying Modular CSS bundle...'
 node "$PSScriptRoot/../build-css.js"
 if ($LASTEXITCODE -ne 0) { throw 'CSS build failed.' }
 
+Write-Host '[SMOKE] Verifying Panel CSS Class Coverage...'
+node "$PSScriptRoot/check-css-coverage.js"
+if ($LASTEXITCODE -ne 0) { throw 'CSS coverage check failed.' }
+
 Write-Host '[SMOKE] Running UI syntax checks...'
 node "$PSScriptRoot/check-ui-syntax.js"
 if ($LASTEXITCODE -ne 0) { throw 'UI syntax check failed.' }

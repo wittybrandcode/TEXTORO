@@ -6,6 +6,13 @@ All notable changes to TEXTORO are documented in this file.
 
 ## [Unreleased]
 
+### 🛠️ Full Studio Component Styling Restoration & 100% Panel CSS Coverage — 2026-11-22
+- **Numeric Precision Steppers**: Restored dark slate `.stepper-actions` and `.step-arrow` styling across all numeric inputs, replacing stark white browser default button boxes with integrated subtle arrows and emerald hover feedback.
+- **Markers Panel Full Architecture**: Restored all 31 missing component rules for `FILTER BY TYPE` chips (color-coded Emerald `IN`, Crimson `OUT`, Amber `BLINK`), markers table container, sort headers, empty message alignment, and unified obsidian operation buttons (`< M`, `M >`, `< L`, `L >`, `ALIGN M`, `ALIGN L`).
+- **Control (SOGA) Panel Studio Empty State & Layer Bar**: Restored full studio empty state container with dashed slate border, centered cursor icon, and descriptive typography; restored `.soga-header` layer info bar and square refresh button.
+- **Automated Smoke Gate (100% Coverage Guard)**: Created `tools/smoke/check-css-coverage.js` verifying that every class present across all 7 panels in `index.html` has complete CSS definitions; integrated into `tools/smoke/run-smoke-checks.ps1` with 12/12 automated checks passing.
+- **CEP Mirror & Repository Sync**: 100% synchronized with Adobe CEP mirror and verified.
+
 ### 🎨 Modular CSS Architecture & Dead-Weight Purge — 2026-11-21
 - **Modular CSS Source Tree**: Deconstructed monolithic `style.css` into 25 clean, modular files organized under `css/src/` (Tokens, Base, Shared Components, Panels, Utilities), each scoped between 50-250 lines.
 - **Zero-Dependency Fast CSS Bundler**: Added `tools/build-css.js` compiling modular sources into a unified production `css/style.css` (reduced from 150KB to 53KB, compiled in ~7ms), integrated with `--watch` development mode and automated smoke gate.

@@ -52,3 +52,18 @@
 .studio-slider-row input[type="range"]::-webkit-slider-thumb:hover {
     background: #34d399 !important;
 }
+
+.studio-slider-row .slider-val-badge,
+.studio-slider-row .sv {
+    min-width: 36px !important;
+    height: 20px !important;
+    background: #14141d !important;
+    color: #ffffff !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}

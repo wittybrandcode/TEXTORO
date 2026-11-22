@@ -6,36 +6,451 @@
     gap: 4px !important;
 }
 
-.markers-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    max-height: calc(100vh - 200px);
-    overflow-y: auto;
+/* Marker Filter Grid (2 Columns: START | END paired by Category) */
+.markers-filter-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 6px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
-.marker-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 26px;
-    padding: 0 6px;
-    background: #181822;
-    border: 1px solid rgba(255, 255, 255, 0.04);
+.marker-filter-chip {
+    display: block !important;
+    position: relative !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    border-radius: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
-.marker-item:hover {
-    background: #20202e;
+.marker-filter-chip input[type="checkbox"] {
+    position: absolute !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    margin: 0 !important;
 }
 
-.marker-item .marker-name {
-    font-size: 11px;
-    font-weight: 600;
-    color: #e2e2ec;
+.marker-filter-chip .m-chip-body {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 26px !important;
+    padding: 0 8px !important;
+    background: #14141c !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+    transition: background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease !important;
 }
 
-.marker-item .marker-time {
-    font-size: 10px;
-    color: #8c8ca0;
-    font-family: monospace;
+.marker-filter-chip .m-chip-left {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    min-width: 0 !important;
 }
+
+.marker-dot {
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 0 !important;
+    display: inline-block !important;
+    margin-right: 4px !important;
+    vertical-align: middle !important;
+    flex-shrink: 0 !important;
+}
+
+.marker-filter-chip .marker-dot {
+    margin: 0 !important;
+    opacity: 0.45 !important;
+    transition: opacity 0.12s ease, box-shadow 0.12s ease !important;
+}
+
+.marker-dot.dot-in { background: #10b981 !important; }
+.marker-dot.dot-out { background: #ef4444 !important; }
+.marker-dot.dot-blink { background: #f59e0b !important; }
+
+.marker-filter-chip .m-chip-label {
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.4px !important;
+    color: #6c6c80 !important;
+    white-space: nowrap !important;
+    transition: color 0.12s ease !important;
+}
+
+.marker-filter-chip .m-chip-check {
+    opacity: 0 !important;
+    stroke: #6c6c80 !important;
+    transition: opacity 0.12s ease, stroke 0.12s ease, color 0.12s ease !important;
+    flex-shrink: 0 !important;
+}
+
+/* Hover States (Unchecked) */
+.marker-filter-chip:hover .m-chip-body {
+    background: #1a1a26 !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+}
+.marker-filter-chip:hover .m-chip-label {
+    color: #b0b0c4 !important;
+}
+.marker-filter-chip:hover .marker-dot {
+    opacity: 0.8 !important;
+}
+
+/* Checked States - Color-Coded Studio Aesthetics */
+.marker-filter-chip input[type="checkbox"]:checked + .m-chip-body {
+    background: #171c26 !important;
+}
+
+.marker-filter-chip input[type="checkbox"]:checked + .m-chip-body .m-chip-label {
+    color: #ffffff !important;
+}
+
+.marker-filter-chip input[type="checkbox"]:checked + .m-chip-body .marker-dot {
+    opacity: 1 !important;
+}
+
+.marker-filter-chip input[type="checkbox"]:checked + .m-chip-body .m-chip-check {
+    opacity: 1 !important;
+}
+
+/* IN markers (Emerald) */
+.marker-filter-chip.chip-in input[type="checkbox"]:checked + .m-chip-body {
+    background: #12201c !important;
+    border: 1px solid #10b981 !important;
+    box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.25) !important;
+}
+.marker-filter-chip.chip-in input[type="checkbox"]:checked + .m-chip-body .marker-dot {
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.7) !important;
+}
+.marker-filter-chip.chip-in input[type="checkbox"]:checked + .m-chip-body .m-chip-check {
+    stroke: #10b981 !important;
+    color: #10b981 !important;
+}
+
+/* OUT markers (Crimson Red) */
+.marker-filter-chip.chip-out input[type="checkbox"]:checked + .m-chip-body {
+    background: #221418 !important;
+    border: 1px solid #ef4444 !important;
+    box-shadow: inset 0 0 0 1px rgba(239, 68, 68, 0.25) !important;
+}
+.marker-filter-chip.chip-out input[type="checkbox"]:checked + .m-chip-body .marker-dot {
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.7) !important;
+}
+.marker-filter-chip.chip-out input[type="checkbox"]:checked + .m-chip-body .m-chip-check {
+    stroke: #ef4444 !important;
+    color: #ef4444 !important;
+}
+
+/* BLINK markers (Amber Gold) */
+.marker-filter-chip.chip-blink input[type="checkbox"]:checked + .m-chip-body {
+    background: #221c12 !important;
+    border: 1px solid #f59e0b !important;
+    box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.25) !important;
+}
+.marker-filter-chip.chip-blink input[type="checkbox"]:checked + .m-chip-body .marker-dot {
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.7) !important;
+}
+.marker-filter-chip.chip-blink input[type="checkbox"]:checked + .m-chip-body .m-chip-check {
+    stroke: #f59e0b !important;
+    color: #f59e0b !important;
+}
+
+/* Checked Hover States */
+.marker-filter-chip.chip-in:hover input[type="checkbox"]:checked + .m-chip-body {
+    background: #162822 !important;
+    border-color: #34d399 !important;
+}
+.marker-filter-chip.chip-out:hover input[type="checkbox"]:checked + .m-chip-body {
+    background: #2c1a20 !important;
+    border-color: #f87171 !important;
+}
+.marker-filter-chip.chip-blink:hover input[type="checkbox"]:checked + .m-chip-body {
+    background: #2c2417 !important;
+    border-color: #fbbf24 !important;
+}
+
+/* Studio Badge */
+.studio-badge {
+    font-size: 9px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #cbd5e1 !important;
+    padding: 1px 6px !important;
+    border-radius: 0 !important;
+    margin-left: 6px !important;
+    font-weight: 700 !important;
+    display: inline-block !important;
+}
+
+/* Markers Table Container */
+.markers-table-wrap {
+    max-height: 220px !important;
+    overflow-y: auto !important;
+    background: #14141c !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.markers-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 10.5px !important;
+    table-layout: fixed !important;
+}
+
+.markers-table th {
+    background: #111116 !important;
+    color: #8c8ca0 !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    padding: 6px 8px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 2 !important;
+    text-align: left !important;
+    user-select: none !important;
+}
+
+.markers-table td {
+    padding: 5px 8px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+    color: #e2e8f0 !important;
+    font-size: 10.5px !important;
+    font-weight: 500 !important;
+    vertical-align: middle !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+.markers-table tr {
+    cursor: pointer !important;
+    transition: background 0.1s ease !important;
+}
+
+.markers-table tr:hover td {
+    background: #1a1a26 !important;
+}
+
+.markers-table tr.selected td {
+    background: #172620 !important;
+    color: #ffffff !important;
+}
+
+.markers-table tr.selected:hover td {
+    background: #1c3028 !important;
+}
+
+.markers-table tr.ae-layer-selected td {
+    background: rgba(245, 158, 11, 0.08) !important;
+}
+
+.markers-table tr.ae-layer-selected:hover td {
+    background: rgba(245, 158, 11, 0.16) !important;
+}
+
+.markers-table tr.ae-layer-selected.selected td {
+    background: #1f2a42 !important;
+}
+
+.markers-table input[type="checkbox"] {
+    width: 13px !important;
+    height: 13px !important;
+    accent-color: #10b981 !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    vertical-align: middle !important;
+}
+
+.markers-table .cb-cell {
+    text-align: center !important;
+    width: 28px !important;
+}
+
+.markers-table .time-cell {
+    text-align: right !important;
+    font-family: monospace !important;
+    font-size: 10px !important;
+    color: #94a3b8 !important;
+    font-weight: 600 !important;
+}
+
+.markers-table .type-cell {
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.3px !important;
+}
+
+.markers-table .empty-msg {
+    text-align: center !important;
+    padding: 24px 12px !important;
+    color: #64748b !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.3px !important;
+}
+
+/* Marker Type Badges */
+.marker-type-in { color: #10b981 !important; }
+.marker-type-out { color: #ef4444 !important; }
+.marker-type-blink { color: #f59e0b !important; }
+.marker-type-text { color: #64748b !important; }
+
+.ae-selected {
+    color: #f59e0b !important;
+    font-size: 8px !important;
+    margin-right: 3px !important;
+}
+
+/* Selection Info Pill */
+.selection-pill {
+    font-size: 10px !important;
+    color: #8c8ca0 !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    user-select: none !important;
+}
+
+.selection-pill strong {
+    color: #10b981 !important;
+    margin-left: 3px !important;
+    font-weight: 700 !important;
+}
+
+/* Marker Operation Buttons */
+.btn-op {
+    height: 28px !important;
+    min-width: 32px !important;
+    padding: 0 8px !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.4px !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    box-sizing: border-box !important;
+    border: 1px solid transparent !important;
+    user-select: none !important;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease !important;
+}
+
+/* Markers buttons (Unified Obsidian & Emerald Theme) */
+.btn-op.btn-markers {
+    background: #16161d !important;
+    color: #e2e8f0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.btn-op.btn-markers:hover {
+    background: #10b981 !important;
+    color: #ffffff !important;
+    border-color: #10b981 !important;
+}
+
+.btn-op.btn-markers:active {
+    background: #059669 !important;
+}
+
+/* Layers buttons (Unified Obsidian & Emerald Theme) */
+.btn-op.btn-layer {
+    background: #16161d !important;
+    color: #e2e8f0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.btn-op.btn-layer:hover {
+    background: #10b981 !important;
+    color: #ffffff !important;
+    border-color: #10b981 !important;
+}
+
+.btn-op.btn-layer:active {
+    background: #059669 !important;
+}
+
+.btn-op.btn-op-wide {
+    padding: 0 10px !important;
+}
+
+.btn-op.icon-only-btn {
+    min-width: 26px !important;
+    height: 28px !important;
+    padding: 0 4px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    border-radius: 0 !important;
+}
+
+.btn-badge-sub {
+    font-size: 8.5px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.3px !important;
+    opacity: 0.9 !important;
+}
+
+/* Compact Precision Select & Balanced Combo Row */
+.precision-select-box.compact-select {
+    width: 52px !important;
+    min-width: 50px !important;
+    max-width: 58px !important;
+    flex: 0 0 52px !important;
+}
+
+.precision-select-box.compact-select .custom-select-wrap {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+}
+
+.precision-select-box.compact-select .custom-select-trigger {
+    padding: 0 4px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    justify-content: space-between !important;
+}
+
+.precision-select-box.compact-select .custom-select-val {
+    font-size: 10px !important;
+    padding: 0 2px !important;
+}
+
+.precision-select-box.compact-select .custom-select-arrow {
+    padding-left: 2px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Time Input Specifics */
+.time-input {
+    font-family: monospace !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* Markers Selection Badge Container */
+.markers-selection-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+/* Small Select in Markers Combo */
+.sel-sm {
+    height: 24px !important;
+    padding: 0 4px !important;
+    font-size: 10px !important;
+    min-width: 50px !important;
+}
+

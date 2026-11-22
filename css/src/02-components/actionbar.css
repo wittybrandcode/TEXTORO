@@ -113,3 +113,122 @@
     min-width: 26px !important;
     font-size: 13px !important;
 }
+
+/* Studio General Icon & Action Buttons */
+.square-icon-btn,
+.ib,
+.tb {
+    height: 28px !important;
+    min-width: 28px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #181822 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #8c8ca0 !important;
+    cursor: pointer !important;
+    padding: 0 8px !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.4px !important;
+    border-radius: 0 !important;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease !important;
+    outline: none !important;
+}
+
+.square-icon-btn svg,
+.ib svg,
+.tb svg {
+    stroke: currentColor !important;
+}
+
+.square-icon-btn:hover,
+.ib:hover,
+.tb:hover {
+    background: #20202e !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    color: #ffffff !important;
+}
+
+.square-icon-btn.active,
+.tb.active,
+.ib.active {
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+    color: #ffffff !important;
+}
+
+.studio-action-icon-btn {
+    width: 26px !important;
+    height: 26px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #181822 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #8c8ca0 !important;
+    border-radius: 0 !important;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease !important;
+    cursor: pointer !important;
+}
+
+.studio-action-icon-btn:hover {
+    background: #222232 !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+}
+
+.studio-action-icon-btn:active {
+    background: #10b981 !important;
+    color: #ffffff !important;
+}
+
+/* Small Buttons (Zero-radius Studio Slate) */
+.btn-s { 
+    height: 24px !important; 
+    padding: 0 8px !important; 
+    background: #181822 !important; 
+    border: 1px solid rgba(255, 255, 255, 0.08) !important; 
+    border-radius: 0 !important; 
+    color: #cbd5e1 !important; 
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    user-select: none !important;
+}
+
+.btn-s:hover { 
+    background: #20202e !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    color: #ffffff !important;
+}
+
+.btn-s.btn-primary { 
+    background: #10b981 !important; 
+    border-color: #10b981 !important; 
+    color: #ffffff !important; 
+}
+
+.btn-s.btn-primary:hover { 
+    background: #34d399 !important; 
+    border-color: #34d399 !important; 
+}
+
+.btn-s.btn-danger { 
+    background: #261619 !important;
+    border-color: rgba(239, 68, 68, 0.4) !important; 
+    color: #f87171 !important; 
+}
+
+.btn-s.btn-danger:hover { 
+    background: #ef4444 !important; 
+    border-color: #ef4444 !important;
+    color: #ffffff !important; 
+}
+
