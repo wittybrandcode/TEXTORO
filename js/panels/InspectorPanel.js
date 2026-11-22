@@ -1,6 +1,6 @@
 /**
  * TEXTORO - Inspector Panel Module
- * Layer Inspector Panel (Live Layer Control)
+ * Layer Inspector Panel (Live Layer Control & Property Tuning)
  * @version 3.3.0
  */
 
@@ -9,30 +9,55 @@ TEXTORO.Panels = TEXTORO.Panels || {};
 TEXTORO.Panels.Inspector = (function() {
     'use strict';
     
-    // متغيرات خاصة
+    // Performance: Fast DOM Cache
+    var _domCache = {};
+
+    function getDom(id) {
+        if (!_domCache[id]) {
+            var el = document.getElementById(id);
+            if (!el && id.indexOf('insp') === 0) {
+                // Defensive fallback to legacy soga prefix
+                el = document.getElementById('soga' + id.substring(4));
+            } else if (!el && id.indexOf('btnInsp') === 0) {
+                el = document.getElementById('btnSoga' + id.substring(7));
+            } else if (!el && id.indexOf('subInsp') === 0) {
+                el = document.getElementById('subSoga' + id.substring(7));
+            }
+            _domCache[id] = el;
+        }
+        return _domCache[id];
+    }
+
+    function clearDomCache() {
+        _domCache = {};
+    }
+
+    // Module State
     var debounceTimer = null;
     var multiCount = 0;
     var boxUse4Corners = true;
-    var formSnapshot = {}; // F-02: حالة النموذج وقت آخر populate لحساب الفروقات فقط
+    var formSnapshot = {}; // F-02: Snapshot of values at populate time to compute diffs only
 
-    // F-02: خريطة حقول النموذج (مفتاح الخيار في الـ payload -> معرف العنصر)
-    var SOGA_FIELD_IDS = {
+    // Canonical Inspector Field IDs
+    var INSPECTOR_FIELD_IDS = {
         typewriter: {
-            twProgress: 'sogaTwProgress', twAuto: 'sogaTwAuto', twReverse: 'sogaTwReverse',
-            wordMode: 'sogaWordMode', randomSpeed: 'sogaRandomSpeed', showCursor: 'sogaShowCursor',
-            cursorBefore: 'sogaCursorBefore', cursorColor: 'sogaCursorColor',
-            cursorSpacing: 'sogaCursorSpacing', blinkSpeed: 'sogaBlinkSpeed',
-            blinkInHold: 'sogaBlinkInHold', boxRTL: 'sogaBoxRTL', textColor: 'sogaTextColor',
-            easingType: 'sogaEasingType', easingStrength: 'sogaEasingStrength'
+            twProgress: 'inspTwProgress', twAuto: 'inspTwAuto', twReverse: 'inspTwReverse',
+            wordMode: 'inspWordMode', randomSpeed: 'inspRandomSpeed', showCursor: 'inspShowCursor',
+            cursorBefore: 'inspCursorBefore', cursorColor: 'inspCursorColor',
+            cursorSpacing: 'inspCursorSpacing', blinkSpeed: 'inspBlinkSpeed',
+            blinkInHold: 'inspBlinkInHold', boxRTL: 'inspBoxRTL', textColor: 'inspTextColor',
+            easingType: 'inspEasingType', easingStrength: 'inspEasingStrength'
         },
         box: {
-            paddingLeft: 'sogaPadL', paddingRight: 'sogaPadR', paddingTop: 'sogaPadT', paddingBottom: 'sogaPadB',
-            cornerTL: 'sogaCornerTL', cornerTR: 'sogaCornerTR', cornerBR: 'sogaCornerBR', cornerBL: 'sogaCornerBL',
-            strokeWidth: 'sogaStrokeW', strokeOpacity: 'sogaStrokeOp', strokeColor: 'sogaStrokeColor',
-            strokeDash: 'sogaStrokeDash', strokeGap: 'sogaStrokeGap', fillOpacity: 'sogaFillOp',
-            fillColor: 'sogaFillColor', lockBoxSize: 'sogaLockSize'
+            paddingLeft: 'inspPadL', paddingRight: 'inspPadR', paddingTop: 'inspPadT', paddingBottom: 'inspPadB',
+            cornerTL: 'inspCornerTL', cornerTR: 'inspCornerTR', cornerBR: 'inspCornerBR', cornerBL: 'inspCornerBL',
+            strokeWidth: 'inspStrokeW', strokeOpacity: 'inspStrokeOp', strokeColor: 'inspStrokeColor',
+            strokeDash: 'inspStrokeDash', strokeGap: 'inspStrokeGap', fillOpacity: 'inspFillOp',
+            fillColor: 'inspFillColor', lockBoxSize: 'inspLockSize'
         }
     };
+    var SOGA_FIELD_IDS = INSPECTOR_FIELD_IDS; // Legacy backward alias
+
     var motionLinkModes = {
         pos: 0,
         scale: 0,
@@ -41,11 +66,13 @@ TEXTORO.Panels.Inspector = (function() {
     };
     
     /**
-     * تهيئة اللوحة
+     * Initialize Inspector Panel
      */
     function init() {
+        clearDomCache();
+
         // Refresh button
-        var btnRefresh = document.getElementById('btnSogaRefresh');
+        var btnRefresh = getDom('btnInspRefresh') || getDom('btnSogaRefresh');
         if (btnRefresh) btnRefresh.addEventListener('click', refresh);
         
         // Collapsible sections
@@ -58,7 +85,7 @@ TEXTORO.Panels.Inspector = (function() {
             }
         });
         
-        // Live Edit
+        // Live Edit with high-frequency debouncing
         initLiveEdit();
         
         // Motion tabs
@@ -68,63 +95,65 @@ TEXTORO.Panels.Inspector = (function() {
     }
     
     /**
-     * تهيئة Live Edit - تطبيق التغييرات تلقائياً
+     * Initialize Live Edit - apply property changes automatically
      */
     function initLiveEdit() {
         var inputIds = [
             // Typewriter
-            'sogaTwProgress', 'sogaTwAuto', 'sogaTwReverse', 'sogaWordMode', 'sogaRandomSpeed',
-            'sogaShowCursor', 'sogaCursorBefore', 'sogaCursorColor',
-            'sogaCursorSpacing', 'sogaBlinkSpeed', 'sogaBlinkInHold', 'sogaBoxRTL',
-            'sogaTextColor', 'sogaEasingType', 'sogaEasingStrength',
+            'inspTwProgress', 'inspTwAuto', 'inspTwReverse', 'inspWordMode', 'inspRandomSpeed',
+            'inspShowCursor', 'inspCursorBefore', 'inspCursorColor',
+            'inspCursorSpacing', 'inspBlinkSpeed', 'inspBlinkInHold', 'inspBoxRTL',
+            'inspTextColor', 'inspEasingType', 'inspEasingStrength',
             // Box
-            'sogaPadL', 'sogaPadR', 'sogaPadT', 'sogaPadB',
-            'sogaCorner', 'sogaCornerTL', 'sogaCornerTR', 'sogaCornerBL', 'sogaCornerBR',
-            'sogaStrokeW', 'sogaStrokeOp', 'sogaStrokeColor', 'sogaStrokeDash', 'sogaStrokeGap',
-            'sogaFillOp', 'sogaFillColor', 'sogaLockSize',
+            'inspPadL', 'inspPadR', 'inspPadT', 'inspPadB',
+            'inspCorner', 'inspCornerTL', 'inspCornerTR', 'inspCornerBL', 'inspCornerBR',
+            'inspStrokeW', 'inspStrokeOp', 'inspStrokeColor', 'inspStrokeDash', 'inspStrokeGap',
+            'inspFillOp', 'inspFillColor', 'inspLockSize',
             // Motion
-            'sogaMotionInStart', 'sogaMotionInEnd', 'sogaMotionOutStart', 'sogaMotionOutEnd',
-            'sogaMotionSyncEnable', 'sogaMotionPosEnable', 'sogaMotionPosFromX', 'sogaMotionPosFromY',
-            'sogaMotionPosToX', 'sogaMotionPosToY', 'sogaMotionScaleEnable', 'sogaMotionScaleFrom',
-            'sogaMotionScaleTo', 'sogaMotionRotEnable', 'sogaMotionRotFrom', 'sogaMotionRotTo',
-            'sogaMotionOpacityEnable', 'sogaMotionOpacityFrom', 'sogaMotionOpacityTo',
-            'sogaMotionPosOutFromX', 'sogaMotionPosOutFromY', 'sogaMotionPosOutToX', 'sogaMotionPosOutToY',
-            'sogaMotionScaleOutFrom', 'sogaMotionScaleOutTo', 'sogaMotionRotOutFrom', 'sogaMotionRotOutTo',
-            'sogaMotionOpacityOutFrom', 'sogaMotionOpacityOutTo', 'sogaMotionEasingType', 'sogaMotionEasingStrength',
-            'sogaSpringStiffness', 'sogaSpringDamping', 'sogaSpringMass', 'sogaSpringVelocityBoost'
+            'inspMotionInStart', 'inspMotionInEnd', 'inspMotionOutStart', 'inspMotionOutEnd',
+            'inspMotionSyncEnable', 'inspMotionPosEnable', 'inspMotionPosFromX', 'inspMotionPosFromY',
+            'inspMotionPosToX', 'inspMotionPosToY', 'inspMotionScaleEnable', 'inspMotionScaleFrom',
+            'inspMotionScaleTo', 'inspMotionRotEnable', 'inspMotionRotFrom', 'inspMotionRotTo',
+            'inspMotionOpacityEnable', 'inspMotionOpacityFrom', 'inspMotionOpacityTo',
+            'inspMotionPosOutFromX', 'inspMotionPosOutFromY', 'inspMotionPosOutToX', 'inspMotionPosOutToY',
+            'inspMotionScaleOutFrom', 'inspMotionScaleOutTo', 'inspMotionRotOutFrom', 'inspMotionRotOutTo',
+            'inspMotionOpacityOutFrom', 'inspMotionOpacityOutTo', 'inspMotionEasingType', 'inspMotionEasingStrength',
+            'inspSpringStiffness', 'inspSpringDamping', 'inspSpringMass', 'inspSpringVelocityBoost'
         ];
         
         inputIds.forEach(function(id) {
-            var el = document.getElementById(id);
+            var el = getDom(id);
             if (!el) return;
             
             var eventType = (el.type === 'checkbox' || el.tagName === 'SELECT') ? 'change' : 'input';
             
             el.addEventListener(eventType, function() {
                 if (debounceTimer) clearTimeout(debounceTimer);
+                var delay = (TEXTORO.Config && TEXTORO.Config.TIMING && TEXTORO.Config.TIMING.INSPECTOR_DEBOUNCE_DELAY) || 
+                            (TEXTORO.Config && TEXTORO.Config.TIMING && TEXTORO.Config.TIMING.SOGA_DEBOUNCE_DELAY) || 40;
                 debounceTimer = setTimeout(function() {
                     applyChanges();
-                }, TEXTORO.Config.TIMING.SOGA_DEBOUNCE_DELAY);
+                }, delay);
             });
         });
 
-        var sogaEasingEl = document.getElementById('sogaMotionEasingType');
-        var sogaPhysDrawer = document.getElementById('sogaPhysicsDrawer');
-        if (sogaEasingEl && sogaPhysDrawer) {
-            sogaEasingEl.addEventListener('change', function() {
+        var inspEasingEl = getDom('inspMotionEasingType');
+        var inspPhysDrawer = getDom('inspPhysicsDrawer');
+        if (inspEasingEl && inspPhysDrawer) {
+            inspEasingEl.addEventListener('change', function() {
                 var v = parseInt(this.value, 10);
-                sogaPhysDrawer.style.display = (v === 6 || v === 7) ? 'block' : 'none';
+                inspPhysDrawer.style.display = (v === 6 || v === 7) ? 'block' : 'none';
             });
         }
         
-        TEXTORO.log('Soga Live Edit enabled');
+        TEXTORO.log('Inspector Live Edit enabled');
     }
     
     /**
-     * تهيئة تبويبات Motion في Soga
+     * Initialize Motion Tabs in Inspector
      */
     function initMotionTabs() {
-        var tabs = document.querySelectorAll('.soga-motion-tab');
+        var tabs = document.querySelectorAll('.inspector-motion-tab, .soga-motion-tab');
         tabs.forEach(function(tab) {
             tab.addEventListener('click', function() {
                 var targetTab = this.getAttribute('data-tab');
@@ -132,8 +161,8 @@ TEXTORO.Panels.Inspector = (function() {
                 tabs.forEach(function(t) { t.classList.remove('active'); });
                 this.classList.add('active');
                 
-                var inContent = document.getElementById('sogaMotionInContent');
-                var outContent = document.getElementById('sogaMotionOutContent');
+                var inContent = getDom('inspMotionInContent');
+                var outContent = getDom('inspMotionOutContent');
                 
                 if (targetTab === 'in') {
                     if (inContent) inContent.style.display = 'block';
@@ -146,22 +175,21 @@ TEXTORO.Panels.Inspector = (function() {
         });
         
         // Save Motion button
-        var btnSave = document.getElementById('btnSogaSaveMotion');
+        var btnSave = getDom('btnInspSaveMotion') || getDom('btnSogaSaveMotion');
         if (btnSave) {
             btnSave.addEventListener('click', saveMotionPreset);
         }
     }
     
     /**
-     * تحديث اللوحة
+     * Refresh Inspector Panel values from AE active selection
      */
     function refresh() {
         TEXTORO.HostBridge.run('getMultiSelectionInfo', null, function(selRes) {
             if (!selRes.success) {
-                // E-01: فشل المضيف لا يُطوى كـ"لا تحديد"
                 var errS = (selRes && selRes.error) || 'Unknown error';
                 TEXTORO.error('[InspectorPanel] getMultiSelectionInfo failed: ' + errS);
-                TEXTORO.UI.StatusBar.warning('Soga: ' + errS);
+                TEXTORO.UI.StatusBar.warning('Inspector: ' + errS);
             }
             var count = (selRes.success && selRes.data) ? selRes.data.count : 0;
             multiCount = count;
@@ -176,7 +204,7 @@ TEXTORO.Panels.Inspector = (function() {
                 return;
             }
             
-            // طبقة واحدة
+            // Single layer inspection
             TEXTORO.HostBridge.run('getLayerEffectValues', null, function(res) {
                 if (!res.success || !res.data || !res.data.layerName) {
                     showEmpty();
@@ -184,20 +212,20 @@ TEXTORO.Panels.Inspector = (function() {
                 }
                 
                 var data = res.data;
-                
-                document.getElementById('sogaLayerName').textContent = data.layerName;
+                var layerNameEl = getDom('inspLayerName') || getDom('sogaLayerName');
+                if (layerNameEl) layerNameEl.textContent = data.layerName;
                 
                 var hasAnyEffect = data.hasTypewriter || data.hasBox || data.hasMotion;
                 
-                var sogaEmpty = document.getElementById('sogaEmpty');
-                var sogaTypewriter = document.getElementById('sogaTypewriter');
-                var sogaBox = document.getElementById('sogaBox');
-                var sogaMotion = document.getElementById('sogaMotion');
+                var elEmpty = getDom('inspEmpty') || getDom('sogaEmpty');
+                var elTw = getDom('inspTypewriter') || getDom('sogaTypewriter');
+                var elBox = getDom('inspBox') || getDom('sogaBox');
+                var elMotion = getDom('inspMotion') || getDom('sogaMotion');
                 
-                if (sogaEmpty) sogaEmpty.style.display = hasAnyEffect ? 'none' : 'block';
-                if (sogaTypewriter) sogaTypewriter.style.display = data.hasTypewriter ? 'block' : 'none';
-                if (sogaBox) sogaBox.style.display = data.hasBox ? 'block' : 'none';
-                if (sogaMotion) sogaMotion.style.display = data.hasMotion ? 'block' : 'none';
+                if (elEmpty) elEmpty.style.display = hasAnyEffect ? 'none' : 'block';
+                if (elTw) elTw.style.display = data.hasTypewriter ? 'block' : 'none';
+                if (elBox) elBox.style.display = data.hasBox ? 'block' : 'none';
+                if (elMotion) elMotion.style.display = data.hasMotion ? 'block' : 'none';
                 
                 if (data.hasTypewriter && data.typewriter) {
                     populateTypewriter(data.typewriter);
@@ -211,7 +239,7 @@ TEXTORO.Panels.Inspector = (function() {
                     populateMotion(data.motion);
                 }
 
-                formSnapshot = captureFormSnapshot(); // F-02
+                formSnapshot = captureFormSnapshot();
                 setButtonsEnabled(hasAnyEffect);
                 if (TEXTORO.UI && TEXTORO.UI.NumberSpinners && typeof TEXTORO.UI.NumberSpinners.init === 'function') {
                     TEXTORO.UI.NumberSpinners.init();
@@ -221,26 +249,26 @@ TEXTORO.Panels.Inspector = (function() {
     }
     
     /**
-     * عرض حالة التحديد المتعدد
+     * Show multi-selection state
      */
     function showMulti(count) {
-        var sogaLayerName = document.getElementById('sogaLayerName');
-        if (sogaLayerName) sogaLayerName.textContent = count + ' layers selected';
+        var layerNameEl = getDom('inspLayerName') || getDom('sogaLayerName');
+        if (layerNameEl) layerNameEl.textContent = count + ' layers selected';
         
-        var sogaEmpty = document.getElementById('sogaEmpty');
-        var sogaTypewriter = document.getElementById('sogaTypewriter');
-        var sogaBox = document.getElementById('sogaBox');
-        var sogaMotionMulti = document.getElementById('sogaMotion');
+        var elEmpty = getDom('inspEmpty') || getDom('sogaEmpty');
+        var elTw = getDom('inspTypewriter') || getDom('sogaTypewriter');
+        var elBox = getDom('inspBox') || getDom('sogaBox');
+        var elMotion = getDom('inspMotion') || getDom('sogaMotion');
 
-        if (sogaEmpty) sogaEmpty.style.display = 'none';
-        if (sogaTypewriter) sogaTypewriter.style.display = 'block';
-        if (sogaBox) sogaBox.style.display = 'block';
-        if (sogaMotionMulti) sogaMotionMulti.style.display = 'none'; // F-02: لا Motion افتراضيات في الوضع المتعدد
+        if (elEmpty) elEmpty.style.display = 'none';
+        if (elTw) elTw.style.display = 'block';
+        if (elBox) elBox.style.display = 'block';
+        if (elMotion) elMotion.style.display = 'none';
 
         populateTypewriter(TEXTORO.Defaults.typewriter);
         populateBox(TEXTORO.Defaults.box);
 
-        formSnapshot = captureFormSnapshot(); // F-02
+        formSnapshot = captureFormSnapshot();
 
         setButtonsEnabled(true);
         if (TEXTORO.UI && TEXTORO.UI.NumberSpinners && typeof TEXTORO.UI.NumberSpinners.init === 'function') {
@@ -249,162 +277,161 @@ TEXTORO.Panels.Inspector = (function() {
     }
     
     /**
-     * عرض حالة عدم وجود تحديد
+     * Show empty state (no selection)
      */
     function showEmpty() {
         multiCount = 0;
-        var sogaLayerName = document.getElementById('sogaLayerName');
-        var sogaEmpty = document.getElementById('sogaEmpty');
-        var sogaTypewriter = document.getElementById('sogaTypewriter');
-        var sogaBox = document.getElementById('sogaBox');
-        var sogaMotion = document.getElementById('sogaMotion');
+        var layerNameEl = getDom('inspLayerName') || getDom('sogaLayerName');
+        var elEmpty = getDom('inspEmpty') || getDom('sogaEmpty');
+        var elTw = getDom('inspTypewriter') || getDom('sogaTypewriter');
+        var elBox = getDom('inspBox') || getDom('sogaBox');
+        var elMotion = getDom('inspMotion') || getDom('sogaMotion');
         
-        if (sogaLayerName) sogaLayerName.textContent = 'No Selection';
-        if (sogaEmpty) sogaEmpty.style.display = 'block';
-        if (sogaTypewriter) sogaTypewriter.style.display = 'none';
-        if (sogaBox) sogaBox.style.display = 'none';
-        if (sogaMotion) sogaMotion.style.display = 'none';
+        if (layerNameEl) layerNameEl.textContent = 'No Selection';
+        if (elEmpty) elEmpty.style.display = 'block';
+        if (elTw) elTw.style.display = 'none';
+        if (elBox) elBox.style.display = 'none';
+        if (elMotion) elMotion.style.display = 'none';
         
         setButtonsEnabled(false);
     }
     
     /**
-     * ملء قيم Typewriter
+     * Populate Typewriter controls
      */
     function populateTypewriter(tw) {
-        setValue('sogaTwProgress', tw.twProgress);
-        setChecked('sogaTwAuto', tw.twAuto);
-        setChecked('sogaTwReverse', tw.twReverse);
-        setChecked('sogaWordMode', tw.wordMode || false);
-        setValue('sogaRandomSpeed', tw.randomSpeed);
-        setChecked('sogaShowCursor', tw.showCursor);
-        setChecked('sogaCursorBefore', tw.cursorBefore);
-        setColor('sogaCursorColor', tw.cursorColor);
-        setValue('sogaCursorSpacing', tw.cursorSpacing);
-        setValue('sogaBlinkSpeed', tw.blinkSpeed);
-        setChecked('sogaBlinkInHold', tw.blinkInHold);
-        setChecked('sogaBoxRTL', tw.boxRTL);
-        setColor('sogaTextColor', tw.textColor);
-        setValue('sogaEasingType', (tw.easingType != null) ? tw.easingType : 1);
-        setValue('sogaEasingStrength', (tw.easingStrength != null) ? tw.easingStrength : 100);
+        setValue('inspTwProgress', tw.twProgress);
+        setChecked('inspTwAuto', tw.twAuto);
+        setChecked('inspTwReverse', tw.twReverse);
+        setChecked('inspWordMode', tw.wordMode || false);
+        setValue('inspRandomSpeed', tw.randomSpeed);
+        setChecked('inspShowCursor', tw.showCursor);
+        setChecked('inspCursorBefore', tw.cursorBefore);
+        setColor('inspCursorColor', tw.cursorColor);
+        setValue('inspCursorSpacing', tw.cursorSpacing);
+        setValue('inspBlinkSpeed', tw.blinkSpeed);
+        setChecked('inspBlinkInHold', tw.blinkInHold);
+        setChecked('inspBoxRTL', tw.boxRTL);
+        setColor('inspTextColor', tw.textColor);
+        setValue('inspEasingType', (tw.easingType != null) ? tw.easingType : 1);
+        setValue('inspEasingStrength', (tw.easingStrength != null) ? tw.easingStrength : 100);
     }
     
     /**
-     * ملء قيم Box
+     * Populate Box controls
      */
     function populateBox(bx) {
-        setValue('sogaPadL', bx.paddingLeft);
-        setValue('sogaPadR', bx.paddingRight);
-        setValue('sogaPadT', bx.paddingTop);
-        setValue('sogaPadB', bx.paddingBottom);
+        setValue('inspPadL', bx.paddingLeft);
+        setValue('inspPadR', bx.paddingRight);
+        setValue('inspPadT', bx.paddingTop);
+        setValue('inspPadB', bx.paddingBottom);
         
-        var soga4CornersRow = document.getElementById('soga4CornersRow');
-        var sogaSingleCornerRow = document.getElementById('sogaSingleCornerRow');
+        var corners4Row = getDom('insp4CornersRow') || getDom('soga4CornersRow');
+        var cornerSingleRow = getDom('inspSingleCornerRow') || getDom('sogaSingleCornerRow');
         
         if (bx.use4Corners) {
-            if (soga4CornersRow) soga4CornersRow.style.display = '';
-            if (sogaSingleCornerRow) sogaSingleCornerRow.style.display = 'none';
-            setValue('sogaCornerTL', (bx.cornerTL != null) ? bx.cornerTL : 15);
-            setValue('sogaCornerTR', (bx.cornerTR != null) ? bx.cornerTR : 15);
-            setValue('sogaCornerBR', (bx.cornerBR != null) ? bx.cornerBR : 15);
-            setValue('sogaCornerBL', (bx.cornerBL != null) ? bx.cornerBL : 15);
+            if (corners4Row) corners4Row.style.display = '';
+            if (cornerSingleRow) cornerSingleRow.style.display = 'none';
+            setValue('inspCornerTL', (bx.cornerTL != null) ? bx.cornerTL : 15);
+            setValue('inspCornerTR', (bx.cornerTR != null) ? bx.cornerTR : 15);
+            setValue('inspCornerBR', (bx.cornerBR != null) ? bx.cornerBR : 15);
+            setValue('inspCornerBL', (bx.cornerBL != null) ? bx.cornerBL : 15);
         } else {
-            if (soga4CornersRow) soga4CornersRow.style.display = 'none';
-            if (sogaSingleCornerRow) sogaSingleCornerRow.style.display = '';
-            setValue('sogaCorner', (bx.cornerRadius != null) ? bx.cornerRadius : 15);
+            if (corners4Row) corners4Row.style.display = 'none';
+            if (cornerSingleRow) cornerSingleRow.style.display = '';
+            setValue('inspCorner', (bx.cornerRadius != null) ? bx.cornerRadius : 15);
         }
         
         boxUse4Corners = bx.use4Corners;
         
-        setValue('sogaStrokeW', bx.strokeWidth);
-        setValue('sogaStrokeOp', bx.strokeOpacity);
-        setColor('sogaStrokeColor', bx.strokeColor);
-        setValue('sogaStrokeDash', bx.strokeDash || 0);
-        setValue('sogaStrokeGap', bx.strokeGap || 0);
-        setValue('sogaFillOp', bx.fillOpacity);
-        setColor('sogaFillColor', bx.fillColor);
-        setChecked('sogaLockSize', bx.lockBoxSize);
+        setValue('inspStrokeW', bx.strokeWidth);
+        setValue('inspStrokeOp', bx.strokeOpacity);
+        setColor('inspStrokeColor', bx.strokeColor);
+        setValue('inspStrokeDash', bx.strokeDash || 0);
+        setValue('inspStrokeGap', bx.strokeGap || 0);
+        setValue('inspFillOp', bx.fillOpacity);
+        setColor('inspFillColor', bx.fillColor);
+        setChecked('inspLockSize', bx.lockBoxSize);
     }
-
     
     /**
-     * ملء قيم Motion
+     * Populate Motion controls
      */
     function populateMotion(mt) {
-        setValue('sogaMotionInStart', mt.inStart != null ? mt.inStart : 0);
-        setValue('sogaMotionInEnd', mt.inEnd != null ? mt.inEnd : 1);
-        setValue('sogaMotionOutStart', mt.outStart != null ? mt.outStart : -1);
-        setValue('sogaMotionOutEnd', mt.outEnd != null ? mt.outEnd : -1);
+        setValue('inspMotionInStart', mt.inStart != null ? mt.inStart : 0);
+        setValue('inspMotionInEnd', mt.inEnd != null ? mt.inEnd : 1);
+        setValue('inspMotionOutStart', mt.outStart != null ? mt.outStart : -1);
+        setValue('inspMotionOutEnd', mt.outEnd != null ? mt.outEnd : -1);
         
-        setChecked('sogaMotionSyncEnable', (mt.syncMode > 0));
+        setChecked('inspMotionSyncEnable', (mt.syncMode > 0));
         
         // Position IN
-        setChecked('sogaMotionPosEnable', mt.animatePosition || false);
-        setValue('sogaMotionPosFromX', mt.posFromX || 0);
-        setValue('sogaMotionPosFromY', mt.posFromY || 0);
-        setValue('sogaMotionPosToX', mt.posToX || 0);
-        setValue('sogaMotionPosToY', mt.posToY || 0);
+        setChecked('inspMotionPosEnable', mt.animatePosition || false);
+        setValue('inspMotionPosFromX', mt.posFromX || 0);
+        setValue('inspMotionPosFromY', mt.posFromY || 0);
+        setValue('inspMotionPosToX', mt.posToX || 0);
+        setValue('inspMotionPosToY', mt.posToY || 0);
         
         // Position OUT
         motionLinkModes.pos = (mt.posLinkMode != null) ? mt.posLinkMode : 0;
         var posLinkMode = motionLinkModes.pos;
-        setValue('sogaMotionPosOutFromX', posLinkMode === 0 ? (mt.posToX || 0) : (mt.posOutFromX || 0));
-        setValue('sogaMotionPosOutFromY', posLinkMode === 0 ? (mt.posToY || 0) : (mt.posOutFromY || 0));
-        setValue('sogaMotionPosOutToX', posLinkMode === 0 ? (mt.posFromX || 0) : (mt.posOutToX || 0));
-        setValue('sogaMotionPosOutToY', posLinkMode === 0 ? (mt.posFromY || 0) : (mt.posOutToY || 0));
+        setValue('inspMotionPosOutFromX', posLinkMode === 0 ? (mt.posToX || 0) : (mt.posOutFromX || 0));
+        setValue('inspMotionPosOutFromY', posLinkMode === 0 ? (mt.posToY || 0) : (mt.posOutFromY || 0));
+        setValue('inspMotionPosOutToX', posLinkMode === 0 ? (mt.posFromX || 0) : (mt.posOutToX || 0));
+        setValue('inspMotionPosOutToY', posLinkMode === 0 ? (mt.posFromY || 0) : (mt.posOutToY || 0));
         
         // Scale IN
-        setChecked('sogaMotionScaleEnable', mt.animateScale || false);
-        setValue('sogaMotionScaleFrom', mt.scaleFrom != null ? mt.scaleFrom : 100);
-        setValue('sogaMotionScaleTo', mt.scaleTo != null ? mt.scaleTo : 100);
+        setChecked('inspMotionScaleEnable', mt.animateScale || false);
+        setValue('inspMotionScaleFrom', mt.scaleFrom != null ? mt.scaleFrom : 100);
+        setValue('inspMotionScaleTo', mt.scaleTo != null ? mt.scaleTo : 100);
         
         // Scale OUT
         motionLinkModes.scale = (mt.scaleLinkMode != null) ? mt.scaleLinkMode : 0;
         var scaleLinkMode = motionLinkModes.scale;
-        setValue('sogaMotionScaleOutFrom', scaleLinkMode === 0 ? (mt.scaleTo != null ? mt.scaleTo : 100) : (mt.scaleOutFrom != null ? mt.scaleOutFrom : 100));
-        setValue('sogaMotionScaleOutTo', scaleLinkMode === 0 ? (mt.scaleFrom != null ? mt.scaleFrom : 100) : (mt.scaleOutTo != null ? mt.scaleOutTo : 100));
+        setValue('inspMotionScaleOutFrom', scaleLinkMode === 0 ? (mt.scaleTo != null ? mt.scaleTo : 100) : (mt.scaleOutFrom != null ? mt.scaleOutFrom : 100));
+        setValue('inspMotionScaleOutTo', scaleLinkMode === 0 ? (mt.scaleFrom != null ? mt.scaleFrom : 100) : (mt.scaleOutTo != null ? mt.scaleOutTo : 100));
         
         // Rotation IN
-        setChecked('sogaMotionRotEnable', mt.animateRotation || false);
-        setValue('sogaMotionRotFrom', mt.rotFrom || 0);
-        setValue('sogaMotionRotTo', mt.rotTo || 0);
+        setChecked('inspMotionRotEnable', mt.animateRotation || false);
+        setValue('inspMotionRotFrom', mt.rotFrom || 0);
+        setValue('inspMotionRotTo', mt.rotTo || 0);
         
         // Rotation OUT
         motionLinkModes.rot = (mt.rotLinkMode != null) ? mt.rotLinkMode : 0;
         var rotLinkMode = motionLinkModes.rot;
-        setValue('sogaMotionRotOutFrom', rotLinkMode === 0 ? (mt.rotTo || 0) : (mt.rotOutFrom || 0));
-        setValue('sogaMotionRotOutTo', rotLinkMode === 0 ? (mt.rotFrom || 0) : (mt.rotOutTo || 0));
+        setValue('inspMotionRotOutFrom', rotLinkMode === 0 ? (mt.rotTo || 0) : (mt.rotOutFrom || 0));
+        setValue('inspMotionRotOutTo', rotLinkMode === 0 ? (mt.rotFrom || 0) : (mt.rotOutTo || 0));
         
         // Opacity IN
-        setChecked('sogaMotionOpacityEnable', mt.animateOpacity || false);
-        setValue('sogaMotionOpacityFrom', mt.opacityFrom != null ? mt.opacityFrom : 0);
-        setValue('sogaMotionOpacityTo', mt.opacityTo != null ? mt.opacityTo : 100);
+        setChecked('inspMotionOpacityEnable', mt.animateOpacity || false);
+        setValue('inspMotionOpacityFrom', mt.opacityFrom != null ? mt.opacityFrom : 0);
+        setValue('inspMotionOpacityTo', mt.opacityTo != null ? mt.opacityTo : 100);
         
         // Opacity OUT
         motionLinkModes.opacity = (mt.opacityLinkMode != null) ? mt.opacityLinkMode : 0;
         var opacityLinkMode = motionLinkModes.opacity;
-        setValue('sogaMotionOpacityOutFrom', opacityLinkMode === 0 ? (mt.opacityTo != null ? mt.opacityTo : 100) : (mt.opacityOutFrom != null ? mt.opacityOutFrom : 100));
-        setValue('sogaMotionOpacityOutTo', opacityLinkMode === 0 ? (mt.opacityFrom != null ? mt.opacityFrom : 0) : (mt.opacityOutTo != null ? mt.opacityOutTo : 0));
+        setValue('inspMotionOpacityOutFrom', opacityLinkMode === 0 ? (mt.opacityTo != null ? mt.opacityTo : 100) : (mt.opacityOutFrom != null ? mt.opacityOutFrom : 100));
+        setValue('inspMotionOpacityOutTo', opacityLinkMode === 0 ? (mt.opacityFrom != null ? mt.opacityFrom : 0) : (mt.opacityOutTo != null ? mt.opacityOutTo : 0));
         
         // Easing & Physics
         var eType = mt.easingType != null ? mt.easingType : 1;
-        setValue('sogaMotionEasingType', eType);
-        setValue('sogaMotionEasingStrength', mt.easingStrength != null ? mt.easingStrength : 100);
-        setValue('sogaSpringStiffness', mt.springStiffness != null ? mt.springStiffness : 180);
-        setValue('sogaSpringDamping', mt.springDamping != null ? mt.springDamping : 18);
-        setValue('sogaSpringMass', mt.springMass != null ? mt.springMass : 1.0);
-        setValue('sogaSpringVelocityBoost', mt.springVelocityBoost != null ? mt.springVelocityBoost : 0);
-        var sogaPhysDrawer = document.getElementById('sogaPhysicsDrawer');
-        if (sogaPhysDrawer) {
-            sogaPhysDrawer.style.display = (eType === 6 || eType === 7) ? 'block' : 'none';
+        setValue('inspMotionEasingType', eType);
+        setValue('inspMotionEasingStrength', mt.easingStrength != null ? mt.easingStrength : 100);
+        setValue('inspSpringStiffness', mt.springStiffness != null ? mt.springStiffness : 180);
+        setValue('inspSpringDamping', mt.springDamping != null ? mt.springDamping : 18);
+        setValue('inspSpringMass', mt.springMass != null ? mt.springMass : 1.0);
+        setValue('inspSpringVelocityBoost', mt.springVelocityBoost != null ? mt.springVelocityBoost : 0);
+        var physDrawer = getDom('inspPhysicsDrawer') || getDom('sogaPhysicsDrawer');
+        if (physDrawer) {
+            physDrawer.style.display = (eType === 6 || eType === 7) ? 'block' : 'none';
         }
     }
     
     /**
-     * تفعيل/تعطيل الأزرار
+     * Enable / disable action buttons
      */
     function setButtonsEnabled(enabled) {
-        var btnApply = document.getElementById('btnSogaApply');
+        var btnApply = getDom('btnInspApply') || getDom('btnSogaApply');
         if (btnApply) {
             btnApply.disabled = !enabled;
             btnApply.style.opacity = enabled ? '1' : '0.4';
@@ -413,15 +440,15 @@ TEXTORO.Panels.Inspector = (function() {
     }
     
     /**
-     * F-02: التقاط حالة النموذج الحالية كأساس مقارنة للفروقات
+     * Capture form snapshot to compute diffs during multi-selection
      */
     function captureFormSnapshot() {
         var snap = {};
         ['typewriter', 'box'].forEach(function(section) {
-            var ids = SOGA_FIELD_IDS[section];
+            var ids = INSPECTOR_FIELD_IDS[section];
             Object.keys(ids).forEach(function(key) {
                 var id = ids[key];
-                var el = document.getElementById(id);
+                var el = getDom(id);
                 if (!el) return;
                 if (el.type === 'checkbox') {
                     snap[id] = el.checked;
@@ -435,12 +462,11 @@ TEXTORO.Panels.Inspector = (function() {
     }
 
     /**
-     * F-02: حذف الحقول غير المتغيرة عن لحظة populate من الطلب
-     * يمنع مسح إعدادات الطبقات بالقيم الافتراضية عند التحديد المتعدد.
+     * Prune unchanged fields in multi-selection mode
      */
     function pruneToChangedOnly(opts) {
         function fieldChanged(id) {
-            var el = document.getElementById(id);
+            var el = getDom(id);
             if (!el || !(id in formSnapshot)) return false;
             var cur;
             if (el.type === 'checkbox') {
@@ -454,14 +480,13 @@ TEXTORO.Panels.Inspector = (function() {
 
         ['typewriter', 'box'].forEach(function(section) {
             if (!opts[section]) return;
-            var ids = SOGA_FIELD_IDS[section];
+            var ids = INSPECTOR_FIELD_IDS[section];
             Object.keys(opts[section]).forEach(function(key) {
                 var id = ids[key];
                 if (id && !fieldChanged(id)) delete opts[section][key];
             });
         });
 
-        // إسقاط الأقسام التي لم يتبقَّ فيها أي حقل فعلي (use4Corners هيكلي فقط)
         ['typewriter', 'box'].forEach(function(section) {
             if (!opts[section]) return;
             var real = Object.keys(opts[section]).filter(function(k) {
@@ -472,14 +497,14 @@ TEXTORO.Panels.Inspector = (function() {
     }
 
     /**
-     * تطبيق التغييرات
+     * Apply property changes to Host
      */
     function applyChanges() {
         var opts = {};
         var isMulti = multiCount > 1;
         
         function getNum(id, defaultVal) {
-            var el = document.getElementById(id);
+            var el = getDom(id);
             if (!el) return defaultVal;
             var val = el.value;
             if (val === '' || val === null || val === undefined) {
@@ -489,11 +514,11 @@ TEXTORO.Panels.Inspector = (function() {
             return isNaN(num) ? (isMulti ? defaultVal : 0) : num;
         }
         function getChecked(id, def) {
-            var el = document.getElementById(id);
+            var el = getDom(id);
             return el ? el.checked : def;
         }
         function getValue(id, def) {
-            var el = document.getElementById(id);
+            var el = getDom(id);
             return el ? el.value : def;
         }
         function getInt(id, def) {
@@ -501,72 +526,64 @@ TEXTORO.Panels.Inspector = (function() {
             return isNaN(num) ? def : num;
         }
         
-        // Helper للتحقق من ظهور العنصر
-        function isVisible(id) {
-            var el = document.getElementById(id);
-            if (!el) return false;
-            var display = el.style.display;
-            return display !== 'none' && display !== '';
-        }
-        
         // Typewriter
-        var sogaTypewriter = document.getElementById('sogaTypewriter');
-        if (sogaTypewriter && sogaTypewriter.style.display !== 'none') {
+        var elTw = getDom('inspTypewriter') || getDom('sogaTypewriter');
+        if (elTw && elTw.style.display !== 'none') {
             var twD = TEXTORO.Defaults.typewriter;
             opts.typewriter = {
-                twProgress: getNum('sogaTwProgress', twD.twProgress),
-                twAuto: getChecked('sogaTwAuto', false),
-                twReverse: getChecked('sogaTwReverse', false),
-                wordMode: getChecked('sogaWordMode', false),
-                randomSpeed: getNum('sogaRandomSpeed', twD.randomSpeed),
-                showCursor: getChecked('sogaShowCursor', false),
-                cursorBefore: getChecked('sogaCursorBefore', false),
-                cursorColor: hexToRgb(getValue('sogaCursorColor', '#ffffff')),
-                cursorSpacing: getNum('sogaCursorSpacing', twD.cursorSpacing),
-                blinkSpeed: getNum('sogaBlinkSpeed', twD.blinkSpeed),
-                blinkInHold: getChecked('sogaBlinkInHold', false),
-                boxRTL: getChecked('sogaBoxRTL', false),
-                textColor: hexToRgb(getValue('sogaTextColor', '#ffffff')),
-                easingType: getInt('sogaEasingType', 1),
-                easingStrength: getNum('sogaEasingStrength', 100)
+                twProgress: getNum('inspTwProgress', twD.twProgress),
+                twAuto: getChecked('inspTwAuto', false),
+                twReverse: getChecked('inspTwReverse', false),
+                wordMode: getChecked('inspWordMode', false),
+                randomSpeed: getNum('inspRandomSpeed', twD.randomSpeed),
+                showCursor: getChecked('inspShowCursor', false),
+                cursorBefore: getChecked('inspCursorBefore', false),
+                cursorColor: hexToRgb(getValue('inspCursorColor', '#ffffff')),
+                cursorSpacing: getNum('inspCursorSpacing', twD.cursorSpacing),
+                blinkSpeed: getNum('inspBlinkSpeed', twD.blinkSpeed),
+                blinkInHold: getChecked('inspBlinkInHold', false),
+                boxRTL: getChecked('inspBoxRTL', false),
+                textColor: hexToRgb(getValue('inspTextColor', '#ffffff')),
+                easingType: getInt('inspEasingType', 1),
+                easingStrength: getNum('inspEasingStrength', 100)
             };
         }
         
         // Box
-        var sogaBox = document.getElementById('sogaBox');
-        if (sogaBox && sogaBox.style.display !== 'none') {
+        var elBox = getDom('inspBox') || getDom('sogaBox');
+        if (elBox && elBox.style.display !== 'none') {
             var bxD = TEXTORO.Defaults.box;
             var use4Corners = boxUse4Corners !== false;
             
             opts.box = {
-                paddingLeft: getNum('sogaPadL', bxD.paddingLeft),
-                paddingRight: getNum('sogaPadR', bxD.paddingRight),
-                paddingTop: getNum('sogaPadT', bxD.paddingTop),
-                paddingBottom: getNum('sogaPadB', bxD.paddingBottom),
+                paddingLeft: getNum('inspPadL', bxD.paddingLeft),
+                paddingRight: getNum('inspPadR', bxD.paddingRight),
+                paddingTop: getNum('inspPadT', bxD.paddingTop),
+                paddingBottom: getNum('inspPadB', bxD.paddingBottom),
                 use4Corners: use4Corners,
-                cornerRadius: use4Corners ? null : getNum('sogaCorner', 15),
-                cornerTL: use4Corners ? getNum('sogaCornerTL', 15) : null,
-                cornerTR: use4Corners ? getNum('sogaCornerTR', 15) : null,
-                cornerBR: use4Corners ? getNum('sogaCornerBR', 15) : null,
-                cornerBL: use4Corners ? getNum('sogaCornerBL', 15) : null,
-                strokeWidth: getNum('sogaStrokeW', bxD.strokeWidth),
-                strokeOpacity: getNum('sogaStrokeOp', bxD.strokeOpacity),
-                strokeColor: hexToRgb(getValue('sogaStrokeColor', '#ffffff')),
-                strokeDash: getNum('sogaStrokeDash', 0),
-                strokeGap: getNum('sogaStrokeGap', 0),
-                fillOpacity: getNum('sogaFillOp', bxD.fillOpacity),
-                fillColor: hexToRgb(getValue('sogaFillColor', '#ffffff')),
-                lockBoxSize: getChecked('sogaLockSize', false)
+                cornerRadius: use4Corners ? null : getNum('inspCorner', 15),
+                cornerTL: use4Corners ? getNum('inspCornerTL', 15) : null,
+                cornerTR: use4Corners ? getNum('inspCornerTR', 15) : null,
+                cornerBR: use4Corners ? getNum('inspCornerBR', 15) : null,
+                cornerBL: use4Corners ? getNum('inspCornerBL', 15) : null,
+                strokeWidth: getNum('inspStrokeW', bxD.strokeWidth),
+                strokeOpacity: getNum('inspStrokeOp', bxD.strokeOpacity),
+                strokeColor: hexToRgb(getValue('inspStrokeColor', '#ffffff')),
+                strokeDash: getNum('inspStrokeDash', 0),
+                strokeGap: getNum('inspStrokeGap', 0),
+                fillOpacity: getNum('inspFillOp', bxD.fillOpacity),
+                fillColor: hexToRgb(getValue('inspFillColor', '#ffffff')),
+                lockBoxSize: getChecked('inspLockSize', false)
             };
         }
         
         // Motion
-        var sogaMotionEl = document.getElementById('sogaMotion');
-        if (sogaMotionEl && sogaMotionEl.style.display !== 'none') {
+        var elMotion = getDom('inspMotion') || getDom('sogaMotion');
+        if (elMotion && elMotion.style.display !== 'none') {
             opts.motion = collectMotionValues();
         }
 
-        // F-02: في وضع التحديد المتعدد نرسل الحقول المتغيرة فقط
+        // In multi-selection mode send diffs only
         if (multiCount > 1) {
             pruneToChangedOnly(opts);
             if (!opts.typewriter && !opts.box && !opts.motion) {
@@ -575,9 +592,8 @@ TEXTORO.Panels.Inspector = (function() {
             }
         }
 
-        TEXTORO.log('Soga Apply, Multi: ' + multiCount);
+        TEXTORO.log('Inspector Apply, Multi: ' + multiCount);
         
-        // استخدام الدالة الصحيحة حسب عدد الطبقات المحددة
         var funcName = (multiCount > 1) ? 'setLayerEffectValuesMulti' : 'setLayerEffectValues';
         
         TEXTORO.HostBridge.run(funcName, opts, function(res) {
@@ -590,66 +606,66 @@ TEXTORO.Panels.Inspector = (function() {
     }
     
     /**
-     * جمع قيم Motion من Soga
+     * Collect Motion values from Inspector
      */
     function collectMotionValues() {
         function getNumSafe(id, def) {
-            var el = document.getElementById(id);
+            var el = getDom(id);
             if (!el) return def;
             var val = parseFloat(el.value);
             return isNaN(val) ? def : val;
         }
         function getCheckedSafe(id, def) {
-            var el = document.getElementById(id);
+            var el = getDom(id);
             return el ? el.checked : def;
         }
         
         return {
-            inStart: getNumSafe('sogaMotionInStart', 0),
-            inEnd: getNumSafe('sogaMotionInEnd', 1),
-            outStart: getNumSafe('sogaMotionOutStart', -1),
-            outEnd: getNumSafe('sogaMotionOutEnd', -1),
-            syncMode: getCheckedSafe('sogaMotionSyncEnable', false) ? 1 : 0,
-            animatePosition: getCheckedSafe('sogaMotionPosEnable', false),
-            posFromX: getNumSafe('sogaMotionPosFromX', 0),
-            posFromY: getNumSafe('sogaMotionPosFromY', 0),
-            posToX: getNumSafe('sogaMotionPosToX', 0),
-            posToY: getNumSafe('sogaMotionPosToY', 0),
+            inStart: getNumSafe('inspMotionInStart', 0),
+            inEnd: getNumSafe('inspMotionInEnd', 1),
+            outStart: getNumSafe('inspMotionOutStart', -1),
+            outEnd: getNumSafe('inspMotionOutEnd', -1),
+            syncMode: getCheckedSafe('inspMotionSyncEnable', false) ? 1 : 0,
+            animatePosition: getCheckedSafe('inspMotionPosEnable', false),
+            posFromX: getNumSafe('inspMotionPosFromX', 0),
+            posFromY: getNumSafe('inspMotionPosFromY', 0),
+            posToX: getNumSafe('inspMotionPosToX', 0),
+            posToY: getNumSafe('inspMotionPosToY', 0),
             posLinkMode: motionLinkModes.pos,
-            posOutFromX: getNumSafe('sogaMotionPosOutFromX', 0),
-            posOutFromY: getNumSafe('sogaMotionPosOutFromY', 0),
-            posOutToX: getNumSafe('sogaMotionPosOutToX', 0),
-            posOutToY: getNumSafe('sogaMotionPosOutToY', 0),
-            animateScale: getCheckedSafe('sogaMotionScaleEnable', false),
-            scaleFrom: getNumSafe('sogaMotionScaleFrom', 100),
-            scaleTo: getNumSafe('sogaMotionScaleTo', 100),
+            posOutFromX: getNumSafe('inspMotionPosOutFromX', 0),
+            posOutFromY: getNumSafe('inspMotionPosOutFromY', 0),
+            posOutToX: getNumSafe('inspMotionPosOutToX', 0),
+            posOutToY: getNumSafe('inspMotionPosOutToY', 0),
+            animateScale: getCheckedSafe('inspMotionScaleEnable', false),
+            scaleFrom: getNumSafe('inspMotionScaleFrom', 100),
+            scaleTo: getNumSafe('inspMotionScaleTo', 100),
             scaleLinkMode: motionLinkModes.scale,
-            scaleOutFrom: getNumSafe('sogaMotionScaleOutFrom', 100),
-            scaleOutTo: getNumSafe('sogaMotionScaleOutTo', 100),
-            animateRotation: getCheckedSafe('sogaMotionRotEnable', false),
-            rotFrom: getNumSafe('sogaMotionRotFrom', 0),
-            rotTo: getNumSafe('sogaMotionRotTo', 0),
+            scaleOutFrom: getNumSafe('inspMotionScaleOutFrom', 100),
+            scaleOutTo: getNumSafe('inspMotionScaleOutTo', 100),
+            animateRotation: getCheckedSafe('inspMotionRotEnable', false),
+            rotFrom: getNumSafe('inspMotionRotFrom', 0),
+            rotTo: getNumSafe('inspMotionRotTo', 0),
             rotLinkMode: motionLinkModes.rot,
-            rotOutFrom: getNumSafe('sogaMotionRotOutFrom', 0),
-            rotOutTo: getNumSafe('sogaMotionRotOutTo', 0),
-            animateOpacity: getCheckedSafe('sogaMotionOpacityEnable', false),
-            opacityFrom: getNumSafe('sogaMotionOpacityFrom', 0),
-            opacityTo: getNumSafe('sogaMotionOpacityTo', 100),
+            rotOutFrom: getNumSafe('inspMotionRotOutFrom', 0),
+            rotOutTo: getNumSafe('inspMotionRotOutTo', 0),
+            animateOpacity: getCheckedSafe('inspMotionOpacityEnable', false),
+            opacityFrom: getNumSafe('inspMotionOpacityFrom', 0),
+            opacityTo: getNumSafe('inspMotionOpacityTo', 100),
             opacityLinkMode: motionLinkModes.opacity,
-            opacityOutFrom: getNumSafe('sogaMotionOpacityOutFrom', 100),
-            opacityOutTo: getNumSafe('sogaMotionOpacityOutTo', 0),
+            opacityOutFrom: getNumSafe('inspMotionOpacityOutFrom', 100),
+            opacityOutTo: getNumSafe('inspMotionOpacityOutTo', 0),
             easingType: (function() {
-                var easingEl = document.getElementById('sogaMotionEasingType');
+                var easingEl = getDom('inspMotionEasingType');
                 var easingVal = parseInt(easingEl ? easingEl.value : '', 10);
                 return isNaN(easingVal) ? 1 : easingVal;
             })(),
-            easingStrength: getNumSafe('sogaMotionEasingStrength', 100),
-            springStiffness: getNumSafe('sogaSpringStiffness', 180),
-            springDamping: getNumSafe('sogaSpringDamping', 18),
-            springMass: getNumSafe('sogaSpringMass', 1.0),
-            springVelocityBoost: getNumSafe('sogaSpringVelocityBoost', 0),
+            easingStrength: getNumSafe('inspMotionEasingStrength', 100),
+            springStiffness: getNumSafe('inspSpringStiffness', 180),
+            springDamping: getNumSafe('inspSpringDamping', 18),
+            springMass: getNumSafe('inspSpringMass', 1.0),
+            springVelocityBoost: getNumSafe('inspSpringVelocityBoost', 0),
             usePhysics: (function() {
-                var easingEl = document.getElementById('sogaMotionEasingType');
+                var easingEl = getDom('inspMotionEasingType');
                 var easingVal = parseInt(easingEl ? easingEl.value : '', 10);
                 return (easingVal === 6 || easingVal === 7);
             })()
@@ -657,16 +673,15 @@ TEXTORO.Panels.Inspector = (function() {
     }
     
     /**
-     * حفظ Motion Preset من Soga
+     * Save Motion Preset from Inspector
      */
     function saveMotionPreset() {
         TEXTORO.UI.Modals.showInput({
-            title: '💾 Save Motion Preset',
+            title: 'Save Motion Preset',
             label: 'Preset Name:',
             value: '',
             placeholder: 'My Motion Preset',
-            showIcon: true,
-            icon: '🎬',
+            showIcon: false,
             onOK: function(name, icon) {
                 if (!name || !name.trim()) return;
                 
@@ -676,13 +691,12 @@ TEXTORO.Panels.Inspector = (function() {
                 var presetData = {
                     category: 'motion',
                     name: name,
-                    icon: icon || '🎬',
                     values: values
                 };
                 
                 TEXTORO.HostBridge.run('savePreset', presetData, function(res) {
                     if (res.success) {
-                        TEXTORO.UI.StatusBar.success('Motion preset "' + name + '" saved!');
+                        TEXTORO.UI.StatusBar.success('Motion preset "' + name + '" saved');
                         if (TEXTORO.Panels.Presets && TEXTORO.Panels.Presets.load) {
                             TEXTORO.Panels.Presets.load();
                         }
@@ -696,24 +710,23 @@ TEXTORO.Panels.Inspector = (function() {
     
     // Helper functions
     function setValue(id, value) {
-        var el = document.getElementById(id);
+        var el = getDom(id);
         if (el) el.value = value;
     }
     
     function setChecked(id, checked) {
-        var el = document.getElementById(id);
+        var el = getDom(id);
         if (el) el.checked = checked;
     }
     
     function setColor(id, rgbArray) {
-        var el = document.getElementById(id);
+        var el = getDom(id);
         if (el && rgbArray) {
             el.value = rgbToHex(rgbArray);
             el.dispatchEvent(new Event('change', { bubbles: true }));
         }
     }
     
-    // C-02: توحيد المحولات على TEXTORO.Utils
     function rgbToHex(rgb) {
         return (TEXTORO.Utils && TEXTORO.Utils.rgbToHex) ? TEXTORO.Utils.rgbToHex(rgb) : '#ffffff';
     }
@@ -728,20 +741,20 @@ TEXTORO.Panels.Inspector = (function() {
         refresh: refresh,
         applyChanges: applyChanges,
         showEmpty: showEmpty,
-        getMultiCount: function() { return multiCount; }
+        getMultiCount: function() { return multiCount; },
+        clearDomCache: clearDomCache
     };
 })();
 
-// Aliases للتوافق
 // Backward compatibility aliases
-    TEXTORO.Panels.Soga = TEXTORO.Panels.Inspector;
-    window.initInspectorPanel = function() { TEXTORO.Panels.Inspector.init(); };
-    window.refreshInspectorPanel = function() { TEXTORO.Panels.Inspector.refresh(); };
-    window.applyInspectorChanges = function() { TEXTORO.Panels.Inspector.applyChanges(); };
-    window.initSogaPanel = window.initInspectorPanel;
-    window.refreshSogaPanel = window.refreshInspectorPanel;
-    window.refreshSogaFromLayer = window.refreshInspectorPanel;
-    window.applySogaChanges = window.applyInspectorChanges;
-    window.showSogaEmpty = function() { TEXTORO.Panels.Inspector.showEmpty(); };
-    var sogaMultiCount = 0;
-    var sogaDebounceTimer = null;
+TEXTORO.Panels.Soga = TEXTORO.Panels.Inspector;
+window.initInspectorPanel = function() { TEXTORO.Panels.Inspector.init(); };
+window.refreshInspectorPanel = function() { TEXTORO.Panels.Inspector.refresh(); };
+window.applyInspectorChanges = function() { TEXTORO.Panels.Inspector.applyChanges(); };
+window.initSogaPanel = window.initInspectorPanel;
+window.refreshSogaPanel = window.refreshInspectorPanel;
+window.refreshSogaFromLayer = window.refreshInspectorPanel;
+window.applySogaChanges = window.applyInspectorChanges;
+window.showSogaEmpty = function() { TEXTORO.Panels.Inspector.showEmpty(); };
+var sogaMultiCount = 0;
+var sogaDebounceTimer = null;

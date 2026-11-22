@@ -16,9 +16,9 @@
 4. [مراحل التنفيذ التفصيلية (Actionable Phases Checklist)](#4-مراحل-التنفيذ-التفصيلية-actionable-phases-checklist)
    - [المرحلة 1: نواة المعادلات التعبيرية (Analytical Expression Kernel)](#المرحلة-1-نواة-المعادلات-التعبيرية-analytical-expression-kernel)
    - [المرحلة 2: هندسة المتحكمات في أفتر إفكتس (Host Controllers & Rigging)](#المرحلة-2-هندسة-المتحكمات-في-أفتر-إفكتس-host-controllers--rigging)
-   - [المرحلة 3: واجهة المستخدم وقوالب الاستوديو (UI Controls & Presets Arena)](#المرحلة-3-واجهة-المستخدم-وقوالب-الاستوديو-ui-controls--presets-arena)
+   - [المرحلة 3: واجهة المستخدم وقوالب الاستوديو (UI Controls & Presets Library)](#المرحلة-3-واجهة-المستخدم-وقوالب-الاستوديو-ui-controls--presets-library)
    - [المرحلة 4: شاشة المعاينة التفاعلية في الوقت الفعلي (HTML5 Canvas Visualizer)](#المرحلة-4-شاشة-المعاينة-التفاعلية-في-الوقت-الفعلي-html5-canvas-visualizer)
-   - [المرحلة 5: التكامل الموحد مع Typewriter و Box و Soga Live](#المرحلة-5-التكامل-الموحد-مع-typewriter-و-box-و-soga-live)
+   - [المرحلة 5: التكامل الموحد مع Typewriter و Box و Inspector Live](#المرحلة-5-التكامل-الموحد-مع-typewriter-و-box-و-inspector-live)
    - [المرحلة 6: الفحص الدخاني الصارم والمزامنة الحية (Smoke QA & CEP Sync)](#المرحلة-6-الفحص-الدخاني-الصارم-والمزامنة-الحية-smoke-qa--cep-sync)
 5. [جدول المعاملات والقيم المعيارية (Parameter Matrix)](#5-جدول-المعاملات-والقيم-المعيارية-parameter-matrix)
 6. [حزم القوالب الفيزيائية الجاهزة (Curated Physics Presets)](#6-حزم-القوالب-الفيزيائية-الجاهزة-curated-physics-presets)
@@ -107,7 +107,7 @@ $$t_{settle} \approx \frac{-\ln(\epsilon)}{\zeta \omega_0} = \frac{\ln(1000)}{\z
 ```mermaid
 flowchart TD
     subgraph UI_Panel["🎨 واجهة الاستوديو (Textoro Panel UI)"]
-        UI_Preset["اختيار قالب فيزيائي\n(Physics Presets Arena: iOS, Bouncy, Heavy, Jelly, Snap, Glide)"]
+        UI_Preset["اختيار قالب فيزيائي\n(Physics Presets Library: iOS, Bouncy, Heavy, Jelly, Snap, Glide)"]
         UI_Sliders["متحكمات الدقة الفيزيائية\n(Tension: 180, Friction: 18, Mass: 1.0, Boost: 0)"]
         UI_Canvas["معاينة تفاعلية حية 60fps\n(HTML5 Canvas Visualizer + Live Test Box)"]
     end
@@ -185,22 +185,22 @@ flowchart TD
 
 ---
 
-### المرحلة 3: واجهة المستخدم وقوالب الاستوديو (UI Controls & Presets Arena) ✅
+### المرحلة 3: واجهة المستخدم وقوالب الاستوديو (UI Controls & Presets Library) ✅
 > **الحالة:** مكتملة 100% | تصميم استوديو زيرو-راديوس مدمج.
 
 - [x] **3.1: تصميم درج التحكم الفيزيائي (Physics Dynamics Drawer) في `index.html`**
-  - إضافة قسم `SPRING DYNAMICS HARMONIC TUNER` في تبويبي `Motion Dynamics` و `Soga Live`.
+  - إضافة قسم `SPRING DYNAMICS HARMONIC TUNER` في تبويبي `Motion Dynamics` و `Inspector Live`.
   - إضافة 4 حقول أرقام دقيقة وأشرطة تمرير زيرو-راديوس:
     - صلابة الزنبرك والشد (`TENSION` / `motionSpringStiffness`)
     - احتكاك وتخميد الحركة (`FRICTION` / `motionSpringDamping`)
     - كتلة وعطالة النص (`MASS` / `motionSpringMass`)
     - دفعة السرعة الأولية (`BOOST` / `motionSpringVelocityBoost`)
   - الحفاظ التام على أرقام المعرّفات الـ 314 في DOM دون أي كسر.
-- [x] **3.2: بناء منطق التفاعل في `js/panels/MotionPanel.js` و `SogaPanel.js`**
+- [x] **3.2: بناء منطق التفاعل في `js/panels/MotionPanel.js` و `InspectorPanel.js`**
   - إظهار وإخفاء درج الفيزياء تلقائياً عند اختيار نمط الزنبرك (6 أو 7).
   - إرسال الحزمة الفيزيائية الكاملة إلى `HostBridge.run('applyMotion', ...)`.
-  - تكامل المزامنة الحية في Soga Live مع قائمة `inputIds`.
-- [x] **3.3: تزويد ساحة القوالب (Presets Arena) بأزرار فيزيائية متخصصة**
+  - تكامل المزامنة الحية في Inspector Live مع قائمة `inputIds`.
+- [x] **3.3: تزويد ساحة القوالب (Presets Library) بأزرار فيزيائية متخصصة**
   - إضافة أزرار أيقونات سريعة لتطبيق السلوكيات الفيزيائية الستة الرئيسية:
     - 🍏 **iOS Fluid** (280/26/1.0)
     - 🏀 **Bouncy Dynamic** (190/11/0.9)
@@ -228,11 +228,11 @@ flowchart TD
 
 ---
 
-### المرحلة 5: التكامل الموحد مع Typewriter و Box و Soga Live ✅
+### المرحلة 5: التكامل الموحد مع Typewriter و Box و Inspector Live ✅
 > **الحالة:** مكتملة 100% | تكامل شامل لكافة التبويبات.
 
-- [x] **5.1: تكامل Soga Live Instant Motion**
-  - دعم الخصائص الفيزيائية وقراءة وتعديل السلايدرات مباشرة من تبويب Soga Live مع الحفظ الفوري.
+- [x] **5.1: تكامل Inspector Live Instant Motion**
+  - دعم الخصائص الفيزيائية وقراءة وتعديل السلايدرات مباشرة من تبويب Inspector Live مع الحفظ الفوري.
 - [x] **5.2: تكامل Presets Hub**
   - إتاحة قوالب الفيزياء في مكتبة القوالب مع قراءة المعاملات وتطبيقها بنقرة واحدة.
 - [x] **5.3: المزامنة الآمنة للطبقات**
@@ -318,7 +318,7 @@ flowchart TD
 | **2** | هندسة المتحكمات في أفتر إفكتس | `100%` | ✅ مكتملة | تسجيل 38 متحكماً وربطها في Effect Controls |
 | **3** | واجهة المستخدم وقوالب الاستوديو | `100%` | ✅ مكتملة | ضبط السلايدرات والقوالب الستة في Panel UI |
 | **4** | شاشة المعاينة التفاعلية في Canvas | `100%` | ✅ مكتملة | رسم المنحنى اللحظي 60fps مع محاكي القفز الحركي |
-| **5** | التكامل الموحد مع باقي الوحدات | `100%` | ✅ مكتملة | دعم Soga Live و Presets Hub بالكامل |
+| **5** | التكامل الموحد مع باقي الوحدات | `100%` | ✅ مكتملة | دعم Inspector Live و Presets Hub بالكامل |
 | **6** | الفحص الدخاني 11/11 والمزامنة الحية | `100%` | ✅ مكتملة | اجتياز 11/11 فحصاً دخانياً بنجاح ومزامنة CEP |
 
 ---

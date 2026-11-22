@@ -344,16 +344,16 @@ TEXTORO.UI.CollapsibleSection = (function() {
             }
         });
         
-        // Soga Tab Sections
-        var sogaSections = [
-            { id: 'soga-tw', defaultCollapsed: false },
-            { id: 'soga-box', defaultCollapsed: false },
-            { id: 'soga-motion', defaultCollapsed: false }
+        // Inspector Tab Sections
+        var inspectorSections = [
+            { id: 'insp-tw', legacyId: 'soga-tw', defaultCollapsed: false },
+            { id: 'insp-box', legacyId: 'soga-box', defaultCollapsed: false },
+            { id: 'insp-motion', legacyId: 'soga-motion', defaultCollapsed: false }
         ];
         
-        sogaSections.forEach(function(s) {
-            var header = document.getElementById(s.id + '-header');
-            var content = document.getElementById(s.id + '-content');
+        inspectorSections.forEach(function(s) {
+            var header = document.getElementById(s.id + '-header') || (s.legacyId && document.getElementById(s.legacyId + '-header'));
+            var content = document.getElementById(s.id + '-content') || (s.legacyId && document.getElementById(s.legacyId + '-content'));
             if (header && content) {
                 init({
                     id: s.id,

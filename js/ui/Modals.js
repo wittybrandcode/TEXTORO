@@ -764,13 +764,13 @@ TEXTORO.UI.Modals = (function() {
 
         var title = 'SELECT COLOR';
         var boxTitle = box ? (box.getAttribute('title') || '') : '';
-        if (input.id === 'colorStroke' || input.id === 'sogaStrokeColor') {
+        if (input.id === 'colorStroke' || input.id === 'inspStrokeColor' || input.id === 'sogaStrokeColor') {
             title = 'STROKE COLOR';
-        } else if (input.id === 'colorFill' || input.id === 'sogaFillColor') {
+        } else if (input.id === 'colorFill' || input.id === 'inspFillColor' || input.id === 'sogaFillColor') {
             title = 'FILL COLOR';
-        } else if (input.id === 'colorCursor' || input.id === 'sogaCursorColor') {
+        } else if (input.id === 'colorCursor' || input.id === 'inspCursorColor' || input.id === 'sogaCursorColor') {
             title = 'CURSOR COLOR';
-        } else if (input.id === 'colorText' || input.id === 'sogaTextColor') {
+        } else if (input.id === 'colorText' || input.id === 'inspTextColor' || input.id === 'sogaTextColor') {
             title = 'TEXT COLOR';
         } else if (boxTitle) {
             title = boxTitle.toUpperCase();

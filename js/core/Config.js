@@ -21,7 +21,7 @@ TEXTORO.Config = {
         /** فترة فحص التحديد (ms) */
         SELECTION_CHECK_INTERVAL: 300,
         
-        /** تأخير Soga Live Edit (ms) */
+        /** تأخير Inspector Live Edit (ms) */
         INSPECTOR_DEBOUNCE_DELAY: 200,
         SOGA_DEBOUNCE_DELAY: 200,
         

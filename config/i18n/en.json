@@ -9,6 +9,7 @@
   "tabs.type": "Typewriter",
   "tabs.box": "Box",
   "tabs.presets": "Presets",
+  "tabs.inspector": "Inspector",
   "tabs.soga": "Inspector",
   "tabs.markers": "Markers",
   "tabs.motion": "Motion",
@@ -19,6 +20,5 @@
   "presets.motion": "Motion",
   "presets.compound": "Compound",
   "presets.templates": "Templates",
-  "presets.favorites": "Favorites",
-  "tabs.inspector": "Inspector"
+  "presets.favorites": "Favorites"
 }

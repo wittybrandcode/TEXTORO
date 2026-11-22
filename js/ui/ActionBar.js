@@ -37,10 +37,10 @@ TEXTORO.UI.ActionBar = (function() {
         presets: '<button class="ab ab-icon ab-p square-icon-btn" id="btnPresetsApply" title="Apply to Selected Text">' + PH_CHECK + '</button>' +
                  '<button class="ab ab-icon square-icon-btn" id="btnPresetsNew" title="Create New Preset from Layer">' + PH_PLUS + '</button>',
                
-        inspector: '<button class="ab ab-icon ab-p square-icon-btn" id="btnSogaApply" title="Apply Changes">' + PH_CHECK + '</button>' +
-              '<button class="ab ab-icon square-icon-btn" id="btnSogaRefresh2" title="Refresh from Layer">' + PH_REFRESH + '</button>',
-        soga: '<button class="ab ab-icon ab-p square-icon-btn" id="btnSogaApply" title="Apply Changes">' + PH_CHECK + '</button>' +
-              '<button class="ab ab-icon square-icon-btn" id="btnSogaRefresh2" title="Refresh from Layer">' + PH_REFRESH + '</button>',
+        inspector: '<button class="ab ab-icon ab-p square-icon-btn" id="btnInspApply" title="Apply Changes">' + PH_CHECK + '</button>' +
+              '<button class="ab ab-icon square-icon-btn" id="btnInspRefresh2" title="Refresh from Layer">' + PH_REFRESH + '</button>',
+        soga: '<button class="ab ab-icon ab-p square-icon-btn" id="btnInspApply" title="Apply Changes">' + PH_CHECK + '</button>' +
+              '<button class="ab ab-icon square-icon-btn" id="btnInspRefresh2" title="Refresh from Layer">' + PH_REFRESH + '</button>',
               
         markers: '<button class="ab ab-icon square-icon-btn" id="btnMarkersRefresh" title="Refresh Markers">' + PH_REFRESH + '</button>' +
                  '<button class="ab ab-icon ab-d square-icon-btn" id="btnMarkersDelete" title="Delete Selected Markers">' + PH_TRASH + '</button>',
@@ -120,20 +120,28 @@ TEXTORO.UI.ActionBar = (function() {
                 
             case 'inspector':
             case 'soga':
-                bindClick('btnSogaApply', function() {
-                    if (TEXTORO.Panels && TEXTORO.Panels.Soga) {
-                        TEXTORO.Panels.Soga.applyChanges();
+                var doApply = function() {
+                    if (TEXTORO.Panels && (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga)) {
+                        (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga).applyChanges();
+                    } else if (typeof applyInspectorChanges === 'function') {
+                        applyInspectorChanges();
                     } else if (typeof applySogaChanges === 'function') {
                         applySogaChanges();
                     }
-                });
-                bindClick('btnSogaRefresh2', function() {
-                    if (TEXTORO.Panels && TEXTORO.Panels.Soga) {
-                        TEXTORO.Panels.Soga.refresh();
+                };
+                var doRefresh = function() {
+                    if (TEXTORO.Panels && (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga)) {
+                        (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga).refresh();
+                    } else if (typeof refreshInspectorPanel === 'function') {
+                        refreshInspectorPanel();
                     } else if (typeof refreshSogaFromLayer === 'function') {
                         refreshSogaFromLayer();
                     }
-                });
+                };
+                bindClick('btnInspApply', doApply);
+                bindClick('btnSogaApply', doApply);
+                bindClick('btnInspRefresh2', doRefresh);
+                bindClick('btnSogaRefresh2', doRefresh);
                 break;
                 
             case 'markers':

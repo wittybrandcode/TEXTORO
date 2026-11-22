@@ -31,18 +31,18 @@
 
 TEXTORO is a professional Adobe After Effects extension for typewriter text animations with cursor effects and dynamic background boxes. Built for both LTR and RTL workflows.
 
-> **Arena** — حلبة الثور: النص هو الثور، وTEXTORO يروّضه.
+> **Presets Library** — مكتبة القوالب المتكاملة: النص هو الثور، وTEXTORO يروّضه.
 
 ## ✨ Key Features
 
 | Feature | Description |
 |---------|-------------|
-| **🐂 Arena Presets** | Complete templates (Type + Box + Motion) in one click |
+| **Presets Library** | Complete templates (Type + Box + Motion) in one click |
 | **Typewriter Effect** | Character-by-character reveal with timing control |
 | **Cursor Animation** | 7 cursor styles + custom cursor |
 | **Dynamic Box** | Auto-sizing background with 4 independent corners |
 | **Motion System** | 12 motion presets (Fade, Up, Pop, Spin, etc.) |
-| **Live Editing (Soga)** | Real-time property editing |
+| **Live Inspector** | Real-time property editing |
 | **Live Text v1.4** | Edit text on layer — AE & Premiere (Mogrt) ready |
 | **Frame-Based Time** | Precise `seconds.frames` timing |
 
@@ -56,14 +56,14 @@ TEXTORO is a professional Adobe After Effects extension for typewriter text anim
    - Registry: `HKEY_CURRENT_USER\Software\Adobe\CSXS.11`
    - String: `PlayerDebugMode` = `1`
 3. Restart After Effects
-4. Open: `Window > Extensions > TEXTORO` → Tab **Arena**
+4. Open: `Window > Extensions > TEXTORO` → Tab **Presets**
 
 ## 🎛️ Panel Tabs
 
 - **Type** — Direction (LTR/RTL), Timing (In/Out), Cursor, Advanced (Reverse, Word Mode)
 - **Box** — Padding, Corners, Stroke, Fill, Path Offset
-- **Arena** — Presets library (Type/Box/Mix/Motion/Toro) with search & favorites
-- **Soga** — Live editing for Type/Box/Motion
+- **Presets** — Presets library (Type/Box/Mix/Motion/Toro) with search & favorites
+- **Inspector** — Live property editing for Type/Box/Motion
 - **Settings** — Presets folder & Expression versions (v1.0 / v1.3 / v1.4)
 
 ## ⏱️ Frame-Based Time
@@ -107,14 +107,14 @@ TEXTORO/
 
 1. Create text layer
 2. Select it
-3. Open TEXTORO → **Arena** → Apply a preset
+3. Open TEXTORO → **Presets** → Apply a preset
 4. Or configure **Type** tab and Apply
 
 ## 🔄 Version History
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.0.0 | Aug 2026 | 🐂 Arena restored, Live Text v1.4 (Mogrt-ready), security hardening, encoding fix |
+| 1.0.0 | Aug 2026 | 🐂 Presets library restored, Live Text v1.4 (Mogrt-ready), security hardening, encoding fix |
 | 1.0.1 | Aug 2026 | README encoding fix |
 
 ## 📝 License

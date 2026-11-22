@@ -32,7 +32,7 @@
       "builtin": "boolean - Flag indicating factory preset status (Optional, default: false)",
       "author": "string - Creator or studio attribution (Optional)",
       "created": "string - ISO 8601 creation timestamp (Optional)",
-      "inLibrary": "boolean - Display flag for Motion Arena grid (Optional)"
+      "inLibrary": "boolean - Display flag for Motion Presets Library grid (Optional)"
     }
   },
   "type": {

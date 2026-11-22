@@ -36,7 +36,7 @@
 - [x] `TypewriterManager.jsx` - مدير Typewriter (~400 سطر)
 - [x] `BoxManager.jsx` - مدير الصندوق (~350 سطر)
 - [x] `MultiLinesManager.jsx` - مدير الأسطر المتعددة (~280 سطر)
-- [x] `SogaManager.jsx` - مدير Soga Panel (~280 سطر)
+- [x] `InspectorManager.jsx` - مدير Inspector Panel (~280 سطر)
 - [x] `LayerOperations.jsx` - عمليات الطبقات والـ Markers (~350 سطر)
 - [x] `PresetManager.jsx` - مدير البريسات (~800 سطر)
 - [x] `ImportExport.jsx` - استيراد/تصدير البريسات (~280 سطر)
@@ -56,12 +56,12 @@
 - [x] Expression v1.3 - نسخة جديدة من sourceText Expression
 
 ### Bug Fixes (v3.1.3) ✅
-- [x] Motion Presets Fix - إصلاح بريسات Motion مع Soga
+- [x] Motion Presets Fix - إصلاح بريسات Motion مع Inspector
 - [x] JavaScript falsy values - إصلاح مشكلة القيمة 0
 - [x] _applyMotionToLayer - إضافة كل Effect Controls المطلوبة
 
 ### Bug Fixes (v3.1.2) ✅
-- [x] Soga Motion Editing - إصلاح تعديل Motion من Soga
+- [x] Inspector Motion Editing - إصلاح تعديل Motion من Inspector
 - [x] Effect Controls Auto-Create - إنشاء Effect Controls المفقودة تلقائياً
 
 ### Bug Fixes (v3.1.1) ✅
@@ -71,8 +71,8 @@
 ### Core Features
 - [x] Typewriter Effect (Type Tab)
 - [x] Background Box (Box Tab)
-- [x] Presets System (Arena Tab)
-- [x] Live Edit (Soga Tab)
+- [x] Presets System (Presets Tab)
+- [x] Live Edit (Inspector Tab)
 - [x] Markers Manager (Markers Tab)
 - [x] Motion Animation (Motion Tab)
 - [x] Multi-lines Support
@@ -105,7 +105,7 @@
 
 ### UX/UI (v2.5.12) ✅
 - [x] Collapsible Sections
-- [x] Arena Search
+- [x] Presets Search
 - [x] Keyboard Navigation (Escape)
 - [x] State Persistence
 - [x] Markers Filter Colors
@@ -121,8 +121,8 @@
 - [x] OUT Animation: تحريك الخروج (عكس IN)
 - [x] 7 Easing Types: Linear, Ease Out, Ease In, Ease In-Out, Bounce, Elastic, Spring
 
-### Phase 1: Motion في Soga ✅
-- [x] عرض وتعديل Motion من Soga panel
+### Phase 1: Motion في Inspector ✅
+- [x] عرض وتعديل Motion من Inspector panel
 - [x] قراءة/كتابة جميع Motion Effect Controls
 
 ### Phase 4: Multi-layer Motion ✅
@@ -137,7 +137,7 @@
 - [x] Typewriter mode - قراءة IN_START/IN_END markers
 - [x] Custom mode - قراءة MOTION_IN_START/MOTION_IN_END markers
 - [x] Create Motion Markers button - إنشاء markers مخصصة
-- [x] Soga integration - عرض وتعديل Sync Mode
+- [x] Inspector integration - عرض وتعديل Sync Mode
 - [x] Backward compatible - الطبقات القديمة تعمل بدون تغيير
 
 ---
@@ -161,9 +161,9 @@
 
 ## 🐛 إصلاحات مطلوبة (Bug Fixes)
 
-- [x] ~~Soga Motion لا يعمل~~ ✅ تم الإصلاح في v3.1.2
-- [x] ~~Motion Presets لا تعمل مع Soga~~ ✅ تم الإصلاح في v3.1.3
-- [ ] تحسين أداء Arena مع عدد كبير من Presets
+- [x] ~~Inspector Motion لا يعمل~~ ✅ تم الإصلاح في v3.1.2
+- [x] ~~Motion Presets لا تعمل مع Inspector~~ ✅ تم الإصلاح في v3.1.3
+- [ ] تحسين أداء Presets مع عدد كبير من Presets
 - [ ] إصلاح Markers selection عند تغيير الـ Composition
 
 ---

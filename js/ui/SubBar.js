@@ -12,7 +12,7 @@ TEXTORO.UI.SubBar = (function() {
     function init() {
         bindTypewriterSubbar();
         bindBoxSubbar();
-        bindSogaSubbar();
+        bindInspectorSubbar();
         bindMarkersSubbar();
         bindMotionSubbar();
         bindSettingsSubbar();
@@ -197,9 +197,63 @@ TEXTORO.UI.SubBar = (function() {
     }
 
     /**
-     * 3. Control / SOGA Subbar
+     * 3. Layer Inspector Subbar
      */
-    function bindSogaSubbar() {
+    function bindInspectorSubbar() {
+        var btnRef = document.getElementById('subInspRefresh') || document.getElementById('subSogaRefresh');
+        var origRef = document.getElementById('btnInspRefresh') || document.getElementById('btnSogaRefresh') || document.getElementById('sogaRefreshBtn');
+        if (btnRef && origRef) {
+            btnRef.addEventListener('click', function() { origRef.click(); });
+        }
+
+        function scrollToEl(targetId) {
+            var target = document.getElementById(targetId);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        var btnType = document.getElementById('subInspScrollType') || document.getElementById('subSogaScrollType');
+        if (btnType) {
+            btnType.addEventListener('click', function() { scrollToEl('inspTypewriter') || scrollToEl('sogaTypewriter'); });
+        }
+
+        var btnBox = document.getElementById('subInspScrollBox') || document.getElementById('subSogaScrollBox');
+        if (btnBox) {
+            btnBox.addEventListener('click', function() { scrollToEl('inspBox') || scrollToEl('sogaBox'); });
+        }
+
+        var btnMot = document.getElementById('subInspScrollMotion') || document.getElementById('subSogaScrollMotion');
+        if (btnMot) {
+            btnMot.addEventListener('click', function() { scrollToEl('inspMotion') || scrollToEl('sogaMotion'); });
+        }
+
+        bindToggle('subInspTwAuto', 'inspTwAuto');
+        bindToggle('subInspBoxRtl', 'inspBoxRTL');
+        bindToggle('subSogaTwAuto', 'sogaTwAuto');
+        bindToggle('subSogaBoxRtl', 'sogaBoxRTL');
+
+        var btnExpand = document.getElementById('subInspExpandAll') || document.getElementById('subSogaExpandAll');
+        if (btnExpand) {
+            btnExpand.addEventListener('click', function() {
+                var contents = document.querySelectorAll('#panel-inspector .collapsible-content, #panel-soga .collapsible-content');
+                var anyHidden = Array.from(contents).some(function(c) { return c.style.display === 'none'; });
+                contents.forEach(function(c) {
+                    c.style.display = anyHidden ? 'block' : 'none';
+                });
+                btnExpand.classList.toggle('active', anyHidden);
+            });
+        }
+    }
+
+    function syncInspector() {
+        syncBtnState('subInspTwAuto', 'inspTwAuto');
+        syncBtnState('subInspBoxRtl', 'inspBoxRTL');
+        syncBtnState('subSogaTwAuto', 'sogaTwAuto');
+        syncBtnState('subSogaBoxRtl', 'sogaBoxRTL');
+    }
+    var syncSoga = syncInspector;
+    function _unusedOldBindSoga() {
         var btnRef = document.getElementById('subSogaRefresh');
         var origRef = document.getElementById('btnSogaRefresh') || document.getElementById('sogaRefreshBtn');
         if (btnRef && origRef) {
@@ -325,8 +379,8 @@ TEXTORO.UI.SubBar = (function() {
     function bindMotionSubbar() {
         var btnModeIn = document.getElementById('subMotionModeIn');
         var btnModeOut = document.getElementById('subMotionModeOut');
-        var origModeIn = document.getElementById('motionArenaInBtn');
-        var origModeOut = document.getElementById('motionArenaOutBtn');
+        var origModeIn = document.getElementById('motionLibraryInBtn') || document.getElementById('motionArenaInBtn');
+        var origModeOut = document.getElementById('motionLibraryOutBtn') || document.getElementById('motionArenaOutBtn');
 
         if (btnModeIn && origModeIn) {
             btnModeIn.addEventListener('click', function() {
@@ -356,8 +410,8 @@ TEXTORO.UI.SubBar = (function() {
     }
 
     function syncMotion() {
-        var origIn = document.getElementById('motionArenaInBtn');
-        var origOut = document.getElementById('motionArenaOutBtn');
+        var origIn = document.getElementById('motionLibraryInBtn') || document.getElementById('motionArenaInBtn');
+        var origOut = document.getElementById('motionLibraryOutBtn') || document.getElementById('motionArenaOutBtn');
         var btnIn = document.getElementById('subMotionModeIn');
         var btnOut = document.getElementById('subMotionModeOut');
 
@@ -427,7 +481,7 @@ TEXTORO.UI.SubBar = (function() {
     function syncAll() {
         syncTypewriter();
         syncBox();
-        syncSoga();
+        syncInspector();
         syncMarkers();
         syncMotion();
     }
@@ -437,7 +491,8 @@ TEXTORO.UI.SubBar = (function() {
         syncAll: syncAll,
         syncTypewriter: syncTypewriter,
         syncBox: syncBox,
-        syncSoga: syncSoga,
+        syncInspector: syncInspector,
+        syncSoga: syncInspector,
         syncMarkers: syncMarkers,
         syncMotion: syncMotion
     };

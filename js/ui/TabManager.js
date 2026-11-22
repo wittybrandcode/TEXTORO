@@ -123,14 +123,17 @@ TEXTORO.UI.TabManager = (function() {
                 
             case 'inspector':
             case 'soga':
-                // Refresh Inspector panel
-                if (TEXTORO.Panels && (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga)) {
-                    var insp = TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga;
-                    insp.refresh();
+                if (TEXTORO.Panels && TEXTORO.Panels.Inspector) {
+                    TEXTORO.Panels.Inspector.refresh();
+                } else if (TEXTORO.Panels && TEXTORO.Panels.Soga) {
+                    TEXTORO.Panels.Soga.refresh();
                 } else if (typeof refreshInspectorPanel === 'function') {
                     refreshInspectorPanel();
                 } else if (typeof refreshSogaFromLayer === 'function') {
                     refreshSogaFromLayer();
+                }
+                if (TEXTORO.UI && TEXTORO.UI.SubBar && TEXTORO.UI.SubBar.syncInspector) {
+                    TEXTORO.UI.SubBar.syncInspector();
                 }
                 break;
                 

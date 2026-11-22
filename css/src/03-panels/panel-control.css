@@ -2,11 +2,12 @@
    TEXTORO PANEL: INSPECTOR (Live Layer Properties Inspector)
    ============================================================ */
 
-#panel-inspector .studio-card, #panel-soga .studio-card {
+#panel-inspector .studio-card,
+.inspector-card {
     gap: 4px !important;
 }
 
-.soga-indicator {
+.inspector-indicator, .soga-indicator {
     width: 6px;
     height: 6px;
     border-radius: 0 !important;
@@ -15,7 +16,7 @@
 }
 
 /* Studio Slate Soga Layer Info Bar */
-.inspector-header, .soga-header, .studio-layer-bar { 
+.inspector-header, .studio-layer-bar, .soga-header { 
     background: #131317 !important; 
     border: 1px solid rgba(255, 255, 255, 0.08) !important; 
     border-radius: 0 !important; 
@@ -27,7 +28,7 @@
     gap: 8px !important; 
 }
 
-.inspector-icon, .soga-icon, .studio-layer-icon { 
+.inspector-icon, .studio-layer-icon, .soga-icon { 
     width: 26px !important; 
     height: 26px !important; 
     background: #16161d !important; 
@@ -40,6 +41,7 @@
     flex-shrink: 0 !important; 
 }
 
+.inspector-icon svg,
 .soga-icon svg,
 .studio-layer-icon svg {
     stroke: #10b981 !important;
@@ -60,6 +62,7 @@
     min-width: 0 !important;
 }
 
+.inspector-name,
 .soga-name,
 .studio-layer-name { 
     font-size: 11px !important; 
@@ -97,6 +100,7 @@
 }
 
 /* Studio Slate Empty State */
+.inspector-empty,
 .soga-empty,
 .studio-empty-state { 
     text-align: center !important; 
@@ -108,7 +112,7 @@
 }
 
 .studio-empty-state .empty-state-icon,
-.soga-empty .empty-state-icon {
+.inspector-empty .empty-state-icon, .soga-empty .empty-state-icon {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -122,12 +126,12 @@
 }
 
 .studio-empty-state .empty-state-icon svg,
-.soga-empty .empty-state-icon svg {
+.inspector-empty .empty-state-icon, .soga-empty .empty-state-icon svg {
     stroke: #10b981 !important;
 }
 
 .studio-empty-state .empty-state-title,
-.soga-empty .empty-state-title {
+.inspector-empty .empty-state-title, .soga-empty .empty-state-title {
     font-size: 11px !important; 
     font-weight: 700 !important; 
     letter-spacing: 0.6px !important; 
@@ -136,7 +140,7 @@
 }
 
 .studio-empty-state .empty-state-desc,
-.soga-empty .empty-state-desc {
+.inspector-empty .empty-state-desc, .soga-empty .empty-state-desc {
     font-size: 10px !important; 
     color: #64748b !important; 
     line-height: 1.5 !important; 
@@ -144,15 +148,15 @@
     margin: 0 auto !important; 
 }
 
-/* Soga Motion Tabs Container */
-.soga-motion-tabs {
+/* Inspector Motion Tabs Container */
+.inspector-motion-tabs, .soga-motion-tabs {
     display: flex !important;
     gap: 4px !important;
     width: 100% !important;
     margin-bottom: 8px !important;
 }
 
-.soga-motion-tab {
+.inspector-motion-tab, .soga-motion-tab {
     flex: 1 !important;
     height: 26px !important;
     padding: 0 10px !important;
@@ -172,25 +176,25 @@
     outline: none !important;
 }
 
-.soga-motion-tab svg {
+.inspector-motion-tab, .soga-motion-tab svg {
     stroke: currentColor !important;
     flex-shrink: 0 !important;
 }
 
-.soga-motion-tab:hover {
+.inspector-motion-tab, .soga-motion-tab:hover {
     background: #1f1f2c !important;
     color: #e2e2ec !important;
     border-color: rgba(255, 255, 255, 0.16) !important;
 }
 
-.soga-motion-tab.active,
-.soga-motion-tab[data-tab="out"].active {
+.inspector-motion-tab, .soga-motion-tab.active,
+.inspector-motion-tab, .soga-motion-tab[data-tab="out"].active {
     background: #10b981 !important;
     border-color: #10b981 !important;
     color: #ffffff !important;
 }
 
-.soga-motion-content {
+.inspector-motion-content, .soga-motion-content {
     display: flex;
     flex-direction: column;
     gap: 6px;

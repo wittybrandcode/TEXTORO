@@ -48,7 +48,7 @@
                     }
                 }
 
-                // Update Soga panel if active
+                // Update Inspector panel if active
                 if (TEXTORO.UI.TabManager && (TEXTORO.UI.TabManager.isActive('inspector') || TEXTORO.UI.TabManager.isActive('soga'))) {
                     if (TEXTORO.Panels && (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga)) {
                         (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga).refresh();
@@ -217,7 +217,7 @@
             }
         } catch(e) { TEXTORO.error('Failed to init BoxPanel: ' + e.message); }
         
-        // Inspector Panel (formerly Soga)
+        // Inspector Panel
         try {
             if (TEXTORO.Panels && (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga)) {
                 (TEXTORO.Panels.Inspector || TEXTORO.Panels.Soga).init();
