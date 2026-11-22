@@ -2270,14 +2270,13 @@
                     <span class="color-hex-hash">#</span>
                     <input type="text" id="colorModalHex" class="ti color-hex-field" maxlength="7" placeholder="FFFFFF" spellcheck="false" autocomplete="off" title="Enter Hex color code (#RRGGBB or #RGB)">
                 </div>
-                <button type="button" class="btn-s color-action-btn color-copy-btn" id="btnColorCopyHex" title="Copy Hex Code to Clipboard">
-                    <i class="ph-bold ph-copy"></i><span>COPY</span>
+                <button type="button" class="square-icon-btn color-action-btn color-copy-btn" id="btnColorCopyHex" title="Copy Hex Code">
+                    <i class="ph-bold ph-copy" id="colorCopyIcon"></i>
                 </button>
-                <button type="button" class="btn-s color-action-btn color-eyedropper-btn" id="btnColorEyeDropper" title="Sample color from screen (Eyedropper)">
+                <label class="square-icon-btn color-action-btn color-eyedropper-btn" id="lblColorPicker" title="Pick color (System Palette & Eyedropper)">
                     <i class="ph-bold ph-eyedropper"></i>
-                </button>
-                <!-- Hidden fallback native picker -->
-                <input type="color" id="colorModalPicker" class="color-spectrum-native-hidden" value="#ffffff" title="Native Color Picker">
+                    <input type="color" id="colorModalPicker" class="color-picker-input-overlay" value="#ffffff" title="Pick color">
+                </label>
             </div>
         </div>
 
@@ -2316,7 +2315,7 @@
         <div class="color-modal-section">
             <div class="color-section-header">
                 <label class="color-section-label">RECENT COLORS</label>
-                <button type="button" class="btn-clear-recent" id="btnClearRecentColors" title="Clear Recent Colors">CLEAR</button>
+                <button type="button" class="square-icon-btn-xs btn-clear-recent" id="btnClearRecentColors" title="Clear Recent Colors"><i class="ph-bold ph-trash"></i></button>
             </div>
             <div class="color-swatches-grid recent-swatches-grid" id="colorModalRecentSwatches"></div>
         </div>
@@ -2324,12 +2323,8 @@
 
     <!-- Modal Footer -->
     <div class="modal-footer">
-        <button class="btn-s modal-btn-cancel" id="btnColorCancel" title="Cancel (Esc)">
-            <i class="ph-bold ph-x" style="margin-right: 4px;"></i>CANCEL
-        </button>
-        <button class="btn-s btn-primary modal-btn-ok" id="btnColorOK" title="Apply color (Enter)">
-            <i class="ph-bold ph-check" style="margin-right: 4px;"></i>APPLY
-        </button>
+        <button class="square-icon-btn modal-btn-cancel" id="btnColorCancel" title="Cancel (Esc)"><i class="ph-bold ph-x"></i></button>
+        <button class="square-icon-btn btn-primary modal-btn-ok" id="btnColorOK" title="Apply color (Enter)"><i class="ph-bold ph-check"></i></button>
     </div>
 </div>
 </div>

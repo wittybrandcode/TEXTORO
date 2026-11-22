@@ -327,7 +327,7 @@ TEXTORO.UI.Modals = (function() {
         var cancelBtn = document.getElementById('btnColorCancel');
         var closeBtn = document.getElementById('btnCloseColor');
         var copyBtn = document.getElementById('btnColorCopyHex');
-        var eyeDropperBtn = document.getElementById('btnColorEyeDropper');
+        var lblPicker = document.getElementById('lblColorPicker');
         var clearRecentBtn = document.getElementById('btnClearRecentColors');
         var prevBox = document.getElementById('colorModalPrevBox');
         var hexInput = document.getElementById('colorModalHex');
@@ -357,11 +357,11 @@ TEXTORO.UI.Modals = (function() {
             });
         }
 
-        // Eyedropper support (Chromium EyeDropper API with native picker fallback)
-        if (eyeDropperBtn) {
-            eyeDropperBtn.addEventListener('click', function(e) {
-                e.preventDefault();
+        // Eyedropper support (Chromium EyeDropper API with native OS picker overlay fallback)
+        if (lblPicker) {
+            lblPicker.addEventListener('click', function(e) {
                 if (window.EyeDropper) {
+                    e.preventDefault();
                     var eyeDropper = new window.EyeDropper();
                     eyeDropper.open().then(function(result) {
                         if (result && result.sRGBHex) {
@@ -370,9 +370,20 @@ TEXTORO.UI.Modals = (function() {
                     }).catch(function() {
                         // User canceled sampling
                     });
-                } else if (picker) {
-                    picker.click();
                 }
+                // When window.EyeDropper is absent, click naturally activates the child <input type="color">
+            });
+        }
+
+        // Native color picker input & change listeners
+        if (picker) {
+            picker.addEventListener('input', function() {
+                var norm = normalizeHex(picker.value);
+                if (norm) updateCurrentColor(norm, true);
+            });
+            picker.addEventListener('change', function() {
+                var norm = normalizeHex(picker.value);
+                if (norm) updateCurrentColor(norm, true);
             });
         }
 
@@ -685,18 +696,21 @@ TEXTORO.UI.Modals = (function() {
     function copyHexToClipboard() {
         var hexInput = document.getElementById('colorModalHex');
         var copyBtn = document.getElementById('btnColorCopyHex');
+        var icon = copyBtn ? copyBtn.querySelector('i') : null;
         var val = hexInput ? hexInput.value.trim() : currentColor;
         var norm = normalizeHex(val) || currentColor;
 
         function showCopied() {
             if (!copyBtn) return;
-            var textSpan = copyBtn.querySelector('span');
-            var orig = textSpan ? textSpan.textContent : 'COPY';
             copyBtn.classList.add('copied');
-            if (textSpan) textSpan.textContent = 'COPIED!';
+            if (icon) {
+                icon.className = 'ph-bold ph-check';
+            }
             setTimeout(function() {
                 copyBtn.classList.remove('copied');
-                if (textSpan) textSpan.textContent = orig;
+                if (icon) {
+                    icon.className = 'ph-bold ph-copy';
+                }
             }, 1200);
         }
 
