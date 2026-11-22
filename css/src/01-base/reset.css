@@ -51,8 +51,9 @@ body {
 /* Content Container with High-Density Compact Spacing */
 .content {
     flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
     padding: 4px 6px !important;
-    padding-bottom: 36px !important;
+    padding-bottom: 40px !important;
+    box-sizing: border-box !important;
 }

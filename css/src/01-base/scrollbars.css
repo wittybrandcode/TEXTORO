@@ -3,16 +3,16 @@
    ============================================================ */
 
 ::-webkit-scrollbar {
-    width: 4px !important;
-    height: 4px !important;
+    width: 6px !important;
+    height: 6px !important;
 }
 
 ::-webkit-scrollbar-track {
-    background: #111116 !important;
+    background: rgba(17, 17, 22, 0.7) !important;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #252534 !important;
+    background: #3b3b4f !important;
     border-radius: 0 !important;
 }
 
