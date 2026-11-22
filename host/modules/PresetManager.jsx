@@ -150,26 +150,12 @@ function getPresetsPath() {
 function _ensurePresetsFolders(basePath) {
     var path = basePath + (basePath.slice(-1) === "/" ? "" : "/");
     
-    var typeFolder = new Folder(path + "type/");
-    var boxFolder = new Folder(path + "box/");
-    var mixFolder = new Folder(path + "mix/");
-    var motionFolder = new Folder(path + "motion/");
-    var motionFullFolder = new Folder(path + "motion-full/");
-    var toroFolder = new Folder(path + "toro/");
-    
-    if (!typeFolder.exists) typeFolder.create();
-    if (!boxFolder.exists) boxFolder.create();
-    if (!mixFolder.exists) mixFolder.create();
-    if (!motionFolder.exists) motionFolder.create();
-    if (!motionFullFolder.exists) motionFullFolder.create();
-    if (!toroFolder.exists) toroFolder.create();
-    
-    _ensureIndexFile(path + "type/");
-    _ensureIndexFile(path + "box/");
-    _ensureIndexFile(path + "mix/");
-    _ensureIndexFile(path + "motion/");
-    _ensureIndexFile(path + "motion-full/");
-    _ensureIndexFile(path + "toro/");
+    var folders = ["templates", "compound", "type", "box", "motion", "toro", "mix", "motion-full"];
+    for (var i = 0; i < folders.length; i++) {
+        var f = new Folder(path + folders[i] + "/");
+        if (!f.exists) f.create();
+        _ensureIndexFile(path + folders[i] + "/");
+    }
 }
 
 /**
@@ -349,11 +335,14 @@ function _loadPresetByFileName(category, fileName) {
 // ═══════════════════════════════════════════════════════════════════
 
 var PRESET_CATEGORIES_ALLOWED = {
-    "toro": true,
+    "templates": true,
+    "compound": true,
     "type": true,
     "box": true,
-    "mix": true,
     "motion": true,
+    // Legacy backward compatibility
+    "toro": true,
+    "mix": true,
     "motion-full": true
 };
 
@@ -362,7 +351,12 @@ function _isAllowedPresetCategory(category) {
 }
 
 function _normalizePresetCategory(category) {
-    return _isAllowedPresetCategory(category) ? category : null;
+    if (typeof category !== "string") return null;
+    var c = category.toLowerCase();
+    if (c === "toro") return "templates";
+    if (c === "mix") return "compound";
+    if (c === "motion-full") return "motion";
+    return PRESET_CATEGORIES_ALLOWED[c] === true ? c : null;
 }
 
 function _isSafePresetFileName(fileName) {
@@ -865,6 +859,7 @@ function savePreset(optsJSON) {
             id: id,
             name: name,
             icon: icon,
+            faIcon: opts.faIcon || opts.icon,
             category: category,
             builtin: false,
             created: _getISODate(),
@@ -905,7 +900,7 @@ function savePreset(optsJSON) {
         // تحديث الـ index عبر helper ذري
         var index = _readUserPresetIndex(category);
         if (!index.presets) index.presets = [];
-        index.presets.push({ id: id, file: writtenName, name: name, icon: icon || "📄", builtin: false });
+        index.presets.push({ id: id, file: writtenName, name: name, icon: icon || "📄", faIcon: opts.faIcon || icon, builtin: false });
         if (!_writeUserPresetIndex(category, index)) {
             try { var _rb = _getUserPresetFile(category, writtenName); if (_rb && _rb.exists) _rb.remove(); } catch (_eRb2) {}
             return error("Failed to update preset index");
@@ -1410,31 +1405,20 @@ function getLayerValuesForPreset(optsJSON) {
     }
 }
 
-/**
- * الحصول على قيم Motion من الطبقة المحددة
- */
-function getMotionValuesForPreset() {
+function _extractMotionValues(layer) {
     try {
-        var comp = getActiveComp();
-        if (!comp) return error("Open a composition first");
-        
-        var layer = getSelectedTextLayer(comp);
-        if (!layer) return error("Select a text layer");
-        
         var fx = layer.property("ADBE Effect Parade");
+        if (!fx) return null;
         var hasMotionEffect = false;
         for (var i = 1; i <= fx.numProperties; i++) {
-            if (fx.property(i).name === "Motion In Start") {
+            var propName = fx.property(i).name;
+            if (propName === "Motion In Start" || propName === "Animate Position") {
                 hasMotionEffect = true;
                 break;
             }
         }
-        
-        if (!hasMotionEffect) {
-            return error("Layer does not contain Motion");
-        }
-        
-        var values = {
+        if (!hasMotionEffect) return null;
+        return {
             inStart: _getEffectValue(fx, "Motion In Start", 0),
             inEnd: _getEffectValue(fx, "Motion In End", 1),
             outEnable: _getEffectValue(fx, "Motion Out Start", -1) >= 0,
@@ -1458,9 +1442,65 @@ function getMotionValuesForPreset() {
             easingType: _getEffectValue(fx, "Motion Easing Type", 1),
             easingStrength: _getEffectValue(fx, "Motion Easing Strength", 100)
         };
+    } catch(e) {
+        return null;
+    }
+}
+
+/**
+ * فحص الطبقة المحددة واستخراج تأثيراتها لحفظ Preset ذكي
+ */
+function inspectLayerForPreset() {
+    try {
+        var comp = getActiveComp();
+        if (!comp) return error("Open a composition first");
+        
+        var layer = getSelectedTextLayer(comp);
+        if (!layer) return error("Select a text layer first");
+        
+        var typeValues = _extractTypeValues(layer);
+        var boxValues = _extractBoxValues(layer, comp);
+        var motionValues = _extractMotionValues(layer);
+        
+        var hasType = typeValues !== null;
+        var hasBox = boxValues !== null;
+        var hasMotion = motionValues !== null;
+        
+        if (!hasType && !hasBox && !hasMotion) {
+            return error("Selected layer has no Typewriter, Box, or Motion effects");
+        }
+        
+        return success("", {
+            layerName: layer.name,
+            hasType: hasType,
+            hasBox: hasBox,
+            hasMotion: hasMotion,
+            values: {
+                type: typeValues,
+                box: boxValues,
+                motion: motionValues
+            }
+        });
+    } catch(e) {
+        return error(e.toString());
+    }
+}
+
+/**
+ * الحصول على قيم Motion من الطبقة المحددة
+ */
+function getMotionValuesForPreset() {
+    try {
+        var comp = getActiveComp();
+        if (!comp) return error("Open a composition first");
+        
+        var layer = getSelectedTextLayer(comp);
+        if (!layer) return error("Select a text layer");
+        
+        var values = _extractMotionValues(layer);
+        if (!values) return error("Layer does not contain Motion");
         
         return success("", { values: values });
-        
     } catch(e) {
         return error(e.toString());
     }
@@ -1672,12 +1712,13 @@ function applyPreset(optsJSON) {
         // إذا لم يكن هناك نص محدد، ننشئ طبقة جديدة
         if (layers.length === 0) {
             var isRTL = false;
-            if (category === "type" && preset.values.boxRTL) {
-                isRTL = preset.values.boxRTL;
-            } else if (category === "mix" && preset.values.type && preset.values.type.boxRTL) {
-                isRTL = preset.values.type.boxRTL;
-            } else if (category === "toro" && preset.values.type && preset.values.type.boxRTL) {
-                isRTL = preset.values.type.boxRTL;
+            var pv = preset.values || {};
+            if (category === "type" && pv.boxRTL) {
+                isRTL = pv.boxRTL;
+            } else if ((category === "compound" || category === "mix") && pv.type && pv.type.boxRTL) {
+                isRTL = pv.type.boxRTL;
+            } else if ((category === "templates" || category === "toro") && pv.type && pv.type.boxRTL) {
+                isRTL = pv.type.boxRTL;
             }
             
             var cfg = (typeof $.global !== "undefined" && $.global.CONFIG) ? $.global.CONFIG : ((typeof CONFIG !== "undefined" && CONFIG) ? CONFIG : null);
@@ -1716,11 +1757,12 @@ function applyPreset(optsJSON) {
  * تطبيق Preset على طبقة واحدة
  */
 function _applyPresetToSingleLayer(layer, comp, category, preset) {
-    $.writeln("[TEXTORO] _applyPresetToSingleLayer - category: " + category);
+    var normCat = _normalizePresetCategory(category) || category;
+    $.writeln("[TEXTORO] _applyPresetToSingleLayer - category: " + normCat);
     
-    if (category === "type") {
+    if (normCat === "type") {
         _applyTypePreset(layer, preset.values);
-    } else if (category === "box") {
+    } else if (normCat === "box") {
         if (!hasTypewriter(layer)) {
             var defaultTypeOpts = {
                 direction: ((typeof isArabicText === "function") && isArabicText((function() { try { return layer.property("ADBE Text Properties").property("ADBE Text Document").value.text; } catch(e) { return ""; } })())) ? "rtl" : "ltr",
@@ -1743,36 +1785,28 @@ function _applyPresetToSingleLayer(layer, comp, category, preset) {
             _applyTypewriter(layer, defaultTypeOpts);
         }
         _applyBoxPreset(layer, comp, preset.values);
-    } else if (category === "mix") {
+    } else if (normCat === "compound" || normCat === "mix") {
         if (preset.values.type) {
             _applyTypePreset(layer, preset.values.type);
         }
         if (preset.values.box) {
             _applyBoxPreset(layer, comp, preset.values.box);
         }
-    } else if (category === "motion" || category === "motion-full") {
-        // تطبيق Motion preset (بما فيها motion-full المركبة)
-        $.writeln("[TEXTORO] Applying Motion preset (" + category + "): " + preset.name);
-        _applyMotionPreset(layer, preset.values);
-    } else if (category === "toro") {
-        // تطبيق TORO preset (Type + Box + Motion)
-        $.writeln("[TEXTORO] Applying TORO preset: " + preset.name);
-        
-        // 1. تطبيق Type
-        if (preset.values.type) {
-            $.writeln("[TEXTORO] TORO - Applying Type");
-            _applyTypePreset(layer, preset.values.type);
-        }
-        
-        // 2. تطبيق Box
-        if (preset.values.box) {
-            $.writeln("[TEXTORO] TORO - Applying Box");
-            _applyBoxPreset(layer, comp, preset.values.box);
-        }
-        
-        // 3. تطبيق Motion
         if (preset.values.motion) {
-            $.writeln("[TEXTORO] TORO - Applying Motion");
+            _applyMotionPreset(layer, preset.values.motion);
+        }
+    } else if (normCat === "motion" || normCat === "motion-full") {
+        $.writeln("[TEXTORO] Applying Motion preset: " + preset.name);
+        _applyMotionPreset(layer, preset.values);
+    } else if (normCat === "templates" || normCat === "toro") {
+        $.writeln("[TEXTORO] Applying Template preset: " + preset.name);
+        if (preset.values.type) {
+            _applyTypePreset(layer, preset.values.type);
+        }
+        if (preset.values.box) {
+            _applyBoxPreset(layer, comp, preset.values.box);
+        }
+        if (preset.values.motion) {
             _applyMotionPreset(layer, preset.values.motion);
         }
     }

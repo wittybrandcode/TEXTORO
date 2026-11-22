@@ -15,14 +15,14 @@
       "created"
     ],
     "fields": {
-      "name": "string - اسم البريست (مطلوب)",
-      "category": "string - type|box|mix|motion|motion-full|toro (مطلوب)",
-      "id": "string - معرف فريد (اختياري)",
-      "icon": "string - أيقونة emoji (اختياري)",
-      "description": "string - وصف البريست (اختياري)",
-      "builtin": "boolean - هل هو مدمج (اختياري، افتراضي: false)",
-      "author": "string - اسم المؤلف (اختياري)",
-      "created": "string - تاريخ الإنشاء ISO (اختياري)"
+      "name": "string - Preset Name (Required)",
+      "category": "string - type|box|compound|motion|templates (Required)",
+      "id": "string - Unique Identifier (Optional)",
+      "icon": "string - Vector icon class or symbol (Optional)",
+      "description": "string - Preset description (Optional)",
+      "builtin": "boolean - Built-in preset flag (Optional, default: false)",
+      "author": "string - Author name (Optional)",
+      "created": "string - ISO creation timestamp (Optional)"
     }
   },
   "type": {
@@ -148,26 +148,30 @@
       "6": "Spring - زنبركي"
     }
   },
-  "toro": {
+  "compound": {
     "required": [
       "name",
       "category",
       "values"
     ],
-    "description": "TORO presets - القالب الشامل (Type + Box + Motion)",
+    "description": "Compound presets (Type + Box, or Type + Motion)",
     "values": {
-      "type": "object - نفس هيكل values في type preset",
-      "box": "object - نفس هيكل values في box preset",
-      "motion": "object - نفس هيكل values في motion preset"
+      "type": "object - Typewriter preset values",
+      "box": "object - Box preset values",
+      "motion": "object - Motion preset values (optional)"
     }
   },
-  "motion-full": {
+  "templates": {
     "required": [
       "name",
       "category",
       "values"
     ],
-    "description": "Complete motion presets with paired IN and OUT transitions",
-    "values": "Same structure as motion preset values"
+    "description": "Complete templates suite (Type + Box + Motion)",
+    "values": {
+      "type": "object - Typewriter preset values",
+      "box": "object - Box preset values",
+      "motion": "object - Motion preset values"
+    }
   }
 }

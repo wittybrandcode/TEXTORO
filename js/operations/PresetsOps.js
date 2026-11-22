@@ -36,15 +36,16 @@ TEXTORO.Ops.Presets = (function() {
         opts.category = category;
         
         var scriptName = '';
-        switch (category) {
+        var normCat = (category === 'toro') ? 'templates' : ((category === 'mix') ? 'compound' : ((category === 'motion-full') ? 'motion' : category));
+        switch (normCat) {
             case 'type':
             case 'box':
-            case 'mix':
-            case 'toro':
+            case 'compound':
+            case 'templates':
                 scriptName = 'applyPreset';
                 break;
             case 'motion':
-                scriptName = 'applyMotionPreset';
+                scriptName = (preset.values && (preset.values.in || preset.values.out || preset.arena)) ? 'applyMotionPreset' : 'applyPreset';
                 break;
             default:
                 scriptName = 'applyPreset';
@@ -73,7 +74,7 @@ TEXTORO.Ops.Presets = (function() {
             return;
         }
         TEXTORO.UI.Modals.showConfirm({
-            title: '🗑️ Delete Preset',
+            title: 'Delete Preset',
             message: 'Delete "' + preset.name + '"?',
             onConfirm: function() {
                 TEXTORO.HostBridge.run('deletePreset', { 
@@ -94,138 +95,42 @@ TEXTORO.Ops.Presets = (function() {
     }
     
     /**
-     * حفظ Preset من الطبقة
+     * حفظ Preset من الطبقة بنظام المعاينة الذكي
      */
-    function saveFromLayer(category) {
-        TEXTORO.log('savePresetFromLayer: ' + category);
-        
-        // TORO
-        if (category === 'toro') {
-            TEXTORO.HostBridge.run('getToroValuesForPreset', null, function(res) {
-                if (!res.success) {
-                    TEXTORO.UI.StatusBar.error('Error: ' + (res.error || 'Cannot get TORO values'));
-                    return;
-                }
-                
-                var valuesToSave = res.data.values;
-                
-                TEXTORO.UI.Modals.showInput({
-                    title: '🐂 Save TORO Template',
-                    label: 'Name:',
-                    value: 'My TORO',
-                    showIcon: true,
-                    icon: '🐂',
-                    onOK: function(name, icon) {
-                        if (!name) return;
-                        
-                        var saveData = {
-                            category: 'toro',
-                            name: name,
-                            icon: icon || '🐂',
-                            values: valuesToSave
-                        };
-                        
-                        TEXTORO.HostBridge.run('savePreset', saveData, function(saveRes) {
-                            if (saveRes.success) {
-                                TEXTORO.UI.StatusBar.success('🐂 TORO saved!');
-                                if (TEXTORO.Panels.Presets && TEXTORO.Panels.Presets.load) {
-                                    TEXTORO.Panels.Presets.load(true);
-                                }
-                            } else {
-                                TEXTORO.UI.StatusBar.error('Error: ' + saveRes.error);
-                            }
-                        });
-                    }
-                });
-            });
-            return;
-        }
-        
-        // Motion
-        if (category === 'motion') {
-            TEXTORO.HostBridge.run('getMotionValuesForPreset', null, function(res) {
-                if (!res.success) {
-                    TEXTORO.UI.StatusBar.error('Error: ' + (res.error || 'No Motion on layer'));
-                    return;
-                }
-                
-                var valuesToSave = res.data.values;
-                
-                TEXTORO.UI.Modals.showInput({
-                    title: '💾 Save Motion Preset',
-                    label: 'Name:',
-                    value: 'Motion Preset',
-                    showIcon: true,
-                    icon: '🎬',
-                    onOK: function(name, icon) {
-                        if (!name) return;
-                        
-                        var saveData = {
-                            category: 'motion',
-                            name: name,
-                            icon: icon || '🎬',
-                            values: valuesToSave
-                        };
-                        
-                        TEXTORO.HostBridge.run('savePreset', saveData, function(saveRes) {
-                            if (saveRes.success) {
-                                TEXTORO.UI.StatusBar.success('Motion preset saved!');
-                                if (TEXTORO.Panels.Presets && TEXTORO.Panels.Presets.load) {
-                                    TEXTORO.Panels.Presets.load(true);
-                                }
-                            } else {
-                                TEXTORO.UI.StatusBar.error('Error: ' + saveRes.error);
-                            }
-                        });
-                    }
-                });
-            });
-            return;
-        }
-        
-        // Type, Box, Mix
-        TEXTORO.HostBridge.run('getLayerValuesForPreset', { category: category }, function(res) {
-            TEXTORO.log('getLayerValuesForPreset result: ' + JSON.stringify(res));
-            
+    function saveFromLayer(preferredCategory) {
+        TEXTORO.log('savePresetFromLayer: preferredCategory=' + preferredCategory);
+        TEXTORO.UI.StatusBar.set('Inspecting selected layer...', '');
+
+        TEXTORO.HostBridge.run('inspectLayerForPreset', null, function(res) {
             if (!res.success) {
-                TEXTORO.UI.StatusBar.error('Error: ' + res.error);
+                TEXTORO.UI.StatusBar.warning(res.error || 'Please select a text layer with Type, Box, or Motion effects');
                 return;
             }
-            
-            if (!res.data || !res.data.values) {
-                TEXTORO.UI.StatusBar.error('Error: No values returned');
+
+            var inspectData = res.data;
+            if (!inspectData) {
+                TEXTORO.UI.StatusBar.error('Error: No layer inspection data returned');
                 return;
             }
-            
-            var valuesToSave = res.data.values;
-            
-            TEXTORO.UI.Modals.showInput({
-                title: '💾 Save Preset',
-                label: 'Name:',
-                value: category.charAt(0).toUpperCase() + category.slice(1) + ' Preset',
-                showIcon: true,
-                icon: '📄',
-                onOK: function(name, icon) {
-                    if (!name) return;
-                    
-                    var saveData = {
-                        category: category,
-                        name: name,
-                        icon: icon || '📄',
-                        values: valuesToSave
-                    };
-                    
-                    TEXTORO.HostBridge.run('savePreset', saveData, function(saveRes) {
-                        if (saveRes.success) {
-                            TEXTORO.UI.StatusBar.success('Preset saved!');
-                            if (TEXTORO.Panels.Presets && TEXTORO.Panels.Presets.load) {
-                                TEXTORO.Panels.Presets.load(true);
-                            }
-                        } else {
-                            TEXTORO.UI.StatusBar.error('Error: ' + saveRes.error);
+
+            TEXTORO.UI.StatusBar.set('', '');
+
+            // Open the smart studio modal with auto-detected modules
+            TEXTORO.UI.Modals.showPresetSave(inspectData, function(savePayload) {
+                if (!savePayload) return;
+
+                TEXTORO.UI.StatusBar.set('Saving preset "' + savePayload.name + '"...', '');
+
+                TEXTORO.HostBridge.run('savePreset', savePayload, function(saveRes) {
+                    if (saveRes.success) {
+                        TEXTORO.UI.StatusBar.success('Preset saved: ' + savePayload.name);
+                        if (TEXTORO.Panels.Presets && TEXTORO.Panels.Presets.load) {
+                            TEXTORO.Panels.Presets.load(true);
                         }
-                    });
-                }
+                    } else {
+                        TEXTORO.UI.StatusBar.error('Error: ' + (saveRes.error || 'Failed to save preset'));
+                    }
+                });
             });
         });
     }

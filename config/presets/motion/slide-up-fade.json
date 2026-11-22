@@ -1,7 +1,7 @@
 {
   "name": "Slide Up + Fade",
   "id": "slide-up-fade",
-  "category": "motion-full",
+  "category": "motion",
   "description": "Upward transition with smooth easing and cinematic fade",
   "builtin": true,
   "values": {
@@ -41,5 +41,6 @@
     "opacityOutTo": 0,
     "easingType": 3,
     "easingStrength": 100
-  }
+  },
+  "arena": false
 }

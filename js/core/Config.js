@@ -28,8 +28,8 @@ TEXTORO.Config = {
         SEARCH_DEBOUNCE_DELAY: 200
     },
     
-    /** فئات البريسات */
-    PRESET_CATEGORIES: ['toro', 'type', 'box', 'mix', 'motion-full']
+    /** Technical Preset Categories */
+    PRESET_CATEGORIES: ['templates', 'type', 'box', 'compound', 'motion']
 };
 
 /**

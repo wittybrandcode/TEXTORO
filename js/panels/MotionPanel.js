@@ -144,7 +144,11 @@ TEXTORO.Panels.Motion = (function() {
             return 'bounce';
         }
 
-        loadedPresets.forEach(function(preset, index) {
+        var arenaPresets = loadedPresets.filter(function(p) {
+            return p.arena === true || (p.faIcon && !p.id.includes('-'));
+        });
+
+        arenaPresets.forEach(function(preset, index) {
             var btn = document.createElement('button');
             btn.className = 'motion-preset-btn';
             btn.setAttribute('data-preset', index);

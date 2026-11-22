@@ -10,7 +10,17 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..", "..");
 const FIXTURES = path.join(ROOT, "tools", "smoke", "fixtures", "presets");
 
-const ALLOWED = { "toro": true, "type": true, "box": true, "mix": true, "motion": true, "motion-full": true };
+const ALLOWED = {
+    "templates": true,
+    "compound": true,
+    "type": true,
+    "box": true,
+    "motion": true,
+    // Legacy compatibility
+    "toro": true,
+    "mix": true,
+    "motion-full": true
+};
 
 function isAllowedCategory(c) { return typeof c === "string" && ALLOWED[c] === true; }
 function isSafeFileName(f) {
@@ -76,6 +86,11 @@ assert(!isAllowedCategory(null), "reject null category");
 assert(!isAllowedCategory("../../outside"), "reject traversal category via helper");
 assert(!isAllowedCategory("TYPE"), "reject case mismatch");
 assert(!isAllowedCategory("unknown"), "reject unknown category");
+assert(isAllowedCategory("templates"), "accept templates");
+assert(isAllowedCategory("compound"), "accept compound");
+assert(isAllowedCategory("motion"), "accept motion");
+assert(isAllowedCategory("type"), "accept type");
+assert(isAllowedCategory("box"), "accept box");
 assert(isAllowedCategory("motion-full"), "accept motion-full");
 assert(isAllowedCategory("toro"), "accept toro");
 

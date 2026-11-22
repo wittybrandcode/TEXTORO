@@ -42,5 +42,6 @@
     "easingType": 1,
     "easingStrength": 100
   },
-  "faIcon": "ph-bold ph-arrow-clockwise"
+  "faIcon": "ph-bold ph-arrow-clockwise",
+  "arena": true
 }

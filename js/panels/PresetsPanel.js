@@ -265,8 +265,10 @@ TEXTORO.Panels.Presets = (function() {
             case 'category':
                 sorted.sort(function(a, b) {
                     var catOrder = TEXTORO.Config.PRESET_CATEGORIES;
-                    var aIdx = catOrder.indexOf(a.category);
-                    var bIdx = catOrder.indexOf(b.category);
+                    var aNorm = (a.category === 'toro') ? 'templates' : (a.category === 'mix' ? 'compound' : (a.category === 'motion-full' ? 'motion' : a.category));
+                    var bNorm = (b.category === 'toro') ? 'templates' : (b.category === 'mix' ? 'compound' : (b.category === 'motion-full' ? 'motion' : b.category));
+                    var aIdx = catOrder.indexOf(aNorm);
+                    var bIdx = catOrder.indexOf(bNorm);
                     if (aIdx !== bIdx) return aIdx - bIdx;
                     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
                 });
@@ -296,11 +298,15 @@ TEXTORO.Panels.Presets = (function() {
                 return isFavorite(preset);
             }
             if (currentFilter !== 'all') {
-                if (currentFilter === 'motion' || currentFilter === 'motion-full') {
-                    if (preset.category !== 'motion' && preset.category !== 'motion-full') return false;
-                } else if (preset.category !== currentFilter) {
-                    return false;
-                }
+                var pCat = (preset.category || '').toLowerCase();
+                var fCat = (currentFilter || '').toLowerCase();
+                if (pCat === 'toro') pCat = 'templates';
+                if (pCat === 'mix') pCat = 'compound';
+                if (pCat === 'motion-full') pCat = 'motion';
+                if (fCat === 'toro') fCat = 'templates';
+                if (fCat === 'mix') fCat = 'compound';
+                if (fCat === 'motion-full') fCat = 'motion';
+                if (pCat !== fCat) return false;
             }
             if (searchQuery && preset.name.toLowerCase().indexOf(searchQuery) === -1) {
                 return false;
@@ -441,7 +447,8 @@ TEXTORO.Panels.Presets = (function() {
         var stage = document.createElement('div');
         stage.className = 'preset-preview-stage';
         
-        var cat = (preset.category || '').toLowerCase();
+        var rawCat = (preset.category || '').toLowerCase();
+        var cat = (rawCat === 'toro') ? 'templates' : ((rawCat === 'mix') ? 'compound' : ((rawCat === 'motion-full') ? 'motion' : rawCat));
         var vals = preset.values || {};
         
         if (cat === 'box') {
@@ -485,7 +492,7 @@ TEXTORO.Panels.Presets = (function() {
             onHover.leave = function() {
                 stopTypewriterHover(textEl, fullText);
             };
-        } else if (cat === 'mix') {
+        } else if (cat === 'compound') {
             var boxVals = vals.box || {};
             var typeVals = vals.type || {};
             
@@ -523,7 +530,7 @@ TEXTORO.Panels.Presets = (function() {
             onHover.leave = function() {
                 stopTypewriterHover(textEl, fullText);
             };
-        } else if (cat === 'motion' || cat === 'motion-full') {
+        } else if (cat === 'motion') {
             var motionWrap = document.createElement('div');
             var mKey = getMotionPreviewClass(preset);
             motionWrap.className = 'preview-motion-wrap anim-' + mKey;
@@ -534,7 +541,7 @@ TEXTORO.Panels.Presets = (function() {
             motionWrap.appendChild(textEl);
             
             stage.appendChild(motionWrap);
-        } else if (cat === 'toro') {
+        } else if (cat === 'templates') {
             var boxVals = vals.box || {};
             var typeVals = vals.type || {};
             
@@ -620,11 +627,7 @@ TEXTORO.Panels.Presets = (function() {
         applyBtn.title = 'Apply to selected text layer';
         applyBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            if (preset.category === 'motion-full') {
-                applyMotionFull(preset);
-            } else {
-                apply(preset);
-            }
+            apply(preset);
         });
         previewWindow.appendChild(applyBtn);
         item.appendChild(previewWindow);
@@ -635,18 +638,34 @@ TEXTORO.Panels.Presets = (function() {
         
         var nameSpan = document.createElement('span');
         nameSpan.className = 'preset-name';
-        nameSpan.textContent = String(preset.name || '');
+        var iconClass = preset.faIcon || preset.icon;
+        if (iconClass && typeof iconClass === 'string' && iconClass.indexOf('ph-') !== -1) {
+            var iconEl = document.createElement('i');
+            iconEl.className = iconClass;
+            iconEl.style.marginRight = '6px';
+            iconEl.style.fontSize = '12px';
+            iconEl.style.opacity = '0.85';
+            nameSpan.appendChild(iconEl);
+        }
+        var textNode = document.createTextNode(String(preset.name || ''));
+        nameSpan.appendChild(textNode);
         metaBar.appendChild(nameSpan);
         
         var metaRight = document.createElement('div');
         metaRight.className = 'preset-meta-right';
         
         var badge = document.createElement('span');
-        var badgeCategory = (preset.category || '').replace('-full', '');
-        badge.className = 'preset-badge ' + badgeCategory;
-        var badgeText = preset.category === 'motion-full' ? 'Motion' : 
-                        (preset.category.charAt(0).toUpperCase() + preset.category.slice(1));
-        badge.textContent = badgeText;
+        var rawCat = (preset.category || '').toLowerCase();
+        var normCat = (rawCat === 'toro') ? 'templates' : ((rawCat === 'mix') ? 'compound' : ((rawCat === 'motion-full') ? 'motion' : rawCat));
+        badge.className = 'preset-badge ' + normCat;
+        var badgeLabels = {
+            'templates': 'Template',
+            'compound': 'Compound',
+            'type': 'Type',
+            'box': 'Box',
+            'motion': 'Motion'
+        };
+        badge.textContent = badgeLabels[normCat] || (normCat.charAt(0).toUpperCase() + normCat.slice(1));
         metaRight.appendChild(badge);
         
         var favBtn = document.createElement('button');
@@ -685,11 +704,7 @@ TEXTORO.Panels.Presets = (function() {
         
         // Double click to apply
         item.addEventListener('dblclick', function() {
-            if (preset.category === 'motion-full') {
-                applyMotionFull(preset);
-            } else {
-                apply(preset);
-            }
+            apply(preset);
         });
         
         // Context menu
@@ -762,10 +777,12 @@ TEXTORO.Panels.Presets = (function() {
      */
     function buildTooltip(preset) {
         var lines = [preset.name];
-        lines.push(preset.builtin ? '📦 Built-in' : '👤 User preset');
-        lines.push('Category: ' + preset.category);
+        lines.push(preset.builtin ? 'Built-in' : 'Custom');
+        var rawCat = (preset.category || '').toLowerCase();
+        var normCat = (rawCat === 'toro') ? 'templates' : ((rawCat === 'mix') ? 'compound' : ((rawCat === 'motion-full') ? 'motion' : rawCat));
+        lines.push('Category: ' + normCat);
         if (preset.description) lines.push(preset.description);
-        lines.push('Click to apply • ⭐ to favorite');
+        lines.push('Click to apply • Star to favorite');
         return lines.join('\n');
     }
     
@@ -787,8 +804,14 @@ TEXTORO.Panels.Presets = (function() {
         } else if (preset.id) {
             opts.id = preset.id;
         }
+
+        if (isSyncWithMarkersEnabled()) {
+            opts.syncWithMarkers = true;
+        }
         
-        var scriptName = (preset.category === 'motion' || preset.category === 'motion-full') ? 'applyMotionPreset' : 'applyPreset';
+        var rawCat = (preset.category || '').toLowerCase();
+        var normCat = (rawCat === 'toro') ? 'templates' : ((rawCat === 'mix') ? 'compound' : ((rawCat === 'motion-full') ? 'motion' : rawCat));
+        var scriptName = (normCat === 'motion') ? 'applyMotionPreset' : 'applyPreset';
         
         TEXTORO.UI.StatusBar.set('Applying ' + preset.name + '...', '');
         
@@ -811,7 +834,7 @@ TEXTORO.Panels.Presets = (function() {
             return;
         }
         TEXTORO.UI.Modals.showConfirm({
-            title: '🗑️ Delete Preset',
+            title: 'Delete Preset',
             message: 'Delete "' + preset.name + '"?',
             onConfirm: function() {
                 TEXTORO.HostBridge.run('deletePreset', {
@@ -868,20 +891,15 @@ TEXTORO.Panels.Presets = (function() {
             return;
         }
         
-        if (selectedPreset.category === 'motion-full') {
-            applyMotionFull(selectedPreset);
-        } else {
-            apply(selectedPreset);
-        }
+        apply(selectedPreset);
     }
     
     /**
      * إنشاء بريست جديد من الطبقة النشطة
      */
     function createFromLayer() {
-        var cat = (currentFilter !== 'all' && currentFilter !== 'favorites') ? currentFilter : 'toro';
         if (TEXTORO.Ops && TEXTORO.Ops.Presets && typeof TEXTORO.Ops.Presets.saveFromLayer === 'function') {
-            TEXTORO.Ops.Presets.saveFromLayer(cat);
+            TEXTORO.Ops.Presets.saveFromLayer();
         } else {
             TEXTORO.UI.StatusBar.error('Preset save operation unavailable');
         }

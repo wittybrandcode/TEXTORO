@@ -47,5 +47,6 @@
     "springDamping": 26,
     "springMass": 1,
     "springVelocityBoost": 0
-  }
+  },
+  "arena": true
 }

@@ -1,7 +1,7 @@
 {
   "name": "Blue Rounded",
   "id": "blue-rounded",
-  "category": "mix",
+  "category": "compound",
   "description": "Rounded blue box with styled typography",
   "builtin": true,
   "icon": "🔵",

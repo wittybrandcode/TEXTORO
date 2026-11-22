@@ -43,5 +43,6 @@
     "opacityOutTo": 0,
     "easingType": 6,
     "easingStrength": 120
-  }
+  },
+  "arena": true
 }

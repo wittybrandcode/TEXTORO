@@ -6,6 +6,32 @@ All notable changes to TEXTORO are documented in this file.
 
 ## [Unreleased]
 
+### 📐 Technical Taxonomy Reorganization & Smart Layer Auto-Detect Preset Studio — 2026-11-22
+- **Technical Preset Category Taxonomy**:
+  - Reorganized all preset categories and directories to mirror their technical function in After Effects:
+    - `templates/` (Full Suite: Typewriter + Box Shape + Motion Transitions) — *replaces arbitrary brand name `toro/`*
+    - `compound/` (Combined Typewriter + Box Shape) — *replaces arbitrary `mix/`*
+    - `type/` (Typewriter typography and cursor dynamics)
+    - `box/` (Parametric shape container)
+    - `motion/` (Kinetic transitions & physics ODE springs) — *united with paired motion presets from `motion-full/`*
+  - Reorganized file system directories under `config/presets/` with backward compatibility mapping for existing user presets in AppData.
+  - Updated `config/presets/_schema.json` and smoke boundary assertions (`check-preset-input-boundaries.js`).
+- **Smart Studio Preset Save Modal with Auto-Detection**:
+  - Implemented `inspectLayerForPreset` in ExtendScript (`PresetManager.jsx`) that inspects the active text layer in After Effects and detects which modules exist (`hasType`, `hasBox`, `hasMotion`).
+  - Added modern Studio Save Modal (`#presetSaveModal`) with:
+    - Active layer name banner
+    - Interactive module inclusion checkboxes (`[✓] Typewriter`, `[✓] Box Shape`, `[✓] Motion`) that dynamically auto-calculate and display the resulting technical category badge (`TEMPLATES`, `COMPOUND`, `TYPE`, `BOX`, `MOTION`)
+    - Preset name text input with autofocus
+    - Phosphor Bold vector icon picker (no emojis)
+    - Save and cancel buttons adhering to zero-radius styling
+  - Completely replaced legacy multi-step emoji prompts (`showInput`) with this unified studio workflow in `PresetsOps.saveFromLayer()`.
+- **Presets Panel Hub & Motion Arena Polish**:
+  - Updated filter buttons in Presets Hub to technical taxonomy (`all`, `templates`, `type`, `box`, `compound`, `motion`, `favorites`).
+  - Updated live realistic preview builder and category badge coloring in `PresetsPanel.js` (`#f59e0b` amber for templates, `#6366f1` indigo for compound, `#8b5cf6` violet for motion, `#10b981` emerald for type, `#0284c7` sky for box).
+  - Preserved strictly the 16 core single-axis buttons in Motion Panel Arena (`arena: true` filter) while housing paired motion presets cleanly in Presets Hub.
+  - Zero emojis in tooltips, modals, or preset listings; 100% English UI and DOM-safe rendering.
+
+
 ### 🛠️ Methodical Presets Live Preview Engine, Studio Dark Tooltips & 100% English UI — 2026-11-22
 - **Spacious Studio Presets Preview Stage (124px Height)**:
   - Substantially expanded Presets card height to 124px (92px upper viewport + 32px lower meta strip), completely eliminating vertical clipping on box borders (such as Outline Clean and Outline White) and motion trajectories.

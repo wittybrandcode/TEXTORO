@@ -632,13 +632,13 @@
 <section class="panel" id="panel-presets">
 <!-- Filter Buttons -->
 <div class="presets-filter studio-icon-filter-bar">
-<button class="filter-btn active square-icon-btn" data-filter="all" title="Show all presets"><i class="ph-bold ph-squares-four"></i></button>
-<button class="filter-btn toro square-icon-btn" data-filter="toro" title="TORO - Complete templates (Type+Box+Motion)"><i class="ph-bold ph-sparkle"></i></button>
-<button class="filter-btn square-icon-btn" data-filter="type" title="Typewriter presets"><i class="ph-bold ph-text-t"></i></button>
-<button class="filter-btn square-icon-btn" data-filter="box" title="Box presets"><i class="ph-bold ph-bounding-box"></i></button>
-<button class="filter-btn square-icon-btn" data-filter="mix" title="Combined presets"><i class="ph-bold ph-stack"></i></button>
-<button class="filter-btn square-icon-btn" data-filter="motion-full" title="Motion presets (IN+OUT)"><i class="ph-bold ph-wave-sine"></i></button>
-<button class="filter-btn fav square-icon-btn" data-filter="favorites" title="Favorite presets"><i class="ph-bold ph-star"></i></button>
+<button class="filter-btn active square-icon-btn" data-filter="all" title="All Presets" aria-label="All Presets"><i class="ph-bold ph-squares-four"></i></button>
+<button class="filter-btn templates square-icon-btn" data-filter="templates" title="Templates Suite (Type + Box + Motion)" aria-label="Templates"><i class="ph-bold ph-sparkle"></i></button>
+<button class="filter-btn type square-icon-btn" data-filter="type" title="Typewriter Presets" aria-label="Typewriter"><i class="ph-bold ph-text-t"></i></button>
+<button class="filter-btn box square-icon-btn" data-filter="box" title="Box Shape Presets" aria-label="Box"><i class="ph-bold ph-bounding-box"></i></button>
+<button class="filter-btn compound square-icon-btn" data-filter="compound" title="Compound Presets (Type + Box)" aria-label="Compound"><i class="ph-bold ph-stack"></i></button>
+<button class="filter-btn motion square-icon-btn" data-filter="motion" title="Motion Presets" aria-label="Motion"><i class="ph-bold ph-wave-sine"></i></button>
+<button class="filter-btn fav square-icon-btn" data-filter="favorites" title="Favorite Presets" aria-label="Favorites"><i class="ph-bold ph-star"></i></button>
 </div>
 
 <!-- Search Bar -->
@@ -2085,6 +2085,68 @@
 <div class="modal-footer">
 <button class="square-icon-btn modal-btn-cancel" id="btnConfirmCancel" title="Cancel (Esc)"><i class="ph-bold ph-x"></i></button>
 <button class="square-icon-btn btn-danger" id="btnConfirmOK" title="Confirm deletion"><i class="ph-bold ph-trash"></i></button>
+</div>
+</div>
+</div>
+
+<!-- SMART PRESET SAVE MODAL -->
+<div class="modal-overlay" id="presetSaveModal" style="display:none">
+<div class="modal preset-save-modal">
+<div class="modal-header">
+    <span id="presetSaveModalTitle"><i class="ph-bold ph-floppy-disk"></i> SAVE NEW PRESET</span>
+    <button class="btn-close" id="btnClosePresetSave" title="Close dialog"><i class="ph-bold ph-x"></i></button>
+</div>
+<div class="modal-content preset-save-content">
+    <div class="preset-save-layer-info">
+        <i class="ph-bold ph-stack"></i> <span id="presetSaveLayerName">Selected Layer</span>
+    </div>
+
+    <div class="preset-save-section-label">DETECTED MODULES</div>
+    <div class="preset-save-modules-grid">
+        <label class="ck preset-module-chk" id="lblModuleType">
+            <input type="checkbox" id="chkModuleType" checked>
+            <span class="cb"><i class="ph-bold ph-check"></i></span>
+            <span class="cl"><i class="ph-bold ph-text-t"></i> Typewriter</span>
+        </label>
+        <label class="ck preset-module-chk" id="lblModuleBox">
+            <input type="checkbox" id="chkModuleBox" checked>
+            <span class="cb"><i class="ph-bold ph-check"></i></span>
+            <span class="cl"><i class="ph-bold ph-bounding-box"></i> Box Shape</span>
+        </label>
+        <label class="ck preset-module-chk" id="lblModuleMotion">
+            <input type="checkbox" id="chkModuleMotion" checked>
+            <span class="cb"><i class="ph-bold ph-check"></i></span>
+            <span class="cl"><i class="ph-bold ph-wave-sine"></i> Motion</span>
+        </label>
+    </div>
+
+    <div class="preset-save-target-row">
+        <span class="preset-target-label">TECHNICAL CATEGORY:</span>
+        <span class="preset-badge templates" id="presetSaveCategoryBadge">TEMPLATES</span>
+    </div>
+
+    <div class="preset-save-input-group">
+        <label class="preset-save-label" for="presetSaveNameInput">PRESET NAME</label>
+        <input type="text" id="presetSaveNameInput" class="ti studio-input" placeholder="e.g. Clean Reveal" title="Preset Name" maxlength="60">
+    </div>
+
+    <div class="preset-save-icon-picker">
+        <div class="preset-save-label">SELECT ICON</div>
+        <div class="preset-icons-row" id="presetSaveIconsRow">
+            <button type="button" class="preset-icon-choice active" data-icon="ph-bold ph-sparkle" title="Sparkle"><i class="ph-bold ph-sparkle"></i></button>
+            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-text-t" title="Typewriter"><i class="ph-bold ph-text-t"></i></button>
+            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-bounding-box" title="Box Shape"><i class="ph-bold ph-bounding-box"></i></button>
+            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-stack" title="Compound"><i class="ph-bold ph-stack"></i></button>
+            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-wave-sine" title="Motion"><i class="ph-bold ph-wave-sine"></i></button>
+            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-star" title="Star"><i class="ph-bold ph-star"></i></button>
+            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-lightning" title="Lightning"><i class="ph-bold ph-lightning"></i></button>
+            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-flame" title="Flame"><i class="ph-bold ph-flame"></i></button>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="square-icon-btn modal-btn-cancel" id="btnPresetSaveCancel" title="Cancel (Esc)"><i class="ph-bold ph-x"></i></button>
+    <button class="square-icon-btn btn-primary" id="btnPresetSaveOK" title="Save Preset (Enter)"><i class="ph-bold ph-check"></i></button>
 </div>
 </div>
 </div>

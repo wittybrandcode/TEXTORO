@@ -273,11 +273,13 @@
 }
 
 .preset-badge.type { background: #10b981 !important; color: #ffffff !important; }
-.preset-badge.box { background: #059669 !important; color: #ffffff !important; }
-.preset-badge.mix { background: #047857 !important; color: #ffffff !important; }
+.preset-badge.box { background: #0284c7 !important; color: #ffffff !important; }
+.preset-badge.compound,
+.preset-badge.mix { background: #6366f1 !important; color: #ffffff !important; }
 .preset-badge.motion,
-.preset-badge.motion-full { background: #334155 !important; color: #ffffff !important; }
-.preset-badge.toro { background: #10b981 !important; color: #ffffff !important; }
+.preset-badge.motion-full { background: #8b5cf6 !important; color: #ffffff !important; }
+.preset-badge.templates,
+.preset-badge.toro { background: #f59e0b !important; color: #111116 !important; }
 
 /* Favorite Button */
 .preset-fav-btn {
