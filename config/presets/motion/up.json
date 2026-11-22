@@ -2,10 +2,10 @@
   "name": "Up",
   "id": "up",
   "category": "motion",
-  "description": "حركة للأعلى - دخول من الأسفل وخروج للأعلى",
+  "description": "Upward motion with directional transition",
   "builtin": true,
   "icon": "⬆️",
-  "faIcon": "fa-solid fa-arrow-up",
+  "faIcon": "ph-bold ph-arrow-up",
   "values": {
     "inStart": 0,
     "inEnd": 0.6,

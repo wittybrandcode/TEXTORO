@@ -2,10 +2,10 @@
   "name": "Spin",
   "id": "spin",
   "category": "motion",
-  "description": "دوران كامل متتابع مع تكبير",
+  "description": "Full 360 continuous spin rotation",
   "builtin": true,
   "icon": "🔄",
-  "faIcon": "fa-solid fa-rotate",
+  "faIcon": "ph-bold ph-arrows-clockwise",
   "values": {
     "inStart": 0,
     "inEnd": 0.6,

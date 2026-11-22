@@ -2,7 +2,7 @@
   "name": "Outline White",
   "id": "outline-white",
   "category": "box",
-  "description": "إطار أبيض بدون تعبئة",
+  "description": "White stroke outline without fill",
   "builtin": true,
   "icon": "⬜",
   "values": {

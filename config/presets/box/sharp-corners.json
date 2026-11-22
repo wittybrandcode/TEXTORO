@@ -2,7 +2,7 @@
   "name": "Sharp Corners",
   "id": "sharp-corners",
   "category": "box",
-  "description": "صندوق بزوايا حادة",
+  "description": "Sharp rectangle background box",
   "builtin": true,
   "icon": "🔲",
   "values": {

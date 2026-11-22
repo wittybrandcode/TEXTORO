@@ -177,7 +177,7 @@ function _getColorValueFast(map, name, def) {
 function getLayerEffectValues() {
     try {
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layer = getSelectedTextLayer(comp);
         if (!layer) {
@@ -350,10 +350,10 @@ function setLayerEffectValues(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layer = getSelectedTextLayer(comp);
-        if (!layer) return error("اختر طبقة نص");
+        if (!layer) return error("Select a text layer");
         
         var fx = layer.property("ADBE Effect Parade");
         
@@ -369,7 +369,7 @@ function setLayerEffectValues(optsJSON) {
         
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم تحديث الخصائص");
+        return success("Properties updated successfully");
         
     } catch(e) {
         if (undoStarted) {
@@ -506,10 +506,10 @@ function setLayerEffectValuesMulti(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layers = getSelectedTextLayers(comp);
-        if (layers.length === 0) return error("اختر طبقات نص");
+        if (layers.length === 0) return error("Select text layers");
         
         app.beginUndoGroup("TEXTORO - Soga Multi Update");
         undoStarted = true;
@@ -544,7 +544,7 @@ function setLayerEffectValuesMulti(optsJSON) {
         
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم تحديث " + updatedCount + " طبقات");
+        return success("Updated " + updatedCount + " layers");
         
     } catch(e) {
         if (undoStarted) {

@@ -2,10 +2,10 @@
   "name": "iOS Fluid",
   "id": "spring-fluid",
   "category": "motion",
-  "description": "حركة زنبركية رشيقة بدون ارتداد زائد بأسلوب iOS",
+  "description": "Agile iOS fluid spring with smooth settling",
   "builtin": true,
   "icon": "🍏",
-  "faIcon": "fa-solid fa-mobile-screen-button",
+  "faIcon": "ph-bold ph-drop",
   "values": {
     "inStart": 0,
     "inEnd": 0.6,
@@ -45,7 +45,7 @@
     "easingStrength": 100,
     "springStiffness": 280,
     "springDamping": 26,
-    "springMass": 1.0,
+    "springMass": 1,
     "springVelocityBoost": 0
   }
 }

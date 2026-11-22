@@ -2,10 +2,10 @@
   "name": "Bounce",
   "id": "bounce",
   "category": "motion",
-  "description": "تكبير مع ارتداد تصادمي واقعي",
+  "description": "Dynamic bounce impact with scaling",
   "builtin": true,
   "icon": "🏀",
-  "faIcon": "fa-solid fa-basketball",
+  "faIcon": "ph-bold ph-basketball",
   "values": {
     "inStart": 0,
     "inEnd": 0.8,

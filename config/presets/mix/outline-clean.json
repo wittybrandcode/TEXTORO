@@ -2,7 +2,7 @@
   "name": "Outline Clean",
   "id": "outline-clean",
   "category": "mix",
-  "description": "إطار نظيف بدون تعبئة",
+  "description": "Clean outline border with transparent background",
   "builtin": true,
   "icon": "⬜",
   "values": {

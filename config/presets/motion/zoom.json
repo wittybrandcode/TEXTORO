@@ -2,10 +2,10 @@
   "name": "Zoom",
   "id": "zoom",
   "category": "motion",
-  "description": "تكبير تدريجي سلس",
+  "description": "Smooth gradual focal zoom scaling",
   "builtin": true,
   "icon": "🔍",
-  "faIcon": "fa-solid fa-magnifying-glass-plus",
+  "faIcon": "ph-bold ph-arrows-out",
   "values": {
     "inStart": 0,
     "inEnd": 0.6,

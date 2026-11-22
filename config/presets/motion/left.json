@@ -2,10 +2,10 @@
   "name": "Left",
   "id": "left",
   "category": "motion",
-  "description": "حركة لليسار - دخول من اليمين وخروج لليسار",
+  "description": "Leftward motion with directional entry and exit",
   "builtin": true,
   "icon": "⬅️",
-  "faIcon": "fa-solid fa-arrow-left",
+  "faIcon": "ph-bold ph-arrow-left",
   "values": {
     "inStart": 0,
     "inEnd": 0.6,

@@ -2,10 +2,10 @@
   "name": "Elastic",
   "id": "elastic",
   "category": "motion",
-  "description": "تكبير مع اهتزاز مطاطي مرن",
+  "description": "Elastic harmonic oscillation with overshoot",
   "builtin": true,
   "icon": "🪢",
-  "faIcon": "fa-solid fa-bezier-curve",
+  "faIcon": "ph-bold ph-wave-sine",
   "values": {
     "inStart": 0,
     "inEnd": 0.8,

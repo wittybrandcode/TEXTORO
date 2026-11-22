@@ -53,6 +53,12 @@ var Tooltip = (function() {
             hide();
             return;
         }
+
+        // Never show tooltips on motion preset buttons (kinematic disc preview suffices)
+        if (target.classList.contains('motion-preset-btn') || (target.closest && target.closest('.motion-preset-btn'))) {
+            hide();
+            return;
+        }
         
         if (target === currentTarget) return;
         

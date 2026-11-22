@@ -2,10 +2,10 @@
   "name": "Heavy Slam",
   "id": "spring-heavy",
   "category": "motion",
-  "description": "سقوط قوي بعطالة وكتلة فيزيائية ثقيلة",
+  "description": "Heavy slam impact with high mass inertia",
   "builtin": true,
   "icon": "🥊",
-  "faIcon": "fa-solid fa-weight-hanging",
+  "faIcon": "ph-bold ph-lightning",
   "values": {
     "inStart": 0,
     "inEnd": 0.8,

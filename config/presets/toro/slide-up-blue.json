@@ -2,7 +2,7 @@
   "name": "Slide Up Blue",
   "id": "slide-up-blue",
   "category": "toro",
-  "description": "انزلاق للأعلى مع صندوق أزرق",
+  "description": "Slide up transition paired with blue box",
   "builtin": true,
   "icon": "🐂",
   "values": {

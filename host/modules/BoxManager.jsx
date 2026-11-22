@@ -65,10 +65,10 @@ function createBox(optsJSON) {
         if (!opts) return error("Invalid options JSON");
 
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
 
         var textLayer = getSelectedTextLayer(comp);
-        if (!textLayer) return error("اختر طبقة نص");
+        if (!textLayer) return error("Select a text layer");
 
         app.beginUndoGroup("TEXTORO - Create Box");
         undoStarted = true;
@@ -78,7 +78,7 @@ function createBox(optsJSON) {
 
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم إنشاء الصندوق!");
+        return success("Box created successfully!");
 
     } catch(e) {
         if (undoStarted) {
@@ -95,10 +95,10 @@ function removeBox() {
     var undoStarted = false; // F-05
     try {
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
 
         var textLayer = getSelectedTextLayer(comp);
-        if (!textLayer) return error("اختر طبقة نص");
+        if (!textLayer) return error("Select a text layer");
 
         app.beginUndoGroup("TEXTORO - Remove Box");
         undoStarted = true;
@@ -106,7 +106,7 @@ function removeBox() {
         app.endUndoGroup();
         undoStarted = false;
 
-        return success("تم إزالة الصندوق");
+        return success("Box removed successfully");
 
     } catch(e) {
         if (undoStarted) {

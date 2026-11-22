@@ -2,7 +2,7 @@
   "name": "Solid Dark",
   "id": "solid-dark",
   "category": "box",
-  "description": "صندوق داكن صلب",
+  "description": "Solid obsidian dark background box",
   "builtin": true,
   "icon": "⬛",
   "values": {

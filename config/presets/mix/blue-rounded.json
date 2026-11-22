@@ -2,7 +2,7 @@
   "name": "Blue Rounded",
   "id": "blue-rounded",
   "category": "mix",
-  "description": "صندوق أزرق مستدير",
+  "description": "Rounded blue box with styled typography",
   "builtin": true,
   "icon": "🔵",
   "values": {

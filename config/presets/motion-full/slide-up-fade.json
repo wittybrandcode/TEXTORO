@@ -2,7 +2,7 @@
   "name": "Slide Up + Fade",
   "id": "slide-up-fade",
   "category": "motion-full",
-  "description": "انتقال صاعد طويل مع تسارع وتباطؤ ناعم وتلاشي سينمائي",
+  "description": "Upward transition with smooth easing and cinematic fade",
   "builtin": true,
   "values": {
     "inStart": 0,

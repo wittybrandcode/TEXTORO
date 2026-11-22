@@ -2,7 +2,7 @@
   "name": "Classic",
   "id": "classic",
   "category": "type",
-  "description": "كتابة كلاسيكية مع مؤشر",
+  "description": "Classic typewriter animation with blinking cursor",
   "builtin": true,
   "icon": "⌨️",
   "values": {

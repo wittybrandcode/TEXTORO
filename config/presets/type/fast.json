@@ -2,7 +2,7 @@
   "name": "Fast",
   "id": "fast",
   "category": "type",
-  "description": "كتابة سريعة",
+  "description": "High speed snappy typewriter animation",
   "builtin": true,
   "icon": "⚡",
   "values": {

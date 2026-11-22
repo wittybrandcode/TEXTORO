@@ -148,24 +148,28 @@ TEXTORO.Panels.Motion = (function() {
             var btn = document.createElement('button');
             btn.className = 'motion-preset-btn';
             btn.setAttribute('data-preset', index);
-            btn.setAttribute('title', preset.description || preset.name || '');
+            // No title or tooltip: kinematic preview disc conveys the preset dynamics
 
             var mKey = getPresetMotionKey(preset);
-            var iconClass = (preset.faIcon && FA_ICON_RE.test(String(preset.faIcon)))
+            var iconClass = (preset.faIcon && FA_ICON_RE.test(String(preset.faIcon)) && String(preset.faIcon).indexOf('ph-') !== -1)
                 ? String(preset.faIcon)
                 : (MOTION_ICONS[mKey] || 'ph-bold ph-play');
 
-            // حاوية المعاينة التفاعلية: الأيقونة الثابتة وقرص الحركة المتحرك عند التحويم
+            // Interactive preview stage: circular icon container (idle) + kinematic disc (hover)
             var previewWrap = document.createElement('div');
             previewWrap.className = 'preset-motion-preview';
 
+            var iconCircle = document.createElement('div');
+            iconCircle.className = 'preset-motion-icon-wrap';
+
             var iconEl = document.createElement('i');
             iconEl.className = iconClass + ' preset-motion-icon';
+            iconCircle.appendChild(iconEl);
 
             var discEl = document.createElement('span');
             discEl.className = 'preset-motion-disc disc-' + mKey;
 
-            previewWrap.appendChild(iconEl);
+            previewWrap.appendChild(iconCircle);
             previewWrap.appendChild(discEl);
 
             var nameEl = document.createElement('span');

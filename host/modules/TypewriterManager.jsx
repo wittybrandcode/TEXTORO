@@ -39,7 +39,7 @@ function applyTypewriter(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var textLayer = getSelectedTextLayer(comp);
         
@@ -71,7 +71,7 @@ function applyTypewriter(optsJSON) {
         
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم!");
+        return success("Done!");
         
     } catch(e) {
         if (undoStarted) {
@@ -89,10 +89,10 @@ function removeTypewriter() {
     var undoStarted = false;
     try {
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var textLayer = getSelectedTextLayer(comp);
-        if (!textLayer) return error("اختر طبقة نص");
+        if (!textLayer) return error("Select a text layer");
         
         app.beginUndoGroup("TEXTORO - Remove");
         undoStarted = true;
@@ -100,7 +100,7 @@ function removeTypewriter() {
         app.endUndoGroup();
         undoStarted = false;
         
-        return success("تم الإزالة");
+        return success("Removed successfully");
         
     } catch(e) {
         if (undoStarted) {
@@ -117,10 +117,10 @@ function removeTypewriter() {
 function getLayerText() {
     try {
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var textLayer = getSelectedTextLayer(comp);
-        if (!textLayer) return error("اختر طبقة نص");
+        if (!textLayer) return error("Select a text layer");
         
         // النظام الجديد: جلب من Layer Comment
         // N-04: في وضع Live Text النص الحقيقي هو قيمة الطبقة نفسها
@@ -131,27 +131,27 @@ function getLayerText() {
                     ? findEffectControl(fxl, "Live Text") : null;
                 if (lc && lc.property(1).value === 1) {
                     var tpd = textLayer.property("ADBE Text Properties").property("ADBE Text Document");
-                    return success("تم", String(tpd.value.text));
+                    return success("Success", String(tpd.value.text));
                 }
             }
         } catch (_eLive) {}
 
         var textFromComment = getOriginalText(textLayer);
         if (textFromComment) {
-            return success("تم", textFromComment);
+            return success("Success", textFromComment);
         }
         
         // التوافق: جلب من Marker القديم
         var markers = textLayer.property("Marker");
         var textFromMarker = getTextFromMarker(markers);
         if (textFromMarker) {
-            return success("تم", textFromMarker);
+            return success("Success", textFromMarker);
         }
         
         // إذا لم يوجد، جلب النص مباشرة
         var textProp = textLayer.property("ADBE Text Properties").property("ADBE Text Document");
         var currentText = textProp.value.text;
-        return success("تم", currentText);
+        return success("Success", currentText);
         
     } catch(e) {
         return error(e.toString());
@@ -170,10 +170,10 @@ function updateLayerText(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var textLayer = getSelectedTextLayer(comp);
-        if (!textLayer) return error("اختر طبقة نص");
+        if (!textLayer) return error("Select a text layer");
         
         app.beginUndoGroup("TEXTORO - Update Text");
         undoStarted = true;
@@ -214,7 +214,7 @@ function updateLayerText(optsJSON) {
         
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم تحديث النص");
+        return success("Text updated successfully");
         
     } catch(e) {
         if (undoStarted) {
@@ -238,11 +238,11 @@ function updateTypewriterCursor(optsJSON) {
     var undoStarted = false;
     try {
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var textLayer = getSelectedTextLayer(comp);
-        if (!textLayer) return error("اختر طبقة نص");
-        if (!hasTypewriter(textLayer)) return error("الطبقة لا تحتوي على Typewriter");
+        if (!textLayer) return error("Select a text layer");
+        if (!hasTypewriter(textLayer)) return error("Layer does not contain Typewriter");
         
         var opts = safeJSONParse(optsJSON, null);
         if (!opts) return error("Invalid options JSON");
@@ -293,7 +293,7 @@ function updateTypewriterCursor(optsJSON) {
         
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم تحديث المؤشر");
+        return success("Cursor updated successfully");
         
     } catch(e) {
         if (undoStarted) {

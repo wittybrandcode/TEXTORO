@@ -27,10 +27,10 @@ function offsetSelectedLayers(optsJSON) {
         var offset = opts.offset || 0;
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var selectedLayers = comp.selectedLayers;
-        if (selectedLayers.length === 0) return error("حدد طبقات أولاً");
+        if (selectedLayers.length === 0) return error("Select layers first");
         
         app.beginUndoGroup("TEXTORO - Offset Layers");
         undoStarted = true;
@@ -44,7 +44,7 @@ function offsetSelectedLayers(optsJSON) {
 
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم إزاحة " + count + " طبقات", { count: count });
+        return success("Shifted " + count + " layers", { count: count });
 
     } catch(e) {
         if (undoStarted) {
@@ -67,10 +67,10 @@ function staggerSelectedLayers(optsJSON) {
         var order = opts.order || "asc";
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var selectedLayers = comp.selectedLayers;
-        if (selectedLayers.length === 0) return error("حدد طبقات أولاً");
+        if (selectedLayers.length === 0) return error("Select layers first");
         
         // نسخ الطبقات لمصفوفة
         var layers = [];
@@ -108,7 +108,7 @@ function staggerSelectedLayers(optsJSON) {
 
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم Stagger " + layers.length + " طبقات", { count: layers.length });
+        return success("Staggered " + layers.length + " layers", { count: layers.length });
 
     } catch(e) {
         if (undoStarted) {
@@ -130,10 +130,10 @@ function alignSelectedLayers(optsJSON) {
         var targetTime = opts.targetTime || 0;
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var selectedLayers = comp.selectedLayers;
-        if (selectedLayers.length === 0) return error("حدد طبقات أولاً");
+        if (selectedLayers.length === 0) return error("Select layers first");
         
         app.beginUndoGroup("TEXTORO - Align Layers");
         undoStarted = true;
@@ -146,7 +146,7 @@ function alignSelectedLayers(optsJSON) {
 
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم محاذاة " + count + " طبقات", { count: count });
+        return success("Aligned " + count + " layers", { count: count });
 
     } catch(e) {
         if (undoStarted) {
@@ -227,7 +227,7 @@ function _resolveMarkerKey(markerProp, op) {
 function collectTextoroMarkers(optsJSON) {
     try {
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var markers = [];
         var selectedIndices = {};
@@ -289,11 +289,11 @@ function offsetTextoroMarkers(optsJSON) {
         var markersInput = opts.markers || [];
         var offset = _toNumber(opts.offset, 0);
         
-        if (markersInput.length === 0) return error("لم يتم تحديد markers");
-        if (offset === 0) return success("لا يوجد تغيير", { count: 0, markers: [] });
+        if (markersInput.length === 0) return error("No markers selected");
+        if (offset === 0) return success("No changes", { count: 0, markers: [] });
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layerOps = {};
         for (var i = 0; i < markersInput.length; i++) {
@@ -354,7 +354,7 @@ function offsetTextoroMarkers(optsJSON) {
         }
         
         app.endUndoGroup();
-        return success("تم إزاحة " + count + " markers", { count: count, markers: updatedMarkers });
+        return success("Shifted " + count + " markers", { count: count, markers: updatedMarkers });
         
     } catch(e) {
         if (undoStarted) {
@@ -376,10 +376,10 @@ function alignTextoroMarkers(optsJSON) {
         var markersInput = opts.markers || [];
         var targetTime = _toNumber(opts.targetTime, 0);
         
-        if (markersInput.length === 0) return error("لم يتم تحديد markers");
+        if (markersInput.length === 0) return error("No markers selected");
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layerOps = {};
         for (var i = 0; i < markersInput.length; i++) {
@@ -438,7 +438,7 @@ function alignTextoroMarkers(optsJSON) {
         }
         
         app.endUndoGroup();
-        return success("تم محاذاة " + count + " markers", { count: count, markers: updatedMarkers });
+        return success("Aligned " + count + " markers", { count: count, markers: updatedMarkers });
         
     } catch(e) {
         if (undoStarted) {
@@ -465,11 +465,11 @@ function staggerTextoroMarkers(optsJSON) {
         var delay = _toNumber(opts.delay, 0.5);
         var order = opts.order || 'asc';
         
-        if (markersInput.length === 0) return error("لم يتم تحديد markers");
-        if (markersInput.length === 1) return success("marker واحد فقط", { count: 1, markers: markersInput });
+        if (markersInput.length === 0) return error("No markers selected");
+        if (markersInput.length === 1) return success("Only one marker", { count: 1, markers: markersInput });
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var markers = [];
         for (var i = 0; i < markersInput.length; i++) {
@@ -483,7 +483,7 @@ function staggerTextoroMarkers(optsJSON) {
                 time: _toNumber(markersInput[i].time, 0)
             });
         }
-        if (markers.length === 0) return error("لا توجد markers صالحة");
+        if (markers.length === 0) return error("No valid markers");
         
         markers.sort(function(a, b) {
             if (a.layerIndex !== b.layerIndex) return a.layerIndex - b.layerIndex;
@@ -564,7 +564,7 @@ function staggerTextoroMarkers(optsJSON) {
         }
         
         app.endUndoGroup();
-        return success("تم تطبيق Stagger على " + count + " markers", { count: count, markers: updatedMarkers });
+        return success("Applied Stagger to " + count + " markers", { count: count, markers: updatedMarkers });
         
     } catch(e) {
         if (undoStarted) {
@@ -584,10 +584,10 @@ function deleteTextoroMarkers(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var markersInput = opts.markers || [];
-        if (markersInput.length === 0) return error("لم يتم تحديد markers");
+        if (markersInput.length === 0) return error("No markers selected");
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layerOps = {};
         for (var i = 0; i < markersInput.length; i++) {
@@ -628,7 +628,7 @@ function deleteTextoroMarkers(optsJSON) {
         }
         
         app.endUndoGroup();
-        return success("تم حذف " + count + " markers", { count: count, markers: [] });
+        return success("Deleted " + count + " markers", { count: count, markers: [] });
         
     } catch(e) {
         if (undoStarted) {
@@ -649,7 +649,7 @@ function createNewTextLayer() {
     var undoStarted = false; // F-05
     try {
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
 
         app.beginUndoGroup("TEXTORO - New Text Layer");
         undoStarted = true;
@@ -660,7 +660,7 @@ function createNewTextLayer() {
 
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم إنشاء طبقة نص جديدة");
+        return success("Created new text layer");
 
     } catch(e) {
         if (undoStarted) {

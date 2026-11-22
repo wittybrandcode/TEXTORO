@@ -48,10 +48,10 @@ function splitTextToLayers(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var sourceLayer = getSelectedTextLayer(comp);
-        if (!sourceLayer) return error("اختر طبقة نص");
+        if (!sourceLayer) return error("Select a text layer");
         
         var textProp = sourceLayer.property("ADBE Text Properties").property("ADBE Text Document");
         var textDoc = textProp.value;
@@ -64,7 +64,7 @@ function splitTextToLayers(optsJSON) {
         }
         
         if (validLines.length < 2) {
-            return error("النص لا يحتوي على أسطر متعددة");
+            return error("Text does not contain multiple lines");
         }
         
         manageUndo = !opts._skipUndo;
@@ -146,7 +146,7 @@ function splitTextToLayers(optsJSON) {
             manageUndo = false;
         }
         
-        return success("تم تقسيم " + validLines.length + " أسطر", {
+        return success("Split into " + validLines.length + " lines", {
             layers: createdLayers,
             count: validLines.length
         });
@@ -173,7 +173,7 @@ function applyTypewriterMulti(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layers = [];
         if (opts.layerIndices && opts.layerIndices.length > 0) {
@@ -185,7 +185,7 @@ function applyTypewriterMulti(optsJSON) {
             layers = getSelectedTextLayers(comp);
         }
         
-        if (layers.length === 0) return error("لا توجد طبقات نص للتطبيق");
+        if (layers.length === 0) return error("No text layers to apply");
         
         manageUndo = !opts._skipUndo;
         if (manageUndo) app.beginUndoGroup("TEXTORO - Typewriter Multi");
@@ -221,7 +221,7 @@ function applyTypewriterMulti(optsJSON) {
             app.endUndoGroup();
             manageUndo = false;
         }
-        return success("تم تطبيق Typewriter على " + layers.length + " طبقات");
+        return success("Applied Typewriter to " + layers.length + " layers");
         
     } catch(e) {
         if (manageUndo) {
@@ -241,7 +241,7 @@ function createBoxMulti(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layers = [];
         if (opts.layerIndices && opts.layerIndices.length > 0) {
@@ -253,7 +253,7 @@ function createBoxMulti(optsJSON) {
             layers = getSelectedTextLayers(comp);
         }
         
-        if (layers.length === 0) return error("لا توجد طبقات نص للتطبيق");
+        if (layers.length === 0) return error("No text layers to apply");
         
         manageUndo = !opts._skipUndo;
         if (manageUndo) app.beginUndoGroup("TEXTORO - Box Multi");
@@ -278,7 +278,7 @@ function createBoxMulti(optsJSON) {
             app.endUndoGroup();
             manageUndo = false;
         }
-        return success("تم إنشاء Box لـ " + layers.length + " طبقات");
+        return success("Created Box for " + layers.length + " layers");
         
     } catch(e) {
         if (manageUndo) {
@@ -302,10 +302,10 @@ function splitAndApply(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var sourceLayer = getSelectedTextLayer(comp);
-        if (!sourceLayer) return error("اختر طبقة نص");
+        if (!sourceLayer) return error("Select a text layer");
         
         app.beginUndoGroup("TEXTORO - Split & Apply");
         undoStarted = true;
@@ -358,7 +358,7 @@ function splitAndApply(optsJSON) {
             if (!typeResult || !typeResult.success) {
                 app.endUndoGroup();
                 undoStarted = false;
-                return error("فشل تطبيق Typewriter: " + typeResult.error);
+                return error("Failed to apply Typewriter: " + typeResult.error);
             }
         }
         
@@ -391,7 +391,7 @@ function splitAndApply(optsJSON) {
             if (!boxResult || !boxResult.success) {
                 app.endUndoGroup();
                 undoStarted = false;
-                return error("فشل إنشاء Box: " + boxResult.error);
+                return error("Failed to create Box: " + boxResult.error);
             }
         }
         

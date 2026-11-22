@@ -2,10 +2,10 @@
   "name": "Right",
   "id": "right",
   "category": "motion",
-  "description": "حركة لليمين - دخول من اليسار وخروج لليمين",
+  "description": "Rightward motion with directional entry and exit",
   "builtin": true,
   "icon": "➡️",
-  "faIcon": "fa-solid fa-arrow-right",
+  "faIcon": "ph-bold ph-arrow-right",
   "values": {
     "inStart": 0,
     "inEnd": 0.6,

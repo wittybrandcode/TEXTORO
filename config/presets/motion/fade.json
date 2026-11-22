@@ -2,10 +2,10 @@
   "name": "Fade",
   "id": "fade",
   "category": "motion",
-  "description": "ظهور تدريجي فقط",
+  "description": "Smooth cinematic opacity fade",
   "builtin": true,
   "icon": "🌫️",
-  "faIcon": "fa-solid fa-eye",
+  "faIcon": "ph-bold ph-eye-slash",
   "values": {
     "inStart": 0,
     "inEnd": 0.6,

@@ -1376,25 +1376,25 @@ function getLayerValuesForPreset(optsJSON) {
         var category = opts.category;
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layer = getSelectedTextLayer(comp);
-        if (!layer) return error("اختر طبقة نص");
+        if (!layer) return error("Select a text layer");
         
         var values = null;
         
         if (category === "type") {
             values = _extractTypeValues(layer);
-            if (!values) return error("الطبقة لا تحتوي على Typewriter");
+            if (!values) return error("Layer does not contain Typewriter");
         } else if (category === "box") {
             values = _extractBoxValues(layer, comp);
-            if (!values) return error("الطبقة لا تحتوي على Box");
+            if (!values) return error("Layer does not contain Box");
         } else if (category === "mix") {
             var typeValues = _extractTypeValues(layer);
             var boxValues = _extractBoxValues(layer, comp);
             
             if (!typeValues && !boxValues) {
-                return error("الطبقة لا تحتوي على Typewriter أو Box");
+                return error("Layer does not contain Typewriter or Box");
             }
             
             values = {
@@ -1416,10 +1416,10 @@ function getLayerValuesForPreset(optsJSON) {
 function getMotionValuesForPreset() {
     try {
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layer = getSelectedTextLayer(comp);
-        if (!layer) return error("اختر طبقة نص");
+        if (!layer) return error("Select a text layer");
         
         var fx = layer.property("ADBE Effect Parade");
         var hasMotionEffect = false;
@@ -1431,7 +1431,7 @@ function getMotionValuesForPreset() {
         }
         
         if (!hasMotionEffect) {
-            return error("الطبقة لا تحتوي على Motion");
+            return error("Layer does not contain Motion");
         }
         
         var values = {
@@ -1472,10 +1472,10 @@ function getMotionValuesForPreset() {
 function getToroValuesForPreset() {
     try {
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layer = getSelectedTextLayer(comp);
-        if (!layer) return error("اختر طبقة نص");
+        if (!layer) return error("Select a text layer");
         
         var fx = layer.property("ADBE Effect Parade");
         var values = {
@@ -1581,7 +1581,7 @@ function getToroValuesForPreset() {
         }
         
         if (!values.type && !values.box && !values.motion) {
-            return error("الطبقة لا تحتوي على Type أو Box أو Motion");
+            return error("Layer does not contain Type, Box, or Motion");
         }
         
         return success("", { values: values });
@@ -1642,7 +1642,7 @@ function applyPreset(optsJSON) {
         $.writeln("[TEXTORO] applyPreset called - category: " + category + ", id: " + id + ", fileName: " + fileName);
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var preset = null;
         

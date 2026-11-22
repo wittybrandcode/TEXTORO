@@ -205,10 +205,10 @@ function applyMotion(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layer = getSelectedTextLayer(comp);
-        if (!layer) return error("اختر طبقة نص");
+        if (!layer) return error("Select a text layer");
         
         app.beginUndoGroup("TEXTORO - Motion");
         undoStarted = true;
@@ -224,7 +224,7 @@ function applyMotion(optsJSON) {
         
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم تطبيق Motion!");
+        return success("Motion applied successfully!");
         
     } catch(e) {
         if (undoStarted) {
@@ -405,10 +405,10 @@ function removeMotion() {
     var undoStarted = false;
     try {
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layer = getSelectedTextLayer(comp);
-        if (!layer) return error("اختر طبقة نص");
+        if (!layer) return error("Select a text layer");
         
         app.beginUndoGroup("TEXTORO - Remove Motion");
         undoStarted = true;
@@ -418,7 +418,7 @@ function removeMotion() {
         
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم إزالة Motion!");
+        return success("Motion removed successfully!");
         
     } catch(e) {
         if (undoStarted) {
@@ -911,7 +911,7 @@ function applyMotionPreset(optsJSON) {
             }
         }
         
-        if (!preset) return error("Preset غير موجود");
+        if (!preset) return error("Preset not found");
         
         var v = preset.values || preset;
         
@@ -920,7 +920,7 @@ function applyMotionPreset(optsJSON) {
         if (syncWithMarkers) {
             markerTiming = _getMarkerTiming();
             if (!markerTiming) {
-                return error("لم يتم العثور على markers. تأكد من وجود IN_START, IN_END, OUT_START, OUT_END");
+                return error("Markers not found. Ensure IN_START, IN_END, OUT_START, OUT_END exist");
             }
         }
         
@@ -972,7 +972,7 @@ function applyMotionPreset(optsJSON) {
                 motionOpts.outEnd = markerTiming.outEnd;
             } else if (syncWithMarkers) {
                 // F-M3: لا هبوط صامت لتوقيت افتراضي - رسالة تشرح السبب والحل
-                return error("Sync with Markers مطلوب لكن OUT markers غير موجودة على الطبقة. فعّل OUT animation في تبويب Type أو أوقف خيار Sync With Markers.");
+                return error("Sync with Markers required, but OUT markers are missing. Enable OUT animation in Type tab or disable Sync With Markers.");
             } else {
                 motionOpts.outStart = v.outStart || 4.0;
                 motionOpts.outEnd = v.outEnd || 5.0;
@@ -1111,10 +1111,10 @@ function applyMotionMulti(optsJSON) {
         if (!opts) return error("Invalid options JSON");
         
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layers = getSelectedTextLayers(comp);
-        if (layers.length === 0) return error("اختر طبقات نص");
+        if (layers.length === 0) return error("Select text layers");
         
         var stagger = _toFiniteNumber(opts.stagger, 0);
         var baseInStart = _toFiniteNumber(opts.inStart, 0);
@@ -1146,7 +1146,7 @@ function applyMotionMulti(optsJSON) {
         
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم تطبيق Motion على " + layers.length + " طبقات!");
+        return success("Applied Motion to " + layers.length + " layers!");
         
     } catch(e) {
         if (undoStarted) {
@@ -1186,14 +1186,14 @@ function applyMotionPresetMulti(optsJSON) {
             }
         }
         
-        if (!preset) return error("Preset غير موجود");
+        if (!preset) return error("Preset not found");
         
         var v = preset.values || preset;
         var comp = getActiveComp();
-        if (!comp) return error("افتح Composition أولاً");
+        if (!comp) return error("Open a composition first");
         
         var layers = getSelectedTextLayers(comp);
-        if (layers.length === 0) return error("اختر طبقات نص");
+        if (layers.length === 0) return error("Select text layers");
         
         var stagger = _toFiniteNumber(opts.stagger, 0);
         var inStart = (opts.inStart !== undefined) ? _toFiniteNumber(opts.inStart, 0) : _toFiniteNumber(v.inStart, 0);
@@ -1248,7 +1248,7 @@ function applyMotionPresetMulti(optsJSON) {
         
         app.endUndoGroup();
         undoStarted = false;
-        return success("تم تطبيق Preset على " + layers.length + " طبقات!");
+        return success("Applied Preset to " + layers.length + " layers!");
         
     } catch(e) {
         if (undoStarted) {

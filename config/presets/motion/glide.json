@@ -2,7 +2,7 @@
   "name": "Glide",
   "id": "glide",
   "category": "motion",
-  "description": "انزلاق مائل سلس وانسيابي مع دخول وخروج متعاكس",
+  "description": "Smooth diagonal aerodynamic glide",
   "builtin": true,
   "values": {
     "inStart": 0,
@@ -41,5 +41,6 @@
     "opacityOutTo": 0,
     "easingType": 3,
     "easingStrength": 100
-  }
+  },
+  "faIcon": "ph-bold ph-wind"
 }

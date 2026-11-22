@@ -2,7 +2,7 @@
   "name": "Pop Bounce",
   "id": "pop-bounce",
   "category": "motion-full",
-  "description": "قفزة سريعة بالموقع مع تكبير وارتداد تصادمي - دخول وخروج مركب",
+  "description": "Compound position jump with scale and impact bounce",
   "builtin": true,
   "values": {
     "inStart": 0,

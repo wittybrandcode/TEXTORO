@@ -2,7 +2,7 @@
   "name": "Rise",
   "id": "rise",
   "category": "motion",
-  "description": "صعود انسيابي للأعلى مع تكبير طفيف وخروج صاعد",
+  "description": "Smooth vertical ascension with subtle scaling",
   "builtin": true,
   "values": {
     "inStart": 0,
@@ -41,5 +41,6 @@
     "opacityOutTo": 0,
     "easingType": 1,
     "easingStrength": 100
-  }
+  },
+  "faIcon": "ph-bold ph-trend-up"
 }

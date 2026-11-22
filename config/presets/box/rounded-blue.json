@@ -2,7 +2,7 @@
   "name": "Rounded Blue",
   "id": "rounded-blue",
   "category": "box",
-  "description": "صندوق أزرق مستدير",
+  "description": "Rounded blue background box",
   "builtin": true,
   "icon": "🔵",
   "values": {

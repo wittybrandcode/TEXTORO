@@ -2,7 +2,7 @@
   "name": "No Cursor",
   "id": "no-cursor",
   "category": "type",
-  "description": "ظهور بدون مؤشر",
+  "description": "Typewriter text reveal without cursor",
   "builtin": true,
   "icon": "👁️",
   "values": {

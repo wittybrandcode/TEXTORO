@@ -2,10 +2,10 @@
   "name": "Drop",
   "id": "drop",
   "category": "motion",
-  "description": "سقوط من الأعلى مع ارتداد",
+  "description": "Drop from top with gravitational bounce",
   "builtin": true,
   "icon": "⬇️",
-  "faIcon": "fa-solid fa-droplet",
+  "faIcon": "ph-bold ph-arrow-fat-line-down",
   "values": {
     "inStart": 0,
     "inEnd": 0.8,

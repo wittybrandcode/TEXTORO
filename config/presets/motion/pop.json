@@ -2,10 +2,10 @@
   "name": "Pop",
   "id": "pop",
   "category": "motion",
-  "description": "تكبير مفاجئ مع ارتداد زنبركي",
+  "description": "Rapid pop scale with snappy spring recoil",
   "builtin": true,
   "icon": "💥",
-  "faIcon": "fa-solid fa-burst",
+  "faIcon": "ph-bold ph-sparkle",
   "values": {
     "inStart": 0,
     "inEnd": 0.6,

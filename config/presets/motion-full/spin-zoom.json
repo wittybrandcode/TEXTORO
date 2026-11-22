@@ -2,7 +2,7 @@
   "name": "Spin Zoom",
   "id": "spin-zoom",
   "category": "motion-full",
-  "description": "دوران كامل 360 درجة مع تكبير عميق - دخول وخروج كامل",
+  "description": "Full 360 spin rotation with deep zoom scaling",
   "builtin": true,
   "values": {
     "inStart": 0,

@@ -2,7 +2,7 @@
   "name": "Word by Word",
   "id": "word-by-word",
   "category": "type",
-  "description": "ظهور كلمة كلمة",
+  "description": "Word-by-word discrete text reveal",
   "builtin": true,
   "icon": "📝",
   "values": {

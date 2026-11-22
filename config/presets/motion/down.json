@@ -2,10 +2,10 @@
   "name": "Down",
   "id": "down",
   "category": "motion",
-  "description": "حركة للأسفل - دخول من الأعلى وخروج للأسفل",
+  "description": "Downward motion with directional transition",
   "builtin": true,
   "icon": "⬇️",
-  "faIcon": "fa-solid fa-arrow-down",
+  "faIcon": "ph-bold ph-arrow-down",
   "values": {
     "inStart": 0,
     "inEnd": 0.6,
