@@ -18,9 +18,9 @@
 .preset-item {
     display: flex !important;
     flex-direction: column !important;
-    height: 124px !important;
-    min-height: 124px !important;
-    max-height: 124px !important;
+    height: 136px !important;
+    min-height: 136px !important;
+    max-height: 136px !important;
     flex-shrink: 0 !important;
     width: 100% !important;
     padding: 0 !important;
@@ -49,9 +49,9 @@
 
 /* 1. Upper Viewport: Realistic AE Composition Preview Stage (92px Height) */
 .preset-preview-window {
-    height: 92px !important;
-    min-height: 92px !important;
-    max-height: 92px !important;
+    height: 102px !important;
+    min-height: 102px !important;
+    max-height: 102px !important;
     flex-shrink: 0 !important;
     width: 100% !important;
     background: #09090e !important;
@@ -216,8 +216,8 @@
 
 /* 2. Lower Meta Bar (32px Height) */
 .preset-meta-bar {
-    height: 32px !important;
-    min-height: 32px !important;
+    height: 34px !important;
+    min-height: 34px !important;
     max-height: 32px !important;
     flex-shrink: 0 !important;
     width: 100% !important;

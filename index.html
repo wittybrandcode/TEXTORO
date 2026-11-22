@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="ltr" data-theme="dark">
+<html lang="en" dir="ltr" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <title>TEXTORO</title>
@@ -157,7 +157,7 @@
                     <option value="4">▎ Thin Block</option>
                     <option value="5">● Circle Dot</option>
                     <option value="6">◆ Diamond</option>
-                    <option value="custom">✎ Custom</option>
+                    <option value="custom">Custom</option>
                 </select>
                 <input type="text" id="txtCustomCursor" class="ti" style="width:36px;display:none" placeholder="▶" maxlength="2" title="Type custom cursor symbol">
             </div>
@@ -660,12 +660,12 @@
     <!-- Filter Buttons -->
     <div class="presets-filter studio-icon-filter-bar">
         <button class="filter-btn active square-icon-btn subbar-btn" data-filter="all" title="All Presets" aria-label="All Presets"><i class="ph-bold ph-squares-four"></i></button>
-        <button class="filter-btn templates square-icon-btn subbar-btn" data-filter="templates" title="Templates Suite (Type + Box + Motion)" aria-label="Templates"><i class="ph-bold ph-sparkle"></i></button>
-        <button class="filter-btn type square-icon-btn subbar-btn" data-filter="type" title="Typewriter Presets" aria-label="Typewriter"><i class="ph-bold ph-text-t"></i></button>
-        <button class="filter-btn box square-icon-btn subbar-btn" data-filter="box" title="Box Shape Presets" aria-label="Box"><i class="ph-bold ph-bounding-box"></i></button>
-        <button class="filter-btn compound square-icon-btn subbar-btn" data-filter="compound" title="Compound Presets (Type + Box)" aria-label="Compound"><i class="ph-bold ph-stack"></i></button>
-        <button class="filter-btn motion square-icon-btn subbar-btn" data-filter="motion" title="Motion Presets" aria-label="Motion"><i class="ph-bold ph-wave-sine"></i></button>
-        <button class="filter-btn fav square-icon-btn subbar-btn" data-filter="favorites" title="Favorite Presets" aria-label="Favorites"><i class="ph-bold ph-star"></i></button>
+        <button class="filter-btn type square-icon-btn subbar-btn" data-filter="type" title="Typewriter Presets (Text & Cues)" aria-label="Typewriter"><i class="ph-bold ph-textbox"></i></button>
+        <button class="filter-btn box square-icon-btn subbar-btn" data-filter="box" title="Box Presets (Shape, Stroke & Fill)" aria-label="Box"><i class="ph-bold ph-bounding-box"></i></button>
+        <button class="filter-btn motion square-icon-btn subbar-btn" data-filter="motion" title="Motion Presets (Kinematics & Physics)" aria-label="Motion"><i class="ph-bold ph-wave-sine"></i></button>
+        <button class="filter-btn compound square-icon-btn subbar-btn" data-filter="compound" title="Compound Styles (Type + Box)" aria-label="Compound"><i class="ph-bold ph-stack"></i></button>
+        <button class="filter-btn templates square-icon-btn subbar-btn" data-filter="templates" title="Complete Templates (Type + Box + Motion)" aria-label="Templates"><i class="ph-bold ph-sparkle"></i></button>
+        <button class="filter-btn fav square-icon-btn subbar-btn" data-filter="favorites" title="Favorites" aria-label="Favorites"><i class="ph-bold ph-star"></i></button>
     </div>
 
     <!-- Search Bar -->
@@ -1956,12 +1956,12 @@
 
         <!-- Quick Physics Presets Arena -->
         <div class="physics-presets-row">
-            <button type="button" class="physics-preset-pill" data-preset="ios" title="Snappy, Zero Overshoot (iOS feel)">🍏 iOS Fluid</button>
-            <button type="button" class="physics-preset-pill active" data-preset="bouncy" title="Playful Harmonic Bounce">🏀 Bouncy</button>
-            <button type="button" class="physics-preset-pill" data-preset="heavy" title="Substantial Kinetic Slam">🥊 Heavy</button>
-            <button type="button" class="physics-preset-pill" data-preset="jelly" title="Soft Elastic Wobble">🍮 Jelly</button>
-            <button type="button" class="physics-preset-pill" data-preset="magnetic" title="Instantaneous Lock-in">🏎️ Snap</button>
-            <button type="button" class="physics-preset-pill" data-preset="overdamped" title="Hydraulic Viscous Glide">🌊 Glide</button>
+            <button type="button" class="physics-preset-pill" data-preset="ios" title="Snappy, Zero Overshoot (iOS feel)"><i class="ph-bold ph-drop"></i> iOS Fluid</button>
+            <button type="button" class="physics-preset-pill active" data-preset="bouncy" title="Playful Harmonic Bounce"><i class="ph-bold ph-basketball"></i> Bouncy</button>
+            <button type="button" class="physics-preset-pill" data-preset="heavy" title="Substantial Kinetic Slam"><i class="ph-bold ph-lightning"></i> Heavy</button>
+            <button type="button" class="physics-preset-pill" data-preset="jelly" title="Soft Elastic Wobble"><i class="ph-bold ph-wave-sine"></i> Jelly</button>
+            <button type="button" class="physics-preset-pill" data-preset="magnetic" title="Instantaneous Lock-in"><i class="ph-bold ph-magnet"></i> Snap</button>
+            <button type="button" class="physics-preset-pill" data-preset="overdamped" title="Hydraulic Viscous Glide"><i class="ph-bold ph-wind"></i> Glide</button>
         </div>
     </div>
     </div>
@@ -2334,6 +2334,7 @@
 
 <!-- Core Modules -->
 <script src="js/core/Config.js?v=1.1.0"></script>
+<script src="js/core/I18n.js?v=1.1.0"></script>
 <script src="js/core/Utils.js?v=1.1.0"></script>
 <script src="js/core/ErrorHandler.js?v=1.1.0"></script>
 <script src="js/core/HostBridge.js?v=1.1.0"></script>

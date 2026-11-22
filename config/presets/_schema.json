@@ -1,28 +1,38 @@
 {
-  "_comment": "TEXTORO Presets Schema - v2.9.1",
-  "_description": "This file documents the structure of preset JSON files",
+  "_comment": "TEXTORO Presets Schema - v3.0.0",
+  "_description": "Canonical technical structure for TEXTORO preset JSON documents",
+  "canonicalCategories": [
+    "type",
+    "box",
+    "motion",
+    "compound",
+    "templates"
+  ],
   "common": {
     "required": [
       "name",
-      "category"
+      "category",
+      "values"
     ],
     "optional": [
       "id",
-      "icon",
+      "faIcon",
       "description",
       "builtin",
       "author",
-      "created"
+      "created",
+      "arena"
     ],
     "fields": {
-      "name": "string - Preset Name (Required)",
-      "category": "string - type|box|compound|motion|templates (Required)",
-      "id": "string - Unique Identifier (Optional)",
-      "icon": "string - Vector icon class or symbol (Optional)",
-      "description": "string - Preset description (Optional)",
-      "builtin": "boolean - Built-in preset flag (Optional, default: false)",
-      "author": "string - Author name (Optional)",
-      "created": "string - ISO creation timestamp (Optional)"
+      "name": "string - Human-readable preset name (Required)",
+      "category": "string - type | box | motion | compound | templates (Required)",
+      "id": "string - Unique preset identifier (slug) (Optional)",
+      "faIcon": "string - Phosphor Bold vector icon class (Optional, e.g. 'ph-bold ph-sparkle')",
+      "description": "string - Technical description of preset effect (Optional)",
+      "builtin": "boolean - Flag indicating factory preset status (Optional, default: false)",
+      "author": "string - Creator or studio attribution (Optional)",
+      "created": "string - ISO 8601 creation timestamp (Optional)",
+      "arena": "boolean - Display flag for Motion Arena grid (Optional)"
     }
   },
   "type": {
@@ -32,22 +42,29 @@
       "values"
     ],
     "values": {
-      "twAuto": "boolean - تشغيل تلقائي (مطلوب)",
-      "twReverse": "boolean - وضع الحذف",
-      "randomSpeed": "number 0-100 - سرعة عشوائية",
-      "showCursor": "boolean - إظهار المؤشر (مطلوب)",
-      "cursorBefore": "boolean - المؤشر قبل النص",
-      "cursorColor": "array [R,G,B] 0-1 - لون المؤشر",
-      "cursorSpacing": "number 0-50 - المسافة",
-      "blinkSpeed": "number 1-10 - سرعة الوميض (مطلوب)",
-      "blinkInHold": "boolean - الوميض أثناء الثبات",
-      "boxRTL": "boolean - اتجاه RTL",
-      "inStart": "number - بداية الظهور (ثواني)",
-      "inEnd": "number - نهاية الظهور (ثواني)",
-      "outStart": "number|null - بداية الاختفاء (null = بدون)",
-      "outEnd": "number|null - نهاية الاختفاء",
-      "blinkStart": "number - بداية الوميض",
-      "blinkEnd": "number - نهاية الوميض"
+      "twAuto": "boolean - Automatic character-by-character timing (Required)",
+      "twReverse": "boolean - Reverse typewriter deletion mode",
+      "wordMode": "boolean - Word-by-word reveal instead of character-by-character",
+      "randomSpeed": "number 0-100 - Stochastic typing jitter percentage",
+      "showCursor": "boolean - Blinking terminal cursor visibility",
+      "cursorBefore": "boolean - Position cursor before text (RTL mode)",
+      "cursorType": "number - 0: Bar, 1: Underscore, 2: Solid, 3: Half, 4: Thin, 5: Dot, 6: Diamond, -1: Custom",
+      "customCursor": "string - Custom character symbol when cursorType is -1",
+      "cursorColor": "array [R,G,B] 0-1 or hex string - Cursor color",
+      "cursorSpacing": "number 0-50 - Horizontal pixel spacing from text",
+      "blinkSpeed": "number 0.5-10 - Cursor blink frequency in Hz",
+      "blinkInHold": "boolean - Maintain blinking during timeline hold state",
+      "boxRTL": "boolean - Right-to-Left text layout flag",
+      "liveText": "boolean - Override text layer fill color",
+      "textColor": "array [R,G,B] 0-1 or hex string - Text color",
+      "easingType": "number 0-3 - Easing curve: 0: Linear, 1: Ease Out, 2: Ease In, 3: Ease In-Out",
+      "easingStrength": "number 0-100 - Easing power percentage",
+      "inStart": "number - IN animation start time in seconds",
+      "inEnd": "number - IN animation completion time in seconds",
+      "outStart": "number|null - OUT animation start time in seconds (-1 or null to disable)",
+      "outEnd": "number|null - OUT animation completion time in seconds (-1 or null to disable)",
+      "blinkStart": "number - Blink initiation time in seconds",
+      "blinkEnd": "number - Blink termination time in seconds"
     }
   },
   "box": {
@@ -57,45 +74,31 @@
       "values"
     ],
     "values": {
-      "paddingLeft": "number 0-200 - الحشو الأيسر (مطلوب)",
-      "paddingRight": "number 0-200 - الحشو الأيمن (مطلوب)",
-      "paddingTop": "number 0-200 - الحشو العلوي (مطلوب)",
-      "paddingBottom": "number 0-200 - الحشو السفلي (مطلوب)",
-      "use4Corners": "boolean - استخدام 4 زوايا مختلفة",
-      "cornerRadius": "number 0-500 - نصف قطر الزوايا (موحد)",
-      "cornerTL": "number 0-500 - الزاوية العلوية اليسرى",
-      "cornerTR": "number 0-500 - الزاوية العلوية اليمنى",
-      "cornerBR": "number 0-500 - الزاوية السفلية اليمنى",
-      "cornerBL": "number 0-500 - الزاوية السفلية اليسرى",
-      "strokeWidth": "number 0-50 - سمك الحدود",
-      "strokeOpacity": "number 0-100 - شفافية الحدود",
-      "strokeColor": "array [R,G,B] 0-1 - لون الحدود",
-      "strokeDash": "number 0-100 - طول الشرطة",
-      "strokeGap": "number 0-100 - الفجوة",
-      "fillOpacity": "number 0-100 - شفافية التعبئة",
-      "fillColor": "array [R,G,B] 0-1 - لون التعبئة",
-      "trimStart": "number 0-100 - بداية القص",
-      "trimEnd": "number 0-100 - نهاية القص",
-      "trimOffset": "number -360 to 360 - إزاحة القص",
-      "pathOffset": "number - إزاحة المسار",
-      "applyTextColor": "boolean - تطبيق لون النص",
-      "textColor": "array [R,G,B] 0-1 - لون النص",
-      "lockBoxSize": "boolean - قفل الحجم"
-    }
-  },
-  "mix": {
-    "required": [
-      "name",
-      "category"
-    ],
-    "optional": [
-      "type",
-      "box"
-    ],
-    "description": "Mix presets contain nested type and/or box objects",
-    "structure": {
-      "type": "object - نفس هيكل values في type preset",
-      "box": "object - نفس هيكل values في box preset"
+      "paddingLeft": "number 0-500 - Left horizontal padding in pixels",
+      "paddingRight": "number 0-500 - Right horizontal padding in pixels",
+      "paddingTop": "number 0-500 - Top vertical padding in pixels",
+      "paddingBottom": "number 0-500 - Bottom vertical padding in pixels",
+      "use4Corners": "boolean - Toggle independent 4-corner mode",
+      "cornerRadius": "number 0-500 - Uniform corner radius in pixels",
+      "cornerTL": "number 0-500 - Top-Left corner radius in pixels",
+      "cornerTR": "number 0-500 - Top-Right corner radius in pixels",
+      "cornerBR": "number 0-500 - Bottom-Right corner radius in pixels",
+      "cornerBL": "number 0-500 - Bottom-Left corner radius in pixels",
+      "strokeWidth": "number 0-100 - Border stroke thickness in pixels",
+      "strokeOpacity": "number 0-100 - Border stroke opacity percentage",
+      "strokeColor": "array [R,G,B] 0-1 or hex string - Border stroke color",
+      "strokeDash": "number 0-100 - Dashed pattern stroke length in pixels",
+      "strokeGap": "number 0-100 - Gap between dashed stroke segments in pixels",
+      "fillOpacity": "number 0-100 - Background fill opacity percentage",
+      "fillColor": "array [R,G,B] 0-1 or hex string - Background fill color",
+      "trimStart": "number 0-100 - Trim paths start percentage",
+      "trimEnd": "number 0-100 - Trim paths end percentage",
+      "trimOffset": "number -360 to 360 - Trim paths angular rotation offset in degrees",
+      "pathOffset": "number - Path expansion or contraction offset in pixels",
+      "lockBoxSize": "boolean - Lock dimensions from dynamic expression sizing",
+      "parentToText": "boolean - Parent box shape layer to text layer",
+      "autoResize": "boolean - Dynamic expression resizing to text source text changes",
+      "hideWhenEmpty": "boolean - Hide box shape layer when text document is empty"
     }
   },
   "motion": {
@@ -105,47 +108,38 @@
       "values"
     ],
     "values": {
-      "inStart": "number - بداية الدخول (ثواني)",
-      "inEnd": "number - نهاية الدخول (ثواني)",
-      "outEnable": "boolean - تفعيل الخروج",
-      "outStart": "number - بداية الخروج (ثواني)",
-      "outEnd": "number - نهاية الخروج (ثواني)",
-      "syncMode": "number 0|1 - وضع المزامنة",
-      "animatePosition": "boolean - تفعيل حركة الموقع",
-      "posFromX": "number -500 to 500 - إزاحة X البدائية",
-      "posFromY": "number -500 to 500 - إزاحة Y البدائية",
-      "posToX": "number -500 to 500 - إزاحة X النهائية",
-      "posToY": "number -500 to 500 - إزاحة Y النهائية",
-      "posOutFromX": "number - إزاحة X بداية الخروج",
-      "posOutFromY": "number - إزاحة Y بداية الخروج",
-      "posOutToX": "number - إزاحة X نهاية الخروج",
-      "posOutToY": "number - إزاحة Y نهاية الخروج",
-      "animateScale": "boolean - تفعيل حركة الحجم",
-      "scaleFrom": "number 0-200 - الحجم البدائي %",
-      "scaleTo": "number 0-200 - الحجم النهائي %",
-      "scaleOutFrom": "number - حجم بداية الخروج",
-      "scaleOutTo": "number - حجم نهاية الخروج",
-      "animateRotation": "boolean - تفعيل حركة الدوران",
-      "rotFrom": "number -360 to 360 - الدوران البدائي",
-      "rotTo": "number -360 to 360 - الدوران النهائي",
-      "rotOutFrom": "number - دوران بداية الخروج",
-      "rotOutTo": "number - دوران نهاية الخروج",
-      "animateOpacity": "boolean - تفعيل حركة الشفافية",
-      "opacityFrom": "number 0-100 - الشفافية البدائية",
-      "opacityTo": "number 0-100 - الشفافية النهائية",
-      "opacityOutFrom": "number - شفافية بداية الخروج",
-      "opacityOutTo": "number - شفافية نهاية الخروج",
-      "easingType": "number 0-6 - نوع التسهيل",
-      "easingStrength": "number 0-200 - قوة التسهيل"
-    },
-    "easingTypes": {
-      "0": "Linear - خطي",
-      "1": "Ease Out - تباطؤ في النهاية",
-      "2": "Ease In - تباطؤ في البداية",
-      "3": "Ease In Out - تباطؤ في البداية والنهاية",
-      "4": "Bounce - ارتداد",
-      "5": "Elastic - مرن",
-      "6": "Spring - زنبركي"
+      "inStart": "number - IN animation start offset in seconds",
+      "inEnd": "number - IN animation duration in seconds",
+      "outEnable": "boolean - Enable OUT reverse transition",
+      "outStart": "number - OUT animation start offset in seconds",
+      "outEnd": "number - OUT animation completion in seconds",
+      "syncMode": "number 0|1 - 0: Manual timeline, 1: Sync with layer markers",
+      "animatePosition": "boolean - Enable 2D spatial trajectory animation",
+      "posFromX": "number - Horizontal start offset in pixels",
+      "posFromY": "number - Vertical start offset in pixels",
+      "posToX": "number - Horizontal target offset in pixels",
+      "posToY": "number - Vertical target offset in pixels",
+      "posOutFromX": "number - OUT transition horizontal start offset in pixels",
+      "posOutFromY": "number - OUT transition vertical start offset in pixels",
+      "posOutToX": "number - OUT transition horizontal target offset in pixels",
+      "posOutToY": "number - OUT transition vertical target offset in pixels",
+      "animateScale": "boolean - Enable dimensional scale animation",
+      "scaleFrom": "number - Initial scale percentage",
+      "scaleTo": "number - Target scale percentage",
+      "scaleOutFrom": "number - OUT transition initial scale percentage",
+      "scaleOutTo": "number - OUT transition target scale percentage",
+      "animateRotation": "boolean - Enable angular rotation animation",
+      "rotFrom": "number - Initial rotation angle in degrees",
+      "rotTo": "number - Target rotation angle in degrees",
+      "rotOutFrom": "number - OUT transition initial rotation angle in degrees",
+      "rotOutTo": "number - OUT transition target rotation angle in degrees",
+      "animateOpacity": "boolean - Enable alpha transparency animation",
+      "opacityFrom": "number 0-100 - Initial opacity percentage",
+      "opacityTo": "number 0-100 - Target opacity percentage",
+      "opacityOutFrom": "number 0-100 - OUT transition initial opacity percentage",
+      "opacityOutTo": "number 0-100 - OUT transition target opacity percentage",
+      "easingType": "number 0-7 - 0: Linear, 1: Ease Out, 2: Ease In, 3: Ease In-Out, 4: Bounce, 5: Elastic, 6: Spring, 7: Spring Physics ODE",
+      "easingStrength": "number 0-200 - Mathematical curve power percentage"
     }
   },
   "compound": {
@@ -154,11 +148,10 @@
       "category",
       "values"
     ],
-    "description": "Compound presets (Type + Box, or Type + Motion)",
-    "values": {
-      "type": "object - Typewriter preset values",
-      "box": "object - Box preset values",
-      "motion": "object - Motion preset values (optional)"
+    "description": "Compound style combining both Typewriter and Box styling",
+    "structure": {
+      "type": "object - Valid Typewriter preset values object",
+      "box": "object - Valid Box preset values object"
     }
   },
   "templates": {
@@ -167,11 +160,11 @@
       "category",
       "values"
     ],
-    "description": "Complete templates suite (Type + Box + Motion)",
-    "values": {
-      "type": "object - Typewriter preset values",
-      "box": "object - Box preset values",
-      "motion": "object - Motion preset values"
+    "description": "Complete templates combining Typewriter, Box, and Motion dynamics",
+    "structure": {
+      "type": "object - Valid Typewriter preset values object",
+      "box": "object - Valid Box preset values object",
+      "motion": "object - Valid Motion preset values object"
     }
   }
 }

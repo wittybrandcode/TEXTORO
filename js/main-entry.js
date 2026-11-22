@@ -32,23 +32,37 @@
         if (TEXTORO.State && TEXTORO.State.SelectionMonitor) {
             TEXTORO.State.SelectionMonitor.start();
             
-            // ربط Soga بتغيير التحديد
+            // Selection change handlers across panels
             TEXTORO.State.SelectionMonitor.onChange(function(data) {
-                // تحديث Soga فقط إذا كان التبويب نشطاً
+                // Sync Typewriter panel if active
+                if (TEXTORO.UI.TabManager && TEXTORO.UI.TabManager.isActive('type')) {
+                    if (TEXTORO.Panels && TEXTORO.Panels.Typewriter && typeof TEXTORO.Panels.Typewriter.syncFromLayer === 'function') {
+                        TEXTORO.Panels.Typewriter.syncFromLayer();
+                    }
+                }
+
+                // Sync Box panel if active
+                if (TEXTORO.UI.TabManager && TEXTORO.UI.TabManager.isActive('box')) {
+                    if (TEXTORO.Panels && TEXTORO.Panels.Box && typeof TEXTORO.Panels.Box.syncFromLayer === 'function') {
+                        TEXTORO.Panels.Box.syncFromLayer();
+                    }
+                }
+
+                // Update Soga panel if active
                 if (TEXTORO.UI.TabManager && TEXTORO.UI.TabManager.isActive('soga')) {
                     if (TEXTORO.Panels && TEXTORO.Panels.Soga) {
                         TEXTORO.Panels.Soga.refresh();
                     }
                 }
                 
-                // F-01: تحديث عدد الطبقات للوحة Motion إذا كان التبويب نشطاً
+                // Update Motion layer count if active
                 if (TEXTORO.UI.TabManager && TEXTORO.UI.TabManager.isActive('motion')) {
                     if (TEXTORO.Panels && TEXTORO.Panels.Motion && typeof TEXTORO.Panels.Motion.updateLayerCount === 'function') {
                         TEXTORO.Panels.Motion.updateLayerCount();
                     }
                 }
 
-                // F-12: إعادة مزامنة FPS عند تغير التحديد (قد يعني تغيّر كومب)
+                // Resync FPS when selection changes
                 syncCompFPS(false);
             });
 

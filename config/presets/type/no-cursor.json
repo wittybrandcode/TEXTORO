@@ -4,7 +4,6 @@
   "category": "type",
   "description": "Typewriter text reveal without cursor",
   "builtin": true,
-  "icon": "👁️",
   "values": {
     "twAuto": true,
     "twReverse": false,
@@ -35,5 +34,6 @@
     "outEnd": 6,
     "blinkStart": 0,
     "blinkEnd": 0
-  }
+  },
+  "faIcon": "ph-bold ph-text-aa"
 }

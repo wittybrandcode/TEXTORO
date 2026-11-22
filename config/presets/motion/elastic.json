@@ -4,7 +4,6 @@
   "category": "motion",
   "description": "Elastic harmonic oscillation with overshoot",
   "builtin": true,
-  "icon": "🪢",
   "faIcon": "ph-bold ph-wave-sine",
   "values": {
     "inStart": 0,

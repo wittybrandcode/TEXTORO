@@ -4,7 +4,6 @@
   "category": "motion",
   "description": "Drop from top with gravitational bounce",
   "builtin": true,
-  "icon": "⬇️",
   "faIcon": "ph-bold ph-arrow-fat-line-down",
   "values": {
     "inStart": 0,

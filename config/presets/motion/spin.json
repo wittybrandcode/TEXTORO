@@ -4,8 +4,7 @@
   "category": "motion",
   "description": "Full 360 continuous spin rotation",
   "builtin": true,
-  "icon": "🔄",
-  "faIcon": "ph-bold ph-arrows-clockwise",
+  "faIcon": "ph-bold ph-arrows-counter-clockwise",
   "values": {
     "inStart": 0,
     "inEnd": 0.6,

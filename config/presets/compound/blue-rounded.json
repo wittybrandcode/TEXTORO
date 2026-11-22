@@ -4,7 +4,6 @@
   "category": "compound",
   "description": "Rounded blue box with styled typography",
   "builtin": true,
-  "icon": "🔵",
   "values": {
     "type": {
       "twAuto": true,
@@ -69,5 +68,6 @@
       "pathOffset": 0,
       "lockBoxSize": false
     }
-  }
+  },
+  "faIcon": "ph-bold ph-stack"
 }

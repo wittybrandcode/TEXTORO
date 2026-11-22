@@ -4,7 +4,6 @@
   "category": "motion",
   "description": "Leftward motion with directional entry and exit",
   "builtin": true,
-  "icon": "⬅️",
   "faIcon": "ph-bold ph-arrow-left",
   "values": {
     "inStart": 0,

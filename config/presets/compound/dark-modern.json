@@ -4,7 +4,6 @@
   "category": "compound",
   "description": "Modern dark theme with smooth motion",
   "builtin": true,
-  "icon": "🖤",
   "values": {
     "type": {
       "twAuto": true,
@@ -69,5 +68,6 @@
       "pathOffset": 0,
       "lockBoxSize": false
     }
-  }
+  },
+  "faIcon": "ph-bold ph-sparkle"
 }

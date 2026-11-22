@@ -209,7 +209,7 @@
 .preset-motion-icon-wrap {
     width: 28px !important;
     height: 28px !important;
-    border-radius: 50% !important;
+    border-radius: 0 !important; /* Zero-Radius Industrial Kinematic Wafer */
     border: 1.5px solid rgba(255, 255, 255, 0.14) !important;
     background: rgba(255, 255, 255, 0.03) !important;
     display: flex !important;
@@ -237,7 +237,7 @@
     position: absolute !important;
     width: 9px !important;
     height: 9px !important;
-    border-radius: 50% !important;
+    border-radius: 0 !important; /* Zero-Radius Industrial Kinematic Wafer */
     background: #ffffff !important;
     box-shadow: 0 0 10px rgba(16, 185, 129, 0.95), 0 0 3px #ffffff !important;
     opacity: 0 !important;

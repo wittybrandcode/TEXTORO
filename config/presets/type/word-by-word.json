@@ -4,7 +4,6 @@
   "category": "type",
   "description": "Word-by-word discrete text reveal",
   "builtin": true,
-  "icon": "📝",
   "values": {
     "twAuto": true,
     "twReverse": false,
@@ -35,5 +34,6 @@
     "outEnd": 7,
     "blinkStart": 0,
     "blinkEnd": 0
-  }
+  },
+  "faIcon": "ph-bold ph-textbox"
 }

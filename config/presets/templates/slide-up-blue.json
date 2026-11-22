@@ -4,7 +4,6 @@
   "category": "templates",
   "description": "Slide up transition paired with blue box",
   "builtin": true,
-  "icon": "🐂",
   "values": {
     "type": {
       "twAuto": true,
@@ -107,5 +106,6 @@
       "easingType": 1,
       "easingStrength": 100
     }
-  }
+  },
+  "faIcon": "ph-bold ph-trend-up"
 }

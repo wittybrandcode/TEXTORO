@@ -4,7 +4,6 @@
   "category": "motion",
   "description": "Smooth cinematic opacity fade",
   "builtin": true,
-  "icon": "🌫️",
   "faIcon": "ph-bold ph-eye-slash",
   "values": {
     "inStart": 0,

@@ -4,7 +4,6 @@
   "category": "box",
   "description": "White stroke outline without fill",
   "builtin": true,
-  "icon": "⬜",
   "values": {
     "paddingLeft": 25,
     "paddingRight": 25,
@@ -36,5 +35,6 @@
     "trimOffset": 0,
     "pathOffset": 0,
     "lockBoxSize": false
-  }
+  },
+  "faIcon": "ph-bold ph-square"
 }

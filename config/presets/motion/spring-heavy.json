@@ -4,7 +4,6 @@
   "category": "motion",
   "description": "Heavy slam impact with high mass inertia",
   "builtin": true,
-  "icon": "🥊",
   "faIcon": "ph-bold ph-lightning",
   "values": {
     "inStart": 0,

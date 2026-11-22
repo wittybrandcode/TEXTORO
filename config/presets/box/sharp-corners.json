@@ -4,7 +4,6 @@
   "category": "box",
   "description": "Sharp rectangle background box",
   "builtin": true,
-  "icon": "🔲",
   "values": {
     "paddingLeft": 30,
     "paddingRight": 30,
@@ -36,5 +35,6 @@
     "trimOffset": 0,
     "pathOffset": 0,
     "lockBoxSize": false
-  }
+  },
+  "faIcon": "ph-bold ph-bounding-box"
 }

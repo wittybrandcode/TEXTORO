@@ -4,7 +4,6 @@
   "category": "motion",
   "description": "Agile iOS fluid spring with smooth settling",
   "builtin": true,
-  "icon": "🍏",
   "faIcon": "ph-bold ph-drop",
   "values": {
     "inStart": 0,

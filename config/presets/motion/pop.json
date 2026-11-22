@@ -4,8 +4,7 @@
   "category": "motion",
   "description": "Rapid pop scale with snappy spring recoil",
   "builtin": true,
-  "icon": "💥",
-  "faIcon": "ph-bold ph-sparkle",
+  "faIcon": "ph-bold ph-shooting-star",
   "values": {
     "inStart": 0,
     "inEnd": 0.6,

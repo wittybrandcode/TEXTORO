@@ -6,6 +6,32 @@ All notable changes to TEXTORO are documented in this file.
 
 ## [Unreleased]
 
+### 🏛️ Methodological Architecture Overhaul: Canonical Presets, Parametric Kinematics & Zero-Radius Arena — 2026-11-22
+- **Canonical Presets System Architecture & Directory Restructuring**:
+  - Standardized on 5 canonical technical roles: `type`, `box`, `motion`, `compound`, and `templates`.
+  - Upgraded `PresetManager.jsx` with `_ensurePresetsFolders` auto-migration, consolidating legacy fragmented folders (`toro`, `mix`, `motion-full`).
+  - Rewrote `config/presets/_schema.json` in professional technical English with full support for easing curve type 7 (Spring ODE).
+  - Sanitized all 32 presets in `config/presets/`: eliminated all legacy emoji `icon` properties and assigned standardized Phosphor Bold vector icons (`faIcon`).
+  - Synchronized the Presets filter SubBar in `index.html` with canonical categories and responsive counts.
+- **Parametric Kinematic Preview Engine (`PresetsPanel.js` & `panel-presets.css`)**:
+  - Replaced hardcoded string-matching CSS classes with a true mathematical kinematic vector simulation engine on hover.
+  - Dynamically computes trajectory displacements (`posFromX`, `posFromY`), scaling (`scaleFrom`, `scaleTo`), rotation (`rotFrom`, `rotTo`), opacity, and cubic-bezier easing curves directly from preset JSON values.
+  - Realistic shape styling in `applyBoxStyles`: true dashed borders for outline styles, accurate 4-corner radii, and proportional text boxes.
+  - High-fidelity Typewriter preview: word-by-word and character reveals with exact cursor glyph representation (`|`, `_`, `█`, `▌`, `▎`, `●`, `◆`, custom) and synchronized blinking.
+  - Elevated card geometry in `panel-presets.css`: spacious 136px cards with 102px preview stages, eliminating squishing and content clipping.
+- **Motion Arena Elevation & Zero-Radius Compliance (`panel-motion.css`)**:
+  - Refactored `.motion-preset-btn` into spacious 68x68px square cards with crisp industrial borders.
+  - Replaced circular `.preset-motion-disc` with a 12x12px rectangular industrial kinematic wafer, restoring 100% `border-radius: 0 !important` compliance.
+  - Replaced emoji pills in `index.html` physics tuning with crisp Phosphor Bold vector icons (`ph-drop`, `ph-basketball`, `ph-lightning`, `ph-wave-sine`, `ph-magnet`, `ph-wind`).
+- **Live 2-Way Selection Monitoring Integration (`main-entry.js`)**:
+  - Connected `SelectionMonitor.onChange` directly to `Typewriter.syncFromLayer()` and `Box.syncFromLayer()`, enabling real-time UI population upon AE layer clicks without requiring manual tab switches.
+- **Language Hygiene & Localization Architecture**:
+  - Enforced `lang="en"` across `index.html`, replaced hardcoded Arabic literals in `SogaPanel.js` with `'No Selection'`, and sanitized all residual UI emojis.
+  - Introduced lightweight `TEXTORO.I18n` localization module (`js/core/I18n.js`) with default technical English dictionary (`config/i18n/en.json`).
+- **Verification & CEP Mirroring**:
+  - Passed all 13 automated smoke validation checks (100% pass rate).
+  - Compiled modular CSS and mirrored all changes to the active Adobe CEP directory.
+
 ### ⚡ Live 2-Way Property Binding, Active Layer Synchronization & Robust Controls — 2026-11-22
 - **Live 2-Way Property Binding for Typewriter & Box Panels**:
   - Bound all 40+ controls in Typewriter (`#panel-type`) and Box (`#panel-box`) panels to update active After Effects layers live with debounced execution (`150ms` for sliders/inputs, `50ms` for toggles/dropdowns).

@@ -4,7 +4,6 @@
   "category": "type",
   "description": "High speed snappy typewriter animation",
   "builtin": true,
-  "icon": "⚡",
   "values": {
     "twAuto": true,
     "twReverse": false,
@@ -35,5 +34,6 @@
     "outEnd": 4.5,
     "blinkStart": 0,
     "blinkEnd": 5
-  }
+  },
+  "faIcon": "ph-bold ph-lightning"
 }

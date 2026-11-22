@@ -264,12 +264,12 @@ TEXTORO.Panels.Presets = (function() {
                 break;
             case 'category':
                 sorted.sort(function(a, b) {
-                    var catOrder = TEXTORO.Config.PRESET_CATEGORIES;
+                    var catOrder = ['type', 'box', 'motion', 'compound', 'templates'];
                     var aNorm = (a.category === 'toro') ? 'templates' : (a.category === 'mix' ? 'compound' : (a.category === 'motion-full' ? 'motion' : a.category));
                     var bNorm = (b.category === 'toro') ? 'templates' : (b.category === 'mix' ? 'compound' : (b.category === 'motion-full' ? 'motion' : b.category));
                     var aIdx = catOrder.indexOf(aNorm);
                     var bIdx = catOrder.indexOf(bNorm);
-                    if (aIdx !== bIdx) return aIdx - bIdx;
+                    if (aIdx !== -1 && bIdx !== -1 && aIdx !== bIdx) return aIdx - bIdx;
                     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
                 });
                 break;
@@ -401,7 +401,7 @@ TEXTORO.Panels.Presets = (function() {
     }
 
     /**
-     * Helper to apply real box styling to preview shape
+     * Helper to apply realistic box styling to preview shape
      */
     function applyBoxStyles(el, vals) {
         if (!vals) return;
@@ -410,38 +410,98 @@ TEXTORO.Panels.Presets = (function() {
         
         el.style.backgroundColor = (fillOp <= 0.02) ? 'transparent' : 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + fillOp + ')';
         
-        var rad = (vals.cornerRadius != null) ? vals.cornerRadius : 0;
-        if (rad === 0) {
-            el.style.borderRadius = '0px';
-        } else if (rad >= 20) {
-            el.style.borderRadius = '16px';
+        if (vals.use4Corners) {
+            var tl = vals.cornerTL != null ? Math.min(vals.cornerTL, 18) : 0;
+            var tr = vals.cornerTR != null ? Math.min(vals.cornerTR, 18) : 0;
+            var br = vals.cornerBR != null ? Math.min(vals.cornerBR, 18) : 0;
+            var bl = vals.cornerBL != null ? Math.min(vals.cornerBL, 18) : 0;
+            el.style.borderRadius = tl + 'px ' + tr + 'px ' + br + 'px ' + bl + 'px';
         } else {
-            el.style.borderRadius = Math.min(rad, 10) + 'px';
+            var rad = vals.cornerRadius != null ? Math.min(vals.cornerRadius, 18) : 0;
+            el.style.borderRadius = rad + 'px';
         }
         
         var sWidth = vals.strokeWidth || 0;
         var sOp = (vals.strokeOpacity != null) ? (vals.strokeOpacity / 100) : 1;
         if (sWidth > 0 && sOp > 0.05) {
             var sRgb = parsePresetColor(vals.strokeColor, 255, 255, 255);
-            el.style.border = Math.min(Math.max(sWidth, 1.5), 2.5) + 'px solid rgba(' + sRgb[0] + ',' + sRgb[1] + ',' + sRgb[2] + ',' + sOp + ')';
+            var sStyle = (vals.strokeDash && vals.strokeDash > 0) ? 'dashed' : 'solid';
+            el.style.border = Math.min(Math.max(sWidth, 1.5), 3) + 'px ' + sStyle + ' rgba(' + sRgb[0] + ',' + sRgb[1] + ',' + sRgb[2] + ',' + sOp + ')';
         } else {
-            el.style.border = (fillOp <= 0.02) ? '1.5px solid rgba(255, 255, 255, 0.4)' : 'none';
+            el.style.border = (fillOp <= 0.02) ? '1.5px dashed rgba(255, 255, 255, 0.35)' : 'none';
         }
     }
 
     /**
-     * Determine animation keyframe class for motion presets
+     * Compute true kinematic motion parameters directly from preset values
      */
-    function getMotionPreviewClass(preset) {
-        var raw = String(preset.id || preset.fileName || preset.name || '').toLowerCase();
-        if (raw.indexOf('bounce') !== -1 || raw.indexOf('pop') !== -1) return 'bounce';
-        if (raw.indexOf('slide') !== -1 || raw.indexOf('up') !== -1 || raw.indexOf('down') !== -1 || raw.indexOf('rise') !== -1) return 'slide-up';
-        if (raw.indexOf('spin') !== -1 || raw.indexOf('zoom') !== -1 || raw.indexOf('flip') !== -1) return 'spin-zoom';
-        return 'bounce';
+    function getMotionKinematics(vals) {
+        vals = vals || {};
+        var fromX = 0;
+        var fromY = 0;
+        var fromScale = 1;
+        var fromRot = 0;
+        var fromOp = 1;
+        var duration = (vals.inEnd && vals.inEnd > 0) ? Math.min(Math.max(vals.inEnd, 0.45), 1.1) : 0.75;
+        var ease = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
+        if (vals.animatePosition) {
+            fromX = (vals.posFromX != null) ? Math.max(-100, Math.min(100, vals.posFromX)) : 0;
+            fromY = (vals.posFromY != null) ? Math.max(-60, Math.min(60, vals.posFromY)) : 0;
+        }
+        if (vals.animateScale) {
+            fromScale = (vals.scaleFrom != null) ? (vals.scaleFrom / 100) : 1;
+        }
+        if (vals.animateRotation) {
+            fromRot = (vals.rotFrom != null) ? vals.rotFrom : 0;
+        }
+        if (vals.animateOpacity) {
+            fromOp = (vals.opacityFrom != null) ? (vals.opacityFrom / 100) : 1;
+        }
+
+        var eType = vals.easingType != null ? vals.easingType : 1;
+        switch (eType) {
+            case 0: ease = 'linear'; break;
+            case 1: ease = 'cubic-bezier(0.16, 1, 0.3, 1)'; break;
+            case 2: ease = 'cubic-bezier(0.7, 0, 0.84, 0)'; break;
+            case 3: ease = 'cubic-bezier(0.65, 0, 0.35, 1)'; break;
+            case 4: ease = 'cubic-bezier(0.34, 1.56, 0.64, 1)'; break;
+            case 5: ease = 'cubic-bezier(0.175, 0.885, 0.32, 1.35)'; break;
+            case 6: ease = 'cubic-bezier(0.25, 1.3, 0.5, 1)'; break;
+            case 7: ease = 'cubic-bezier(0.18, 1.45, 0.38, 1)'; break;
+            default: ease = 'cubic-bezier(0.16, 1, 0.3, 1)'; break;
+        }
+
+        return {
+            fromX: fromX,
+            fromY: fromY,
+            fromScale: fromScale,
+            fromRot: fromRot,
+            fromOp: fromOp,
+            duration: duration,
+            ease: ease
+        };
     }
 
     /**
-     * Build realistic live preview window stage
+     * Map cursor type number to visual glyph
+     */
+    function getCursorGlyph(type, customChar) {
+        if (type === -1 || type === 'custom') return customChar || '▶';
+        var map = {
+            0: '|',
+            1: '_',
+            2: '█',
+            3: '▌',
+            4: '▎',
+            5: '●',
+            6: '◆'
+        };
+        return map[type] || '|';
+    }
+
+    /**
+     * Build realistic live preview window stage with parametric dynamics
      */
     function buildPresetPreview(preset, onHover) {
         var stage = document.createElement('div');
@@ -476,10 +536,9 @@ TEXTORO.Panels.Presets = (function() {
             
             if (vals.showCursor !== false) {
                 var cursorEl = document.createElement('span');
-                var cType = vals.cursorType || 0;
-                var cursorChar = (cType === 1) ? '_' : ((cType === 2) ? '█' : '|');
+                var cGlyph = getCursorGlyph(vals.cursorType, vals.customCursor);
                 cursorEl.className = 'preview-cursor';
-                cursorEl.textContent = cursorChar;
+                cursorEl.textContent = cGlyph;
                 twWrap.appendChild(cursorEl);
             }
             
@@ -513,10 +572,9 @@ TEXTORO.Panels.Presets = (function() {
             
             if (typeVals.showCursor !== false) {
                 var cursorEl = document.createElement('span');
-                var cType = typeVals.cursorType || 0;
-                var cursorChar = (cType === 1) ? '_' : ((cType === 2) ? '█' : '|');
+                var cGlyph = getCursorGlyph(typeVals.cursorType, typeVals.customCursor);
                 cursorEl.className = 'preview-cursor';
-                cursorEl.textContent = cursorChar;
+                cursorEl.textContent = cGlyph;
                 twWrap.appendChild(cursorEl);
             }
             
@@ -531,9 +589,9 @@ TEXTORO.Panels.Presets = (function() {
                 stopTypewriterHover(textEl, fullText);
             };
         } else if (cat === 'motion') {
+            var k = getMotionKinematics(vals);
             var motionWrap = document.createElement('div');
-            var mKey = getMotionPreviewClass(preset);
-            motionWrap.className = 'preview-motion-wrap anim-' + mKey;
+            motionWrap.className = 'preview-motion-wrap';
             
             var textEl = document.createElement('span');
             textEl.className = 'preview-motion-text';
@@ -541,12 +599,32 @@ TEXTORO.Panels.Presets = (function() {
             motionWrap.appendChild(textEl);
             
             stage.appendChild(motionWrap);
+
+            onHover.enter = function() {
+                motionWrap.style.transition = 'none';
+                motionWrap.style.transform = 'translate(' + k.fromX + 'px, ' + k.fromY + 'px) scale(' + k.fromScale + ') rotate(' + k.fromRot + 'deg)';
+                motionWrap.style.opacity = k.fromOp;
+                
+                requestAnimationFrame(function() {
+                    motionWrap.style.transition = 'transform ' + k.duration + 's ' + k.ease + ', opacity ' + k.duration + 's ease-out';
+                    motionWrap.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+                    motionWrap.style.opacity = '1';
+                });
+            };
+
+            onHover.leave = function() {
+                motionWrap.style.transition = 'transform 0.25s ease-out, opacity 0.25s ease-out';
+                motionWrap.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+                motionWrap.style.opacity = '1';
+            };
         } else if (cat === 'templates') {
             var boxVals = vals.box || {};
             var typeVals = vals.type || {};
+            var motVals = vals.motion || {};
+            var k = getMotionKinematics(motVals);
             
             var motionWrap = document.createElement('div');
-            motionWrap.className = 'preview-motion-wrap anim-toro';
+            motionWrap.className = 'preview-motion-wrap';
             
             var boxEl = document.createElement('div');
             boxEl.className = 'preview-box-shape';
@@ -562,8 +640,9 @@ TEXTORO.Panels.Presets = (function() {
             
             if (typeVals.showCursor !== false) {
                 var cursorEl = document.createElement('span');
+                var cGlyph = getCursorGlyph(typeVals.cursorType, typeVals.customCursor);
                 cursorEl.className = 'preview-cursor';
-                cursorEl.textContent = '|';
+                cursorEl.textContent = cGlyph;
                 boxEl.appendChild(cursorEl);
             }
             
@@ -572,9 +651,23 @@ TEXTORO.Panels.Presets = (function() {
             
             onHover.enter = function() {
                 playTypewriterHover(textEl, fullText, isWordMode, 50);
+                
+                motionWrap.style.transition = 'none';
+                motionWrap.style.transform = 'translate(' + k.fromX + 'px, ' + k.fromY + 'px) scale(' + k.fromScale + ') rotate(' + k.fromRot + 'deg)';
+                motionWrap.style.opacity = k.fromOp;
+                
+                requestAnimationFrame(function() {
+                    motionWrap.style.transition = 'transform ' + k.duration + 's ' + k.ease + ', opacity ' + k.duration + 's ease-out';
+                    motionWrap.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+                    motionWrap.style.opacity = '1';
+                });
             };
+
             onHover.leave = function() {
                 stopTypewriterHover(textEl, fullText);
+                motionWrap.style.transition = 'transform 0.25s ease-out, opacity 0.25s ease-out';
+                motionWrap.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+                motionWrap.style.opacity = '1';
             };
         } else {
             var genericText = document.createElement('span');
@@ -586,9 +679,6 @@ TEXTORO.Panels.Presets = (function() {
         return stage;
     }
 
-    /**
-     * إنشاء عنصر بريست (بطاقة معاينة واقعية ممتدة مع شريط الاسم والنوع)
-     */
     function createPresetItem(preset) {
         var item = document.createElement('div');
         item.className = 'preset-item' + (preset.builtin ? ' builtin' : '');

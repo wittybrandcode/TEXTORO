@@ -4,7 +4,6 @@
   "category": "motion",
   "description": "Upward motion with directional transition",
   "builtin": true,
-  "icon": "⬆️",
   "faIcon": "ph-bold ph-arrow-up",
   "values": {
     "inStart": 0,

@@ -150,7 +150,25 @@ function getPresetsPath() {
 function _ensurePresetsFolders(basePath) {
     var path = basePath + (basePath.slice(-1) === "/" ? "" : "/");
     
-    var folders = ["templates", "compound", "type", "box", "motion", "toro", "mix", "motion-full"];
+    var folders = ["type", "box", "motion", "compound", "templates"];
+    // Automatic migration from legacy folders if present
+    var legacyMap = { "toro": "templates", "mix": "compound", "motion-full": "motion" };
+    for (var leg in legacyMap) {
+        var oldDir = new Folder(path + leg + "/");
+        var targetDir = new Folder(path + legacyMap[leg] + "/");
+        if (oldDir.exists) {
+            try {
+                if (!targetDir.exists) targetDir.create();
+                var oldFiles = oldDir.getFiles("*.json");
+                for (var oi = 0; oi < oldFiles.length; oi++) {
+                    var of = oldFiles[oi];
+                    if (of.name !== "_index.json") {
+                        of.copy(targetDir.fsName + "/" + of.name);
+                    }
+                }
+            } catch(_eMig) {}
+        }
+    }
     for (var i = 0; i < folders.length; i++) {
         var f = new Folder(path + folders[i] + "/");
         if (!f.exists) f.create();
@@ -834,7 +852,7 @@ function savePreset(optsJSON) {
         
         var category = opts.category;
         var name = opts.name;
-        var icon = opts.icon || "📄";
+        var icon = opts.faIcon || opts.icon || "ph-bold ph-sparkle";
         var values = opts.values;
         
         if (!values) {
