@@ -747,7 +747,11 @@
                 <span class="p-label" title="Typewriter progress %"><i class="ph-bold ph-chart-line-up"></i></span>
                 <input type="number" id="sogaTwProgress" class="ni" value="0" step="1" min="0" max="100">
                 <span class="unit-tag">%</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <label class="studio-toggle-chip" title="Auto-animate based on markers">
                 <input type="checkbox" id="sogaTwAuto" checked>
                 <span class="chip-inner">
@@ -781,7 +785,11 @@
                 <span class="p-label" title="Random speed variation %"><i class="ph-bold ph-shuffle"></i></span>
                 <input type="number" id="sogaRandomSpeed" class="ni" value="0" step="5" min="0" max="100">
                 <span class="unit-tag">%</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <label class="studio-toggle-chip" title="Show/hide cursor">
                 <input type="checkbox" id="sogaShowCursor" checked>
                 <span class="chip-inner">
@@ -797,12 +805,20 @@
                 <span class="p-label" title="Cursor spacing (px)"><i class="ph-bold ph-arrows-horizontal"></i></span>
                 <input type="number" id="sogaCursorSpacing" class="ni" value="0" step="1" min="0">
                 <span class="unit-tag">px</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <div class="precision-input-box" title="Cursor blink speed (blinks per second)">
                 <span class="p-label" title="Cursor blink speed (Hz)"><i class="ph-bold ph-speedometer"></i></span>
                 <input type="number" id="sogaBlinkSpeed" class="ni" value="2" step="0.5" min="0.5">
                 <span class="unit-tag">Hz</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
         </div>
 
         <!-- Position/Direction Chips -->
@@ -863,7 +879,11 @@
                 <span class="p-label" title="Easing strength (0-100%)"><i class="ph-bold ph-lightning"></i></span>
                 <input type="number" id="sogaEasingStrength" class="ni" value="100" step="10" min="0" max="100">
                 <span class="unit-tag">%</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
         </div>
     </div>
 </div>
@@ -883,22 +903,38 @@
                 <span class="p-label" title="Left padding (px)"><i class="ph-bold ph-arrow-line-left"></i></span>
                 <input type="number" id="sogaPadL" class="ni" value="40" step="5" min="0">
                 <span class="unit-tag">px</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <div class="precision-input-box" title="Right padding (px)">
                 <span class="p-label" title="Right padding (px)"><i class="ph-bold ph-arrow-line-right"></i></span>
                 <input type="number" id="sogaPadR" class="ni" value="40" step="5" min="0">
                 <span class="unit-tag">px</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <div class="precision-input-box" title="Top padding (px)">
                 <span class="p-label" title="Top padding (px)"><i class="ph-bold ph-arrow-line-up"></i></span>
                 <input type="number" id="sogaPadT" class="ni" value="20" step="5" min="0">
                 <span class="unit-tag">px</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <div class="precision-input-box" title="Bottom padding (px)">
                 <span class="p-label" title="Bottom padding (px)"><i class="ph-bold ph-arrow-line-down"></i></span>
                 <input type="number" id="sogaPadB" class="ni" value="20" step="5" min="0">
                 <span class="unit-tag">px</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
         </div>
 
         <!-- Corner -->
@@ -908,29 +944,49 @@
                 <span class="p-label" title="Top-Left radius (px)"><i class="ph-bold ph-arrow-up-left"></i></span>
                 <input type="number" id="sogaCornerTL" class="ni" value="15" step="1" min="0">
                 <span class="unit-tag">px</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <div class="precision-input-box" title="Top-Right radius">
                 <span class="p-label" title="Top-Right radius (px)"><i class="ph-bold ph-arrow-up-right"></i></span>
                 <input type="number" id="sogaCornerTR" class="ni" value="15" step="1" min="0">
                 <span class="unit-tag">px</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <div class="precision-input-box" title="Bottom-Left radius">
                 <span class="p-label" title="Bottom-Left radius (px)"><i class="ph-bold ph-arrow-down-left"></i></span>
                 <input type="number" id="sogaCornerBL" class="ni" value="15" step="1" min="0">
                 <span class="unit-tag">px</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <div class="precision-input-box" title="Bottom-Right radius">
                 <span class="p-label" title="Bottom-Right radius (px)"><i class="ph-bold ph-arrow-down-right"></i></span>
                 <input type="number" id="sogaCornerBR" class="ni" value="15" step="1" min="0">
                 <span class="unit-tag">px</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
         </div>
         <div id="sogaSingleCornerRow" class="mb-6" style="display:none">
             <div class="precision-input-box" title="Uniform corner radius (px)">
                 <span class="p-label" title="Uniform corner radius (px)"><i class="ph-bold ph-corners-out"></i></span>
                 <input type="number" id="sogaCorner" class="ni" value="15" step="1" min="0">
                 <span class="unit-tag">px</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
         </div>
 
         <!-- Stroke -->
@@ -940,12 +996,20 @@
                 <span class="p-label" title="Stroke width (px)"><i class="ph-bold ph-ruler"></i></span>
                 <input type="number" id="sogaStrokeW" class="ni" value="2" step="1" min="0">
                 <span class="unit-tag">px</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <div class="precision-input-box" title="Stroke opacity %">
                 <span class="p-label" title="Stroke opacity (%)"><i class="ph-bold ph-drop"></i></span>
                 <input type="number" id="sogaStrokeOp" class="ni" value="100" step="5" min="0" max="100">
                 <span class="unit-tag">%</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <div class="precision-color-box" title="Choose stroke color">
                 <span class="p-label" title="Color"><i class="ph-bold ph-palette"></i></span>
                 <div class="color-picker-wrap">
@@ -959,12 +1023,20 @@
                 <span class="p-label" title="Dash length (px)"><i class="ph-bold ph-circle-dashed"></i></span>
                 <input type="number" id="sogaStrokeDash" class="ni" value="0" step="5" min="0">
                 <span class="unit-tag">px</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <div class="precision-input-box" title="Gap between dashes (px)">
                 <span class="p-label" title="Gap between dashes (px)"><i class="ph-bold ph-arrows-left-right"></i></span>
                 <input type="number" id="sogaStrokeGap" class="ni" value="0" step="5" min="0">
                 <span class="unit-tag">px</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
         </div>
 
         <!-- Fill & Size Lock -->
@@ -974,7 +1046,11 @@
                 <span class="p-label" title="Fill opacity (%)"><i class="ph-bold ph-drop"></i></span>
                 <input type="number" id="sogaFillOp" class="ni" value="100" step="5" min="0" max="100">
                 <span class="unit-tag">%</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <div class="precision-color-box" title="Choose fill color">
                 <span class="p-label" title="Color"><i class="ph-bold ph-palette"></i></span>
                 <div class="color-picker-wrap">
@@ -1011,24 +1087,40 @@
                 <span class="p-label">IN START</span>
                 <input type="number" id="sogaMotionInStart" class="ni" value="0" step="0.1" min="0">
                 <span class="unit-tag">s</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <div class="precision-input-box" title="IN End Time (s)">
                 <span class="p-label">IN END</span>
                 <input type="number" id="sogaMotionInEnd" class="ni" value="1" step="0.1" min="0">
                 <span class="unit-tag">s</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
         </div>
         <div class="metrics-grid-2 mb-6">
             <div class="precision-input-box" title="OUT Start Time (-1 = off)">
                 <span class="p-label">OUT START</span>
                 <input type="number" id="sogaMotionOutStart" class="ni" value="-1" step="0.1">
                 <span class="unit-tag">s</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             <div class="precision-input-box" title="OUT End Time (-1 = off)">
                 <span class="p-label">OUT END</span>
                 <input type="number" id="sogaMotionOutEnd" class="ni" value="-1" step="0.1">
                 <span class="unit-tag">s</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
         </div>
         <!-- Timing & Mode Row: Segmented IN/OUT Tabs + SYNC in ONE Line -->
         <div class="studio-row-split mb-6">
@@ -1085,19 +1177,35 @@
                 <div class="precision-input-box" title="Position IN From X">
                     <span class="p-label">FROM X</span>
                     <input type="number" id="sogaMotionPosFromX" class="ni" value="0" step="10">
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Position IN From Y">
                     <span class="p-label">FROM Y</span>
                     <input type="number" id="sogaMotionPosFromY" class="ni" value="0" step="10">
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Position IN To X">
                     <span class="p-label">TO X</span>
                     <input type="number" id="sogaMotionPosToX" class="ni" value="0" step="10">
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Position IN To Y">
                     <span class="p-label">TO Y</span>
                     <input type="number" id="sogaMotionPosToY" class="ni" value="0" step="10">
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             </div>
 
             <!-- Scale IN -->
@@ -1107,12 +1215,20 @@
                     <span class="p-label">FROM</span>
                     <input type="number" id="sogaMotionScaleFrom" class="ni" value="100" step="10" min="0">
                     <span class="unit-tag">%</span>
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Scale IN To %">
                     <span class="p-label">TO</span>
                     <input type="number" id="sogaMotionScaleTo" class="ni" value="100" step="10" min="0">
                     <span class="unit-tag">%</span>
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             </div>
 
             <!-- Rotation IN -->
@@ -1122,12 +1238,20 @@
                     <span class="p-label">FROM</span>
                     <input type="number" id="sogaMotionRotFrom" class="ni" value="0" step="15">
                     <span class="unit-tag">°</span>
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Rotation IN To °">
                     <span class="p-label">TO</span>
                     <input type="number" id="sogaMotionRotTo" class="ni" value="0" step="15">
                     <span class="unit-tag">°</span>
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             </div>
 
             <!-- Opacity IN -->
@@ -1137,12 +1261,20 @@
                     <span class="p-label">FROM</span>
                     <input type="number" id="sogaMotionOpacityFrom" class="ni" value="0" step="10" min="0" max="100">
                     <span class="unit-tag">%</span>
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Opacity IN To %">
                     <span class="p-label">TO</span>
                     <input type="number" id="sogaMotionOpacityTo" class="ni" value="100" step="10" min="0" max="100">
                     <span class="unit-tag">%</span>
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             </div>
         </div>
 
@@ -1154,19 +1286,35 @@
                 <div class="precision-input-box" title="Position OUT From X">
                     <span class="p-label">FROM X</span>
                     <input type="number" id="sogaMotionPosOutFromX" class="ni" value="0" step="10">
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Position OUT From Y">
                     <span class="p-label">FROM Y</span>
                     <input type="number" id="sogaMotionPosOutFromY" class="ni" value="0" step="10">
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Position OUT To X">
                     <span class="p-label">TO X</span>
                     <input type="number" id="sogaMotionPosOutToX" class="ni" value="0" step="10">
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Position OUT To Y">
                     <span class="p-label">TO Y</span>
                     <input type="number" id="sogaMotionPosOutToY" class="ni" value="0" step="10">
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             </div>
 
             <!-- Scale OUT -->
@@ -1176,12 +1324,20 @@
                     <span class="p-label">FROM</span>
                     <input type="number" id="sogaMotionScaleOutFrom" class="ni" value="100" step="10" min="0">
                     <span class="unit-tag">%</span>
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Scale OUT To %">
                     <span class="p-label">TO</span>
                     <input type="number" id="sogaMotionScaleOutTo" class="ni" value="100" step="10" min="0">
                     <span class="unit-tag">%</span>
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             </div>
 
             <!-- Rotation OUT -->
@@ -1191,12 +1347,20 @@
                     <span class="p-label">FROM</span>
                     <input type="number" id="sogaMotionRotOutFrom" class="ni" value="0" step="15">
                     <span class="unit-tag">°</span>
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Rotation OUT To °">
                     <span class="p-label">TO</span>
                     <input type="number" id="sogaMotionRotOutTo" class="ni" value="0" step="15">
                     <span class="unit-tag">°</span>
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             </div>
 
             <!-- Opacity OUT -->
@@ -1206,12 +1370,20 @@
                     <span class="p-label">FROM</span>
                     <input type="number" id="sogaMotionOpacityOutFrom" class="ni" value="100" step="10" min="0" max="100">
                     <span class="unit-tag">%</span>
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Opacity OUT To %">
                     <span class="p-label">TO</span>
                     <input type="number" id="sogaMotionOpacityOutTo" class="ni" value="0" step="10" min="0" max="100">
                     <span class="unit-tag">%</span>
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             </div>
         </div>
 
@@ -1235,7 +1407,11 @@
                 <span class="p-label">STR</span>
                 <input type="number" id="sogaMotionEasingStrength" class="ni" value="100" step="10" min="0" max="200">
                 <span class="unit-tag">%</span>
-            </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
         </div>
 
         <!-- Soga Live Physics Tuning Drawer -->
@@ -1244,22 +1420,38 @@
                 <div class="precision-input-box" title="Spring Stiffness / Tension">
                     <span class="p-label">TENSION</span>
                     <input type="number" id="sogaSpringStiffness" class="ni" value="180" step="10" min="10" max="800">
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Spring Damping / Friction">
                     <span class="p-label">FRICTION</span>
                     <input type="number" id="sogaSpringDamping" class="ni" value="18" step="1" min="2" max="100">
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             </div>
             <div class="metrics-grid-2" style="margin-top: 4px;">
                 <div class="precision-input-box" title="Element Mass">
                     <span class="p-label">MASS</span>
                     <input type="number" id="sogaSpringMass" class="ni" value="1.0" step="0.1" min="0.1" max="10.0">
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
                 <div class="precision-input-box" title="Initial Velocity Boost %">
                     <span class="p-label">BOOST</span>
                     <input type="number" id="sogaSpringVelocityBoost" class="ni" value="0" step="10" min="-500" max="500">
                     <span class="unit-tag">%</span>
-                </div>
+    <div class="stepper-actions">
+        <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+        <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+    </div>
+</div>
             </div>
         </div>
     </div>

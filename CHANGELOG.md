@@ -6,6 +6,15 @@ All notable changes to TEXTORO are documented in this file.
 
 ## [Unreleased]
 
+### 🎛️ Unified Studio Steppers & Browser Spin-Button Suppression Across All Inputs — 2026-11-22
+- **Global Browser Native Spin-Button Suppression**:
+  - Completely removed Chromium's default white `::-webkit-inner-spin-button` and `::-webkit-outer-spin-button` via CSS `-webkit-appearance: none !important; display: none !important;`.
+  - Fixed duplicate arrow clutter and number overlapping in hovered/focused inputs.
+- **100% Unified Studio Stepper Controls**:
+  - Enforced the elegant zero-radius dark stepper design (`.stepper-actions` with `.step-up` and `.step-down`) across all 110 number inputs in the extension.
+  - Added clean `.stepper-actions` markup directly into all 48 previously missing precision input boxes in `index.html`.
+  - Maintained smooth click, hold-to-ramp, and Shift+Click 10x acceleration.
+
 ### 🏷️ Pro-Grade Vector Icon Badges for Precision Inputs Across Panels — 2026-11-22
 - **Universal Phosphor Bold Icon Badges (`.p-label`)**:
   - Replaced clipped, truncated text labels (`PAD L`, `PAD R`, `C-TL`, `WIDTH`, `OPACITY`, `COLOR`, `DASH`, `IN S`, etc.) with crisp, intuitive Phosphor Bold vector icons across 50+ inputs in Typewriter, Box, and Control (Soga) panels.

@@ -53,6 +53,25 @@
     color: #ffffff !important;
 }
 
+
+/* ============================================================
+   GLOBAL NATIVE SPIN BUTTON SUPPRESSION
+   Completely removes Chromium/WebKit default white spin buttons
+   so only the elegant custom studio steppers (.stepper-actions) appear.
+   ============================================================ */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    margin: 0 !important;
+    display: none !important;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield !important;
+    appearance: textfield !important;
+}
+
 /* Numeric & Text Inputs */
 .precision-input-box input.ni,
 .precision-input-box input[type="number"],
