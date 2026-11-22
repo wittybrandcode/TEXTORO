@@ -41,27 +41,30 @@ TEXTORO.UI.TabManager = (function() {
             p.classList.remove('active');
         });
         
+        // Normalize alias for inspector / soga
+        var canonicalTab = (tabName === 'soga') ? 'inspector' : tabName;
+
         // إظهار التبويب المطلوب
-        var tab = document.querySelector('.tab[data-tab="' + tabName + '"]');
-        var panel = document.getElementById('panel-' + tabName);
+        var tab = document.querySelector('.tab[data-tab="' + canonicalTab + '"]') || document.querySelector('.tab[data-tab="' + tabName + '"]');
+        var panel = document.getElementById('panel-' + canonicalTab) || document.getElementById('panel-' + tabName) || document.getElementById('panel-inspector') || document.getElementById('panel-soga');
         
         if (tab) tab.classList.add('active');
         if (panel) panel.classList.add('active');
         
-        activeTab = tabName;
+        activeTab = canonicalTab;
         
         // حفظ الحالة
         if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') {
-            TEXTORO.State.Manager.set('activeTab', tabName);
+            TEXTORO.State.Manager.set('activeTab', canonicalTab);
         }
         
         // تحديث ActionBar
         if (TEXTORO.UI.ActionBar && TEXTORO.UI.ActionBar.update) {
-            TEXTORO.UI.ActionBar.update(tabName);
+            TEXTORO.UI.ActionBar.update(canonicalTab);
         }
         
         // تنفيذ إجراءات خاصة بالتبويب
-        onTabSwitch(tabName);
+        onTabSwitch(canonicalTab);
         
         // إشعار المستمعين
         callbacks.forEach(function(cb) {
@@ -197,6 +200,9 @@ TEXTORO.UI.TabManager = (function() {
      * @returns {boolean}
      */
     function isActive(tabName) {
+        if ((tabName === 'soga' || tabName === 'inspector') && (activeTab === 'soga' || activeTab === 'inspector')) {
+            return true;
+        }
         return activeTab === tabName;
     }
     

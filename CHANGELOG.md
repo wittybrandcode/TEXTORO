@@ -6,6 +6,12 @@ All notable changes to TEXTORO are documented in this file.
 
 ## [Unreleased]
 
+### 🔧 Fixed Inspector/Control Tab Switching Linkage — 2026-11-22
+- **Synchronized Tab Button & Panel DOM Linkage**:
+  - Aligned header tab button `data-tab="inspector"` with `<section id="panel-inspector">` in `index.html`.
+  - Added bi-directional alias normalization in `TabManager.switchTo()` and `TabManager.isActive()`, resolving both `inspector` and `soga` gracefully.
+  - Resolved panel display: guaranteed `.panel.active` (`display: block !important`) triggers reliably on click.
+
 ### 🏛️ Complete Technical Nomenclature Purge: Soga -> Inspector & Arena -> Motion Library — 2026-11-22
 - **Unified Layer Inspector Architecture (`Inspector`)**:
   - Fully purged all legacy `Soga` terminology across client and host ExtendScript layers.

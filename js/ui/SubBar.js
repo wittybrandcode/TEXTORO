@@ -234,7 +234,7 @@ TEXTORO.UI.SubBar = (function() {
         var btnExpand = document.getElementById('subSogaExpandAll');
         if (btnExpand) {
             btnExpand.addEventListener('click', function() {
-                var contents = document.querySelectorAll('#panel-soga .collapsible-content');
+                var contents = document.querySelectorAll('#panel-inspector .collapsible-content, #panel-soga .collapsible-content');
                 var anyHidden = Array.from(contents).some(function(c) { return c.style.display === 'none'; });
                 contents.forEach(function(c) {
                     c.style.display = anyHidden ? 'block' : 'none';
