@@ -233,14 +233,51 @@ function getLayerEffectValues() {
 
 function _readTypewriterValues(fx) {
     var d = _getDefaultsWithFallback("typewriter");
+    var layer = null;
+    try { layer = fx.propertyGroup(1); } catch(_eGrp) {}
+    
+    var currentText = "";
+    var customCursor = "";
+    var timing = { inStart: 2, inEnd: 3, outStart: 6, outEnd: 7, blinkStart: 1, blinkEnd: 10, noOut: false };
+
+    if (layer && layer instanceof TextLayer) {
+        try {
+            var doc = layer.property("ADBE Text Properties").property("ADBE Text Document").value;
+            currentText = doc.text || "";
+        } catch(_eDoc) {}
+
+        var markers = layer.property("Marker");
+        if (markers && markers.numKeys > 0) {
+            var inPoint = layer.inPoint;
+            var hasOutStart = false;
+            for (var m = 1; m <= markers.numKeys; m++) {
+                var mv = markers.keyValue(m);
+                var comm = mv.comment || "";
+                var relTime = Math.round((markers.keyTime(m) - inPoint) * 100) / 100;
+                if (comm === "IN_START") timing.inStart = relTime;
+                else if (comm === "IN_END") timing.inEnd = relTime;
+                else if (comm === "OUT_START") { timing.outStart = relTime; hasOutStart = true; }
+                else if (comm === "OUT_END") timing.outEnd = relTime;
+                else if (comm === "BLINK_START") timing.blinkStart = relTime;
+                else if (comm === "BLINK_END") timing.blinkEnd = relTime;
+                else if (comm.indexOf("CURSOR_CHAR:") === 0) customCursor = comm.substring("CURSOR_CHAR:".length);
+            }
+            if (!hasOutStart) timing.noOut = true;
+        }
+    }
+
     return {
+        text: currentText,
         twProgress: _getSliderValue(fx, "TW Progress", d["TW Progress"]),
         twAuto: _getCheckboxValue(fx, "TW Auto", d["TW Auto"]),
         twReverse: _getCheckboxValue(fx, "TW Reverse", d["TW Reverse"]),
         wordMode: _getCheckboxValue(fx, "Word Mode", d["Word Mode"]),
+        twWordByWord: _getCheckboxValue(fx, "Word Mode", d["Word Mode"]),
         randomSpeed: _getSliderValue(fx, "Random Speed", d["Random Speed"]),
         showCursor: _getCheckboxValue(fx, "Show Cursor", d["Show Cursor"]),
         cursorBefore: _getCheckboxValue(fx, "Cursor Before Text", d["Cursor Before Text"]),
+        cursorType: _getSliderValue(fx, "Cursor Type", 0),
+        customCursor: customCursor,
         cursorColor: _getColorValue(fx, "Cursor Color", d["Cursor Color"]),
         cursorSpacing: _getSliderValue(fx, "Cursor Spacing", d["Cursor Spacing"]),
         blinkSpeed: _getSliderValue(fx, "Blink Speed", d["Blink Speed"]),
@@ -249,7 +286,8 @@ function _readTypewriterValues(fx) {
         liveText: _getCheckboxValue(fx, "Live Text", d["Live Text"] !== false),
         textColor: _getColorValue(fx, "Text Color", d["Text Color"]),
         easingType: _getSliderValue(fx, "Easing Type", d["Easing Type"]),
-        easingStrength: _getSliderValue(fx, "Easing Strength", d["Easing Strength"])
+        easingStrength: _getSliderValue(fx, "Easing Strength", d["Easing Strength"]),
+        timing: timing
     };
 }
 
@@ -379,14 +417,46 @@ function setLayerEffectValues(optsJSON) {
     }
 }
 
+function _updateTypewriterTimingMarkers(layer, tw) {
+    if (!layer || !(layer instanceof TextLayer)) return;
+    var markers = layer.property("Marker");
+    if (!markers) return;
+    var inPoint = layer.inPoint;
+    var markerTypes = {
+        "IN_START": tw.inStart !== undefined ? (inPoint + tw.inStart) : null,
+        "IN_END": tw.inEnd !== undefined ? (inPoint + tw.inEnd) : null,
+        "OUT_START": (tw.noOut ? null : (tw.outStart !== undefined && tw.outStart >= 0 ? inPoint + tw.outStart : null)),
+        "OUT_END": (tw.noOut ? null : (tw.outEnd !== undefined && tw.outEnd >= 0 ? inPoint + tw.outEnd : null)),
+        "BLINK_START": tw.blinkStart !== undefined && tw.blinkStart >= 0 ? (inPoint + tw.blinkStart) : null,
+        "BLINK_END": tw.blinkEnd !== undefined && tw.blinkEnd >= 0 ? (inPoint + tw.blinkEnd) : null
+    };
+    var MARKER_LABELS = { "IN_START": 3, "IN_END": 3, "OUT_START": 1, "OUT_END": 1, "BLINK_START": 9, "BLINK_END": 9 };
+    for (var mType in markerTypes) {
+        var targetTime = markerTypes[mType];
+        for (var mi = markers.numKeys; mi >= 1; mi--) {
+            if (markers.keyValue(mi).comment === mType) {
+                markers.removeKey(mi);
+            }
+        }
+        if (targetTime !== null && targetTime >= 0) {
+            var mVal = new MarkerValue(mType);
+            mVal.label = MARKER_LABELS[mType] || 0;
+            markers.setValueAtTime(targetTime, mVal);
+        }
+    }
+}
+
 function _writeTypewriterValues(fx, tw) {
     if (tw.twProgress !== undefined) _setSliderValue(fx, "TW Progress", tw.twProgress);
     if (tw.twAuto !== undefined) _setCheckboxValue(fx, "TW Auto", tw.twAuto);
-    if (tw.twReverse !== undefined) _setCheckboxValue(fx, "TW Reverse", tw.twReverse);
-    if (tw.wordMode !== undefined) _setCheckboxValue(fx, "Word Mode", tw.wordMode);
+    var _rev = tw.twReverse !== undefined ? tw.twReverse : tw.reverse;
+    if (_rev !== undefined) _setCheckboxValue(fx, "TW Reverse", _rev);
+    var _wm = tw.wordMode !== undefined ? tw.wordMode : tw.twWordByWord;
+    if (_wm !== undefined) _setCheckboxValue(fx, "Word Mode", _wm);
     if (tw.randomSpeed !== undefined) _setSliderValue(fx, "Random Speed", tw.randomSpeed);
     if (tw.showCursor !== undefined) _setCheckboxValue(fx, "Show Cursor", tw.showCursor);
     if (tw.cursorBefore !== undefined) _setCheckboxValue(fx, "Cursor Before Text", tw.cursorBefore);
+    if (tw.cursorType !== undefined) _setSliderValue(fx, "Cursor Type", tw.cursorType);
     if (tw.cursorColor !== undefined) _setColorValue(fx, "Cursor Color", tw.cursorColor);
     if (tw.cursorSpacing !== undefined) _setSliderValue(fx, "Cursor Spacing", tw.cursorSpacing);
     if (tw.blinkSpeed !== undefined) _setSliderValue(fx, "Blink Speed", tw.blinkSpeed);
@@ -394,29 +464,65 @@ function _writeTypewriterValues(fx, tw) {
     if (tw.boxRTL !== undefined) _setCheckboxValue(fx, "Box RTL", tw.boxRTL);
     if (tw.liveText !== undefined) _setCheckboxValue(fx, "Live Text", tw.liveText);
     
-    // Text Color - معالجة خاصة
+    // Text Color
     if (tw.textColor !== undefined) {
         var textColorCtrl = findEffectControl(fx, "Text Color");
         if (textColorCtrl) {
-            // Effect Control موجود، نحدث القيمة فقط
             _setColorValue(fx, "Text Color", tw.textColor);
         } else {
-            // Effect Control غير موجود - نحتاج إنشاء Text Color مع Animator
-            // نحصل على الطبقة من fx
             try {
-                var layer = fx.propertyGroup(1); // الطبقة الأم
-                if (layer && layer instanceof TextLayer) {
-                    var animators = layer.property("ADBE Text Properties").property("ADBE Text Animators");
-                    _ensureTextColorAnimator(layer, animators, fx, tw.textColor);
+                var lytc = fx.propertyGroup(1);
+                if (lytc && lytc instanceof TextLayer) {
+                    var anims = lytc.property("ADBE Text Properties").property("ADBE Text Animators");
+                    _ensureTextColorAnimator(lytc, anims, fx, tw.textColor);
                 }
-            } catch(e) {
-                $.writeln("[TEXTORO] _writeTypewriterValues: Could not create Text Color animator: " + e.toString());
+            } catch(eTC) {
+                $.writeln("[TEXTORO] _writeTypewriterValues: Could not create Text Color animator: " + eTC.toString());
             }
         }
     }
     
     if (tw.easingType !== undefined) _setSliderValue(fx, "Easing Type", tw.easingType);
     if (tw.easingStrength !== undefined) _setSliderValue(fx, "Easing Strength", tw.easingStrength);
+
+    // Custom cursor char & Text & Timing Markers
+    try {
+        var layer = fx.propertyGroup(1);
+        if (layer && layer instanceof TextLayer) {
+            if (tw.cursorType === -1 && tw.customCursor !== undefined) {
+                var curMarkers = layer.property("Marker");
+                if (curMarkers) {
+                    var curFound = false;
+                    for (var ci = 1; ci <= curMarkers.numKeys; ci++) {
+                        var cmv = curMarkers.keyValue(ci);
+                        if (cmv.comment && cmv.comment.indexOf("CURSOR_CHAR:") === 0) {
+                            cmv.comment = "CURSOR_CHAR:" + tw.customCursor;
+                            curMarkers.setValueAtKey(ci, cmv);
+                            curFound = true;
+                            break;
+                        }
+                    }
+                    if (!curFound && tw.customCursor !== "") {
+                        var ncm = new MarkerValue("CURSOR_CHAR:" + tw.customCursor);
+                        ncm.label = 9;
+                        curMarkers.setValueAtTime(0.001, ncm);
+                    }
+                }
+            }
+            if (tw.customText !== undefined && tw.customText !== null) {
+                var textProp = layer.property("ADBE Text Properties").property("ADBE Text Document");
+                var curDoc = textProp.value;
+                if (curDoc.text !== tw.customText) {
+                    curDoc.text = tw.customText;
+                    textProp.setValue(curDoc);
+                    _updateTextMarker(layer.property("Marker"), tw.customText);
+                }
+            }
+            if (tw.inStart !== undefined && tw.inEnd !== undefined) {
+                _updateTypewriterTimingMarkers(layer, tw);
+            }
+        }
+    } catch(_eTwEx) {}
 }
 
 function _writeBoxValues(fx, bx) {
@@ -431,7 +537,13 @@ function _writeBoxValues(fx, bx) {
         if (bx.cornerBR !== undefined && bx.cornerBR !== null) _setSliderValue(fx, "Corner BR", bx.cornerBR);
         if (bx.cornerBL !== undefined && bx.cornerBL !== null) _setSliderValue(fx, "Corner BL", bx.cornerBL);
     } else {
-        if (bx.cornerRadius !== undefined && bx.cornerRadius !== null) _setSliderValue(fx, "Corner Radius", bx.cornerRadius);
+        if (bx.cornerRadius !== undefined && bx.cornerRadius !== null) {
+        _setSliderValue(fx, "Corner Radius", bx.cornerRadius);
+        _setSliderValue(fx, "Corner TL", bx.cornerRadius);
+        _setSliderValue(fx, "Corner TR", bx.cornerRadius);
+        _setSliderValue(fx, "Corner BR", bx.cornerRadius);
+        _setSliderValue(fx, "Corner BL", bx.cornerRadius);
+    }
     }
     
     if (bx.strokeWidth !== undefined) _setSliderValue(fx, "Stroke Width", bx.strokeWidth);
@@ -441,6 +553,10 @@ function _writeBoxValues(fx, bx) {
     if (bx.strokeGap !== undefined) _setSliderValue(fx, "Stroke Gap", bx.strokeGap);
     if (bx.fillOpacity !== undefined) _setSliderValue(fx, "Fill Opacity", bx.fillOpacity);
     if (bx.fillColor !== undefined) _setColorValue(fx, "Fill Color", bx.fillColor);
+    if (bx.trimStart !== undefined) _setSliderValue(fx, "Trim Start", bx.trimStart);
+    if (bx.trimEnd !== undefined) _setSliderValue(fx, "Trim End", bx.trimEnd);
+    if (bx.trimOffset !== undefined) _setSliderValue(fx, "Trim Offset", bx.trimOffset);
+    if (bx.pathOffset !== undefined) _setSliderValue(fx, "Path Offset", bx.pathOffset);
     if (bx.lockBoxSize !== undefined) _setCheckboxValue(fx, "Lock Box Size", bx.lockBoxSize);
 }
 

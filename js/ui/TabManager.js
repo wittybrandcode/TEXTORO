@@ -76,6 +76,24 @@ TEXTORO.UI.TabManager = (function() {
      */
     function onTabSwitch(tabName) {
         switch(tabName) {
+            case 'type':
+                if (TEXTORO.Panels && TEXTORO.Panels.Typewriter && TEXTORO.Panels.Typewriter.syncFromLayer) {
+                    TEXTORO.Panels.Typewriter.syncFromLayer();
+                }
+                if (TEXTORO.UI && TEXTORO.UI.SubBar && TEXTORO.UI.SubBar.syncTypewriter) {
+                    TEXTORO.UI.SubBar.syncTypewriter();
+                }
+                break;
+
+            case 'box':
+                if (TEXTORO.Panels && TEXTORO.Panels.Box && TEXTORO.Panels.Box.syncFromLayer) {
+                    TEXTORO.Panels.Box.syncFromLayer();
+                }
+                if (TEXTORO.UI && TEXTORO.UI.SubBar && TEXTORO.UI.SubBar.syncBox) {
+                    TEXTORO.UI.SubBar.syncBox();
+                }
+                break;
+
             case 'markers':
                 // تحديث جدول الـ markers
                 if (TEXTORO.Panels && TEXTORO.Panels.Markers) {

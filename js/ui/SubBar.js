@@ -125,9 +125,11 @@ TEXTORO.UI.SubBar = (function() {
         });
 
         bindToggle('subBox4Corners', 'chk4Corners', function() {
-            var row = document.getElementById('box4CornersRow');
+            var row = document.getElementById('fourCornersRow');
+            var single = document.getElementById('singleCornerRow');
             var chk = document.getElementById('chk4Corners');
-            if (row && chk) row.style.display = chk.checked ? 'grid' : 'none';
+            if (row && chk) row.style.display = chk.checked ? '' : 'none';
+            if (single && chk) single.style.display = chk.checked ? 'none' : '';
             if (TEXTORO.Panels.Box && TEXTORO.Panels.Box.update) TEXTORO.Panels.Box.update();
         });
 
@@ -137,7 +139,7 @@ TEXTORO.UI.SubBar = (function() {
 
         // Toggle Fill Visibility
         var btnFill = document.getElementById('subBoxToggleFill');
-        var fillOp = document.getElementById('boxFillOpacity');
+        var fillOp = document.getElementById('numFillOp');
         if (btnFill && fillOp) {
             btnFill.addEventListener('click', function() {
                 var cur = parseFloat(fillOp.value) || 0;
@@ -156,7 +158,7 @@ TEXTORO.UI.SubBar = (function() {
 
         // Toggle Stroke Visibility
         var btnStroke = document.getElementById('subBoxToggleStroke');
-        var strokeWidth = document.getElementById('boxStrokeWidth');
+        var strokeWidth = document.getElementById('numStrokeW');
         if (btnStroke && strokeWidth) {
             btnStroke.addEventListener('click', function() {
                 var cur = parseFloat(strokeWidth.value) || 0;
@@ -181,13 +183,13 @@ TEXTORO.UI.SubBar = (function() {
         syncBtnState('subBox4Corners', 'chk4Corners');
         syncBtnState('subBoxLockSize', 'chkLockSize');
 
-        var fillOp = document.getElementById('boxFillOpacity');
+        var fillOp = document.getElementById('numFillOp');
         var btnFill = document.getElementById('subBoxToggleFill');
         if (btnFill && fillOp) {
             btnFill.classList.toggle('active', (parseFloat(fillOp.value) || 0) > 0);
         }
 
-        var strokeWidth = document.getElementById('boxStrokeWidth');
+        var strokeWidth = document.getElementById('numStrokeW');
         var btnStroke = document.getElementById('subBoxToggleStroke');
         if (btnStroke && strokeWidth) {
             btnStroke.classList.toggle('active', (parseFloat(strokeWidth.value) || 0) > 0);

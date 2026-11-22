@@ -259,8 +259,9 @@ function getCompInfo() {
 function getSelectedTextLayer(comp) {
     var sel = comp.selectedLayers;
     if (sel.length === 0) return null;
-    if (!(sel[0] instanceof TextLayer)) return null;
-    return sel[0];
+    if (sel[0] instanceof TextLayer) return sel[0];
+    if (sel[0].parent && (sel[0].parent instanceof TextLayer)) return sel[0].parent;
+    return null;
 }
 
 /**
@@ -283,6 +284,13 @@ function getSelectedTextLayers(comp) {
     for (var i = 0; i < sel.length; i++) {
         if (sel[i] instanceof TextLayer) {
             textLayers.push(sel[i]);
+        } else if (sel[i].parent && (sel[i].parent instanceof TextLayer)) {
+            var p = sel[i].parent;
+            var found = false;
+            for (var j = 0; j < textLayers.length; j++) {
+                if (textLayers[j] === p) { found = true; break; }
+            }
+            if (!found) textLayers.push(p);
         }
     }
     return textLayers;

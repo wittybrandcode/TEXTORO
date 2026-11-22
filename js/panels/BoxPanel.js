@@ -1,7 +1,7 @@
 /**
  * TEXTORO - Box Panel Module
- * لوحة Box
- * @version 3.3.0
+ * Box Panel Controller with Live 2-Way Property Binding
+ * @version 3.4.0
  */
 
 TEXTORO.Panels = TEXTORO.Panels || {};
@@ -9,8 +9,11 @@ TEXTORO.Panels = TEXTORO.Panels || {};
 TEXTORO.Panels.Box = (function() {
     'use strict';
     
+    var _updateTimer = null;
+    var _isUpdatingFromHost = false;
+
     /**
-     * تهيئة اللوحة
+     * Initialize Box Panel
      */
     function init() {
         bindEvents();
@@ -18,7 +21,7 @@ TEXTORO.Panels.Box = (function() {
     }
     
     /**
-     * ربط الأحداث
+     * Bind UI Events & Live Edit Listeners
      */
     function bindEvents() {
         var chkAutoResize = document.getElementById('chkAutoResize');
@@ -43,7 +46,6 @@ TEXTORO.Panels.Box = (function() {
                 if (use4Corners) {
                     if (fourCornersRow) fourCornersRow.style.display = '';
                     if (singleCornerRow) singleCornerRow.style.display = 'none';
-                    // نسخ قيمة Radius إلى جميع الزوايا
                     var radiusEl = document.getElementById('numCorner');
                     var radiusVal = (radiusEl && radiusEl.value !== '') ? radiusEl.value : '15';
                     ['numCornerTL', 'numCornerTR', 'numCornerBL', 'numCornerBR'].forEach(function(id) {
@@ -56,20 +58,74 @@ TEXTORO.Panels.Box = (function() {
                 }
             });
         }
+
+        // Live input listeners for all numeric & checkbox controls
+        var liveControlIds = [
+            'numPadL', 'numPadR', 'numPadT', 'numPadB',
+            'chk4Corners', 'numCorner', 'numCornerTL', 'numCornerTR', 'numCornerBL', 'numCornerBR',
+            'numStrokeW', 'numStrokeOp', 'numStrokeDash', 'numStrokeGap',
+            'numFillOp', 'numTrimStart', 'numTrimEnd', 'numTrimOffset', 'numPathOffset',
+            'chkParentToText', 'chkAutoResize', 'chkHideEmpty', 'chkLockSize'
+        ];
+
+        liveControlIds.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+
+            el.addEventListener('input', function() {
+                if (_isUpdatingFromHost) return;
+                debouncedUpdate(150);
+                if (TEXTORO.UI && TEXTORO.UI.SubBar && TEXTORO.UI.SubBar.syncBox) {
+                    TEXTORO.UI.SubBar.syncBox();
+                }
+            });
+
+            el.addEventListener('change', function() {
+                if (_isUpdatingFromHost) return;
+                debouncedUpdate(50);
+                if (TEXTORO.UI && TEXTORO.UI.SubBar && TEXTORO.UI.SubBar.syncBox) {
+                    TEXTORO.UI.SubBar.syncBox();
+                }
+            });
+        });
+
+        // Color controls
+        ['colorStroke', 'colorFill'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+
+            function updateHexDisplay() {
+                var box = el.closest('.precision-color-box');
+                if (box) {
+                    var hexSpan = box.querySelector('.ci-hex-code');
+                    if (hexSpan) hexSpan.textContent = el.value.toUpperCase();
+                }
+            }
+
+            el.addEventListener('input', function() {
+                updateHexDisplay();
+                if (_isUpdatingFromHost) return;
+                debouncedUpdate(150);
+            });
+
+            el.addEventListener('change', function() {
+                updateHexDisplay();
+                if (_isUpdatingFromHost) return;
+                debouncedUpdate(50);
+            });
+        });
     }
     
     /**
-     * جمع القيم من الواجهة
+     * Collect Box values from DOM
      */
     function getValues() {
         var use4Corners = TEXTORO.Utils.getChecked('chk4Corners', false);
         var singleRadius = TEXTORO.Utils.getNum('numCorner', 15);
         
-        // قراءة قيم الزوايا الأربع
         var cornerTL, cornerTR, cornerBL, cornerBR;
         
         if (use4Corners) {
-            // قراءة القيم مباشرة من الحقول الأربعة
             var tlEl = document.getElementById('numCornerTL');
             var trEl = document.getElementById('numCornerTR');
             var blEl = document.getElementById('numCornerBL');
@@ -106,24 +162,135 @@ TEXTORO.Panels.Box = (function() {
             strokeDash: TEXTORO.Utils.getNum('numStrokeDash', 0),
             strokeGap: TEXTORO.Utils.getNum('numStrokeGap', 0),
             fillOpacity: TEXTORO.Utils.getNum('numFillOp', 100),
-            fillColor: TEXTORO.Utils.hexToRgb(colorFillEl ? colorFillEl.value : '#ffffff'),
+            fillColor: TEXTORO.Utils.hexToRgb(colorFillEl ? colorFillEl.value : '#10b981'),
             trimStart: TEXTORO.Utils.getNum('numTrimStart', 0),
             trimEnd: TEXTORO.Utils.getNum('numTrimEnd', 100),
             trimOffset: TEXTORO.Utils.getNum('numTrimOffset', 0),
-            pathOffset: TEXTORO.Utils.getNum('numPathOffset', 0), // C-03: كان الحقل مهملاً
+            pathOffset: TEXTORO.Utils.getNum('numPathOffset', 0),
             lockBoxSize: TEXTORO.Utils.getChecked('chkLockSize', false),
             parentToText: TEXTORO.Utils.getChecked('chkParentToText', true),
             autoResize: TEXTORO.Utils.getChecked('chkLockSize', false) ? false : TEXTORO.Utils.getChecked('chkAutoResize', true),
-            hideWhenEmpty: TEXTORO.Utils.getChecked('chkHideWhenEmpty', true)
+            hideWhenEmpty: TEXTORO.Utils.getChecked('chkHideEmpty', true)
         };
     }
     
     /**
-     * إنشاء Box
+     * Debounced live update to active layer
+     */
+    function debouncedUpdate(delay) {
+        if (_updateTimer) clearTimeout(_updateTimer);
+        _updateTimer = setTimeout(function() {
+            update();
+        }, delay || 150);
+    }
+
+    /**
+     * Update active layer box properties live
+     */
+    function update(callback) {
+        var values = getValues();
+        TEXTORO.HostBridge.run('setLayerEffectValues', { box: values }, function(res) {
+            if (res && res.success) {
+                TEXTORO.log('Box properties updated on layer');
+            }
+            if (typeof callback === 'function') callback(res);
+        });
+    }
+
+    /**
+     * Synchronize DOM fields from active AE layer
+     */
+    function syncFromLayer(callback) {
+        TEXTORO.HostBridge.run('getLayerEffectValues', null, function(res) {
+            if (!res || !res.success || !res.data || !res.data.box) {
+                if (typeof callback === 'function') callback(false, res);
+                return;
+            }
+
+            var box = res.data.box;
+            _isUpdatingFromHost = true;
+
+            try {
+                function setNum(id, val) {
+                    var el = document.getElementById(id);
+                    if (el && val !== undefined && val !== null) el.value = val;
+                }
+                function setChk(id, val) {
+                    var el = document.getElementById(id);
+                    if (el && val !== undefined && val !== null) el.checked = !!val;
+                }
+                function setColor(id, rgbArr) {
+                    var el = document.getElementById(id);
+                    if (!el || !rgbArr) return;
+                    var hex = TEXTORO.Utils.rgbToHex(rgbArr);
+                    el.value = hex.toLowerCase();
+                    var boxWrap = el.closest('.precision-color-box');
+                    if (boxWrap) {
+                        var hexSpan = boxWrap.querySelector('.ci-hex-code');
+                        if (hexSpan) hexSpan.textContent = hex.toUpperCase();
+                    }
+                }
+
+                setNum('numPadL', box.paddingLeft);
+                setNum('numPadR', box.paddingRight);
+                setNum('numPadT', box.paddingTop);
+                setNum('numPadB', box.paddingBottom);
+
+                setChk('chk4Corners', box.use4Corners);
+                var fourCornersRow = document.getElementById('fourCornersRow');
+                var singleCornerRow = document.getElementById('singleCornerRow');
+                if (box.use4Corners) {
+                    if (fourCornersRow) fourCornersRow.style.display = '';
+                    if (singleCornerRow) singleCornerRow.style.display = 'none';
+                    setNum('numCornerTL', box.cornerTL != null ? box.cornerTL : 15);
+                    setNum('numCornerTR', box.cornerTR != null ? box.cornerTR : 15);
+                    setNum('numCornerBL', box.cornerBL != null ? box.cornerBL : 15);
+                    setNum('numCornerBR', box.cornerBR != null ? box.cornerBR : 15);
+                } else {
+                    if (fourCornersRow) fourCornersRow.style.display = 'none';
+                    if (singleCornerRow) singleCornerRow.style.display = '';
+                    setNum('numCorner', box.cornerRadius != null ? box.cornerRadius : 15);
+                }
+
+                setNum('numStrokeW', box.strokeWidth);
+                setNum('numStrokeOp', box.strokeOpacity);
+                setColor('colorStroke', box.strokeColor);
+                setNum('numStrokeDash', box.strokeDash);
+                setNum('numStrokeGap', box.strokeGap);
+
+                setNum('numFillOp', box.fillOpacity);
+                setColor('colorFill', box.fillColor);
+
+                setNum('numTrimStart', box.trimStart);
+                setNum('numTrimEnd', box.trimEnd);
+                setNum('numTrimOffset', box.trimOffset);
+                setNum('numPathOffset', box.pathOffset);
+
+                setChk('chkLockSize', box.lockBoxSize);
+                if (box.lockBoxSize) {
+                    setChk('chkAutoResize', false);
+                }
+
+                if (TEXTORO.UI && TEXTORO.UI.SubBar && TEXTORO.UI.SubBar.syncBox) {
+                    TEXTORO.UI.SubBar.syncBox();
+                }
+
+                TEXTORO.log('BoxPanel synced from active layer');
+            } catch(e) {
+                TEXTORO.error('Error syncing BoxPanel from layer: ' + e);
+            } finally {
+                _isUpdatingFromHost = false;
+            }
+
+            if (typeof callback === 'function') callback(true, res.data);
+        });
+    }
+
+    /**
+     * Create Box
      */
     function create() {
         var values = getValues();
-        
         TEXTORO.UI.StatusBar.set('Creating Box...', '');
         
         TEXTORO.HostBridge.run('createBox', values, function(res) {
@@ -136,7 +303,7 @@ TEXTORO.Panels.Box = (function() {
     }
     
     /**
-     * إزالة Box
+     * Remove Box
      */
     function remove() {
         TEXTORO.HostBridge.run('removeBox', null, function(res) {
@@ -152,10 +319,11 @@ TEXTORO.Panels.Box = (function() {
     return {
         init: init,
         getValues: getValues,
+        update: update,
+        debouncedUpdate: debouncedUpdate,
+        syncFromLayer: syncFromLayer,
         create: create,
         apply: create,  // Alias
         remove: remove
     };
 })();
-
-// Legacy aliases moved to js/legacy/aliases.js

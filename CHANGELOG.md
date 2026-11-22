@@ -6,6 +6,27 @@ All notable changes to TEXTORO are documented in this file.
 
 ## [Unreleased]
 
+### ⚡ Live 2-Way Property Binding, Active Layer Synchronization & Robust Controls — 2026-11-22
+- **Live 2-Way Property Binding for Typewriter & Box Panels**:
+  - Bound all 40+ controls in Typewriter (`#panel-type`) and Box (`#panel-box`) panels to update active After Effects layers live with debounced execution (`150ms` for sliders/inputs, `50ms` for toggles/dropdowns).
+  - Implemented `update()` and `debouncedUpdate()` methods on `TEXTORO.Panels.Typewriter` and `TEXTORO.Panels.Box`, delegating composite payloads to `HostBridge.run('setLayerEffectValues', ...)`.
+  - Added live layer text auto-synchronization when typing into `#txtInput` with gentle debounce.
+- **Bi-Directional Active Layer State Synchronization (`syncFromLayer`)**:
+  - Implemented `syncFromLayer()` on both `TEXTORO.Panels.Typewriter` and `TEXTORO.Panels.Box` reading live effect values, custom cursor, layer text, and timing markers from the selected layer.
+  - Automatically triggers on tab switch in `TEXTORO.UI.TabManager` (`case 'type'`, `case 'box'`), guaranteeing the UI always accurately reflects the active composition layer.
+  - Populates all precision inputs, steppers, toggle chips, color badges (`.ci-hex-code`), and secondary SubBar buttons without desynchronization.
+- **Enhanced ExtendScript Host Effect Readers & Writers (`SogaManager.jsx`)**:
+  - `_readTypewriterValues`: Enhanced to read live layer text document, custom cursor character marker (`CURSOR_CHAR:`), cursor type, and timing markers (`IN_START`, `IN_END`, `OUT_START`, `OUT_END`, `BLINK_START`, `BLINK_END`, `noOut`).
+  - `_writeTypewriterValues`: Enhanced with support for cursor type, custom cursor marker creation/update, layer text document update with text marker sync, and non-destructive marker time updates (`_updateTypewriterTimingMarkers`). Added resilient alias fallbacks (`twReverse`/`reverse`, `wordMode`/`twWordByWord`, `boxRTL`/`direction`, `liveText`/`applyTextColor`).
+  - `_writeBoxValues`: Enhanced to write `Trim Start`, `Trim End`, `Trim Offset`, `Path Offset`, and `Lock Box Size`. Also synchronizes all 4 corner sliders (`Corner TL`, `TR`, `BR`, `BL`) when uniform `Corner Radius` is adjusted.
+- **Smart Text/Box Layer Selection Resolution (`Utilities.jsx`)**:
+  - Enhanced `getSelectedTextLayer` and `getSelectedTextLayers` to detect if the user selected the shape layer (`_Box`) in the AE viewport and automatically resolve its parent TextLayer, preventing "No text layer selected" errors.
+- **SubBar ID Resolution & 2-Way State Synchronization (`SubBar.js`)**:
+  - Resolved ID discrepancies: mapped `fourCornersRow` (was `box4CornersRow`), `numFillOp` (was `boxFillOpacity`), `numStrokeW` (was `boxStrokeWidth`), and `chkHideEmpty` (was `chkHideWhenEmpty`).
+  - Directly triggers live panel updates on subbar button toggles (Auto Resize, 4 Corners, Fill, Stroke, Word Mode, Cursor, Reverse, No OUT, Blink In Hold).
+- **Quality & Contract Compliance**:
+  - 100% pass on all 13 smoke tests with strict zero-radius and English UI compliance.
+
 ### 🎨 World-Class Studio Color Modal & Precision Color Elevating Across All Panels — 2026-11-22
 - **World-Class Interactive 2D Color Spectrum & Hue Engine**:
   - Replaced legacy squished native color input with a 2D Saturation / Value (`SV`) interactive Canvas engine with tactile crosshair target pin.

@@ -1,13 +1,16 @@
-﻿/**
+/**
  * TEXTORO - Typewriter Panel Module
- * لوحة Typewriter
- * @version 3.3.0
+ * Typewriter Panel Controller with Live 2-Way Property Binding
+ * @version 3.4.0
  */
 
 TEXTORO.Panels = TEXTORO.Panels || {};
 
 TEXTORO.Panels.Typewriter = (function() {
     'use strict';
+
+    var _updateTimer = null;
+    var _isUpdatingFromHost = false;
 
     function formatHostError(res, fallback) {
         var msg = (res && res.error) || fallback || 'Unknown error';
@@ -17,7 +20,7 @@ TEXTORO.Panels.Typewriter = (function() {
     }
     
     /**
-     * تهيئة اللوحة
+     * Initialize Typewriter Panel
      */
     function init() {
         bindEvents();
@@ -25,7 +28,7 @@ TEXTORO.Panels.Typewriter = (function() {
     }
     
     /**
-     * ربط الأحداث
+     * Bind UI Events & Live Edit Listeners
      */
     function bindEvents() {
         // Direction buttons
@@ -35,18 +38,29 @@ TEXTORO.Panels.Typewriter = (function() {
         if (btnLTR) {
             btnLTR.addEventListener('click', function() {
                 setDirection('ltr');
+                if (!_isUpdatingFromHost) {
+                    debouncedUpdate(50);
+                    if (TEXTORO.UI && TEXTORO.UI.SubBar && TEXTORO.UI.SubBar.syncTypewriter) {
+                        TEXTORO.UI.SubBar.syncTypewriter();
+                    }
+                }
             });
         }
         if (btnRTL) {
             btnRTL.addEventListener('click', function() {
                 setDirection('rtl');
+                if (!_isUpdatingFromHost) {
+                    debouncedUpdate(50);
+                    if (TEXTORO.UI && TEXTORO.UI.SubBar && TEXTORO.UI.SubBar.syncTypewriter) {
+                        TEXTORO.UI.SubBar.syncTypewriter();
+                    }
+                }
             });
         }
         
         // Cursor type change - show/hide custom cursor input & live sync
         var cursorType = document.getElementById('selCursorType');
         var customInput = document.getElementById('txtCustomCursor');
-        var colorCursor = document.getElementById('colorCursor');
         
         if (cursorType) {
             cursorType.addEventListener('change', function() {
@@ -56,19 +70,7 @@ TEXTORO.Panels.Typewriter = (function() {
                         customInput.focus();
                     }
                 }
-                liveUpdateCursor();
-            });
-        }
-        
-        if (customInput) {
-            customInput.addEventListener('input', function() {
-                liveUpdateCursor();
-            });
-        }
-        
-        if (colorCursor) {
-            colorCursor.addEventListener('input', function() {
-                liveUpdateCursor();
+                if (!_isUpdatingFromHost) debouncedUpdate(50);
             });
         }
         
@@ -92,10 +94,82 @@ TEXTORO.Panels.Typewriter = (function() {
         if (btnUpdateText) {
             btnUpdateText.addEventListener('click', updateTextInLayer);
         }
+
+        // Live typing text update with gentle debounce
+        var txtInput = document.getElementById('txtInput');
+        if (txtInput) {
+            var textDebounce = null;
+            txtInput.addEventListener('input', function() {
+                if (_isUpdatingFromHost) return;
+                if (textDebounce) clearTimeout(textDebounce);
+                textDebounce = setTimeout(function() {
+                    var val = txtInput.value.trim();
+                    if (val.length > 0) {
+                        debouncedUpdate(100);
+                    }
+                }, 500);
+            });
+        }
+
+        // Live input listeners for all numeric, select & checkbox controls
+        var liveControlIds = [
+            'numInStart', 'numInEnd', 'numOutStart', 'numOutEnd', 'chkNoOut',
+            'chkCursor', 'chkCursorBefore', 'selCursorType', 'txtCustomCursor',
+            'numCursorSpacing', 'numBlinkSpeed', 'numBlinkStart', 'numBlinkEnd', 'chkBlinkInHold',
+            'chkReverse', 'chkWordMode', 'rangeRandom',
+            'chkTextColor', 'selEasingType', 'numEasingStrength'
+        ];
+
+        liveControlIds.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+
+            el.addEventListener('input', function() {
+                if (_isUpdatingFromHost) return;
+                debouncedUpdate(150);
+                if (TEXTORO.UI && TEXTORO.UI.SubBar && TEXTORO.UI.SubBar.syncTypewriter) {
+                    TEXTORO.UI.SubBar.syncTypewriter();
+                }
+            });
+
+            el.addEventListener('change', function() {
+                if (_isUpdatingFromHost) return;
+                debouncedUpdate(50);
+                if (TEXTORO.UI && TEXTORO.UI.SubBar && TEXTORO.UI.SubBar.syncTypewriter) {
+                    TEXTORO.UI.SubBar.syncTypewriter();
+                }
+            });
+        });
+
+        // Color controls
+        ['colorCursor', 'colorText'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+
+            function updateHexDisplay() {
+                var box = el.closest('.precision-color-box');
+                if (box) {
+                    var hexSpan = box.querySelector('.ci-hex-code');
+                    if (hexSpan) hexSpan.textContent = el.value.toUpperCase();
+                }
+            }
+
+            el.addEventListener('input', function() {
+                updateHexDisplay();
+                if (_isUpdatingFromHost) return;
+                debouncedUpdate(150);
+            });
+
+            el.addEventListener('change', function() {
+                updateHexDisplay();
+                if (_isUpdatingFromHost) return;
+                debouncedUpdate(50);
+            });
+        });
     }
     
     /**
-     * تعيين الاتجاه
+     * Set Direction
      */
     function setDirection(dir) {
         var btnLTR = document.getElementById('btnLTR');
@@ -104,9 +178,8 @@ TEXTORO.Panels.Typewriter = (function() {
         if (btnLTR) btnLTR.classList.toggle('active', dir === 'ltr');
         if (btnRTL) btnRTL.classList.toggle('active', dir === 'rtl');
         
-        // تفعيل Cursor Before تلقائياً للعربية
         var cursorBeforeCheckbox = document.getElementById('chkCursorBefore');
-        if (cursorBeforeCheckbox) {
+        if (cursorBeforeCheckbox && !_isUpdatingFromHost) {
             cursorBeforeCheckbox.checked = (dir === 'rtl');
         }
         
@@ -114,7 +187,7 @@ TEXTORO.Panels.Typewriter = (function() {
     }
     
     /**
-     * الحصول على الاتجاه
+     * Get Direction
      */
     function getDirection() {
         var btnRTL = document.getElementById('btnRTL');
@@ -122,43 +195,23 @@ TEXTORO.Panels.Typewriter = (function() {
     }
     
     /**
-     * الحصول على نوع المؤشر
+     * Get Cursor Type
      */
     function getCursorType() {
         var sel = document.getElementById('selCursorType');
         if (!sel) return 0;
         if (sel.value === 'custom') return -1;
-        return parseInt(sel.value) || 0;
+        return parseInt(sel.value, 10) || 0;
     }
     
     /**
-     * تحديث المؤشر مباشرة في الطبقة النشطة (Live Sync)
-     */
-    function liveUpdateCursor() {
-        var cursorTypeVal = getCursorType();
-        var txtCustom = document.getElementById('txtCustomCursor');
-        var customChar = txtCustom ? txtCustom.value : '';
-        var colorEl = document.getElementById('colorCursor');
-        var colorVal = colorEl ? colorEl.value : '#ffffff';
-        
-        TEXTORO.HostBridge.run('updateTypewriterCursor', {
-            type: cursorTypeVal,
-            custom: customChar,
-            color: colorVal
-        }, function(res) {
-            if (res && res.success) {
-                TEXTORO.log('Live cursor update success');
-            }
-        });
-    }
-    
-    /**
-     * جلب النص من الطبقة
+     * Get Layer Text
      */
     function getTextFromLayer() {
         TEXTORO.HostBridge.run('getLayerText', null, function(res) {
             if (res.success && res.data) {
-                document.getElementById('txtInput').value = res.data;
+                var txtInput = document.getElementById('txtInput');
+                if (txtInput) txtInput.value = res.data;
                 TEXTORO.UI.StatusBar.success('Text loaded');
             } else {
                 TEXTORO.UI.StatusBar.error('Error: ' + formatHostError(res, 'No text layer selected'));
@@ -167,7 +220,7 @@ TEXTORO.Panels.Typewriter = (function() {
     }
     
     /**
-     * تحديث النص في الطبقة
+     * Update Layer Text
      */
     function updateTextInLayer() {
         var newText = document.getElementById('txtInput').value.trim();
@@ -186,15 +239,14 @@ TEXTORO.Panels.Typewriter = (function() {
     }
     
     /**
-     * الحصول على قيمة الوقت بالثواني من خانة إدخال
-     * يدعم صيغة s:f (ثواني:فريمات) أو رقم عادي
+     * Get Time Value in seconds
      */
     function getTimeNum(inputId, defaultVal) {
         return TEXTORO.Time.getInputSeconds(inputId, defaultVal);
     }
     
     /**
-     * جمع القيم من الواجهة
+     * Collect Typewriter values from DOM
      */
     function getValues() {
         var txtInputEl = document.getElementById('txtInput');
@@ -221,7 +273,7 @@ TEXTORO.Panels.Typewriter = (function() {
         function getInt(id, def) {
             var el = document.getElementById(id);
             if (!el) return def;
-            var val = parseInt(el.value);
+            var val = parseInt(el.value, 10);
             return isNaN(val) ? def : val;
         }
         
@@ -262,17 +314,176 @@ TEXTORO.Panels.Typewriter = (function() {
     }
     
     /**
-     * تطبيق Typewriter
+     * Debounced live update to active layer
+     */
+    function debouncedUpdate(delay) {
+        if (_updateTimer) clearTimeout(_updateTimer);
+        _updateTimer = setTimeout(function() {
+            update();
+        }, delay || 150);
+    }
+
+    /**
+     * Update active layer typewriter properties live
+     */
+    function update(callback) {
+        var values = getValues();
+        var payload = {
+            twReverse: values.reverse,
+            reverse: values.reverse,
+            twWordByWord: values.wordMode,
+            wordMode: values.wordMode,
+            boxRTL: values.direction === 'rtl',
+            direction: values.direction,
+            showCursor: values.showCursor,
+            cursorBefore: values.cursorBefore,
+            cursorType: values.cursorType,
+            customCursor: values.customCursor,
+            cursorColor: values.cursorColor,
+            cursorSpacing: values.cursorSpacing,
+            blinkSpeed: values.blinkSpeed,
+            blinkInHold: values.blinkInHold,
+            randomSpeed: values.randomSpeed,
+            easingType: values.easingType,
+            easingStrength: values.easingStrength,
+            textColor: values.textColor,
+            liveText: values.applyTextColor,
+            customText: values.customText,
+            inStart: values.inStart,
+            inEnd: values.inEnd,
+            outStart: values.outStart,
+            outEnd: values.outEnd,
+            noOut: values.noOut,
+            blinkStart: values.blinkStart,
+            blinkEnd: values.blinkEnd
+        };
+
+        TEXTORO.HostBridge.run('setLayerEffectValues', { typewriter: payload }, function(res) {
+            if (res && res.success) {
+                TEXTORO.log('Typewriter properties updated on layer');
+            }
+            if (typeof callback === 'function') callback(res);
+        });
+    }
+
+    /**
+     * Synchronize DOM fields from active AE layer
+     */
+    function syncFromLayer(callback) {
+        TEXTORO.HostBridge.run('getLayerEffectValues', null, function(res) {
+            if (!res || !res.success || !res.data || !res.data.typewriter) {
+                if (typeof callback === 'function') callback(false, res);
+                return;
+            }
+
+            var tw = res.data.typewriter;
+            _isUpdatingFromHost = true;
+
+            try {
+                function setNum(id, val) {
+                    var el = document.getElementById(id);
+                    if (el && val !== undefined && val !== null) el.value = val;
+                }
+                function setChk(id, val) {
+                    var el = document.getElementById(id);
+                    if (el && val !== undefined && val !== null) el.checked = !!val;
+                }
+                function setColor(id, rgbArr) {
+                    var el = document.getElementById(id);
+                    if (!el || !rgbArr) return;
+                    var hex = TEXTORO.Utils.rgbToHex(rgbArr);
+                    el.value = hex.toLowerCase();
+                    var boxWrap = el.closest('.precision-color-box');
+                    if (boxWrap) {
+                        var hexSpan = boxWrap.querySelector('.ci-hex-code');
+                        if (hexSpan) hexSpan.textContent = hex.toUpperCase();
+                    }
+                }
+
+                if (tw.text !== undefined && tw.text !== null) {
+                    var txtInput = document.getElementById('txtInput');
+                    if (txtInput) txtInput.value = tw.text;
+                }
+
+                setDirection(tw.boxRTL ? 'rtl' : 'ltr');
+                setChk('chkReverse', tw.twReverse);
+                setChk('chkWordMode', tw.twWordByWord);
+
+                var rangeRandom = document.getElementById('rangeRandom');
+                var valRandom = document.getElementById('valRandom');
+                if (rangeRandom && valRandom && tw.randomSpeed !== undefined) {
+                    rangeRandom.value = tw.randomSpeed;
+                    valRandom.textContent = tw.randomSpeed + '%';
+                }
+
+                setChk('chkCursor', tw.showCursor);
+                setChk('chkCursorBefore', tw.cursorBefore);
+
+                var selCursor = document.getElementById('selCursorType');
+                var txtCustom = document.getElementById('txtCustomCursor');
+                if (selCursor) {
+                    if (tw.cursorType === -1) {
+                        selCursor.value = 'custom';
+                        if (txtCustom) {
+                            txtCustom.value = tw.customCursor || '';
+                            txtCustom.style.display = 'inline-block';
+                        }
+                    } else {
+                        selCursor.value = String(Math.round(tw.cursorType || 0));
+                        if (txtCustom) txtCustom.style.display = 'none';
+                    }
+                }
+
+                setColor('colorCursor', tw.cursorColor);
+                setNum('numCursorSpacing', tw.cursorSpacing);
+                setNum('numBlinkSpeed', tw.blinkSpeed);
+                setChk('chkBlinkInHold', tw.blinkInHold);
+
+                setChk('chkTextColor', tw.liveText);
+                setColor('colorText', tw.textColor);
+
+                var selEase = document.getElementById('selEasingType');
+                if (selEase && tw.easingType !== undefined) {
+                    selEase.value = String(Math.round(tw.easingType));
+                }
+                setNum('numEasingStrength', tw.easingStrength);
+
+                if (tw.timing) {
+                    setNum('numInStart', tw.timing.inStart);
+                    setNum('numInEnd', tw.timing.inEnd);
+                    setChk('chkNoOut', tw.timing.noOut);
+                    if (!tw.timing.noOut) {
+                        setNum('numOutStart', tw.timing.outStart);
+                        setNum('numOutEnd', tw.timing.outEnd);
+                    }
+                    setNum('numBlinkStart', tw.timing.blinkStart);
+                    setNum('numBlinkEnd', tw.timing.blinkEnd);
+                }
+
+                if (TEXTORO.UI && TEXTORO.UI.SubBar && TEXTORO.UI.SubBar.syncTypewriter) {
+                    TEXTORO.UI.SubBar.syncTypewriter();
+                }
+
+                TEXTORO.log('TypewriterPanel synced from active layer');
+            } catch(e) {
+                TEXTORO.error('Error syncing TypewriterPanel from layer: ' + e);
+            } finally {
+                _isUpdatingFromHost = false;
+            }
+
+            if (typeof callback === 'function') callback(true, res.data);
+        });
+    }
+
+    /**
+     * Apply Typewriter
      */
     function apply() {
         var opts = getValues();
-        
         TEXTORO.log('applyTypewriter opts: ' + JSON.stringify(opts));
         
-        // التحقق من التحديد المتعدد
         TEXTORO.HostBridge.run('getMultiSelectionInfo', null, function(selRes) {
             if (!selRes.success) {
-                // E-01: فشل المضيف يُسجَّل ويُعرض بدل افتراض طبقة واحدة
                 var errT = (selRes && selRes.error) || 'Unknown error';
                 TEXTORO.error('[TypewriterPanel] getMultiSelectionInfo failed: ' + errT);
                 TEXTORO.UI.StatusBar.warning('Type: ' + errT);
@@ -280,7 +491,6 @@ TEXTORO.Panels.Typewriter = (function() {
             var count = (selRes.success && selRes.data) ? selRes.data.count : 1;
             
             if (count > 1) {
-                // تحديد متعدد
                 TEXTORO.log('Multi Apply: ' + count + ' layers');
                 TEXTORO.HostBridge.run('applyTypewriterMulti', opts, function(res) {
                     if (res.success) {
@@ -290,7 +500,6 @@ TEXTORO.Panels.Typewriter = (function() {
                     }
                 });
             } else {
-                // تحديد فردي
                 TEXTORO.log('Single Apply');
                 TEXTORO.HostBridge.run('applyTypewriter', opts, function(res) {
                     if (res.success) {
@@ -304,14 +513,14 @@ TEXTORO.Panels.Typewriter = (function() {
     }
     
     /**
-     * إزالة Typewriter
+     * Remove Typewriter
      */
     function remove() {
         TEXTORO.HostBridge.run('removeTypewriter', null, function(res) {
             if (res.success) {
                 TEXTORO.UI.StatusBar.success('Typewriter removed');
             } else {
-                TEXTORO.UI.StatusBar.error('Error: ' + formatHostError(res, 'Failed'));
+                TEXTORO.UI.StatusBar.error('Error: ' + formatHostError(res));
             }
         });
     }
@@ -320,15 +529,15 @@ TEXTORO.Panels.Typewriter = (function() {
     return {
         init: init,
         getValues: getValues,
-        getCursorType: getCursorType,
-        getDirection: getDirection,
-        setDirection: setDirection,
+        update: update,
+        debouncedUpdate: debouncedUpdate,
+        syncFromLayer: syncFromLayer,
         apply: apply,
         remove: remove,
+        setDirection: setDirection,
+        getDirection: getDirection,
+        getCursorType: getCursorType,
         getTextFromLayer: getTextFromLayer,
         updateTextInLayer: updateTextInLayer
     };
 })();
-
-// Legacy aliases moved to js/legacy/aliases.js
-
