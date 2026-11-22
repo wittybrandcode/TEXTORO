@@ -6,6 +6,22 @@ All notable changes to TEXTORO are documented in this file.
 
 ## [Unreleased]
 
+### 📌 Fixed Sticky SubBars & Critical Quick Toggle Strips Across All Panels — 2026-11-22
+- **Pinned Top Navigation & Secondary SubBar Dock**:
+  - Enforced sticky behavior (`position: sticky; top: -4px; z-index: var(--z-subbar, 900)`) on `.panel-subbar` across all 7 panels.
+  - When scrolling inside any tab, both the top header tabs and the secondary toolbar strip remain permanently docked at the top without scrolling away with the content.
+- **Dedicated Critical Quick-Toggle Strips Across All Panels**:
+  - **Typewriter Panel (`#panel-type`)**: Direction (LTR / RTL), Word Mode (`chkWordMode`), Cursor Toggle (`chkCursor`), Reverse (`chkReverse`), No OUT Animation (`chkNoOut`), Blink in Hold (`chkBlinkInHold`), and Layer Get/Update Text actions.
+  - **Box Panel (`#panel-box`)**: Auto-Resize (`chkAutoResize`), Hide When Empty (`chkHideEmpty`), Parent to Text (`chkParentToText`), 4 Corners Radius mode (`chk4Corners`), Box Fill visibility toggle, Box Stroke toggle, and Lock Box Size (`chkLockSize`).
+  - **Presets Panel (`#panel-presets`)**: Sticky filter category icons (`all`, `templates`, `type`, `box`, `compound`, `motion`, `favorites`) plus search, sort, and quick actions pinned above scrolling cards.
+  - **Control / SOGA Panel (`#panel-soga`)**: Layer refresh, jump/scroll buttons to Typewriter / Box / Motion cards, Auto Typewriter toggle (`sogaTwAuto`), Box RTL mode (`sogaBoxRTL`), and Expand/Collapse All toggle.
+  - **Markers Panel (`#panel-markers`)**: Filter IN, OUT, and BLINK markers, Select Layer markers, Invert Selection, Clear Selection, and Refresh markers list.
+  - **Motion Panel (`#panel-motion`)**: IN / OUT mode selector, Sync with Typewriter (`motionSyncEnable`), OUT Enable (`motionOutEnable`), Position / Scale / Rotation / Opacity kinetic toggles, and Impulse physics simulation trigger.
+  - **Settings Panel (`#panel-settings`)**: Open Presets Folder, Reload Extension, and Reset to Defaults.
+- **Bi-Directional State Synchronization Controller (`js/ui/SubBar.js`)**:
+  - Integrated `TEXTORO.UI.SubBar` providing real-time 2-way event binding: clicking subbar icons updates source controls and active AE layer live, while changing card controls updates subbar icon states instantaneously.
+
+
 ### 📐 Technical Taxonomy Reorganization & Smart Layer Auto-Detect Preset Studio — 2026-11-22
 - **Technical Preset Category Taxonomy**:
   - Reorganized all preset categories and directories to mirror their technical function in After Effects:

@@ -56,6 +56,9 @@
             if (TEXTORO.UI.TabManager && TEXTORO.UI.TabManager.onChange) {
                 TEXTORO.UI.TabManager.onChange(function(activeTab) {
                     syncCompFPS(false);
+                    if (TEXTORO.UI && TEXTORO.UI.SubBar) {
+                        TEXTORO.UI.SubBar.syncAll();
+                    }
                     if (activeTab === 'motion' && TEXTORO.UI && TEXTORO.UI.PhysicsVisualizer) {
                         setTimeout(function() { TEXTORO.UI.PhysicsVisualizer.render(); }, 50);
                     }
@@ -173,6 +176,13 @@
                 TEXTORO.UI.PhysicsVisualizer.init();
             }
         } catch(e) { TEXTORO.error('Failed to init PhysicsVisualizer: ' + e.message); }
+
+        // SubBar
+        try {
+            if (TEXTORO.UI && TEXTORO.UI.SubBar) {
+                TEXTORO.UI.SubBar.init();
+            }
+        } catch(e) { TEXTORO.error('Failed to init SubBar: ' + e.message); }
     }
     
     /**
@@ -234,6 +244,13 @@
                 TEXTORO.Panels.MultiLines.init();
             }
         } catch(e) { TEXTORO.error('Failed to init MultiLinesPanel: ' + e.message); }
+
+        // Sync SubBar after all panels are ready
+        try {
+            if (TEXTORO.UI && TEXTORO.UI.SubBar) {
+                TEXTORO.UI.SubBar.syncAll();
+            }
+        } catch(e) { TEXTORO.error('Failed to sync SubBar: ' + e.message); }
     }
     
     /**
