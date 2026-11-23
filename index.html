@@ -655,18 +655,24 @@
 </section>
 
 <section class="panel" id="panel-presets">
-<!-- Secondary SubBar (Fixed Filter & Search) -->
+<!-- Secondary SubBar (Fixed Filter & Search - Responsive 2-Row Studio Layout) -->
 <div class="panel-subbar presets-sticky-subbar">
-    <!-- Filter Buttons -->
-    <div class="presets-filter studio-icon-filter-bar">
-        <button class="filter-btn active square-icon-btn subbar-btn" data-filter="all" title="All Presets" aria-label="All Presets"><i class="ph-bold ph-squares-four"></i></button>
-        <button class="filter-btn type square-icon-btn subbar-btn" data-filter="type" title="Text Presets (Typewriter)" aria-label="Text"><i class="ph-bold ph-textbox"></i></button>
-        <button class="filter-btn box square-icon-btn subbar-btn" data-filter="box" title="Box Presets (Shape, Stroke & Fill)" aria-label="Box"><i class="ph-bold ph-bounding-box"></i></button>
-        <button class="filter-btn motion square-icon-btn subbar-btn" data-filter="motion" title="Motion Presets (Kinematics & Physics)" aria-label="Motion"><i class="ph-bold ph-wave-sine"></i></button>
-        <button class="filter-btn fav square-icon-btn subbar-btn" data-filter="favorites" title="Favorites" aria-label="Favorites"><i class="ph-bold ph-star"></i></button>
+    <!-- Row 1: 5 Pillar Filter Badges & Quick Action Buttons -->
+    <div class="presets-filter-row">
+        <div class="presets-filter studio-icon-filter-bar">
+            <button class="filter-btn active square-icon-btn subbar-btn" data-filter="all" title="All Presets" aria-label="All Presets"><i class="ph-bold ph-squares-four"></i></button>
+            <button class="filter-btn type square-icon-btn subbar-btn" data-filter="type" title="Text Presets (Typewriter)" aria-label="Text"><i class="ph-bold ph-textbox"></i></button>
+            <button class="filter-btn box square-icon-btn subbar-btn" data-filter="box" title="Box Presets (Shape, Stroke & Fill)" aria-label="Box"><i class="ph-bold ph-bounding-box"></i></button>
+            <button class="filter-btn motion square-icon-btn subbar-btn" data-filter="motion" title="Motion Presets (Kinematics & Physics)" aria-label="Motion"><i class="ph-bold ph-wave-sine"></i></button>
+            <button class="filter-btn fav square-icon-btn subbar-btn" data-filter="favorites" title="Favorites" aria-label="Favorites"><i class="ph-bold ph-star"></i></button>
+        </div>
+        <div class="presets-actions-right">
+            <button class="ib square-icon-btn subbar-btn" id="presetsHeaderNewBtn" title="Create new preset from layer" style="color:#10b981;"><i class="ph-bold ph-plus"></i></button>
+            <button class="ib square-icon-btn subbar-btn" id="presetsHeaderApplyBtn" title="Apply preset to selected text" style="color:#ffffff;background:#10b981;"><i class="ph-bold ph-check"></i></button>
+        </div>
     </div>
 
-    <!-- Search Bar -->
+    <!-- Row 2: Full-Width Search & Sort Bar -->
     <div class="presets-search">
         <i class="ph-bold ph-magnifying-glass presets-search-icon"></i>
         <input type="text" id="presetsSearchInput" class="ti" placeholder="Search presets..." title="Search presets by name">
@@ -678,8 +684,6 @@
             <option value="favorites">Favorites First</option>
         </select>
         <button class="ib" id="presetsRefreshBtn" title="Refresh presets"><i class="ph-bold ph-arrow-counter-clockwise"></i></button>
-        <button class="ib square-icon-btn" id="presetsHeaderNewBtn" title="Create new preset from layer" style="color:#10b981;"><i class="ph-bold ph-plus"></i></button>
-        <button class="ib square-icon-btn" id="presetsHeaderApplyBtn" title="Apply preset to selected text" style="color:#ffffff;background:#10b981;"><i class="ph-bold ph-check"></i></button>
     </div>
 </div>
 
