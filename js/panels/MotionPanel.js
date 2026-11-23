@@ -29,7 +29,6 @@ TEXTORO.Panels.Motion = (function() {
         loadPresetsFromFiles(function() {
             renderPresetButtons(); // توليد الأزرار ديناميكياً
             initPresetTabs();
-            initSyncToggle();
             initLinkButtons();
             initPhysicsTuning();
             TEXTORO.log('MotionPanel initialized with ' + loadedPresets.length + ' presets');
@@ -252,26 +251,7 @@ TEXTORO.Panels.Motion = (function() {
         }
     }
     
-    /**
-     * تهيئة Sync toggle
-     */
-    function initSyncToggle() {
-        var syncCheckbox = document.getElementById('motionSyncEnable');
-        if (syncCheckbox) {
-            syncCheckbox.addEventListener('change', function() {
-                var timingInputs = ['motionInStart', 'motionInEnd', 'motionOutStart', 'motionOutEnd'];
-                var disabled = this.checked;
-                
-                timingInputs.forEach(function(id) {
-                    var el = document.getElementById(id);
-                    if (el) {
-                        el.disabled = disabled;
-                        el.style.opacity = disabled ? '0.5' : '1';
-                    }
-                });
-            });
-        }
-    }
+
     
     /**
      * تهيئة أزرار Link/Unlink
@@ -682,7 +662,7 @@ TEXTORO.Panels.Motion = (function() {
             inEnd: inEnd,
             outStart: outStart,
             outEnd: outEnd,
-            syncMode: getChecked('motionSyncEnable') ? 1 : 0,
+            syncMode: 1, // Enforced: sync motion timing with markers
             
             animatePosition: getChecked('motionPosEnable'),
             posFromX: getNumOrDefault('motionPosFromX', 0),
@@ -794,7 +774,7 @@ TEXTORO.Panels.Motion = (function() {
             outEnable: getChk('motionOutEnable'),
             outStart: getVal('motionOutStart', 4),
             outEnd: getVal('motionOutEnd', 5),
-            syncMode: getChk('motionSyncEnable') ? 1 : 0,
+            syncMode: 1, // Enforced: sync motion timing with markers
             animatePosition: getChk('motionPosEnable'),
             posFromX: getVal('motionPosFromX', 0),
             posFromY: getVal('motionPosFromY', 0),
@@ -849,7 +829,6 @@ TEXTORO.Panels.Motion = (function() {
         setChecked('motionOutEnable', v.outEnable);
         setValue('motionOutStart', v.outStart);
         setValue('motionOutEnd', v.outEnd);
-        setChecked('motionSyncEnable', v.syncMode === 1);
         
         setChecked('motionPosEnable', v.animatePosition);
         setValue('motionPosFromX', v.posFromX);

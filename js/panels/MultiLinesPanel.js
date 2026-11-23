@@ -69,7 +69,6 @@ TEXTORO.Panels.MultiLines = (function() {
             return isNaN(val) ? def : val;
         }
 
-        var blinkInHoldEl = document.getElementById('chkBlinkInHold');
         var staggerEl = document.getElementById('numStagger');
         var deleteOriginalEl = document.getElementById('chkDeleteOriginal');
         
@@ -87,7 +86,6 @@ TEXTORO.Panels.MultiLines = (function() {
     function splitAndApply() {
         var noOutEl = document.getElementById('chkNoOut');
         var noOut = noOutEl ? noOutEl.checked : false;
-        var blinkInHoldEl = document.getElementById('chkBlinkInHold');
         var deleteOriginalEl = document.getElementById('chkDeleteOriginal');
         var chkCursorEl = document.getElementById('chkCursor');
         var chkCursorBeforeEl = document.getElementById('chkCursorBefore');
@@ -130,7 +128,7 @@ TEXTORO.Panels.MultiLines = (function() {
             blinkSpeed: getNum('numBlinkSpeed', 2),
             blinkStart: getTimeNum('numBlinkStart', 1),
             blinkEnd: getTimeNum('numBlinkEnd', 10),
-            blinkInHold: blinkInHoldEl ? blinkInHoldEl.checked : true,
+            blinkInHold: true,
             reverse: chkReverseEl ? chkReverseEl.checked : false,
             wordMode: chkWordModeEl ? chkWordModeEl.checked : false,
             randomSpeed: getNum('rangeRandom', 0)

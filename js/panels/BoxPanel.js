@@ -24,17 +24,6 @@ TEXTORO.Panels.Box = (function() {
      * Bind UI Events & Live Edit Listeners
      */
     function bindEvents() {
-        var chkAutoResize = document.getElementById('chkAutoResize');
-        var chkLockSize = document.getElementById('chkLockSize');
-        if (chkAutoResize && chkLockSize) {
-            chkAutoResize.addEventListener('change', function() {
-                if (this.checked) chkLockSize.checked = false;
-            });
-            chkLockSize.addEventListener('change', function() {
-                if (this.checked) chkAutoResize.checked = false;
-            });
-        }
-
         // 4 Corners checkbox - toggle between single/4 corners mode
         var chk4Corners = document.getElementById('chk4Corners');
         if (chk4Corners) {
@@ -65,7 +54,7 @@ TEXTORO.Panels.Box = (function() {
             'chk4Corners', 'numCorner', 'numCornerTL', 'numCornerTR', 'numCornerBL', 'numCornerBR',
             'numStrokeW', 'numStrokeOp', 'numStrokeDash', 'numStrokeGap',
             'numFillOp', 'numTrimStart', 'numTrimEnd', 'numTrimOffset', 'numPathOffset',
-            'chkParentToText', 'chkAutoResize', 'chkHideEmpty', 'chkLockSize'
+            'chkLockSize'
         ];
 
         liveControlIds.forEach(function(id) {
@@ -168,9 +157,9 @@ TEXTORO.Panels.Box = (function() {
             trimOffset: TEXTORO.Utils.getNum('numTrimOffset', 0),
             pathOffset: TEXTORO.Utils.getNum('numPathOffset', 0),
             lockBoxSize: TEXTORO.Utils.getChecked('chkLockSize', false),
-            parentToText: TEXTORO.Utils.getChecked('chkParentToText', true),
-            autoResize: TEXTORO.Utils.getChecked('chkLockSize', false) ? false : TEXTORO.Utils.getChecked('chkAutoResize', true),
-            hideWhenEmpty: TEXTORO.Utils.getChecked('chkHideEmpty', true)
+            parentToText: true,
+            autoResize: !TEXTORO.Utils.getChecked('chkLockSize', false),
+            hideWhenEmpty: true
         };
     }
     
@@ -267,9 +256,6 @@ TEXTORO.Panels.Box = (function() {
                 setNum('numPathOffset', box.pathOffset);
 
                 setChk('chkLockSize', box.lockBoxSize);
-                if (box.lockBoxSize) {
-                    setChk('chkAutoResize', false);
-                }
 
                 if (TEXTORO.UI && TEXTORO.UI.SubBar && TEXTORO.UI.SubBar.syncBox) {
                     TEXTORO.UI.SubBar.syncBox();

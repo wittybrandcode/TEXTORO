@@ -115,7 +115,7 @@ TEXTORO.Panels.Typewriter = (function() {
         var liveControlIds = [
             'numInStart', 'numInEnd', 'numOutStart', 'numOutEnd', 'chkNoOut',
             'chkCursor', 'chkCursorBefore', 'selCursorType', 'txtCustomCursor',
-            'numCursorSpacing', 'numBlinkSpeed', 'numBlinkStart', 'numBlinkEnd', 'chkBlinkInHold',
+            'numCursorSpacing', 'numBlinkSpeed', 'numBlinkStart', 'numBlinkEnd',
             'chkReverse', 'chkWordMode', 'rangeRandom',
             'chkTextColor', 'selEasingType', 'numEasingStrength'
         ];
@@ -297,7 +297,7 @@ TEXTORO.Panels.Typewriter = (function() {
             // Cursor Blink Timing
             blinkStart: getTimeNum('numBlinkStart', 1),
             blinkEnd: getTimeNum('numBlinkEnd', 10),
-            blinkInHold: getChk('chkBlinkInHold'),
+            blinkInHold: true,
             // Advanced options
             reverse: getChk('chkReverse'),
             wordMode: getChk('chkWordMode'),
@@ -437,7 +437,6 @@ TEXTORO.Panels.Typewriter = (function() {
                 setColor('colorCursor', tw.cursorColor);
                 setNum('numCursorSpacing', tw.cursorSpacing);
                 setNum('numBlinkSpeed', tw.blinkSpeed);
-                setChk('chkBlinkInHold', tw.blinkInHold);
 
                 setChk('chkTextColor', tw.liveText);
                 setColor('colorText', tw.textColor);

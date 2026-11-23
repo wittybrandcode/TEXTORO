@@ -33,14 +33,10 @@
 <section class="panel active" id="panel-type">
 <!-- Secondary SubBar (Fixed Studio Tools) -->
 <div class="panel-subbar studio-icon-filter-bar">
-    <button type="button" class="subbar-btn square-icon-btn active" id="subTypeLtr" title="LTR Direction (English)" aria-label="LTR Mode"><i class="ph-bold ph-text-align-left"></i></button>
-    <button type="button" class="subbar-btn square-icon-btn" id="subTypeRtl" title="RTL Direction (Arabic)" aria-label="RTL Mode"><i class="ph-bold ph-text-align-right"></i></button>
-    <div class="subbar-divider"></div>
     <button type="button" class="subbar-btn square-icon-btn" id="subTypeWordMode" title="Toggle Word-by-Word Mode" aria-label="Word Mode"><i class="ph-bold ph-text-aa"></i></button>
     <button type="button" class="subbar-btn square-icon-btn active" id="subTypeCursor" title="Toggle Blinking Cursor" aria-label="Cursor"><i class="ph-bold ph-cursor-text"></i></button>
     <button type="button" class="subbar-btn square-icon-btn" id="subTypeReverse" title="Toggle Reverse Typewriter" aria-label="Reverse"><i class="ph-bold ph-arrows-left-right"></i></button>
     <button type="button" class="subbar-btn square-icon-btn" id="subTypeNoOut" title="Toggle No OUT Animation" aria-label="No Out"><i class="ph-bold ph-arrow-square-out"></i></button>
-    <button type="button" class="subbar-btn square-icon-btn active" id="subTypeBlinkInHold" title="Toggle Blink in Hold" aria-label="Blink in Hold"><i class="ph-bold ph-eye"></i></button>
     <div class="subbar-divider"></div>
     <button type="button" class="subbar-btn square-icon-btn" id="subTypeGetText" title="Get text from active layer" aria-label="Get Text"><i class="ph-bold ph-download-simple"></i></button>
     <button type="button" class="subbar-btn square-icon-btn" id="subTypeUpdateText" title="Update active layer text" aria-label="Update Text"><i class="ph-bold ph-upload-simple"></i></button>
@@ -209,15 +205,7 @@
     </div>
 </div>
         </div>
-        <div class="mt-6">
-            <label class="studio-toggle-chip" title="Keep cursor blinking during hold pause">
-                <input type="checkbox" id="chkBlinkInHold" checked>
-                <span class="chip-inner">
-                    <i class="ph-bold ph-check chip-check"></i>
-                    <span class="chip-label"><i class="ph-bold ph-pause" style="margin-right:3px;vertical-align:-1px;"></i>HOLD BLINK</span>
-                </span>
-            </label>
-        </div>
+
     </div>
 </div>
 
@@ -343,10 +331,6 @@
 <section class="panel" id="panel-box">
 <!-- Secondary SubBar (Fixed Studio Tools) -->
 <div class="panel-subbar studio-icon-filter-bar">
-    <button type="button" class="subbar-btn square-icon-btn active" id="subBoxAutoResize" title="Toggle Dynamic Auto-Resize to Text" aria-label="Auto Resize"><i class="ph-bold ph-arrows-out-simple"></i></button>
-    <button type="button" class="subbar-btn square-icon-btn active" id="subBoxHideEmpty" title="Toggle Hide Box When Text is Empty" aria-label="Hide When Empty"><i class="ph-bold ph-eye-slash"></i></button>
-    <button type="button" class="subbar-btn square-icon-btn active" id="subBoxParentToText" title="Toggle Parent Shape Layer to Text" aria-label="Parent to Text"><i class="ph-bold ph-link"></i></button>
-    <div class="subbar-divider"></div>
     <button type="button" class="subbar-btn square-icon-btn" id="subBox4Corners" title="Toggle Independent 4 Corners Mode" aria-label="4 Corners"><i class="ph-bold ph-corners-out"></i></button>
     <button type="button" class="subbar-btn square-icon-btn active" id="subBoxToggleFill" title="Toggle Box Fill Visibility" aria-label="Toggle Fill"><i class="ph-bold ph-paint-bucket"></i></button>
     <button type="button" class="subbar-btn square-icon-btn active" id="subBoxToggleStroke" title="Toggle Box Stroke / Border" aria-label="Toggle Stroke"><i class="ph-bold ph-square"></i></button>
@@ -618,30 +602,7 @@
         <span class="collapsible-chevron" title="Toggle section"><i class="ph-bold ph-caret-down"></i></span>
     </div>
     <div id="box-options-content" class="collapsible-content">
-        <div class="metrics-grid-2">
-            <label class="studio-toggle-chip" title="Parent box layer to text layer">
-                <input type="checkbox" id="chkParentToText" checked>
-                <span class="chip-inner">
-                    <i class="ph-bold ph-check chip-check"></i>
-                    <span class="chip-label"><i class="ph-bold ph-link" style="margin-right:3px;vertical-align:-1px;"></i>PARENT</span>
-                </span>
-            </label>
-            <label class="studio-toggle-chip" title="Auto resize box with text changes">
-                <input type="checkbox" id="chkAutoResize" checked>
-                <span class="chip-inner">
-                    <i class="ph-bold ph-check chip-check"></i>
-                    <span class="chip-label"><i class="ph-bold ph-arrows-out" style="margin-right:3px;vertical-align:-1px;"></i>AUTO RESIZE</span>
-                </span>
-            </label>
-        </div>
-        <div class="metrics-grid-2 mt-6">
-            <label class="studio-toggle-chip" title="Hide box when text layer is empty">
-                <input type="checkbox" id="chkHideEmpty" checked>
-                <span class="chip-inner">
-                    <i class="ph-bold ph-check chip-check"></i>
-                    <span class="chip-label"><i class="ph-bold ph-eye-slash" style="margin-right:3px;vertical-align:-1px;"></i>HIDE EMPTY</span>
-                </span>
-            </label>
+        <div>
             <label class="studio-toggle-chip" title="Lock box size from dynamic expression overrides">
                 <input type="checkbox" id="chkLockSize">
                 <span class="chip-inner">
@@ -705,7 +666,6 @@
     <button type="button" class="subbar-btn square-icon-btn" id="subInspScrollMotion" title="Scroll to Motion Controls" aria-label="Motion Controls"><i class="ph-bold ph-wave-sine"></i></button>
     <div class="subbar-divider"></div>
     <button type="button" class="subbar-btn square-icon-btn active" id="subInspTwAuto" title="Toggle Automatic Typing Mode" aria-label="Auto Typing"><i class="ph-bold ph-clock"></i></button>
-    <button type="button" class="subbar-btn square-icon-btn" id="subInspBoxRtl" title="Toggle Box RTL Alignment" aria-label="Box RTL"><i class="ph-bold ph-text-align-right"></i></button>
     <button type="button" class="subbar-btn square-icon-btn" id="subInspExpandAll" title="Expand / Collapse All Sections" aria-label="Expand All"><i class="ph-bold ph-caret-double-down"></i></button>
 </div>
 <!-- Layer Header -->
@@ -811,26 +771,12 @@
         </div>
 
         <!-- Position/Direction Chips -->
-        <div class="metrics-grid-3 mb-6">
+        <div class="mb-6">
             <label class="studio-toggle-chip" title="Place cursor before text">
                 <input type="checkbox" id="inspCursorBefore">
                 <span class="chip-inner">
                     <i class="ph-bold ph-check chip-check"></i>
-                    <span class="chip-label">BEFORE</span>
-                </span>
-            </label>
-            <label class="studio-toggle-chip" title="Keep cursor blinking during hold">
-                <input type="checkbox" id="inspBlinkInHold" checked>
-                <span class="chip-inner">
-                    <i class="ph-bold ph-check chip-check"></i>
-                    <span class="chip-label">HOLD</span>
-                </span>
-            </label>
-            <label class="studio-toggle-chip" title="Right-to-Left text direction">
-                <input type="checkbox" id="inspBoxRTL">
-                <span class="chip-inner">
-                    <i class="ph-bold ph-check chip-check"></i>
-                    <span class="chip-label">RTL</span>
+                    <span class="chip-label"><i class="ph-bold ph-arrow-left" style="margin-right:3px;vertical-align:-1px;"></i>CURSOR BEFORE</span>
                 </span>
             </label>
         </div>
@@ -1112,18 +1058,11 @@
 </div>
         </div>
         <!-- Timing & Mode Row: Segmented IN/OUT Tabs + SYNC in ONE Line -->
-        <div class="studio-row-split mb-6">
-            <div class="inspector-motion-tabs" style="flex:1; margin-bottom:0;">
+        <div class="mb-6">
+            <div class="inspector-motion-tabs" style="width:100%; margin-bottom:0;">
                 <button type="button" class="inspector-motion-tab active" data-tab="in" title="IN animation values"><i class="ph-bold ph-arrow-square-in" style="margin-right:3px;"></i>IN</button>
                 <button type="button" class="inspector-motion-tab" data-tab="out" title="OUT animation values"><i class="ph-bold ph-arrow-square-out" style="margin-right:3px;"></i>OUT</button>
             </div>
-            <label class="studio-toggle-chip" style="width:auto; flex-shrink:0; height:26px;" title="Sync timing with Typewriter markers">
-                <input type="checkbox" id="inspMotionSyncEnable">
-                <span class="chip-inner" style="padding:0 8px;">
-                    <i class="ph-bold ph-link" style="margin-right:3px;"></i>
-                    <span style="font-size:9.5px;font-weight:700;">SYNC</span>
-                </span>
-            </label>
         </div>
 
         <!-- Motion Channels (Single Line 4-Channel Icon Toggles) -->
@@ -1667,7 +1606,6 @@
     <button type="button" class="subbar-btn square-icon-btn active" id="subMotionModeIn" title="Motion IN Mode" aria-label="Motion IN"><i class="ph-bold ph-sign-in"></i></button>
     <button type="button" class="subbar-btn square-icon-btn" id="subMotionModeOut" title="Motion OUT Mode" aria-label="Motion OUT"><i class="ph-bold ph-sign-out"></i></button>
     <div class="subbar-divider"></div>
-    <button type="button" class="subbar-btn square-icon-btn" id="subMotionSyncTw" title="Toggle Sync Motion Timing with Typewriter" aria-label="Sync Typewriter"><i class="ph-bold ph-link"></i></button>
     <button type="button" class="subbar-btn square-icon-btn" id="subMotionOutEnable" title="Toggle OUT Animation Enable" aria-label="Enable OUT"><i class="ph-bold ph-door-open"></i></button>
     <div class="subbar-divider"></div>
     <button type="button" class="subbar-btn square-icon-btn active" id="subMotionTogglePos" title="Toggle Position Offset Animation" aria-label="Position"><i class="ph-bold ph-arrows-out-cardinal"></i></button>
@@ -1723,19 +1661,12 @@
     </div>
 </div>
     </div>
-    <div class="metrics-grid-2 mt-6">
+    <div class="mt-6">
         <label class="studio-toggle-chip" title="Enable exit animation">
             <input type="checkbox" id="motionOutEnable">
             <span class="chip-inner">
                 <i class="ph-bold ph-check chip-check"></i>
                 <span class="chip-label"><i class="ph-bold ph-arrow-square-out" style="margin-right:3px;vertical-align:-1px;"></i>OUT ANIM</span>
-            </span>
-        </label>
-        <label class="studio-toggle-chip" title="Sync Motion timing with Typewriter markers">
-            <input type="checkbox" id="motionSyncEnable">
-            <span class="chip-inner">
-                <i class="ph-bold ph-check chip-check"></i>
-                <span class="chip-label"><i class="ph-bold ph-link" style="margin-right:3px;vertical-align:-1px;"></i>SYNC TW</span>
             </span>
         </label>
     </div>

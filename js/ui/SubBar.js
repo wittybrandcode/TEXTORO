@@ -25,24 +25,6 @@ TEXTORO.UI.SubBar = (function() {
      * 1. Typewriter Subbar
      */
     function bindTypewriterSubbar() {
-        var btnLtr = document.getElementById('subTypeLtr');
-        var btnRtl = document.getElementById('subTypeRtl');
-        var origLtr = document.getElementById('btnLTR');
-        var origRtl = document.getElementById('btnRTL');
-
-        if (btnLtr && origLtr) {
-            btnLtr.addEventListener('click', function() {
-                origLtr.click();
-                syncTypewriter();
-            });
-        }
-        if (btnRtl && origRtl) {
-            btnRtl.addEventListener('click', function() {
-                origRtl.click();
-                syncTypewriter();
-            });
-        }
-
         // Toggle Word Mode
         bindToggle('subTypeWordMode', 'chkWordMode', function() {
             if (TEXTORO.Panels.Typewriter && TEXTORO.Panels.Typewriter.update) {
@@ -71,13 +53,6 @@ TEXTORO.UI.SubBar = (function() {
             }
         });
 
-        // Toggle Blink In Hold
-        bindToggle('subTypeBlinkInHold', 'chkBlinkInHold', function() {
-            if (TEXTORO.Panels.Typewriter && TEXTORO.Panels.Typewriter.update) {
-                TEXTORO.Panels.Typewriter.update();
-            }
-        });
-
         // Quick Actions
         var btnGet = document.getElementById('subTypeGetText');
         var origGet = document.getElementById('btnGetText');
@@ -93,37 +68,16 @@ TEXTORO.UI.SubBar = (function() {
     }
 
     function syncTypewriter() {
-        var origLtr = document.getElementById('btnLTR');
-        var btnLtr = document.getElementById('subTypeLtr');
-        var btnRtl = document.getElementById('subTypeRtl');
-        var isLtr = origLtr ? origLtr.classList.contains('active') : true;
-
-        if (btnLtr) btnLtr.classList.toggle('active', isLtr);
-        if (btnRtl) btnRtl.classList.toggle('active', !isLtr);
-
         syncBtnState('subTypeWordMode', 'chkWordMode');
         syncBtnState('subTypeCursor', 'chkCursor');
         syncBtnState('subTypeReverse', 'chkReverse');
         syncBtnState('subTypeNoOut', 'chkNoOut');
-        syncBtnState('subTypeBlinkInHold', 'chkBlinkInHold');
     }
 
     /**
      * 2. Box Subbar
      */
     function bindBoxSubbar() {
-        bindToggle('subBoxAutoResize', 'chkAutoResize', function() {
-            if (TEXTORO.Panels.Box && TEXTORO.Panels.Box.update) TEXTORO.Panels.Box.update();
-        });
-
-        bindToggle('subBoxHideEmpty', 'chkHideEmpty', function() {
-            if (TEXTORO.Panels.Box && TEXTORO.Panels.Box.update) TEXTORO.Panels.Box.update();
-        });
-
-        bindToggle('subBoxParentToText', 'chkParentToText', function() {
-            if (TEXTORO.Panels.Box && TEXTORO.Panels.Box.update) TEXTORO.Panels.Box.update();
-        });
-
         bindToggle('subBox4Corners', 'chk4Corners', function() {
             var row = document.getElementById('fourCornersRow');
             var single = document.getElementById('singleCornerRow');
@@ -177,9 +131,6 @@ TEXTORO.UI.SubBar = (function() {
     }
 
     function syncBox() {
-        syncBtnState('subBoxAutoResize', 'chkAutoResize');
-        syncBtnState('subBoxHideEmpty', 'chkHideEmpty');
-        syncBtnState('subBoxParentToText', 'chkParentToText');
         syncBtnState('subBox4Corners', 'chk4Corners');
         syncBtnState('subBoxLockSize', 'chkLockSize');
 
@@ -229,9 +180,7 @@ TEXTORO.UI.SubBar = (function() {
         }
 
         bindToggle('subInspTwAuto', 'inspTwAuto');
-        bindToggle('subInspBoxRtl', 'inspBoxRTL');
         bindToggle('subSogaTwAuto', 'sogaTwAuto');
-        bindToggle('subSogaBoxRtl', 'sogaBoxRTL');
 
         var btnExpand = document.getElementById('subInspExpandAll') || document.getElementById('subSogaExpandAll');
         if (btnExpand) {
@@ -248,9 +197,7 @@ TEXTORO.UI.SubBar = (function() {
 
     function syncInspector() {
         syncBtnState('subInspTwAuto', 'inspTwAuto');
-        syncBtnState('subInspBoxRtl', 'inspBoxRTL');
         syncBtnState('subSogaTwAuto', 'sogaTwAuto');
-        syncBtnState('subSogaBoxRtl', 'sogaBoxRTL');
     }
     var syncSoga = syncInspector;
     function _unusedOldBindSoga() {
@@ -395,7 +342,6 @@ TEXTORO.UI.SubBar = (function() {
             });
         }
 
-        bindToggle('subMotionSyncTw', 'motionSyncEnable');
         bindToggle('subMotionOutEnable', 'motionOutEnable');
         bindToggle('subMotionTogglePos', 'motionPosEnable');
         bindToggle('subMotionToggleScale', 'motionScaleEnable');
@@ -418,7 +364,6 @@ TEXTORO.UI.SubBar = (function() {
         if (btnIn && origIn) btnIn.classList.toggle('active', origIn.classList.contains('active'));
         if (btnOut && origOut) btnOut.classList.toggle('active', origOut.classList.contains('active'));
 
-        syncBtnState('subMotionSyncTw', 'motionSyncEnable');
         syncBtnState('subMotionOutEnable', 'motionOutEnable');
         syncBtnState('subMotionTogglePos', 'motionPosEnable');
         syncBtnState('subMotionToggleScale', 'motionScaleEnable');

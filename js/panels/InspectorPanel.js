@@ -45,7 +45,7 @@ TEXTORO.Panels.Inspector = (function() {
             wordMode: 'inspWordMode', randomSpeed: 'inspRandomSpeed', showCursor: 'inspShowCursor',
             cursorBefore: 'inspCursorBefore', cursorColor: 'inspCursorColor',
             cursorSpacing: 'inspCursorSpacing', blinkSpeed: 'inspBlinkSpeed',
-            blinkInHold: 'inspBlinkInHold', boxRTL: 'inspBoxRTL', textColor: 'inspTextColor',
+            textColor: 'inspTextColor',
             easingType: 'inspEasingType', easingStrength: 'inspEasingStrength'
         },
         box: {
@@ -102,7 +102,7 @@ TEXTORO.Panels.Inspector = (function() {
             // Typewriter
             'inspTwProgress', 'inspTwAuto', 'inspTwReverse', 'inspWordMode', 'inspRandomSpeed',
             'inspShowCursor', 'inspCursorBefore', 'inspCursorColor',
-            'inspCursorSpacing', 'inspBlinkSpeed', 'inspBlinkInHold', 'inspBoxRTL',
+            'inspCursorSpacing', 'inspBlinkSpeed',
             'inspTextColor', 'inspEasingType', 'inspEasingStrength',
             // Box
             'inspPadL', 'inspPadR', 'inspPadT', 'inspPadB',
@@ -111,7 +111,7 @@ TEXTORO.Panels.Inspector = (function() {
             'inspFillOp', 'inspFillColor', 'inspLockSize',
             // Motion
             'inspMotionInStart', 'inspMotionInEnd', 'inspMotionOutStart', 'inspMotionOutEnd',
-            'inspMotionSyncEnable', 'inspMotionPosEnable', 'inspMotionPosFromX', 'inspMotionPosFromY',
+            'inspMotionPosEnable', 'inspMotionPosFromX', 'inspMotionPosFromY',
             'inspMotionPosToX', 'inspMotionPosToY', 'inspMotionScaleEnable', 'inspMotionScaleFrom',
             'inspMotionScaleTo', 'inspMotionRotEnable', 'inspMotionRotFrom', 'inspMotionRotTo',
             'inspMotionOpacityEnable', 'inspMotionOpacityFrom', 'inspMotionOpacityTo',
@@ -310,8 +310,6 @@ TEXTORO.Panels.Inspector = (function() {
         setColor('inspCursorColor', tw.cursorColor);
         setValue('inspCursorSpacing', tw.cursorSpacing);
         setValue('inspBlinkSpeed', tw.blinkSpeed);
-        setChecked('inspBlinkInHold', tw.blinkInHold);
-        setChecked('inspBoxRTL', tw.boxRTL);
         setColor('inspTextColor', tw.textColor);
         setValue('inspEasingType', (tw.easingType != null) ? tw.easingType : 1);
         setValue('inspEasingStrength', (tw.easingStrength != null) ? tw.easingStrength : 100);
@@ -362,8 +360,6 @@ TEXTORO.Panels.Inspector = (function() {
         setValue('inspMotionInEnd', mt.inEnd != null ? mt.inEnd : 1);
         setValue('inspMotionOutStart', mt.outStart != null ? mt.outStart : -1);
         setValue('inspMotionOutEnd', mt.outEnd != null ? mt.outEnd : -1);
-        
-        setChecked('inspMotionSyncEnable', (mt.syncMode > 0));
         
         // Position IN
         setChecked('inspMotionPosEnable', mt.animatePosition || false);
@@ -541,8 +537,8 @@ TEXTORO.Panels.Inspector = (function() {
                 cursorColor: hexToRgb(getValue('inspCursorColor', '#ffffff')),
                 cursorSpacing: getNum('inspCursorSpacing', twD.cursorSpacing),
                 blinkSpeed: getNum('inspBlinkSpeed', twD.blinkSpeed),
-                blinkInHold: getChecked('inspBlinkInHold', false),
-                boxRTL: getChecked('inspBoxRTL', false),
+                blinkInHold: true,
+                boxRTL: false,
                 textColor: hexToRgb(getValue('inspTextColor', '#ffffff')),
                 easingType: getInt('inspEasingType', 1),
                 easingStrength: getNum('inspEasingStrength', 100)
@@ -625,7 +621,7 @@ TEXTORO.Panels.Inspector = (function() {
             inEnd: getNumSafe('inspMotionInEnd', 1),
             outStart: getNumSafe('inspMotionOutStart', -1),
             outEnd: getNumSafe('inspMotionOutEnd', -1),
-            syncMode: getCheckedSafe('inspMotionSyncEnable', false) ? 1 : 0,
+            syncMode: 1, // Enforced: sync motion timing with markers
             animatePosition: getCheckedSafe('inspMotionPosEnable', false),
             posFromX: getNumSafe('inspMotionPosFromX', 0),
             posFromY: getNumSafe('inspMotionPosFromY', 0),
