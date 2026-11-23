@@ -559,33 +559,51 @@ TEXTORO.Panels.Presets = (function() {
      */
     function applyBoxStyles(el, vals, textEl) {
         if (!vals) return;
-        var rgb = parsePresetColor(vals.fillColor, 20, 20, 28);
-        var fillOp = (vals.fillOpacity != null) ? (vals.fillOpacity / 100) : 0.85;
         
-        var bgVal = (fillOp <= 0.02) ? 'transparent' : 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + fillOp + ')';
-        el.style.setProperty('background-color', bgVal, 'important');
-        
-        // Dynamic Corner Radii (Uniform or Independent 4-Corners)
+        // Scale factors to map AE comp pixels (1920x1080, font ~48px) to CEP preview stage (height 102px, font ~18.5px)
+        var scaleRad = 0.42;
+        var scalePadY = 0.52;
+        var scalePadX = 0.62;
+
+        // 1. Proportional Padding
+        var pTop = vals.paddingTop != null ? Math.min(Math.max(vals.paddingTop * scalePadY, 6), 20) : 9;
+        var pBottom = vals.paddingBottom != null ? Math.min(Math.max(vals.paddingBottom * scalePadY, 6), 20) : 9;
+        var pLeft = vals.paddingLeft != null ? Math.min(Math.max(vals.paddingLeft * scalePadX, 12), 48) : 22;
+        var pRight = vals.paddingRight != null ? Math.min(Math.max(vals.paddingRight * scalePadX, 12), 48) : 22;
+        var padVal = Math.round(pTop) + 'px ' + Math.round(pRight) + 'px ' + Math.round(pBottom) + 'px ' + Math.round(pLeft) + 'px';
+        el.style.setProperty('padding', padVal, 'important');
+
+        // Estimate current box height (font 18.5px * 1.2 line-height = 22.2px + pTop + pBottom)
+        var estimatedBoxH = 22.2 + pTop + pBottom;
+        var maxAllowedRadius = Math.floor(estimatedBoxH / 2);
+
+        // 2. Corner Radii (Proportionately scaled to match AE rounded rectangle geometry)
         if (vals.use4Corners) {
-            var tl = vals.cornerTL != null ? Math.min(Math.max(vals.cornerTL, 0), 24) : 0;
-            var tr = vals.cornerTR != null ? Math.min(Math.max(vals.cornerTR, 0), 24) : 0;
-            var br = vals.cornerBR != null ? Math.min(Math.max(vals.cornerBR, 0), 24) : 0;
-            var bl = vals.cornerBL != null ? Math.min(Math.max(vals.cornerBL, 0), 24) : 0;
+            var tl = vals.cornerTL != null ? Math.min(Math.max(Math.round(vals.cornerTL * scaleRad), 0), maxAllowedRadius) : 0;
+            var tr = vals.cornerTR != null ? Math.min(Math.max(Math.round(vals.cornerTR * scaleRad), 0), maxAllowedRadius) : 0;
+            var br = vals.cornerBR != null ? Math.min(Math.max(Math.round(vals.cornerBR * scaleRad), 0), maxAllowedRadius) : 0;
+            var bl = vals.cornerBL != null ? Math.min(Math.max(Math.round(vals.cornerBL * scaleRad), 0), maxAllowedRadius) : 0;
             var radStr = tl + 'px ' + tr + 'px ' + br + 'px ' + bl + 'px';
             el.style.setProperty('border-radius', radStr, 'important');
         } else {
             var rawRad = vals.cornerRadius != null ? vals.cornerRadius : 0;
-            var rad = Math.min(Math.max(rawRad, 0), 24);
+            var rad = Math.min(Math.max(Math.round(rawRad * scaleRad), 0), maxAllowedRadius);
             el.style.setProperty('border-radius', rad + 'px', 'important');
         }
-        
-        // Dynamic Border Stroke (Width, Opacity, Dashed Pattern, Color)
+
+        // 3. Background Fill
+        var rgb = parsePresetColor(vals.fillColor, 20, 20, 28);
+        var fillOp = (vals.fillOpacity != null) ? (vals.fillOpacity / 100) : 0.85;
+        var bgVal = (fillOp <= 0.02) ? 'transparent' : 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + fillOp + ')';
+        el.style.setProperty('background-color', bgVal, 'important');
+
+        // 4. Border Stroke
         var sWidth = vals.strokeWidth || 0;
         var sOp = (vals.strokeOpacity != null) ? (vals.strokeOpacity / 100) : 1;
         if (sWidth > 0 && sOp > 0.05) {
             var sRgb = parsePresetColor(vals.strokeColor, 255, 255, 255);
             var sStyle = (vals.strokeDash && vals.strokeDash > 0) ? 'dashed' : 'solid';
-            var borderW = Math.min(Math.max(sWidth * 0.75, 1.5), 3.5);
+            var borderW = Math.min(Math.max(Math.round(sWidth * 0.6), 1.5), 4);
             var borderVal = borderW + 'px ' + sStyle + ' rgba(' + sRgb[0] + ',' + sRgb[1] + ',' + sRgb[2] + ',' + sOp + ')';
             el.style.setProperty('border', borderVal, 'important');
         } else {
@@ -593,15 +611,7 @@ TEXTORO.Panels.Presets = (function() {
             el.style.setProperty('border', fallbackBorder, 'important');
         }
 
-        // Proportional Padding
-        var pTop = vals.paddingTop != null ? Math.min(Math.max(vals.paddingTop * 0.35, 4), 16) : 8;
-        var pBottom = vals.paddingBottom != null ? Math.min(Math.max(vals.paddingBottom * 0.35, 4), 16) : 8;
-        var pLeft = vals.paddingLeft != null ? Math.min(Math.max(vals.paddingLeft * 0.45, 8), 32) : 18;
-        var pRight = vals.paddingRight != null ? Math.min(Math.max(vals.paddingRight * 0.45, 8), 32) : 18;
-        var padVal = Math.round(pTop) + 'px ' + Math.round(pRight) + 'px ' + Math.round(pBottom) + 'px ' + Math.round(pLeft) + 'px';
-        el.style.setProperty('padding', padVal, 'important');
-
-        // Text Color Override from Box configuration
+        // 5. Text Color from Box Settings
         if (textEl && (vals.applyTextColor || vals.textColor)) {
             var tRgb = parsePresetColor(vals.textColor, 255, 255, 255);
             textEl.style.setProperty('color', 'rgb(' + tRgb[0] + ',' + tRgb[1] + ',' + tRgb[2] + ')', 'important');
