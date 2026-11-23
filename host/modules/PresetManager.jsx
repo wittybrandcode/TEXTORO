@@ -895,6 +895,8 @@ function savePreset(optsJSON) {
         }
         var id = generatePresetId(category);
         var fileName = _createUniquePresetFileName(category, name, id);
+        var modules = opts.modules || [category];
+        var tags = opts.tags || modules;
         
         // إنشاء كائن الـ Preset
         var preset = {
@@ -903,6 +905,8 @@ function savePreset(optsJSON) {
             icon: icon,
             faIcon: opts.faIcon || opts.icon,
             category: category,
+            modules: modules,
+            tags: tags,
             builtin: false,
             created: _getISODate(),
             values: values
@@ -942,7 +946,7 @@ function savePreset(optsJSON) {
         // تحديث الـ index
         var index = _readUserPresetIndex(category);
         if (!index.presets) index.presets = [];
-        index.presets.push({ id: id, file: writtenName, name: name, icon: icon || "📄", faIcon: opts.faIcon || icon, builtin: false });
+        index.presets.push({ id: id, file: writtenName, name: name, icon: icon || "📄", faIcon: opts.faIcon || icon, modules: modules, tags: tags, builtin: false });
         if (!_writeUserPresetIndex(category, index)) {
             $.writeln("[TEXTORO] Notice: Preset index write returned false, but file saved successfully: " + writtenName);
         }

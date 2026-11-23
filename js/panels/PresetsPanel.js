@@ -11,6 +11,7 @@ TEXTORO.Panels.Presets = (function() {
     
     var cache = [];
     var currentFilter = 'all';
+    var activeModuleFilters = [];
     var currentSort = 'name-asc';
     var searchQuery = '';
     var favorites = [];
@@ -39,31 +40,26 @@ TEXTORO.Panels.Presets = (function() {
         
         // استعادة الإعدادات
         currentFilter = (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.get === 'function') ? TEXTORO.State.Manager.get('presetsFilter', 'all') : 'all';
+        activeModuleFilters = (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.get === 'function') ? TEXTORO.State.Manager.get('presetsActiveModules', []) : [];
+        if (['type', 'box', 'motion'].indexOf(currentFilter) !== -1 && activeModuleFilters.length === 0) {
+            activeModuleFilters = [currentFilter];
+            currentFilter = 'modules';
+        }
         currentSort = (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.get === 'function') ? TEXTORO.State.Manager.get('presetsSort', 'name-asc') : 'name-asc';
         
         if (elements.sortSelect) {
             elements.sortSelect.value = currentSort;
         }
         
-        // ربط أزرار الفلتر
+        // ربط أزرار الفلتر (دعم الفلترة المتعددة للوحدات 3-Pillar Multi-Module Filter)
         document.querySelectorAll('.filter-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(function(b) {
-                    b.classList.remove('active');
-                });
-                this.classList.add('active');
-                currentFilter = this.dataset.filter;
-                if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') TEXTORO.State.Manager.set('presetsFilter', currentFilter);
-                
-                // إظهار/إخفاء خيارات Motion
-                updateMotionOptionsVisibility();
-                
-                render();
+                var filterVal = this.dataset.filter;
+                handleFilterBtnClick(filterVal);
             });
-            
-            // تفعيل الفلتر المحفوظ
-            btn.classList.toggle('active', btn.dataset.filter === currentFilter);
         });
+        
+        syncFilterButtonsUI();
         
         // إظهار خيارات Motion إذا كان الفلتر motion-full
         updateMotionOptionsVisibility();
@@ -131,6 +127,140 @@ TEXTORO.Panels.Presets = (function() {
         load();
         
         TEXTORO.log('PresetsPanel initialized');
+    }
+
+    /**
+     * الحصول على وحدات البريست ديناميكياً (Text, Box, Motion)
+     */
+    function getPresetModules(preset) {
+        if (!preset) return [];
+        var mods = [];
+
+        // 1. فحص مصفوفة modules الصريحة
+        if (Array.isArray(preset.modules) && preset.modules.length > 0) {
+            preset.modules.forEach(function(m) {
+                var norm = String(m).toLowerCase().trim();
+                if (norm === 'typewriter' || norm === 'text') norm = 'type';
+                if (norm === 'shape') norm = 'box';
+                if (norm === 'kinematics' || norm === 'motion-full') norm = 'motion';
+                if (['type', 'box', 'motion'].indexOf(norm) !== -1 && mods.indexOf(norm) === -1) {
+                    mods.push(norm);
+                }
+            });
+            if (mods.length > 0) return mods;
+        }
+
+        // 2. فحص مصفوفة tags الصريحة
+        if (Array.isArray(preset.tags) && preset.tags.length > 0) {
+            preset.tags.forEach(function(t) {
+                var norm = String(t).toLowerCase().trim();
+                if (norm === 'typewriter' || norm === 'text') norm = 'type';
+                if (norm === 'shape') norm = 'box';
+                if (norm === 'kinematics' || norm === 'motion-full') norm = 'motion';
+                if (['type', 'box', 'motion'].indexOf(norm) !== -1 && mods.indexOf(norm) === -1) {
+                    mods.push(norm);
+                }
+            });
+            if (mods.length > 0) return mods;
+        }
+
+        // 3. فحص بنية قيم البريست (Values Inspection)
+        var vals = preset.values || {};
+        var hasTypeVal = vals.type && typeof vals.type === 'object' && Object.keys(vals.type).length > 0;
+        var hasBoxVal = vals.box && typeof vals.box === 'object' && Object.keys(vals.box).length > 0;
+        var hasMotionVal = vals.motion && typeof vals.motion === 'object' && Object.keys(vals.motion).length > 0;
+
+        if (hasTypeVal) mods.push('type');
+        if (hasBoxVal) mods.push('box');
+        if (hasMotionVal) mods.push('motion');
+        if (mods.length > 0) return mods;
+
+        // 4. Fallback حسب الفئة
+        var cat = String(preset.category || '').toLowerCase().trim();
+        if (cat === 'toro' || cat === 'templates') {
+            return ['type', 'box', 'motion'];
+        }
+        if (cat === 'mix' || cat === 'compound') {
+            return ['type', 'box'];
+        }
+        if (cat === 'type' || cat === 'typewriter') {
+            return ['type'];
+        }
+        if (cat === 'box' || cat === 'shape') {
+            return ['box'];
+        }
+        if (cat === 'motion' || cat === 'motion-full') {
+            return ['motion'];
+        }
+
+        return ['type'];
+    }
+
+    /**
+     * تحديث أزرار الفلتر بصرياً
+     */
+    function syncFilterButtonsUI() {
+        var allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+        var favBtn = document.querySelector('.filter-btn[data-filter="favorites"]');
+        var typeBtn = document.querySelector('.filter-btn[data-filter="type"]');
+        var boxBtn = document.querySelector('.filter-btn[data-filter="box"]');
+        var motionBtn = document.querySelector('.filter-btn[data-filter="motion"]');
+
+        if (currentFilter === 'all') {
+            if (allBtn) allBtn.classList.add('active');
+            if (favBtn) favBtn.classList.remove('active');
+            if (typeBtn) typeBtn.classList.remove('active');
+            if (boxBtn) boxBtn.classList.remove('active');
+            if (motionBtn) motionBtn.classList.remove('active');
+        } else if (currentFilter === 'favorites') {
+            if (allBtn) allBtn.classList.remove('active');
+            if (favBtn) favBtn.classList.add('active');
+            if (typeBtn) typeBtn.classList.remove('active');
+            if (boxBtn) boxBtn.classList.remove('active');
+            if (motionBtn) motionBtn.classList.remove('active');
+        } else {
+            if (allBtn) allBtn.classList.remove('active');
+            if (favBtn) favBtn.classList.remove('active');
+            if (typeBtn) typeBtn.classList.toggle('active', activeModuleFilters.indexOf('type') !== -1);
+            if (boxBtn) boxBtn.classList.toggle('active', activeModuleFilters.indexOf('box') !== -1);
+            if (motionBtn) motionBtn.classList.toggle('active', activeModuleFilters.indexOf('motion') !== -1);
+        }
+    }
+
+    /**
+     * معالجة النقر على أزرار الفلتر المتعددة
+     */
+    function handleFilterBtnClick(filterVal) {
+        if (filterVal === 'all') {
+            currentFilter = 'all';
+            activeModuleFilters = [];
+        } else if (filterVal === 'favorites') {
+            currentFilter = 'favorites';
+            activeModuleFilters = [];
+        } else if (filterVal === 'type' || filterVal === 'box' || filterVal === 'motion') {
+            var idx = activeModuleFilters.indexOf(filterVal);
+            if (idx > -1) {
+                activeModuleFilters.splice(idx, 1);
+            } else {
+                activeModuleFilters.push(filterVal);
+            }
+
+            if (activeModuleFilters.length === 0) {
+                currentFilter = 'all';
+            } else {
+                currentFilter = 'modules';
+            }
+        }
+
+        syncFilterButtonsUI();
+
+        if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') {
+            TEXTORO.State.Manager.set('presetsFilter', currentFilter);
+            TEXTORO.State.Manager.set('presetsActiveModules', activeModuleFilters);
+        }
+
+        updateMotionOptionsVisibility();
+        render();
     }
     
     /**
@@ -314,16 +444,15 @@ TEXTORO.Panels.Presets = (function() {
             if (currentFilter === 'favorites') {
                 return isFavorite(preset);
             }
-            if (currentFilter !== 'all') {
-                var pCat = (preset.category || '').toLowerCase();
-                var fCat = (currentFilter || '').toLowerCase();
-                if (pCat === 'toro') pCat = 'templates';
-                if (pCat === 'mix') pCat = 'compound';
-                if (pCat === 'motion-full') pCat = 'motion';
-                if (fCat === 'toro') fCat = 'templates';
-                if (fCat === 'mix') fCat = 'compound';
-                if (fCat === 'motion-full') fCat = 'motion';
-                if (pCat !== fCat) return false;
+            if (currentFilter === 'modules' && activeModuleFilters.length > 0) {
+                var pMods = getPresetModules(preset);
+                var matchesAll = activeModuleFilters.every(function(m) {
+                    return pMods.indexOf(m) !== -1;
+                });
+                if (!matchesAll) return false;
+            } else if (currentFilter !== 'all') {
+                var pMods = getPresetModules(preset);
+                if (pMods.indexOf(currentFilter) === -1) return false;
             }
             if (searchQuery) {
                 var q = searchQuery;
@@ -331,7 +460,8 @@ TEXTORO.Panels.Presets = (function() {
                 var matchCat = (preset.category || '').toLowerCase().indexOf(q) !== -1;
                 var iconStr = (preset.faIcon || preset.icon || '').toLowerCase();
                 var matchIcon = iconStr.indexOf(q) !== -1;
-                if (!matchName && !matchCat && !matchIcon) {
+                var matchMods = getPresetModules(preset).some(function(m) { return m.indexOf(q) !== -1; });
+                if (!matchName && !matchCat && !matchIcon && !matchMods) {
                     return false;
                 }
             }
@@ -747,21 +877,32 @@ TEXTORO.Panels.Presets = (function() {
         previewWindow.appendChild(applyBtn);
         item.appendChild(previewWindow);
         
-        // 2. Bottom Meta Bar (Name, Badge, Star, Delete)
+        // 2. Bottom Meta Bar (Name with Module Icons, Badges, Star, Delete)
         var metaBar = document.createElement('div');
         metaBar.className = 'preset-meta-bar';
         
         var nameSpan = document.createElement('span');
         nameSpan.className = 'preset-name';
-        var iconClass = preset.faIcon || preset.icon;
-        if (iconClass && typeof iconClass === 'string' && iconClass.indexOf('ph-') !== -1) {
-            var iconEl = document.createElement('i');
-            iconEl.className = iconClass;
-            iconEl.style.marginRight = '6px';
-            iconEl.style.fontSize = '12px';
-            iconEl.style.opacity = '0.85';
-            nameSpan.appendChild(iconEl);
-        }
+        
+        var pMods = getPresetModules(preset);
+        var iconsWrap = document.createElement('span');
+        iconsWrap.className = 'preset-modules-icons';
+        pMods.forEach(function(m) {
+            var ico = document.createElement('i');
+            if (m === 'type') {
+                ico.className = 'ph-bold ph-textbox preset-icon-type';
+                ico.title = 'Text';
+            } else if (m === 'box') {
+                ico.className = 'ph-bold ph-bounding-box preset-icon-box';
+                ico.title = 'Box';
+            } else if (m === 'motion') {
+                ico.className = 'ph-bold ph-wave-sine preset-icon-motion';
+                ico.title = 'Motion';
+            }
+            iconsWrap.appendChild(ico);
+        });
+        nameSpan.appendChild(iconsWrap);
+
         var textNode = document.createTextNode(String(preset.name || ''));
         nameSpan.appendChild(textNode);
         metaBar.appendChild(nameSpan);
@@ -769,19 +910,15 @@ TEXTORO.Panels.Presets = (function() {
         var metaRight = document.createElement('div');
         metaRight.className = 'preset-meta-right';
         
-        var badge = document.createElement('span');
-        var rawCat = (preset.category || '').toLowerCase();
-        var normCat = (rawCat === 'toro') ? 'templates' : ((rawCat === 'mix') ? 'compound' : ((rawCat === 'motion-full') ? 'motion' : rawCat));
-        badge.className = 'preset-badge ' + normCat;
-        var badgeLabels = {
-            'templates': 'Template',
-            'compound': 'Compound',
-            'type': 'Type',
-            'box': 'Box',
-            'motion': 'Motion'
-        };
-        badge.textContent = badgeLabels[normCat] || (normCat.charAt(0).toUpperCase() + normCat.slice(1));
-        metaRight.appendChild(badge);
+        var badgesWrap = document.createElement('div');
+        badgesWrap.className = 'preset-module-badges';
+        pMods.forEach(function(m) {
+            var pill = document.createElement('span');
+            pill.className = 'preset-mod-pill ' + m;
+            pill.textContent = (m === 'type') ? 'TEXT' : (m === 'box' ? 'BOX' : 'MOTION');
+            badgesWrap.appendChild(pill);
+        });
+        metaRight.appendChild(badgesWrap);
         
         var favBtn = document.createElement('button');
         favBtn.className = 'preset-fav-btn' + (isFavorite(preset) ? ' active' : '');
@@ -839,7 +976,7 @@ TEXTORO.Panels.Presets = (function() {
      */
     function updateMotionOptionsVisibility() {
         if (elements.motionOptions) {
-            var showOptions = (currentFilter === 'motion-full' || currentFilter === 'motion');
+            var showOptions = (currentFilter === 'motion' || (currentFilter === 'modules' && activeModuleFilters.indexOf('motion') !== -1));
             elements.motionOptions.style.display = showOptions ? 'block' : 'none';
         }
     }

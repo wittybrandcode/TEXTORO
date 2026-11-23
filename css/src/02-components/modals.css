@@ -711,44 +711,43 @@ button.copied {
     text-transform: uppercase !important;
 }
 
-.preset-save-icon-picker {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 4px !important;
-}
-
-.preset-icons-row {
-    display: flex !important;
+/* Assigned Module Badges in Modal */
+.preset-module-badges {
+    display: inline-flex !important;
     align-items: center !important;
     gap: 4px !important;
     flex-wrap: wrap !important;
 }
 
-.preset-icon-choice {
-    width: 28px !important;
-    height: 28px !important;
-    background: #14141d !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 0 !important;
-    color: #cbd5e1 !important;
+.preset-mod-pill,
+.preset-tag-pill {
     display: inline-flex !important;
     align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    font-size: 13px !important;
-    transition: all 0.15s ease !important;
+    gap: 4px !important;
+    padding: 2px 6px !important;
+    font-size: 8.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    border-radius: 0 !important;
+    line-height: 14px !important;
 }
 
-.preset-icon-choice:hover {
-    border-color: rgba(16, 185, 129, 0.45) !important;
-    background: #1b1b28 !important;
+.preset-mod-pill.type,
+.preset-tag-pill.type {
+    background: #10b981 !important;
     color: #ffffff !important;
 }
 
-.preset-icon-choice.active {
-    border-color: #10b981 !important;
-    background: #15221d !important;
-    color: #34d399 !important;
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.3) !important;
+.preset-mod-pill.box,
+.preset-tag-pill.box {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+.preset-mod-pill.motion,
+.preset-tag-pill.motion {
+    background: #8b5cf6 !important;
+    color: #ffffff !important;
 }
 

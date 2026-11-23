@@ -959,102 +959,86 @@ TEXTORO.UI.Modals = (function() {
         }
 
         function onModuleToggle() {
-            var cat = updatePresetSaveCategory();
-            if (!userHasSelectedCustomIcon) {
-                syncDefaultIconWithCategory(cat);
-            }
+            updatePresetSaveCategory();
         }
         if (chkType) chkType.addEventListener('change', onModuleToggle);
         if (chkBox) chkBox.addEventListener('change', onModuleToggle);
         if (chkMotion) chkMotion.addEventListener('change', onModuleToggle);
-
-        var iconBtns = document.querySelectorAll('#presetSaveIconsRow .preset-icon-choice');
-        iconBtns.forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                iconBtns.forEach(function(b) { b.classList.remove('active'); });
-                btn.classList.add('active');
-                selectedPresetIcon = btn.getAttribute('data-icon') || 'ph-bold ph-sparkle';
-                userHasSelectedCustomIcon = true;
-            });
-        });
     }
 
     /**
-     * مزامنة الأيقونة الافتراضية مع التصنيف التلقائي
-     */
-    function syncDefaultIconWithCategory(cat) {
-        var iconMap = {
-            'type': 'ph-bold ph-text-t',
-            'box': 'ph-bold ph-bounding-box',
-            'motion': 'ph-bold ph-wave-sine',
-            'compound': 'ph-bold ph-stack',
-            'templates': 'ph-bold ph-sparkle'
-        };
-        var targetIcon = iconMap[cat] || 'ph-bold ph-sparkle';
-        selectedPresetIcon = targetIcon;
-        var iconBtns = document.querySelectorAll('#presetSaveIconsRow .preset-icon-choice');
-        iconBtns.forEach(function(b) {
-            var isMatch = b.getAttribute('data-icon') === targetIcon;
-            b.classList.toggle('active', isMatch);
-        });
-    }
-
-    /**
-     * تحديث فئة البريست ديناميكياً 100% حسب الموديلات المحددة
+     * تحديث فئة ووحدات البريست ديناميكياً 100% حسب الموديلات المحددة
      */
     function updatePresetSaveCategory() {
         var chkType = document.getElementById('chkModuleType');
         var chkBox = document.getElementById('chkModuleBox');
         var chkMotion = document.getElementById('chkModuleMotion');
-        var badge = document.getElementById('presetSaveCategoryBadge');
+        var tagsBadges = document.getElementById('presetSaveTagsBadges');
         var okBtn = document.getElementById('btnPresetSaveOK');
 
         var hasT = chkType && chkType.checked;
         var hasB = chkBox && chkBox.checked;
         var hasM = chkMotion && chkMotion.checked;
 
-        var cat = '';
-        var label = 'SELECT AT LEAST 1';
+        var activeModules = [];
+        if (hasT) activeModules.push('type');
+        if (hasB) activeModules.push('box');
+        if (hasM) activeModules.push('motion');
 
+        var cat = '';
         if (hasT && hasB && hasM) {
             cat = 'templates';
-            label = 'TEMPLATES (FULL SUITE)';
-        } else if (hasT && hasB) {
+        } else if ((hasT && hasB) || (hasT && hasM) || (hasB && hasM)) {
             cat = 'compound';
-            label = 'COMPOUND (TYPE+BOX)';
-        } else if (hasT && hasM) {
-            cat = 'compound';
-            label = 'COMPOUND (TYPE+MOTION)';
-        } else if (hasB && hasM) {
-            cat = 'compound';
-            label = 'COMPOUND (BOX+MOTION)';
         } else if (hasT) {
             cat = 'type';
-            label = 'TYPEWRITER';
         } else if (hasB) {
             cat = 'box';
-            label = 'BOX SHAPE';
         } else if (hasM) {
             cat = 'motion';
-            label = 'MOTION';
         } else {
             cat = '';
-            label = 'SELECT AT LEAST 1';
         }
 
-        if (badge) {
-            badge.className = 'preset-badge ' + (cat || '');
-            badge.textContent = label;
+        if (tagsBadges) {
+            tagsBadges.innerHTML = '';
+            if (activeModules.length === 0) {
+                var emptySpan = document.createElement('span');
+                emptySpan.className = 'preset-mod-pill';
+                emptySpan.textContent = 'SELECT AT LEAST 1';
+                emptySpan.style.opacity = '0.5';
+                tagsBadges.appendChild(emptySpan);
+            } else {
+                activeModules.forEach(function(m) {
+                    var pill = document.createElement('span');
+                    pill.className = 'preset-mod-pill ' + m;
+                    var ico = document.createElement('i');
+                    if (m === 'type') {
+                        ico.className = 'ph-bold ph-textbox';
+                        pill.appendChild(ico);
+                        pill.appendChild(document.createTextNode(' TEXT'));
+                    } else if (m === 'box') {
+                        ico.className = 'ph-bold ph-bounding-box';
+                        pill.appendChild(ico);
+                        pill.appendChild(document.createTextNode(' BOX'));
+                    } else if (m === 'motion') {
+                        ico.className = 'ph-bold ph-wave-sine';
+                        pill.appendChild(ico);
+                        pill.appendChild(document.createTextNode(' MOTION'));
+                    }
+                    tagsBadges.appendChild(pill);
+                });
+            }
         }
 
         if (okBtn) {
-            var isValid = !!cat && (hasT || hasB || hasM);
+            var isValid = activeModules.length > 0;
             okBtn.disabled = !isValid;
             okBtn.style.opacity = isValid ? '1' : '0.4';
             okBtn.style.pointerEvents = isValid ? 'auto' : 'none';
         }
 
-        return cat;
+        return { category: cat, modules: activeModules };
     }
 
     /**
@@ -1120,8 +1104,7 @@ TEXTORO.UI.Modals = (function() {
             nameInput.value = cleanBase ? cleanBase + ' Preset' : 'Custom Preset';
         }
 
-        var initialCat = updatePresetSaveCategory();
-        syncDefaultIconWithCategory(initialCat);
+        updatePresetSaveCategory();
 
         presetSaveModal.style.display = 'flex';
         if (nameInput) {
@@ -1144,8 +1127,10 @@ TEXTORO.UI.Modals = (function() {
             return;
         }
 
-        var cat = updatePresetSaveCategory();
-        if (!cat) {
+        var catInfo = updatePresetSaveCategory();
+        var cat = catInfo.category;
+        var activeModules = catInfo.modules;
+        if (!cat || activeModules.length === 0) {
             TEXTORO.UI.StatusBar.warning('Please select at least one module');
             return;
         }
@@ -1178,11 +1163,25 @@ TEXTORO.UI.Modals = (function() {
             finalValues = presetSaveData.values.motion || {};
         }
 
+        // Automatic primary icon based on active modules
+        var primaryIcon = 'ph-bold ph-textbox';
+        if (activeModules.indexOf('type') !== -1 && activeModules.indexOf('box') !== -1 && activeModules.indexOf('motion') !== -1) {
+            primaryIcon = 'ph-bold ph-sparkle';
+        } else if (activeModules.length > 1) {
+            primaryIcon = 'ph-bold ph-stack';
+        } else if (activeModules[0] === 'box') {
+            primaryIcon = 'ph-bold ph-bounding-box';
+        } else if (activeModules[0] === 'motion') {
+            primaryIcon = 'ph-bold ph-wave-sine';
+        }
+
         var resultPayload = {
             name: name,
             category: cat,
-            icon: selectedPresetIcon,
-            faIcon: selectedPresetIcon,
+            modules: activeModules,
+            tags: activeModules,
+            icon: primaryIcon,
+            faIcon: primaryIcon,
             values: finalValues
         };
 

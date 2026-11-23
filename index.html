@@ -660,11 +660,9 @@
     <!-- Filter Buttons -->
     <div class="presets-filter studio-icon-filter-bar">
         <button class="filter-btn active square-icon-btn subbar-btn" data-filter="all" title="All Presets" aria-label="All Presets"><i class="ph-bold ph-squares-four"></i></button>
-        <button class="filter-btn type square-icon-btn subbar-btn" data-filter="type" title="Typewriter Presets (Text & Cues)" aria-label="Typewriter"><i class="ph-bold ph-textbox"></i></button>
+        <button class="filter-btn type square-icon-btn subbar-btn" data-filter="type" title="Text Presets (Typewriter)" aria-label="Text"><i class="ph-bold ph-textbox"></i></button>
         <button class="filter-btn box square-icon-btn subbar-btn" data-filter="box" title="Box Presets (Shape, Stroke & Fill)" aria-label="Box"><i class="ph-bold ph-bounding-box"></i></button>
         <button class="filter-btn motion square-icon-btn subbar-btn" data-filter="motion" title="Motion Presets (Kinematics & Physics)" aria-label="Motion"><i class="ph-bold ph-wave-sine"></i></button>
-        <button class="filter-btn compound square-icon-btn subbar-btn" data-filter="compound" title="Compound Styles (Type + Box)" aria-label="Compound"><i class="ph-bold ph-stack"></i></button>
-        <button class="filter-btn templates square-icon-btn subbar-btn" data-filter="templates" title="Complete Templates (Type + Box + Motion)" aria-label="Templates"><i class="ph-bold ph-sparkle"></i></button>
         <button class="filter-btn fav square-icon-btn subbar-btn" data-filter="favorites" title="Favorites" aria-label="Favorites"><i class="ph-bold ph-star"></i></button>
     </div>
 
@@ -2386,27 +2384,13 @@
     </div>
 
     <div class="preset-save-target-row">
-        <span class="preset-target-label"><i class="ph-bold ph-folder-notch"></i> AUTOMATIC CATEGORY</span>
-        <span class="preset-badge templates" id="presetSaveCategoryBadge">TEMPLATES</span>
+        <span class="preset-target-label"><i class="ph-bold ph-tag"></i> ASSIGNED MODULES</span>
+        <div class="preset-module-badges" id="presetSaveTagsBadges"></div>
     </div>
 
     <div class="preset-save-input-group">
         <label class="preset-save-label" for="presetSaveNameInput">PRESET NAME</label>
         <input type="text" id="presetSaveNameInput" class="studio-input preset-save-name-input" placeholder="e.g. Clean Reveal" title="Preset Name" maxlength="60" autocomplete="off" spellcheck="false">
-    </div>
-
-    <div class="preset-save-icon-picker">
-        <div class="preset-save-label">SELECT ICON</div>
-        <div class="preset-icons-row" id="presetSaveIconsRow">
-            <button type="button" class="preset-icon-choice active" data-icon="ph-bold ph-sparkle" title="Sparkle"><i class="ph-bold ph-sparkle"></i></button>
-            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-text-t" title="Typewriter"><i class="ph-bold ph-text-t"></i></button>
-            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-bounding-box" title="Box Shape"><i class="ph-bold ph-bounding-box"></i></button>
-            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-stack" title="Compound"><i class="ph-bold ph-stack"></i></button>
-            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-wave-sine" title="Motion"><i class="ph-bold ph-wave-sine"></i></button>
-            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-star" title="Star"><i class="ph-bold ph-star"></i></button>
-            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-lightning" title="Lightning"><i class="ph-bold ph-lightning"></i></button>
-            <button type="button" class="preset-icon-choice" data-icon="ph-bold ph-flame" title="Flame"><i class="ph-bold ph-flame"></i></button>
-        </div>
     </div>
 </div>
 <div class="modal-footer">
