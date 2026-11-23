@@ -421,7 +421,7 @@ function importPresetFromPath(optsJSON) {
             return error("File path required");
         }
         
-        if (filePath.indexOf("\0") !== -1 || /(^|[\\/])\.\.([\\/]|$)/.test(filePath)) {
+        if (filePath.indexOf("\0") !== -1 || filePath.indexOf("..") !== -1) {
             return error("Invalid preset file path");
         }
         if (!/\.(txpreset|json)$/i.test(filePath)) {
