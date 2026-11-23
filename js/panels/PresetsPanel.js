@@ -31,7 +31,7 @@ TEXTORO.Panels.Presets = (function() {
         elements.container = document.getElementById('presetsListContainer');
         elements.searchInput = document.getElementById('presetsSearchInput');
         elements.searchClear = document.getElementById('presetsSearchClear');
-        elements.sortSelect = document.getElementById('presetsSortSelect');
+        elements.sortToggle = document.getElementById('presetsSortToggle');
         
         // تحميل المفضلة
         loadFavorites();
@@ -45,11 +45,9 @@ TEXTORO.Panels.Presets = (function() {
         }
         currentSort = (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.get === 'function') ? TEXTORO.State.Manager.get('presetsSort', 'name-asc') : 'name-asc';
         
-        if (elements.sortSelect) {
-            elements.sortSelect.value = currentSort;
-        }
+        syncSortToggleUI();
         
-        // ربط أزرار الفلتر (دعم الفلترة المتعددة للوحدات 3-Pillar Multi-Module Filter)
+        // ربط أزرار الفلتر (دعم الفلترة المتعددة للوحدات 3-Pillar Multi-Module Filter والبريسات المحفوظة)
         document.querySelectorAll('.filter-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var filterVal = this.dataset.filter;
@@ -62,16 +60,20 @@ TEXTORO.Panels.Presets = (function() {
         // إظهار خيارات Motion إذا كان الفلتر motion-full
         updateMotionOptionsVisibility();
         
-        // ربط الترتيب
-        if (elements.sortSelect) {
-            elements.sortSelect.addEventListener('change', function() {
-                currentSort = this.value;
-                if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') TEXTORO.State.Manager.set('presetsSort', currentSort);
+        // ربط زر التبديل السريع للترتيب A-Z / Z-A
+        if (elements.sortToggle) {
+            elements.sortToggle.addEventListener('click', function() {
+                currentSort = (currentSort === 'name-asc') ? 'name-desc' : 'name-asc';
+                syncSortToggleUI();
+                if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') {
+                    TEXTORO.State.Manager.set('presetsSort', currentSort);
+                }
+                TEXTORO.UI.StatusBar.set(currentSort === 'name-asc' ? 'Sorted: Name A-Z' : 'Sorted: Name Z-A', '');
                 render();
             });
         }
         
-        // ربط البحث
+        // ربط البحث المطور
         if (elements.searchInput) {
             var debouncedSearch = TEXTORO.Utils.debounce(function() {
                 render();
@@ -83,6 +85,16 @@ TEXTORO.Panels.Presets = (function() {
                     elements.searchClear.style.display = searchQuery ? 'flex' : 'none';
                 }
                 debouncedSearch();
+            });
+
+            elements.searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    this.value = '';
+                    searchQuery = '';
+                    if (elements.searchClear) elements.searchClear.style.display = 'none';
+                    render();
+                    this.blur();
+                }
             });
         }
         
@@ -195,11 +207,27 @@ TEXTORO.Panels.Presets = (function() {
     }
 
     /**
+     * مزامنة حالة زر الترتيب بصرياً
+     */
+    function syncSortToggleUI() {
+        if (!elements.sortToggle) return;
+        var isAsc = (currentSort === 'name-asc');
+        elements.sortToggle.innerHTML = isAsc 
+            ? '<i class="ph-bold ph-sort-ascending"></i>' 
+            : '<i class="ph-bold ph-sort-descending"></i>';
+        elements.sortToggle.title = isAsc 
+            ? 'Sort: Name A-Z (click for Z-A)' 
+            : 'Sort: Name Z-A (click for A-Z)';
+        elements.sortToggle.classList.toggle('active', !isAsc);
+    }
+
+    /**
      * تحديث أزرار الفلتر بصرياً
      */
     function syncFilterButtonsUI() {
         var allBtn = document.querySelector('.filter-btn[data-filter="all"]');
         var favBtn = document.querySelector('.filter-btn[data-filter="favorites"]');
+        var customBtn = document.querySelector('.filter-btn[data-filter="custom"]');
         var typeBtn = document.querySelector('.filter-btn[data-filter="type"]');
         var boxBtn = document.querySelector('.filter-btn[data-filter="box"]');
         var motionBtn = document.querySelector('.filter-btn[data-filter="motion"]');
@@ -207,18 +235,28 @@ TEXTORO.Panels.Presets = (function() {
         if (currentFilter === 'all') {
             if (allBtn) allBtn.classList.add('active');
             if (favBtn) favBtn.classList.remove('active');
+            if (customBtn) customBtn.classList.remove('active');
             if (typeBtn) typeBtn.classList.remove('active');
             if (boxBtn) boxBtn.classList.remove('active');
             if (motionBtn) motionBtn.classList.remove('active');
         } else if (currentFilter === 'favorites') {
             if (allBtn) allBtn.classList.remove('active');
             if (favBtn) favBtn.classList.add('active');
+            if (customBtn) customBtn.classList.remove('active');
+            if (typeBtn) typeBtn.classList.remove('active');
+            if (boxBtn) boxBtn.classList.remove('active');
+            if (motionBtn) motionBtn.classList.remove('active');
+        } else if (currentFilter === 'custom') {
+            if (allBtn) allBtn.classList.remove('active');
+            if (favBtn) favBtn.classList.remove('active');
+            if (customBtn) customBtn.classList.add('active');
             if (typeBtn) typeBtn.classList.remove('active');
             if (boxBtn) boxBtn.classList.remove('active');
             if (motionBtn) motionBtn.classList.remove('active');
         } else {
             if (allBtn) allBtn.classList.remove('active');
             if (favBtn) favBtn.classList.remove('active');
+            if (customBtn) customBtn.classList.remove('active');
             if (typeBtn) typeBtn.classList.toggle('active', activeModuleFilters.indexOf('type') !== -1);
             if (boxBtn) boxBtn.classList.toggle('active', activeModuleFilters.indexOf('box') !== -1);
             if (motionBtn) motionBtn.classList.toggle('active', activeModuleFilters.indexOf('motion') !== -1);
@@ -234,6 +272,9 @@ TEXTORO.Panels.Presets = (function() {
             activeModuleFilters = [];
         } else if (filterVal === 'favorites') {
             currentFilter = 'favorites';
+            activeModuleFilters = [];
+        } else if (filterVal === 'custom') {
+            currentFilter = 'custom';
             activeModuleFilters = [];
         } else if (filterVal === 'type' || filterVal === 'box' || filterVal === 'motion') {
             var idx = activeModuleFilters.indexOf(filterVal);
@@ -442,6 +483,9 @@ TEXTORO.Panels.Presets = (function() {
             if (currentFilter === 'favorites') {
                 return isFavorite(preset);
             }
+            if (currentFilter === 'custom') {
+                return !preset.builtin;
+            }
             if (currentFilter === 'modules' && activeModuleFilters.length > 0) {
                 var pMods = getPresetModules(preset);
                 var matchesAll = activeModuleFilters.every(function(m) {
@@ -459,7 +503,10 @@ TEXTORO.Panels.Presets = (function() {
                 var iconStr = (preset.faIcon || preset.icon || '').toLowerCase();
                 var matchIcon = iconStr.indexOf(q) !== -1;
                 var matchMods = getPresetModules(preset).some(function(m) { return m.indexOf(q) !== -1; });
-                if (!matchName && !matchCat && !matchIcon && !matchMods) {
+                var matchTags = Array.isArray(preset.tags) && preset.tags.some(function(t) { return String(t).toLowerCase().indexOf(q) !== -1; });
+                var matchSaved = (!preset.builtin && ('saved'.indexOf(q) !== -1 || 'custom'.indexOf(q) !== -1 || 'user'.indexOf(q) !== -1));
+                var matchFav = (isFavorite(preset) && 'favorite'.indexOf(q) !== -1);
+                if (!matchName && !matchCat && !matchIcon && !matchMods && !matchTags && !matchSaved && !matchFav) {
                     return false;
                 }
             }
@@ -476,9 +523,11 @@ TEXTORO.Panels.Presets = (function() {
             var safeQuery = String(searchQuery).replace(/[<>&"]/g, '');
             var emptyMsg = currentFilter === 'favorites'
                 ? 'No favorite presets yet. Click ⭐ to add.'
-                : (searchQuery
-                    ? 'No presets match "' + safeQuery + '"'
-                    : 'No presets in this category');
+                : (currentFilter === 'custom'
+                    ? 'No saved presets yet. Click [+] to save a new preset from layer.'
+                    : (searchQuery
+                        ? 'No presets match "' + safeQuery + '"'
+                        : 'No presets in this category'));
             elements.container.innerHTML = '<div class="presets-empty"><i class="ph-bold ph-package"></i><p>' + emptyMsg + '</p></div>';
             return;
         }
@@ -909,16 +958,20 @@ TEXTORO.Panels.Presets = (function() {
         iconsWrap.className = 'preset-modules-icons';
         pMods.forEach(function(m) {
             var ico = document.createElement('i');
+            var mTitle = (m === 'type') ? 'Text' : (m === 'box' ? 'Box' : 'Motion');
             if (m === 'type') {
                 ico.className = 'ph-bold ph-textbox preset-icon-type';
-                ico.title = 'Text';
             } else if (m === 'box') {
                 ico.className = 'ph-bold ph-bounding-box preset-icon-box';
-                ico.title = 'Box';
             } else if (m === 'motion') {
                 ico.className = 'ph-bold ph-wave-sine preset-icon-motion';
-                ico.title = 'Motion';
             }
+            ico.title = 'Transfer ' + mTitle + ' only to layer';
+            ico.style.cursor = 'pointer';
+            ico.addEventListener('click', function(e) {
+                e.stopPropagation();
+                applyModule(preset, m);
+            });
             iconsWrap.appendChild(ico);
         });
         nameSpan.appendChild(iconsWrap);
@@ -933,9 +986,16 @@ TEXTORO.Panels.Presets = (function() {
         var badgesWrap = document.createElement('div');
         badgesWrap.className = 'preset-module-badges';
         pMods.forEach(function(m) {
-            var pill = document.createElement('span');
+            var pill = document.createElement('button');
+            pill.type = 'button';
             pill.className = 'preset-mod-pill ' + m;
-            pill.textContent = (m === 'type') ? 'TEXT' : (m === 'box' ? 'BOX' : 'MOTION');
+            var label = (m === 'type') ? 'TEXT' : (m === 'box' ? 'BOX' : 'MOTION');
+            pill.textContent = label;
+            pill.title = 'Transfer ' + label + ' only to layer';
+            pill.addEventListener('click', function(e) {
+                e.stopPropagation();
+                applyModule(preset, m);
+            });
             badgesWrap.appendChild(pill);
         });
         metaRight.appendChild(badgesWrap);
@@ -1055,6 +1115,39 @@ TEXTORO.Panels.Presets = (function() {
         return lines.join('\n');
     }
     
+    /**
+     * تطبيق خاصية وحدة معينة فقط (Text أو Box أو Motion) من القالب
+     */
+    function applyModule(preset, moduleType) {
+        if (!preset) {
+            TEXTORO.UI.StatusBar.error('No preset selected');
+            return;
+        }
+        
+        var label = (moduleType === 'type') ? 'Text' : ((moduleType === 'box') ? 'Box' : 'Motion');
+        var opts = {
+            category: preset.category,
+            onlyModule: moduleType,
+            syncWithMarkers: true
+        };
+        
+        if (preset.fileName) {
+            opts.fileName = preset.fileName;
+        } else if (preset.id) {
+            opts.id = preset.id;
+        }
+        
+        TEXTORO.UI.StatusBar.set('Transferring ' + label + ' from ' + preset.name + '...', '');
+        
+        TEXTORO.HostBridge.run('applyPreset', opts, function(res) {
+            if (res.success) {
+                TEXTORO.UI.StatusBar.success('Transferred ' + label + ' from: ' + preset.name);
+            } else {
+                TEXTORO.UI.StatusBar.error('Error: ' + (res.error || 'Failed'));
+            }
+        });
+    }
+
     /**
      * تطبيق بريست
      */

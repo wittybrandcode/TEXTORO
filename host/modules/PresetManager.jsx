@@ -1752,8 +1752,9 @@ function applyPreset(optsJSON) {
         var category = opts.category;
         var id = opts.id;
         var fileName = opts.fileName;
+        var onlyModule = opts.onlyModule || null; // 'type', 'box', or 'motion'
         
-        $.writeln("[TEXTORO] applyPreset called - category: " + category + ", id: " + id + ", fileName: " + fileName);
+        $.writeln("[TEXTORO] applyPreset called - category: " + category + ", id: " + id + ", fileName: " + fileName + (onlyModule ? ", onlyModule: " + onlyModule : ""));
         
         var comp = getActiveComp();
         if (!comp) return error("Open a composition first");
@@ -1810,13 +1811,16 @@ function applyPreset(optsJSON) {
         // تطبيق البريست على كل الطبقات المحددة
         for (var i = 0; i < layers.length; i++) {
             var layer = layers[i];
-            _applyPresetToSingleLayer(layer, comp, category, preset);
+            _applyPresetToSingleLayer(layer, comp, category, preset, onlyModule);
         }
         
         app.endUndoGroup();
         undoStarted = false;
 
-        var msg = createdNew ? "Created text layer and applied preset" : "Applied preset to " + layers.length + " layer(s)";
+        var modLabel = (onlyModule === "type") ? "Text" : ((onlyModule === "box") ? "Box" : ((onlyModule === "motion") ? "Motion" : ""));
+        var msg = onlyModule 
+            ? ("Transferred " + modLabel + " from " + preset.name)
+            : (createdNew ? "Created text layer and applied preset" : "Applied preset to " + layers.length + " layer(s)");
         return success(msg, { createdNew: createdNew, count: layers.length });
 
     } catch(e) {
@@ -1830,9 +1834,45 @@ function applyPreset(optsJSON) {
 /**
  * تطبيق Preset على طبقة واحدة
  */
-function _applyPresetToSingleLayer(layer, comp, category, preset) {
+function _applyPresetToSingleLayer(layer, comp, category, preset, onlyModule) {
     var normCat = _normalizePresetCategory(category) || category;
-    $.writeln("[TEXTORO] _applyPresetToSingleLayer - category: " + normCat);
+    $.writeln("[TEXTORO] _applyPresetToSingleLayer - category: " + normCat + (onlyModule ? ", onlyModule: " + onlyModule : ""));
+    
+    // إذا طُلب تطبيق وحدة معينة فقط (نقل خاصية مفردة: Typewriter, Box, أو Motion)
+    if (onlyModule) {
+        if (onlyModule === "type") {
+            var typeVals = (preset.values && preset.values.type) ? preset.values.type : preset.values;
+            _applyTypePreset(layer, typeVals);
+        } else if (onlyModule === "box") {
+            var boxVals = (preset.values && preset.values.box) ? preset.values.box : preset.values;
+            if (!hasTypewriter(layer)) {
+                var defaultTypeOpts = {
+                    direction: ((typeof isArabicText === "function") && isArabicText((function() { try { return layer.property("ADBE Text Properties").property("ADBE Text Document").value.text; } catch(e) { return ""; } })())) ? "rtl" : "ltr",
+                    wordMode: ((typeof isArabicText === "function") && isArabicText((function() { try { return layer.property("ADBE Text Properties").property("ADBE Text Document").value.text; } catch(e) { return ""; } })())),
+                    showCursor: true,
+                    cursorBefore: false,
+                    cursorSpacing: 0,
+                    blinkSpeed: 2,
+                    blinkInHold: true,
+                    inStart: 2,
+                    inEnd: 3,
+                    outStart: 6,
+                    outEnd: 7,
+                    noOut: false,
+                    blinkStart: 1,
+                    blinkEnd: 10,
+                    reverse: false,
+                    randomSpeed: 0
+                };
+                _applyTypewriter(layer, defaultTypeOpts);
+            }
+            _applyBoxPreset(layer, comp, boxVals);
+        } else if (onlyModule === "motion") {
+            var motionVals = (preset.values && preset.values.motion) ? preset.values.motion : preset.values;
+            _applyMotionPreset(layer, motionVals);
+        }
+        return;
+    }
     
     if (normCat === "type") {
         _applyTypePreset(layer, preset.values);

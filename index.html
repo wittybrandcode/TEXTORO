@@ -657,13 +657,14 @@
 <section class="panel" id="panel-presets">
 <!-- Secondary SubBar (Fixed Filter & Search - Responsive 2-Row Studio Layout) -->
 <div class="panel-subbar presets-sticky-subbar">
-    <!-- Row 1: 5 Pillar Filter Badges & Quick Action Buttons -->
+    <!-- Row 1: 6 Pillar Filter Badges & Quick Action Buttons -->
     <div class="presets-filter-row">
         <div class="presets-filter studio-icon-filter-bar">
             <button class="filter-btn active square-icon-btn subbar-btn" data-filter="all" title="All Presets" aria-label="All Presets"><i class="ph-bold ph-squares-four"></i></button>
             <button class="filter-btn type square-icon-btn subbar-btn" data-filter="type" title="Text Presets (Typewriter)" aria-label="Text"><i class="ph-bold ph-textbox"></i></button>
             <button class="filter-btn box square-icon-btn subbar-btn" data-filter="box" title="Box Presets (Shape, Stroke & Fill)" aria-label="Box"><i class="ph-bold ph-bounding-box"></i></button>
             <button class="filter-btn motion square-icon-btn subbar-btn" data-filter="motion" title="Motion Presets (Kinematics & Physics)" aria-label="Motion"><i class="ph-bold ph-wave-sine"></i></button>
+            <button class="filter-btn custom square-icon-btn subbar-btn" data-filter="custom" title="User Saved Presets (Custom)" aria-label="Custom"><i class="ph-bold ph-floppy-disk"></i></button>
             <button class="filter-btn fav square-icon-btn subbar-btn" data-filter="favorites" title="Favorites" aria-label="Favorites"><i class="ph-bold ph-star"></i></button>
         </div>
         <div class="presets-actions-right">
@@ -675,14 +676,9 @@
     <!-- Row 2: Full-Width Search & Sort Bar -->
     <div class="presets-search">
         <i class="ph-bold ph-magnifying-glass presets-search-icon"></i>
-        <input type="text" id="presetsSearchInput" class="ti" placeholder="Search presets..." title="Search presets by name">
+        <input type="text" id="presetsSearchInput" class="ti" placeholder="Search presets (name, tags, category)..." title="Search presets">
         <button class="ib presets-search-clear" id="presetsSearchClear" title="Clear search" style="display:none"><i class="ph-bold ph-x"></i></button>
-        <select id="presetsSortSelect" class="sel presets-sort" title="Sort presets">
-            <option value="name-asc">Name A-Z</option>
-            <option value="name-desc">Name Z-A</option>
-            <option value="category">Category</option>
-            <option value="favorites">Favorites First</option>
-        </select>
+        <button class="ib presets-sort-toggle square-icon-btn subbar-btn" id="presetsSortToggle" title="Sort A-Z / Z-A"><i class="ph-bold ph-sort-ascending"></i></button>
         <button class="ib" id="presetsRefreshBtn" title="Refresh presets"><i class="ph-bold ph-arrow-counter-clockwise"></i></button>
     </div>
 </div>
