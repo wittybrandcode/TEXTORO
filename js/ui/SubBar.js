@@ -34,6 +34,17 @@ TEXTORO.UI.SubBar = (function() {
 
         // Toggle Cursor
         bindToggle('subTypeCursor', 'chkCursor', function() {
+            var chk = document.getElementById('chkCursor');
+            if (chk && chk.checked) {
+                var rBlur = document.getElementById('rangeTypeBlur');
+                var vBlur = document.getElementById('valTypeBlur');
+                var bBlur = document.getElementById('subTypeBlur');
+                if (rBlur) {
+                    rBlur.value = 0;
+                    if (vBlur) vBlur.textContent = '0px';
+                    if (bBlur) bBlur.classList.remove('active');
+                }
+            }
             if (TEXTORO.Panels.Typewriter && TEXTORO.Panels.Typewriter.update) {
                 TEXTORO.Panels.Typewriter.update();
             }
@@ -70,6 +81,21 @@ TEXTORO.UI.SubBar = (function() {
                     rangeBlur.value = target;
                     if (valBlur) valBlur.textContent = target + 'px';
                     btnBlur.classList.add('active');
+                    // Mutual exclusivity: deactivate cursor
+                    var subCur = document.getElementById('subTypeCursor');
+                    var chkCur = document.getElementById('chkCursor');
+                    if (subCur) {
+                        subCur.classList.remove('active');
+                        subCur.setAttribute('disabled', 'true');
+                        subCur.style.opacity = '0.35';
+                        subCur.style.pointerEvents = 'none';
+                    }
+                    if (chkCur) {
+                        chkCur.checked = false;
+                        chkCur.disabled = true;
+                        var chip = chkCur.closest('.studio-toggle-chip');
+                        if (chip) chip.classList.add('disabled-by-blur');
+                    }
                 }
                 rangeBlur.dispatchEvent(new Event('input'));
                 rangeBlur.dispatchEvent(new Event('change'));
@@ -95,13 +121,42 @@ TEXTORO.UI.SubBar = (function() {
 
     function syncTypewriter() {
         syncBtnState('subTypeWordMode', 'chkWordMode');
-        syncBtnState('subTypeCursor', 'chkCursor');
         syncBtnState('subTypeReverse', 'chkReverse');
         syncBtnState('subTypeNoOut', 'chkNoOut');
         var btnBlur = document.getElementById('subTypeBlur');
         var rangeBlur = document.getElementById('rangeTypeBlur');
+        var isBlurOn = false;
         if (btnBlur && rangeBlur) {
-            btnBlur.classList.toggle('active', (parseFloat(rangeBlur.value) || 0) > 0);
+            isBlurOn = (parseFloat(rangeBlur.value) || 0) > 0;
+            btnBlur.classList.toggle('active', isBlurOn);
+        }
+        var btnCur = document.getElementById('subTypeCursor');
+        var chkCur = document.getElementById('chkCursor');
+        if (isBlurOn) {
+            if (btnCur) {
+                btnCur.classList.remove('active');
+                btnCur.setAttribute('disabled', 'true');
+                btnCur.style.opacity = '0.35';
+                btnCur.style.pointerEvents = 'none';
+            }
+            if (chkCur) {
+                chkCur.checked = false;
+                chkCur.disabled = true;
+                var chip = chkCur.closest('.studio-toggle-chip');
+                if (chip) chip.classList.add('disabled-by-blur');
+            }
+        } else {
+            syncBtnState('subTypeCursor', 'chkCursor');
+            if (btnCur) {
+                btnCur.removeAttribute('disabled');
+                btnCur.style.opacity = '';
+                btnCur.style.pointerEvents = '';
+            }
+            if (chkCur) {
+                chkCur.disabled = false;
+                var chip = chkCur.closest('.studio-toggle-chip');
+                if (chip) chip.classList.remove('disabled-by-blur');
+            }
         }
     }
 

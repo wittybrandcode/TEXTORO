@@ -4,6 +4,9 @@
 
 var showCursor = 1;
 try { showCursor = effect("Show Cursor")(1).value; } catch(e) { showCursor = 1; }
+var typeBlurVal = 0;
+try { typeBlurVal = effect("Type Blur")(1).value; } catch(e) { typeBlurVal = 0; }
+if (typeBlurVal > 0) showCursor = 0;
 
 var blinkSpeed = 2;
 try { blinkSpeed = Math.max(0.1, effect("Blink Speed")(1).value); } catch(e) { blinkSpeed = 2; }

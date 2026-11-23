@@ -19,7 +19,8 @@ TEXTORO.Defaults = {
         blinkSpeed: 2,
         blinkInHold: true,
         boxRTL: false,
-        textColor: [1, 1, 1]
+        textColor: [1, 1, 1],
+        typeBlur: 0
     },
     
     /** إعدادات Box الافتراضية */

@@ -146,6 +146,32 @@ TEXTORO.Panels.Inspector = (function() {
                 inspPhysDrawer.style.display = (v === 6 || v === 7) ? 'block' : 'none';
             });
         }
+
+        // Mutual exclusivity between Type Blur and Cursor
+        var inspTypeBlurEl = getDom('inspTypeBlur');
+        var inspShowCursorEl = getDom('inspShowCursor');
+        if (inspTypeBlurEl) {
+            inspTypeBlurEl.addEventListener('input', function() {
+                var v = parseFloat(this.value) || 0;
+                if (v > 0 && inspShowCursorEl) {
+                    inspShowCursorEl.checked = false;
+                    inspShowCursorEl.disabled = true;
+                    var chip = inspShowCursorEl.closest('.studio-toggle-chip');
+                    if (chip) chip.classList.add('disabled-by-blur');
+                } else if (v <= 0 && inspShowCursorEl) {
+                    inspShowCursorEl.disabled = false;
+                    var chip = inspShowCursorEl.closest('.studio-toggle-chip');
+                    if (chip) chip.classList.remove('disabled-by-blur');
+                }
+            });
+        }
+        if (inspShowCursorEl) {
+            inspShowCursorEl.addEventListener('change', function() {
+                if (this.checked && inspTypeBlurEl) {
+                    inspTypeBlurEl.value = 0;
+                }
+            });
+        }
         
         TEXTORO.log('Inspector Live Edit enabled');
     }
@@ -306,7 +332,22 @@ TEXTORO.Panels.Inspector = (function() {
         setChecked('inspTwReverse', tw.twReverse);
         setChecked('inspWordMode', tw.wordMode || false);
         setValue('inspRandomSpeed', tw.randomSpeed);
-        setChecked('inspShowCursor', tw.showCursor);
+        var isBlurOn = (tw.typeBlur != null && tw.typeBlur > 0);
+        setValue('inspTypeBlur', (tw.typeBlur != null) ? tw.typeBlur : 0);
+        var curEl = getDom('inspShowCursor');
+        if (curEl) {
+            if (isBlurOn) {
+                curEl.checked = false;
+                curEl.disabled = true;
+                var chip = curEl.closest('.studio-toggle-chip');
+                if (chip) chip.classList.add('disabled-by-blur');
+            } else {
+                curEl.disabled = false;
+                var chip = curEl.closest('.studio-toggle-chip');
+                if (chip) chip.classList.remove('disabled-by-blur');
+                setChecked('inspShowCursor', tw.showCursor);
+            }
+        }
         setChecked('inspCursorBefore', tw.cursorBefore);
         setColor('inspCursorColor', tw.cursorColor);
         setValue('inspCursorSpacing', tw.cursorSpacing);
@@ -314,7 +355,6 @@ TEXTORO.Panels.Inspector = (function() {
         setColor('inspTextColor', tw.textColor);
         setValue('inspEasingType', (tw.easingType != null) ? tw.easingType : 1);
         setValue('inspEasingStrength', (tw.easingStrength != null) ? tw.easingStrength : 100);
-        setValue('inspTypeBlur', (tw.typeBlur != null) ? tw.typeBlur : 0);
     }
     
     /**
@@ -528,13 +568,14 @@ TEXTORO.Panels.Inspector = (function() {
         var elTw = getDom('inspTypewriter') || getDom('sogaTypewriter');
         if (elTw && elTw.style.display !== 'none') {
             var twD = TEXTORO.Defaults.typewriter;
+            var tbVal = getNum('inspTypeBlur', twD.typeBlur || 0);
             opts.typewriter = {
                 twProgress: getNum('inspTwProgress', twD.twProgress),
                 twAuto: getChecked('inspTwAuto', false),
                 twReverse: getChecked('inspTwReverse', false),
                 wordMode: getChecked('inspWordMode', false),
                 randomSpeed: getNum('inspRandomSpeed', twD.randomSpeed),
-                showCursor: getChecked('inspShowCursor', false),
+                showCursor: (tbVal > 0) ? false : getChecked('inspShowCursor', false),
                 cursorBefore: getChecked('inspCursorBefore', false),
                 cursorColor: hexToRgb(getValue('inspCursorColor', '#ffffff')),
                 cursorSpacing: getNum('inspCursorSpacing', twD.cursorSpacing),
@@ -544,7 +585,7 @@ TEXTORO.Panels.Inspector = (function() {
                 textColor: hexToRgb(getValue('inspTextColor', '#ffffff')),
                 easingType: getInt('inspEasingType', 1),
                 easingStrength: getNum('inspEasingStrength', 100),
-                typeBlur: getNum('inspTypeBlur', twD.typeBlur || 0)
+                typeBlur: tbVal
             };
         }
         

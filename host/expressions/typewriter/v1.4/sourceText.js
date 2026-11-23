@@ -59,6 +59,11 @@ var auto = effect("TW Auto")(1);
 var reverse = effect("TW Reverse")(1);
 var randomSpeed = effect("Random Speed")(1) / 100;
 var showCursor = effect("Show Cursor")(1);
+var typeBlurVal = 0;
+try { typeBlurVal = effect("Type Blur")(1).value; } catch(e) { typeBlurVal = 0; }
+if (typeBlurVal > 0) {
+    showCursor = 0; // Type Blur completely disables cursor
+}
 var beforeText = effect("Cursor Before Text")(1);
 var cursorType = Math.round(effect("Cursor Type")(1));
 var cursorChars = ["|", "_", "\u2588", "\u258C", "\u258E", "\u25CF", "\u25C6"];

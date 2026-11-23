@@ -478,18 +478,39 @@ function _writeTypewriterValues(fx, tw) {
         }
         try {
             var lytw = fx.propertyGroup(1);
-            if (lytw && lytw instanceof TextLayer && tw.typeBlur > 0) {
+            if (lytw && lytw instanceof TextLayer) {
                 var animsTW = lytw.property("ADBE Text Properties").property("ADBE Text Animators");
-                if (animsTW && typeof _createTypeBlurAnimator === "function") {
-                    var existingBlur = animsTW.property("Type Blur");
-                    if (!existingBlur) {
-                        _createTypeBlurAnimator(animsTW, tw.typeBlur);
+                if (animsTW) {
+                    if (tw.typeBlur > 0) {
+                        _setCheckboxValue(fx, "Show Cursor", false);
+                        removeAnimatorsByName(animsTW, ["Cursor Blink"]);
+                        var existingBlur = animsTW.property("Type Blur");
+                        if (!existingBlur && typeof _createTypeBlurAnimator === "function") {
+                            _createTypeBlurAnimator(animsTW, tw.typeBlur);
+                        }
+                    } else {
+                        removeAnimatorsByName(animsTW, ["Type Blur"]);
                     }
                 }
             }
         } catch(eTB) {}
     }
-    if (tw.showCursor !== undefined) _setCheckboxValue(fx, "Show Cursor", tw.showCursor);
+    if (tw.showCursor !== undefined) {
+        var curTb = _getSliderValue(fx, "Type Blur", 0);
+        if (tw.showCursor && curTb > 0) {
+            _setSliderValue(fx, "Type Blur", 0);
+            try {
+                var lyCur = fx.propertyGroup(1);
+                if (lyCur && lyCur instanceof TextLayer) {
+                    var aCur = lyCur.property("ADBE Text Properties").property("ADBE Text Animators");
+                    if (aCur) removeAnimatorsByName(aCur, ["Type Blur"]);
+                }
+            } catch(_eRmT) {}
+            _setCheckboxValue(fx, "Show Cursor", true);
+        } else {
+            _setCheckboxValue(fx, "Show Cursor", curTb > 0 ? false : tw.showCursor);
+        }
+    }
     if (tw.cursorBefore !== undefined) _setCheckboxValue(fx, "Cursor Before Text", tw.cursorBefore);
     if (tw.cursorType !== undefined) _setSliderValue(fx, "Cursor Type", tw.cursorType);
     if (tw.cursorColor !== undefined) _setColorValue(fx, "Cursor Color", tw.cursorColor);

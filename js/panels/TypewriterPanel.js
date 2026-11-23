@@ -83,15 +83,57 @@ TEXTORO.Panels.Typewriter = (function() {
             });
         }
 
-        // Type blur slider value display & subbar sync
+        // Type blur slider value display & subbar sync & cursor mutual exclusivity
         var rangeTypeBlur = document.getElementById('rangeTypeBlur');
         var valTypeBlur = document.getElementById('valTypeBlur');
         var subTypeBlur = document.getElementById('subTypeBlur');
         if (rangeTypeBlur && valTypeBlur) {
             rangeTypeBlur.addEventListener('input', function() {
-                valTypeBlur.textContent = this.value + 'px';
+                var curB = parseFloat(this.value) || 0;
+                valTypeBlur.textContent = curB + 'px';
                 if (subTypeBlur) {
-                    subTypeBlur.classList.toggle('active', (parseFloat(this.value) || 0) > 0);
+                    subTypeBlur.classList.toggle('active', curB > 0);
+                }
+                var chkCur = document.getElementById('chkCursor');
+                var subCur = document.getElementById('subTypeCursor');
+                if (curB > 0) {
+                    if (chkCur && chkCur.checked) {
+                        chkCur.checked = false;
+                    }
+                    if (chkCur) {
+                        chkCur.disabled = true;
+                        var chip = chkCur.closest('.studio-toggle-chip');
+                        if (chip) chip.classList.add('disabled-by-blur');
+                    }
+                    if (subCur) {
+                        subCur.classList.remove('active');
+                        subCur.setAttribute('disabled', 'true');
+                        subCur.style.opacity = '0.35';
+                        subCur.style.pointerEvents = 'none';
+                    }
+                } else {
+                    if (chkCur) {
+                        chkCur.disabled = false;
+                        var chip = chkCur.closest('.studio-toggle-chip');
+                        if (chip) chip.classList.remove('disabled-by-blur');
+                    }
+                    if (subCur) {
+                        subCur.removeAttribute('disabled');
+                        subCur.style.opacity = '';
+                        subCur.style.pointerEvents = '';
+                    }
+                }
+            });
+        }
+
+        // Mutual exclusivity: Checking cursor resets Type Blur to 0
+        var chkCursorEl = document.getElementById('chkCursor');
+        if (chkCursorEl) {
+            chkCursorEl.addEventListener('change', function() {
+                if (this.checked && rangeTypeBlur) {
+                    rangeTypeBlur.value = 0;
+                    if (valTypeBlur) valTypeBlur.textContent = '0px';
+                    if (subTypeBlur) subTypeBlur.classList.remove('active');
                 }
             });
         }
@@ -464,15 +506,47 @@ TEXTORO.Panels.Typewriter = (function() {
                 var rangeTypeBlur = document.getElementById('rangeTypeBlur');
                 var valTypeBlur = document.getElementById('valTypeBlur');
                 var subTypeBlur = document.getElementById('subTypeBlur');
+                var chkCur = document.getElementById('chkCursor');
+                var subCur = document.getElementById('subTypeCursor');
                 if (rangeTypeBlur && valTypeBlur && tw.typeBlur !== undefined) {
-                    rangeTypeBlur.value = tw.typeBlur;
-                    valTypeBlur.textContent = tw.typeBlur + 'px';
+                    var curB = tw.typeBlur || 0;
+                    rangeTypeBlur.value = curB;
+                    valTypeBlur.textContent = curB + 'px';
                     if (subTypeBlur) {
-                        subTypeBlur.classList.toggle('active', tw.typeBlur > 0);
+                        subTypeBlur.classList.toggle('active', curB > 0);
+                    }
+                    if (curB > 0) {
+                        if (chkCur) {
+                            chkCur.checked = false;
+                            chkCur.disabled = true;
+                            var chip = chkCur.closest('.studio-toggle-chip');
+                            if (chip) chip.classList.add('disabled-by-blur');
+                        }
+                        if (subCur) {
+                            subCur.classList.remove('active');
+                            subCur.setAttribute('disabled', 'true');
+                            subCur.style.opacity = '0.35';
+                            subCur.style.pointerEvents = 'none';
+                        }
+                    } else {
+                        if (chkCur) {
+                            chkCur.disabled = false;
+                            var chip = chkCur.closest('.studio-toggle-chip');
+                            if (chip) chip.classList.remove('disabled-by-blur');
+                        }
+                        if (subCur) {
+                            subCur.removeAttribute('disabled');
+                            subCur.style.opacity = '';
+                            subCur.style.pointerEvents = '';
+                        }
                     }
                 }
 
-                setChk('chkCursor', tw.showCursor);
+                if (tw.typeBlur <= 0) {
+                    setChk('chkCursor', tw.showCursor);
+                } else {
+                    setChk('chkCursor', false);
+                }
                 setChk('chkCursorBefore', tw.cursorBefore);
 
                 var selCursor = document.getElementById('selCursorType');

@@ -344,6 +344,9 @@ function _applyTypewriter(textLayer, opts) {
     
     // تحضير القيم للـ Controllers
     var typeBlur = _numOrDefault(opts.typeBlur, 0);
+    if (typeBlur > 0) {
+        cursorOpts.show = false; // تعطيل المؤشر تماماً عند تفعيل الـ Blur لعدم التوافق البصري
+    }
     var controllerValues = {
         "TW Progress": 0,
         "TW Auto": true,
@@ -351,7 +354,7 @@ function _applyTypewriter(textLayer, opts) {
         "Word Mode": opts.wordMode || false,
         "Random Speed": _numOrDefault(opts.randomSpeed, 0),
         "Type Blur": typeBlur,
-        "Show Cursor": cursorOpts.show,
+        "Show Cursor": (typeBlur > 0) ? false : cursorOpts.show,
         "Cursor Before Text": cursorOpts.before,
         "Cursor Type": cursorOpts.type,
         "Cursor Color": cursorOpts.color,
@@ -381,7 +384,7 @@ function _applyTypewriter(textLayer, opts) {
         addCheckbox(fx, "Word Mode", opts.wordMode || false);
         addSlider(fx, "Random Speed", _numOrDefault(opts.randomSpeed, 0));
         addSlider(fx, "Type Blur", typeBlur);
-        addCheckbox(fx, "Show Cursor", cursorOpts.show);
+        addCheckbox(fx, "Show Cursor", (typeBlur > 0) ? false : cursorOpts.show);
         addCheckbox(fx, "Cursor Before Text", cursorOpts.before);
         addSlider(fx, "Cursor Type", cursorOpts.type);
         addColor(fx, "Cursor Color", cursorOpts.color);
@@ -410,7 +413,9 @@ function _applyTypewriter(textLayer, opts) {
     // Animators (Cursor Blink & Type Blur)
     // ─────────────────────────────────────────────────────────────
     removeAnimatorsByName(animators, ["Cursor Blink", "Type Blur"]);
-    _createCursorAnimator(animators);
+    if (typeBlur <= 0 && cursorOpts.show) {
+        _createCursorAnimator(animators);
+    }
     if (typeBlur > 0 || (opts.enableBlur === true)) {
         _createTypeBlurAnimator(animators, typeBlur);
     }
@@ -655,7 +660,11 @@ function _createTypeBlurAnimator(animators, blurAmount) {
     
     var animProps = blurAnim.property("ADBE Text Animator Properties");
     var blurProp = animProps.addProperty("ADBE Text Blur");
-    blurProp.expression = 'var b = 0; try { b = effect("Type Blur")(1).value; } catch(e) { b = 0; }; [b, b];';
+    if (typeof buildBlurAmountExpr === "function") {
+        blurProp.expression = buildBlurAmountExpr();
+    } else {
+        blurProp.expression = 'var b = 0; try { b = effect("Type Blur")(1).value; } catch(e) { b = 0; }; [b, b];';
+    }
 }
 
 function _applyTextColorAnimator(textLayer, animators, fx, textColor) {
