@@ -76,9 +76,9 @@
     position: relative !important;
 }
 
-/* Box Preset Preview Shape */
+/* Box Preset Preview Shape (Parametric Live Canvas) */
 .preview-box-shape {
-    padding: 8px 22px !important;
+    padding: 8px 18px;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -97,7 +97,7 @@
     font-size: 13.5px !important;
     font-weight: 700 !important;
     letter-spacing: 0.8px !important;
-    color: #ffffff !important;
+    color: #ffffff;
     white-space: nowrap !important;
     line-height: 1 !important;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8) !important;
@@ -114,8 +114,8 @@
 .preview-cursor {
     font-size: 14px !important;
     font-weight: 800 !important;
-    color: #10b981 !important;
-    margin-left: 2px !important;
+    color: #10b981;
+    margin-left: 2px;
     line-height: 1 !important;
     animation: preview-cursor-blink 0.8s steps(1) infinite !important;
 }

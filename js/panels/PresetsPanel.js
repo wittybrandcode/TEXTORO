@@ -555,34 +555,120 @@ TEXTORO.Panels.Presets = (function() {
     }
 
     /**
-     * Helper to apply realistic box styling to preview shape
+     * Helper to apply realistic box styling to preview shape with true parametric fidelity
      */
-    function applyBoxStyles(el, vals) {
+    function applyBoxStyles(el, vals, textEl) {
         if (!vals) return;
         var rgb = parsePresetColor(vals.fillColor, 20, 20, 28);
         var fillOp = (vals.fillOpacity != null) ? (vals.fillOpacity / 100) : 0.85;
         
-        el.style.backgroundColor = (fillOp <= 0.02) ? 'transparent' : 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + fillOp + ')';
+        var bgVal = (fillOp <= 0.02) ? 'transparent' : 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + fillOp + ')';
+        el.style.setProperty('background-color', bgVal, 'important');
         
+        // Dynamic Corner Radii (Uniform or Independent 4-Corners)
         if (vals.use4Corners) {
-            var tl = vals.cornerTL != null ? Math.min(vals.cornerTL, 18) : 0;
-            var tr = vals.cornerTR != null ? Math.min(vals.cornerTR, 18) : 0;
-            var br = vals.cornerBR != null ? Math.min(vals.cornerBR, 18) : 0;
-            var bl = vals.cornerBL != null ? Math.min(vals.cornerBL, 18) : 0;
-            el.style.borderRadius = tl + 'px ' + tr + 'px ' + br + 'px ' + bl + 'px';
+            var tl = vals.cornerTL != null ? Math.min(Math.max(vals.cornerTL, 0), 24) : 0;
+            var tr = vals.cornerTR != null ? Math.min(Math.max(vals.cornerTR, 0), 24) : 0;
+            var br = vals.cornerBR != null ? Math.min(Math.max(vals.cornerBR, 0), 24) : 0;
+            var bl = vals.cornerBL != null ? Math.min(Math.max(vals.cornerBL, 0), 24) : 0;
+            var radStr = tl + 'px ' + tr + 'px ' + br + 'px ' + bl + 'px';
+            el.style.setProperty('border-radius', radStr, 'important');
         } else {
-            var rad = vals.cornerRadius != null ? Math.min(vals.cornerRadius, 18) : 0;
-            el.style.borderRadius = rad + 'px';
+            var rawRad = vals.cornerRadius != null ? vals.cornerRadius : 0;
+            var rad = Math.min(Math.max(rawRad, 0), 24);
+            el.style.setProperty('border-radius', rad + 'px', 'important');
         }
         
+        // Dynamic Border Stroke (Width, Opacity, Dashed Pattern, Color)
         var sWidth = vals.strokeWidth || 0;
         var sOp = (vals.strokeOpacity != null) ? (vals.strokeOpacity / 100) : 1;
         if (sWidth > 0 && sOp > 0.05) {
             var sRgb = parsePresetColor(vals.strokeColor, 255, 255, 255);
             var sStyle = (vals.strokeDash && vals.strokeDash > 0) ? 'dashed' : 'solid';
-            el.style.border = Math.min(Math.max(sWidth, 1.5), 3) + 'px ' + sStyle + ' rgba(' + sRgb[0] + ',' + sRgb[1] + ',' + sRgb[2] + ',' + sOp + ')';
+            var borderW = Math.min(Math.max(sWidth * 0.75, 1.5), 3.5);
+            var borderVal = borderW + 'px ' + sStyle + ' rgba(' + sRgb[0] + ',' + sRgb[1] + ',' + sRgb[2] + ',' + sOp + ')';
+            el.style.setProperty('border', borderVal, 'important');
         } else {
-            el.style.border = (fillOp <= 0.02) ? '1.5px dashed rgba(255, 255, 255, 0.35)' : 'none';
+            var fallbackBorder = (fillOp <= 0.02) ? '1.5px dashed rgba(255, 255, 255, 0.35)' : 'none';
+            el.style.setProperty('border', fallbackBorder, 'important');
+        }
+
+        // Proportional Padding
+        var pTop = vals.paddingTop != null ? Math.min(Math.max(vals.paddingTop * 0.35, 4), 16) : 8;
+        var pBottom = vals.paddingBottom != null ? Math.min(Math.max(vals.paddingBottom * 0.35, 4), 16) : 8;
+        var pLeft = vals.paddingLeft != null ? Math.min(Math.max(vals.paddingLeft * 0.45, 8), 32) : 18;
+        var pRight = vals.paddingRight != null ? Math.min(Math.max(vals.paddingRight * 0.45, 8), 32) : 18;
+        var padVal = Math.round(pTop) + 'px ' + Math.round(pRight) + 'px ' + Math.round(pBottom) + 'px ' + Math.round(pLeft) + 'px';
+        el.style.setProperty('padding', padVal, 'important');
+
+        // Text Color Override from Box configuration
+        if (textEl && (vals.applyTextColor || vals.textColor)) {
+            var tRgb = parsePresetColor(vals.textColor, 255, 255, 255);
+            textEl.style.setProperty('color', 'rgb(' + tRgb[0] + ',' + tRgb[1] + ',' + tRgb[2] + ')', 'important');
+        }
+    }
+
+    /**
+     * استخراج وتطبيع الحزم الفرعية من أي بريست (Type, Box, Motion)
+     */
+    function extractPresetSubValues(preset) {
+        var rawVals = (preset && preset.values) || {};
+        var cat = String(preset.category || '').toLowerCase();
+        
+        var boxVals = null;
+        var typeVals = null;
+        var motVals = null;
+
+        if (rawVals.box && typeof rawVals.box === 'object') {
+            boxVals = rawVals.box;
+        } else if (cat === 'box' || rawVals.cornerRadius != null || rawVals.fillColor != null || rawVals.strokeWidth != null) {
+            boxVals = rawVals;
+        }
+
+        if (rawVals.type && typeof rawVals.type === 'object') {
+            typeVals = rawVals.type;
+        } else if (cat === 'type' || rawVals.twAuto != null || rawVals.cursorType != null || rawVals.showCursor != null) {
+            typeVals = rawVals;
+        }
+
+        if (rawVals.motion && typeof rawVals.motion === 'object') {
+            motVals = rawVals.motion;
+        } else if (cat === 'motion' || cat === 'motion-full' || rawVals.animatePosition != null || rawVals.animateScale != null) {
+            motVals = rawVals;
+        }
+
+        return {
+            box: boxVals,
+            type: typeVals,
+            motion: motVals
+        };
+    }
+
+    /**
+     * تطبيق تنسيقات النصوص ومؤشر الآلة الكاتبة
+     */
+    function applyTypewriterStyles(textEl, cursorEl, typeVals) {
+        if (!typeVals) return;
+        
+        if (textEl && typeVals.textColor) {
+            var tRgb = parsePresetColor(typeVals.textColor, 255, 255, 255);
+            textEl.style.setProperty('color', 'rgb(' + tRgb[0] + ',' + tRgb[1] + ',' + tRgb[2] + ')', 'important');
+        }
+
+        if (cursorEl) {
+            if (typeVals.cursorColor) {
+                var cRgb = parsePresetColor(typeVals.cursorColor, 16, 185, 129);
+                cursorEl.style.setProperty('color', 'rgb(' + cRgb[0] + ',' + cRgb[1] + ',' + cRgb[2] + ')', 'important');
+            }
+            if (typeVals.cursorSpacing != null) {
+                var sp = Math.min(Math.max(typeVals.cursorSpacing, 1), 10);
+                cursorEl.style.setProperty('margin-left', sp + 'px', 'important');
+            }
+            if (typeVals.blinkSpeed != null && typeVals.blinkSpeed > 0) {
+                var freq = Math.min(Math.max(typeVals.blinkSpeed, 0.5), 8);
+                var dur = (1 / freq).toFixed(2);
+                cursorEl.style.setProperty('animation-duration', dur + 's', 'important');
+            }
         }
     }
 
@@ -655,106 +741,74 @@ TEXTORO.Panels.Presets = (function() {
     }
 
     /**
-     * Build realistic live preview window stage with parametric dynamics
+     * Build realistic live preview window stage with true parametric composition
      */
     function buildPresetPreview(preset, onHover) {
         var stage = document.createElement('div');
         stage.className = 'preset-preview-stage';
         
-        var rawCat = (preset.category || '').toLowerCase();
-        var cat = (rawCat === 'toro') ? 'templates' : ((rawCat === 'mix') ? 'compound' : ((rawCat === 'motion-full') ? 'motion' : rawCat));
-        var vals = preset.values || {};
+        var subVals = extractPresetSubValues(preset);
+        var typeVals = subVals.type;
+        var boxVals = subVals.box;
+        var motionVals = subVals.motion;
+
+        // 1. Text & Typewriter Element
+        var isWordMode = !!(typeVals && typeVals.wordMode);
+        var fullText = isWordMode ? 'TEXT ORO' : 'TEXTORO';
         
-        if (cat === 'box') {
+        var textEl = document.createElement('span');
+        textEl.className = 'preview-type-text';
+        textEl.textContent = fullText;
+
+        var cursorEl = null;
+        var showCursor = typeVals ? (typeVals.showCursor !== false) : false;
+        if (showCursor) {
+            cursorEl = document.createElement('span');
+            cursorEl.className = 'preview-cursor';
+            var cGlyph = getCursorGlyph(typeVals.cursorType, typeVals.customCursor);
+            cursorEl.textContent = cGlyph;
+        }
+
+        if (typeVals) {
+            applyTypewriterStyles(textEl, cursorEl, typeVals);
+        }
+
+        // Wrap text and cursor
+        var textContainer = document.createElement('div');
+        textContainer.className = 'preview-type-wrap';
+        if (typeVals && typeVals.cursorBefore && cursorEl) {
+            textContainer.appendChild(cursorEl);
+            textContainer.appendChild(textEl);
+        } else {
+            textContainer.appendChild(textEl);
+            if (cursorEl) textContainer.appendChild(cursorEl);
+        }
+
+        var twSpeed = (typeVals && typeVals.randomSpeed && typeVals.randomSpeed > 10) ? 25 : 50;
+        var hasTwAnimation = !!typeVals;
+
+        // 2. Box Decorator (if Box module is present)
+        var coreElement = textContainer;
+        if (boxVals) {
             var boxEl = document.createElement('div');
             boxEl.className = 'preview-box-shape';
-            applyBoxStyles(boxEl, vals);
-            
-            var textEl = document.createElement('span');
-            textEl.className = 'preview-box-text';
-            textEl.textContent = 'TEXTORO';
-            boxEl.appendChild(textEl);
-            
-            stage.appendChild(boxEl);
-        } else if (cat === 'type') {
-            var twWrap = document.createElement('div');
-            twWrap.className = 'preview-type-wrap';
-            
-            var isWordMode = !!vals.wordMode;
-            var fullText = isWordMode ? 'TEXT ORO' : 'TEXTORO';
-            
-            var textEl = document.createElement('span');
-            textEl.className = 'preview-type-text';
-            textEl.textContent = fullText;
-            twWrap.appendChild(textEl);
-            
-            if (vals.showCursor !== false) {
-                var cursorEl = document.createElement('span');
-                var cGlyph = getCursorGlyph(vals.cursorType, vals.customCursor);
-                cursorEl.className = 'preview-cursor';
-                cursorEl.textContent = cGlyph;
-                twWrap.appendChild(cursorEl);
-            }
-            
-            stage.appendChild(twWrap);
-            
-            var speed = (vals.randomSpeed && vals.randomSpeed > 10) ? 25 : 55;
-            onHover.enter = function() {
-                playTypewriterHover(textEl, fullText, isWordMode, speed);
-            };
-            onHover.leave = function() {
-                stopTypewriterHover(textEl, fullText);
-            };
-        } else if (cat === 'compound') {
-            var boxVals = vals.box || {};
-            var typeVals = vals.type || {};
-            
-            var boxEl = document.createElement('div');
-            boxEl.className = 'preview-box-shape';
-            applyBoxStyles(boxEl, boxVals);
-            
-            var twWrap = document.createElement('div');
-            twWrap.className = 'preview-type-wrap';
-            
-            var isWordMode = !!typeVals.wordMode;
-            var fullText = isWordMode ? 'TEXT ORO' : 'TEXTORO';
-            
-            var textEl = document.createElement('span');
-            textEl.className = 'preview-type-text';
-            textEl.textContent = fullText;
-            twWrap.appendChild(textEl);
-            
-            if (typeVals.showCursor !== false) {
-                var cursorEl = document.createElement('span');
-                var cGlyph = getCursorGlyph(typeVals.cursorType, typeVals.customCursor);
-                cursorEl.className = 'preview-cursor';
-                cursorEl.textContent = cGlyph;
-                twWrap.appendChild(cursorEl);
-            }
-            
-            boxEl.appendChild(twWrap);
-            stage.appendChild(boxEl);
-            
-            var speed = (typeVals.randomSpeed && typeVals.randomSpeed > 10) ? 25 : 55;
-            onHover.enter = function() {
-                playTypewriterHover(textEl, fullText, isWordMode, speed);
-            };
-            onHover.leave = function() {
-                stopTypewriterHover(textEl, fullText);
-            };
-        } else if (cat === 'motion') {
-            var k = getMotionKinematics(vals);
+            applyBoxStyles(boxEl, boxVals, textEl);
+            boxEl.appendChild(textContainer);
+            coreElement = boxEl;
+        }
+
+        // 3. Motion Kinematics Wrapper (if Motion module is present)
+        if (motionVals) {
+            var k = getMotionKinematics(motionVals);
             var motionWrap = document.createElement('div');
             motionWrap.className = 'preview-motion-wrap';
-            
-            var textEl = document.createElement('span');
-            textEl.className = 'preview-motion-text';
-            textEl.textContent = 'TEXTORO';
-            motionWrap.appendChild(textEl);
-            
+            motionWrap.appendChild(coreElement);
             stage.appendChild(motionWrap);
 
             onHover.enter = function() {
+                if (hasTwAnimation) {
+                    playTypewriterHover(textEl, fullText, isWordMode, twSpeed);
+                }
                 motionWrap.style.transition = 'none';
                 motionWrap.style.transform = 'translate(' + k.fromX + 'px, ' + k.fromY + 'px) scale(' + k.fromScale + ') rotate(' + k.fromRot + 'deg)';
                 motionWrap.style.opacity = k.fromOp;
@@ -767,69 +821,27 @@ TEXTORO.Panels.Presets = (function() {
             };
 
             onHover.leave = function() {
-                motionWrap.style.transition = 'transform 0.25s ease-out, opacity 0.25s ease-out';
-                motionWrap.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
-                motionWrap.style.opacity = '1';
-            };
-        } else if (cat === 'templates') {
-            var boxVals = vals.box || {};
-            var typeVals = vals.type || {};
-            var motVals = vals.motion || {};
-            var k = getMotionKinematics(motVals);
-            
-            var motionWrap = document.createElement('div');
-            motionWrap.className = 'preview-motion-wrap';
-            
-            var boxEl = document.createElement('div');
-            boxEl.className = 'preview-box-shape';
-            applyBoxStyles(boxEl, boxVals);
-            
-            var isWordMode = !!typeVals.wordMode;
-            var fullText = isWordMode ? 'TEXT ORO' : 'TEXTORO';
-            
-            var textEl = document.createElement('span');
-            textEl.className = 'preview-type-text';
-            textEl.textContent = fullText;
-            boxEl.appendChild(textEl);
-            
-            if (typeVals.showCursor !== false) {
-                var cursorEl = document.createElement('span');
-                var cGlyph = getCursorGlyph(typeVals.cursorType, typeVals.customCursor);
-                cursorEl.className = 'preview-cursor';
-                cursorEl.textContent = cGlyph;
-                boxEl.appendChild(cursorEl);
-            }
-            
-            motionWrap.appendChild(boxEl);
-            stage.appendChild(motionWrap);
-            
-            onHover.enter = function() {
-                playTypewriterHover(textEl, fullText, isWordMode, 50);
-                
-                motionWrap.style.transition = 'none';
-                motionWrap.style.transform = 'translate(' + k.fromX + 'px, ' + k.fromY + 'px) scale(' + k.fromScale + ') rotate(' + k.fromRot + 'deg)';
-                motionWrap.style.opacity = k.fromOp;
-                
-                requestAnimationFrame(function() {
-                    motionWrap.style.transition = 'transform ' + k.duration + 's ' + k.ease + ', opacity ' + k.duration + 's ease-out';
-                    motionWrap.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
-                    motionWrap.style.opacity = '1';
-                });
-            };
-
-            onHover.leave = function() {
-                stopTypewriterHover(textEl, fullText);
+                if (hasTwAnimation) {
+                    stopTypewriterHover(textEl, fullText);
+                }
                 motionWrap.style.transition = 'transform 0.25s ease-out, opacity 0.25s ease-out';
                 motionWrap.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
                 motionWrap.style.opacity = '1';
             };
         } else {
-            var genericText = document.createElement('span');
-            genericText.className = 'preview-type-text';
-            genericText.textContent = preset.name || 'TEXTORO';
-            stage.appendChild(genericText);
+            // No motion module: static presentation with typewriter on hover
+            stage.appendChild(coreElement);
+
+            if (hasTwAnimation) {
+                onHover.enter = function() {
+                    playTypewriterHover(textEl, fullText, isWordMode, twSpeed);
+                };
+                onHover.leave = function() {
+                    stopTypewriterHover(textEl, fullText);
+                };
+            }
         }
-        
+
         return stage;
     }
 

@@ -8,9 +8,9 @@
     padding: 0;
 }
 
-/* 1. Global Zero Radius Enforced Across Entire DOM */
-*, *::before, *::after,
-button, input, select, textarea, div, span, table, td, th, label, .modal, .tooltip, .ctx {
+/* 1. Global Zero Radius Enforced Across Entire DOM (Excluding parametric composition preview elements) */
+*:not(.preview-box-shape), *::before, *::after,
+button, input, select, textarea, div:not(.preview-box-shape), span:not(.preview-box-shape), table, td, th, label, .modal, .tooltip, .ctx {
     border-radius: 0 !important;
 }
 
