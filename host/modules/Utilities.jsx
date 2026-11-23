@@ -106,6 +106,33 @@ function txTrim(s) {
     return String(s).replace(/^\s+|\s+$/g, "");
 }
 
+/**
+ * تجريد رموز المؤشر من النص والتأكد من عدم إعادة رمز المؤشر فقط
+ * @param {string} text
+ * @returns {string}
+ */
+function txStripCursor(text) {
+    if (!text) return "";
+    var s = String(text);
+    var cursorChars = ["|", "_", "\u2588", "\u258C", "\u258E", "\u25CF", "\u25C6", "\u200D"];
+    var trimmed = txTrim(s);
+    for (var i = 0; i < cursorChars.length; i++) {
+        if (trimmed === cursorChars[i]) {
+            return "";
+        }
+    }
+    for (var j = 0; j < cursorChars.length; j++) {
+        var c = cursorChars[j];
+        if (trimmed.length > c.length && trimmed.substring(trimmed.length - c.length) === c) {
+            trimmed = txTrim(trimmed.substring(0, trimmed.length - c.length));
+        }
+        if (trimmed.length > c.length && trimmed.substring(0, c.length) === c) {
+            trimmed = txTrim(trimmed.substring(c.length));
+        }
+    }
+    return trimmed;
+}
+
 // ═══════════════════════════════════════════════════════════════════
 // VALIDATION HELPERS - دوال التحقق
 // ═══════════════════════════════════════════════════════════════════

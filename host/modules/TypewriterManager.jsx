@@ -122,36 +122,26 @@ function getLayerText() {
         var textLayer = getSelectedTextLayer(comp);
         if (!textLayer) return error("Select a text layer");
         
-        // النظام الجديد: جلب من Layer Comment
-        // N-04: في وضع Live Text النص الحقيقي هو قيمة الطبقة نفسها
-        try {
-            if (hasTypewriter(textLayer)) {
-                var fxl = textLayer.property("ADBE Effect Parade");
-                var lc = (typeof findEffectControl === "function")
-                    ? findEffectControl(fxl, "Live Text") : null;
-                if (lc && lc.property(1).value === 1) {
-                    var tpd = textLayer.property("ADBE Text Properties").property("ADBE Text Document");
-                    return success("Success", String(tpd.value.text));
-                }
-            }
-        } catch (_eLive) {}
-
-        var textFromComment = getOriginalText(textLayer);
-        if (textFromComment) {
-            return success("Success", textFromComment);
+        // 1. الأولوية الأولى: جلب النص الأصلي من Layer Comment
+        var textFromComment = (typeof getOriginalText === "function") ? getOriginalText(textLayer) : null;
+        var cleanComment = (typeof txStripCursor === "function") ? txStripCursor(textFromComment) : textFromComment;
+        if (cleanComment && cleanComment.length > 0) {
+            return success("Success", cleanComment);
         }
         
-        // التوافق: جلب من Marker القديم
+        // 2. الأولوية الثانية: جلب النص الأصلي من Marker القديم (TW_TEXT:)
         var markers = textLayer.property("Marker");
-        var textFromMarker = getTextFromMarker(markers);
-        if (textFromMarker) {
-            return success("Success", textFromMarker);
+        var textFromMarker = (typeof getTextFromMarker === "function") ? getTextFromMarker(markers) : null;
+        var cleanMarker = (typeof txStripCursor === "function") ? txStripCursor(textFromMarker) : textFromMarker;
+        if (cleanMarker && cleanMarker.length > 0) {
+            return success("Success", cleanMarker);
         }
         
-        // إذا لم يوجد، جلب النص مباشرة
+        // 3. Fallback: جلب النص من Text Document مباشرة مع تجريد رموز المؤشر
         var textProp = textLayer.property("ADBE Text Properties").property("ADBE Text Document");
-        var currentText = textProp.value.text;
-        return success("Success", currentText);
+        var currentText = (textProp && textProp.value) ? (textProp.value.text || "") : "";
+        var cleanText = (typeof txStripCursor === "function") ? txStripCursor(currentText) : currentText;
+        return success("Success", cleanText);
         
     } catch(e) {
         return error(e.toString());

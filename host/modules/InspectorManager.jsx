@@ -242,10 +242,23 @@ function _readTypewriterValues(fx) {
     var timing = { inStart: 2, inEnd: 3, outStart: 6, outEnd: 7, blinkStart: 1, blinkEnd: 10, noOut: false };
 
     if (layer && layer instanceof TextLayer) {
-        try {
-            var doc = layer.property("ADBE Text Properties").property("ADBE Text Document").value;
-            currentText = doc.text || "";
-        } catch(_eDoc) {}
+        var origFromComment = (typeof getOriginalText === "function") ? getOriginalText(layer) : null;
+        var cleanComment = (typeof txStripCursor === "function") ? txStripCursor(origFromComment) : origFromComment;
+        if (cleanComment && cleanComment.length > 0) {
+            currentText = cleanComment;
+        } else {
+            var markers = layer.property("Marker");
+            var origFromMarker = (typeof getTextFromMarker === "function") ? getTextFromMarker(markers) : null;
+            var cleanMarker = (typeof txStripCursor === "function") ? txStripCursor(origFromMarker) : origFromMarker;
+            if (cleanMarker && cleanMarker.length > 0) {
+                currentText = cleanMarker;
+            } else {
+                try {
+                    var doc = layer.property("ADBE Text Properties").property("ADBE Text Document").value;
+                    currentText = (typeof txStripCursor === "function") ? txStripCursor(doc.text || "") : (doc.text || "");
+                } catch(_eDoc) {}
+            }
+        }
 
         var markers = layer.property("Marker");
         if (markers && markers.numKeys > 0) {

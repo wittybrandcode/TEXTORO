@@ -205,14 +205,41 @@ TEXTORO.Panels.Typewriter = (function() {
     }
     
     /**
+     * Helper to strip cursor symbols and ZWJ from text
+     */
+    function stripCursorFromText(text) {
+        if (!text) return '';
+        var cursors = ['|', '_', '\u2588', '\u258C', '\u258E', '\u25CF', '\u25C6', '\u200D'];
+        var s = String(text).trim();
+        for (var i = 0; i < cursors.length; i++) {
+            if (s === cursors[i]) return '';
+        }
+        for (var j = 0; j < cursors.length; j++) {
+            var c = cursors[j];
+            if (s.length > c.length && s.slice(-c.length) === c) {
+                s = s.slice(0, -c.length).trim();
+            }
+            if (s.length > c.length && s.slice(0, c.length) === c) {
+                s = s.slice(c.length).trim();
+            }
+        }
+        return s;
+    }
+
+    /**
      * Get Layer Text
      */
     function getTextFromLayer() {
         TEXTORO.HostBridge.run('getLayerText', null, function(res) {
             if (res.success && res.data) {
-                var txtInput = document.getElementById('txtInput');
-                if (txtInput) txtInput.value = res.data;
-                TEXTORO.UI.StatusBar.success('Text loaded');
+                var clean = stripCursorFromText(res.data);
+                if (clean) {
+                    var txtInput = document.getElementById('txtInput');
+                    if (txtInput) txtInput.value = clean;
+                    TEXTORO.UI.StatusBar.success('Text loaded');
+                } else {
+                    TEXTORO.UI.StatusBar.warn('No text content on selected layer');
+                }
             } else {
                 TEXTORO.UI.StatusBar.error('Error: ' + formatHostError(res, 'No text layer selected'));
             }
@@ -401,8 +428,11 @@ TEXTORO.Panels.Typewriter = (function() {
                 }
 
                 if (tw.text !== undefined && tw.text !== null) {
-                    var txtInput = document.getElementById('txtInput');
-                    if (txtInput) txtInput.value = tw.text;
+                    var cleanTwText = stripCursorFromText(tw.text);
+                    if (cleanTwText) {
+                        var txtInput = document.getElementById('txtInput');
+                        if (txtInput) txtInput.value = cleanTwText;
+                    }
                 }
 
                 setDirection(tw.boxRTL ? 'rtl' : 'ltr');
