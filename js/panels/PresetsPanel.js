@@ -308,8 +308,15 @@ TEXTORO.Panels.Presets = (function() {
                 if (fCat === 'motion-full') fCat = 'motion';
                 if (pCat !== fCat) return false;
             }
-            if (searchQuery && preset.name.toLowerCase().indexOf(searchQuery) === -1) {
-                return false;
+            if (searchQuery) {
+                var q = searchQuery;
+                var matchName = (preset.name || '').toLowerCase().indexOf(q) !== -1;
+                var matchCat = (preset.category || '').toLowerCase().indexOf(q) !== -1;
+                var iconStr = (preset.faIcon || preset.icon || '').toLowerCase();
+                var matchIcon = iconStr.indexOf(q) !== -1;
+                if (!matchName && !matchCat && !matchIcon) {
+                    return false;
+                }
             }
             return true;
         });

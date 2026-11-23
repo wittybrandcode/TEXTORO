@@ -1493,36 +1493,6 @@ function _extractMotionValues(layer) {
         return null;
     }
 }
-        }
-        if (!hasMotionEffect) return null;
-        return {
-            inStart: _getEffectValue(fx, "Motion In Start", 0),
-            inEnd: _getEffectValue(fx, "Motion In End", 1),
-            outEnable: _getEffectValue(fx, "Motion Out Start", -1) >= 0,
-            outStart: _getEffectValue(fx, "Motion Out Start", -1),
-            outEnd: _getEffectValue(fx, "Motion Out End", -1),
-            syncMode: 0,
-            animatePosition: _getEffectValue(fx, "Animate Position", 0) == 1,
-            posFromX: _getEffectValue(fx, "Pos From X", 0),
-            posFromY: _getEffectValue(fx, "Pos From Y", 0),
-            posToX: _getEffectValue(fx, "Pos To X", 0),
-            posToY: _getEffectValue(fx, "Pos To Y", 0),
-            animateScale: _getEffectValue(fx, "Animate Scale", 0) == 1,
-            scaleFrom: _getEffectValue(fx, "Scale From", 100),
-            scaleTo: _getEffectValue(fx, "Scale To", 100),
-            animateRotation: _getEffectValue(fx, "Animate Rotation", 0) == 1,
-            rotFrom: _getEffectValue(fx, "Rot From", 0),
-            rotTo: _getEffectValue(fx, "Rot To", 0),
-            animateOpacity: _getEffectValue(fx, "Animate Opacity", 0) == 1,
-            opacityFrom: _getEffectValue(fx, "Opacity From", 0),
-            opacityTo: _getEffectValue(fx, "Opacity To", 100),
-            easingType: _getEffectValue(fx, "Motion Easing Type", 1),
-            easingStrength: _getEffectValue(fx, "Motion Easing Strength", 100)
-        };
-    } catch(e) {
-        return null;
-    }
-}
 
 /**
  * فحص الطبقة المحددة واستخراج تأثيراتها لحفظ Preset ذكي

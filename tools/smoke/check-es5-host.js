@@ -92,6 +92,18 @@ for (const f of exprFiles) {
     checkFile(f, SYNTAX_RULES, 'SYNTAX', violations);
 }
 
+// --- JS Syntax Parsing Pass (Catches malformed syntax / unclosed braces in host files) ---
+for (const f of strictFiles) {
+    try {
+        const raw = fs.readFileSync(f, 'utf8');
+        // Comment out ExtendScript #include directives for JS engine syntax parsing
+        const stripped = raw.replace(/^\s*#include\b[^\r\n]*/gm, '// [stripped include]');
+        new Function(stripped);
+    } catch (err) {
+        violations.push({ file: f, line: 0, name: 'JS SyntaxError: ' + err.message, label: 'SYNTAX' });
+    }
+}
+
 if (violations.length) {
     console.error(`[SMOKE][es5-host] FAIL - ${violations.length} violation(s):`);
     for (const v of violations) {
