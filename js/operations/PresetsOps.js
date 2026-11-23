@@ -125,6 +125,16 @@ TEXTORO.Ops.Presets = (function() {
                     if (saveRes.success) {
                         TEXTORO.UI.StatusBar.success('Preset saved: ' + savePayload.name);
                         
+                        // Switch main tab to PRESETS panel so user immediately sees it
+                        if (TEXTORO.UI && TEXTORO.UI.TabManager && typeof TEXTORO.UI.TabManager.switchTo === 'function') {
+                            TEXTORO.UI.TabManager.switchTo('presets');
+                        }
+
+                        // Clear search filter so the newly saved preset is not hidden by query
+                        if (TEXTORO.Panels.Presets && typeof TEXTORO.Panels.Presets.clearSearch === 'function') {
+                            TEXTORO.Panels.Presets.clearSearch();
+                        }
+                        
                         // Switch tab to the preset's category so it is IMMEDIATELY VISIBLE
                         if (TEXTORO.Panels.Presets && typeof TEXTORO.Panels.Presets.setFilter === 'function') {
                             TEXTORO.Panels.Presets.setFilter(savePayload.category);

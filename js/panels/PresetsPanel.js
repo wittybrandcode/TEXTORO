@@ -1032,6 +1032,15 @@ TEXTORO.Panels.Presets = (function() {
     }
 
     /**
+     * مسح استعلام البحث
+     */
+    function clearSearch() {
+        if (elements.searchInput) elements.searchInput.value = '';
+        searchQuery = '';
+        if (elements.searchClear) elements.searchClear.style.display = 'none';
+    }
+
+    /**
      * إنشاء بريست جديد من الطبقة النشطة
      */
     function createFromLayer() {
@@ -1052,6 +1061,7 @@ TEXTORO.Panels.Presets = (function() {
         applySelected: applySelected,
         createFromLayer: createFromLayer,
         setFilter: setFilter,
+        clearSearch: clearSearch,
         isFavorite: isFavorite,
         toggleFavorite: toggleFavorite
     };

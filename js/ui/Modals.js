@@ -1215,10 +1215,11 @@ TEXTORO.UI.Modals = (function() {
             values: finalValues
         };
 
+        var cb = currentPresetSaveCallback;
         closePresetSaveModal();
 
-        if (typeof currentPresetSaveCallback === 'function') {
-            currentPresetSaveCallback(resultPayload);
+        if (typeof cb === 'function') {
+            cb(resultPayload);
         }
     }
 
