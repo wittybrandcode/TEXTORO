@@ -1,6 +1,6 @@
 /**
  * TEXTORO CEP - Host Script
- * v1.0.0 - Modular Architecture
+ * v1.1.0 - Modular Architecture
  * 
  * هذا الملف يقوم بتحميل جميع الوحدات بالترتيب الصحيح
  * الكود الفعلي موجود في مجلد modules/
@@ -15,7 +15,7 @@ var CONFIG = (typeof $.global !== "undefined" && $.global.CONFIG) ? $.global.CON
 var BOX_CONFIG = (typeof $.global !== "undefined" && $.global.BOX_CONFIG) ? $.global.BOX_CONFIG : {};
 
 // Debug flag
-$.writeln("[TEXTORO] index.jsx loaded - v1.0.0 Modular");
+if (typeof CONFIG !== "undefined" && CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] index.jsx loaded - v1.1.0 Modular");
 
 // ═══════════════════════════════════════════════════════════════════
 // MODULE LOADING - تحميل الوحدات بالترتيب

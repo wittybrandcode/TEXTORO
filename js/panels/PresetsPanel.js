@@ -1,7 +1,7 @@
 /**
  * TEXTORO - Presets Panel Module
  * لوحة البريسات
- * @version 3.3.0
+ * @version 1.1.0
  */
 
 TEXTORO.Panels = TEXTORO.Panels || {};

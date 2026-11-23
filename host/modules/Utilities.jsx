@@ -18,7 +18,17 @@
  * - Safe JSON parsing (safeJSONParse)
  */
 
-$.writeln("[TEXTORO] Loading Utilities module...");
+if (typeof CONFIG !== "undefined" && CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Loading Utilities module...");
+
+/**
+ * طباعة رسائل تصحيح فقط عندما يكون DEBUG مفعلاً
+ * @param {string} msg
+ */
+function _debugLog(msg) {
+    if (typeof CONFIG !== "undefined" && CONFIG && CONFIG.DEBUG) {
+        $.writeln(msg);
+    }
+}
 
 var CONFIG = (typeof $.global !== "undefined" && $.global.CONFIG) ? $.global.CONFIG : (typeof CONFIG !== "undefined" ? CONFIG : { DEBUG: false, TEXT: { RTL: "", LTR: "" } });
 var BOX_CONFIG = (typeof $.global !== "undefined" && $.global.BOX_CONFIG) ? $.global.BOX_CONFIG : (typeof BOX_CONFIG !== "undefined" ? BOX_CONFIG : {});
@@ -360,7 +370,7 @@ function findEffectControlFast(map, name) {
  * @param {number} value - القيمة
  * @returns {Property}
  */
-function addSlider(fx, name, value) {
+function addSlider(fx, name, value, fxMap) {
     // Type validation
     var numValue = parseFloat(value);
     if (isNaN(numValue)) {
@@ -368,7 +378,7 @@ function addSlider(fx, name, value) {
         numValue = 0;
     }
     
-    var existing = findEffectControl(fx, name);
+    var existing = fxMap ? findEffectControlFast(fxMap, name) : findEffectControl(fx, name);
     if (existing) {
         // تحديث القيمة إذا كان موجوداً
         existing.property(1).setValue(numValue);
@@ -389,7 +399,7 @@ function addSlider(fx, name, value) {
  * @param {boolean} value - القيمة
  * @returns {Property}
  */
-function addCheckbox(fx, name, value) {
+function addCheckbox(fx, name, value, fxMap) {
     // Type validation
     var boolValue = false;
     if (typeof value === 'boolean') {
@@ -402,7 +412,7 @@ function addCheckbox(fx, name, value) {
         $.writeln("[TEXTORO] addCheckbox: Invalid value for " + name + ", using false");
     }
     
-    var existing = findEffectControl(fx, name);
+    var existing = fxMap ? findEffectControlFast(fxMap, name) : findEffectControl(fx, name);
     if (existing) {
         // تحديث القيمة إذا كان موجوداً
         existing.property(1).setValue(boolValue ? 1 : 0);
@@ -421,10 +431,11 @@ function addCheckbox(fx, name, value) {
  * @param {string|Array} value - اللون (hex أو RGB array)
  * @returns {Property}
  */
-function addColor(fx, name, value) {
+function addColor(fx, name, value, fxMap) {
     // Type validation
     var rgb;
-    if (value instanceof Array && value.length >= 3) {
+    var isArr = (typeof txIsArray === "function") ? txIsArray(value) : (value instanceof Array);
+    if (isArr && value.length >= 3) {
         // Validate array values are numbers between 0-1
         rgb = [
             Math.max(0, Math.min(1, parseFloat(value[0]) || 0)),
@@ -438,7 +449,7 @@ function addColor(fx, name, value) {
         rgb = [1, 1, 1];
     }
     
-    var existing = findEffectControl(fx, name);
+    var existing = fxMap ? findEffectControlFast(fxMap, name) : findEffectControl(fx, name);
     if (existing) {
         // تحديث القيمة إذا كان موجوداً
         existing.property(1).setValue(rgb);

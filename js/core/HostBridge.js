@@ -44,7 +44,9 @@ TEXTORO.HostBridge = (function() {
             .replace(/\\/g, '\\\\')
             .replace(/'/g, "\\'")
             .replace(/\r/g, '\\r')
-            .replace(/\n/g, '\\n');
+            .replace(/\n/g, '\\n')
+            .replace(/\u2028/g, '\\u2028')
+            .replace(/\u2029/g, '\\u2029');
     }
 
     function parseInvokeResult(raw) {

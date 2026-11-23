@@ -60,8 +60,8 @@ var EASE_VAL_CODE = (typeof getEaseValCode === "function") ? getEaseValCode() :
         'if(eT==6)return p<=0?0:p>=1?1:1-Math.exp(-6.91*p)*(Math.cos(9.213*p)+0.75*Math.sin(9.213*p));' +
         'if(eT==7)return p<=0?0:p>=1?1:1-Math.exp(-4.5*p)*(Math.cos(14.5*p)+0.4*Math.sin(14.5*p));' +
         'return p;}' +
-        'function solveSpring(t,k,c,m,v){if(t<=0)return 0;var sm=Math.max(0.001,m||1),sk=Math.max(0.1,k||180),sc=Math.max(0,c||18),v0=v||0;var w0=Math.sqrt(sk/sm),zeta=sc/(2*Math.sqrt(sk*sm)),a=zeta*w0;if(Math.abs(zeta-1)<0.001)return 1-Math.exp(-w0*t)*(1+(w0-v0)*t);if(zeta<1){var wd=w0*Math.sqrt(1-zeta*zeta),b=(a-v0)/wd;return 1-Math.exp(-a*t)*(Math.cos(wd*t)+b*Math.sin(wd*t));}var wh=w0*Math.sqrt(zeta*zeta-1);return 1-(1/(2*wh))*((wh+a-v0)*Math.exp((-a+wh)*t)+(wh-a+v0)*Math.exp((-a-wh)*t));}' +
-        'function solveSettlingTime(k,c,m){var sm=Math.max(0.001,m||1),sk=Math.max(0.1,k||180),sc=Math.max(0.001,c||18);var a=(sc/(2*Math.sqrt(sk*sm)))*Math.sqrt(sk/sm);return a<=0.0001?5:Math.min(10,6.91/a);}';
+        'function solveSpring(t,k,c,m,v){if(t<=0)return 0;var sm=Math.max(0.001,m||1),sk=Math.max(0.1,k||180),sc=(typeof c!=="undefined"&&c!==null&&!isNaN(c))?Math.max(0,Number(c)):18,v0=v||0;var w0=Math.sqrt(sk/sm),zeta=sc/(2*Math.sqrt(sk*sm)),a=zeta*w0;if(Math.abs(zeta-1)<0.001)return 1-Math.exp(-w0*t)*(1+(w0-v0)*t);if(zeta<1){var wd=w0*Math.sqrt(1-zeta*zeta),b=(a-v0)/wd;return 1-Math.exp(-a*t)*(Math.cos(wd*t)+b*Math.sin(wd*t));}var wh=w0*Math.sqrt(zeta*zeta-1);return 1-(1/(2*wh))*((wh+a-v0)*Math.exp((-a+wh)*t)+(wh-a+v0)*Math.exp((-a-wh)*t));}' +
+        'function solveSettlingTime(k,c,m){var sm=Math.max(0.001,m||1),sk=Math.max(0.1,k||180),sc=(typeof c!=="undefined"&&c!==null&&!isNaN(c))?Math.max(0,Number(c)):18;if(sc<=0.0001)return 5;var a=(sc/(2*Math.sqrt(sk*sm)))*Math.sqrt(sk/sm);return a<=0.0001?5:Math.min(10,6.91/a);}';
 
 /**
  * كود قراءة التوقيت والـ Sync - مشترك بين كل الـ Expressions

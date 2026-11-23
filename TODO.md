@@ -1,6 +1,6 @@
 # TEXTORO - TODO List
 > آخر تحديث: August 25, 2026 | v1.0.0
-> 📋 خطة الإصلاح المعتمدة: [docs/REMEDIATION_PLAN_V1.0.md](docs/REMEDIATION_PLAN_V1.0.md)
+> 📋 خطة الإصلاح المعتمدة: [docs/ULTIMATE_REMEDIATION_PLAN_2026-08-27.md](docs/ULTIMATE_REMEDIATION_PLAN_2026-08-27.md)
 
 ---
 

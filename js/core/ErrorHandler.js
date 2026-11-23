@@ -4,6 +4,26 @@
  * @version 3.3.0
  */
 
+function _isDebug() {
+    return Boolean(window.TEXTORO && window.TEXTORO.Config && window.TEXTORO.Config.DEBUG);
+}
+
+function _safeError(msg) {
+    if (window.TEXTORO && typeof window.TEXTORO.error === 'function') {
+        window.TEXTORO.error(msg);
+    } else if (typeof console !== 'undefined' && console.error) {
+        console.error('[TEXTORO]', msg);
+    }
+}
+
+function _safeLog(msg) {
+    if (window.TEXTORO && typeof window.TEXTORO.log === 'function') {
+        window.TEXTORO.log(msg);
+    } else if (typeof console !== 'undefined' && console.log) {
+        console.log('[TEXTORO]', msg);
+    }
+}
+
 TEXTORO.ErrorHandler = {
     /**
      * عرض رسالة خطأ للمستخدم
@@ -23,9 +43,9 @@ TEXTORO.ErrorHandler = {
         
         // تسجيل الأخطاء في Console
         if (type === 'error') {
-            TEXTORO.error(message);
-        } else if (TEXTORO.Config.DEBUG) {
-            TEXTORO.log(type.toUpperCase() + ': ' + message);
+            _safeError(message);
+        } else if (_isDebug()) {
+            _safeLog(type.toUpperCase() + ': ' + message);
         }
     },
     
@@ -76,11 +96,11 @@ TEXTORO.ErrorHandler = {
         var fullMsg = message;
         if (error) {
             fullMsg += ' | ' + (error.message || error.toString());
-            if (error.stack && TEXTORO.Config.DEBUG) {
+            if (error.stack && _isDebug()) {
                 console.error(error.stack);
             }
         }
-        TEXTORO.error(fullMsg);
+        _safeError(fullMsg);
     }
 };
 

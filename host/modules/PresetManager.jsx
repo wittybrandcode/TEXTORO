@@ -723,7 +723,7 @@ function getPresetList(optsJSON) {
 function getAllPresets() {
     try {
         var allPresets = [];
-        var categories = ["toro", "type", "box", "mix", "motion", "motion-full"];
+        var categories = ["toro", "type", "box", "mix", "motion"];
         
         for (var c = 0; c < categories.length; c++) {
             var category = categories[c];

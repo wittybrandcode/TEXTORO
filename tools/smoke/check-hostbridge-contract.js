@@ -96,6 +96,12 @@ if (dynamicCalls.length > 0) {
 
 let hasError = false;
 
+// Contract: HostBridge esc() must escape \u2028 and \u2029
+if (!hbFile.includes('\\u2028') || !hbFile.includes('\\u2029')) {
+    hasError = true;
+    console.error('[SMOKE][contract] FAIL - HostBridge.js esc() must escape \\u2028 and \\u2029');
+}
+
 if (missingInHost.length > 0) {
     hasError = true;
     console.error('[SMOKE][contract] FAIL - missing host functions for literal calls:');

@@ -1,7 +1,7 @@
 /**
  * TEXTORO - Configuration Module
  * إعدادات التطبيق المركزية
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 var TEXTORO = TEXTORO || {};
@@ -23,7 +23,6 @@ TEXTORO.Config = {
         
         /** تأخير Inspector Live Edit (ms) */
         INSPECTOR_DEBOUNCE_DELAY: 200,
-        SOGA_DEBOUNCE_DELAY: 200,
         
         /** تأخير البحث (ms) */
         SEARCH_DEBOUNCE_DELAY: 200

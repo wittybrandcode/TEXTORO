@@ -158,6 +158,7 @@ function updateLayerText(optsJSON) {
     try {
         var opts = safeJSONParse(optsJSON, null);
         if (!opts) return error("Invalid options JSON");
+        if (opts.text === undefined || opts.text === null) return error("Missing text parameter");
         
         var comp = getActiveComp();
         if (!comp) return error("Open a composition first");
@@ -246,7 +247,9 @@ function updateTypewriterCursor(optsJSON) {
         // تحديث سلايدر نوع المؤشر
         var cursorTypeSlider = fx.property("Cursor Type");
         if (cursorTypeSlider && opts.type !== undefined) {
-            cursorTypeSlider.property(1).setValue(parseInt(opts.type) || 0);
+            var parsedType = parseInt(opts.type, 10);
+            if (isNaN(parsedType)) parsedType = 0;
+            cursorTypeSlider.property(1).setValue(parsedType);
         }
         
         // تحديث لون المؤشر
@@ -260,7 +263,7 @@ function updateTypewriterCursor(optsJSON) {
         }
         
         // تحديث رمز المؤشر المخصص في الـ Markers
-        if (opts.type === -1 && opts.custom !== undefined) {
+        if ((opts.type === -1 || parseInt(opts.type, 10) === -1) && opts.custom !== undefined) {
             var markers = textLayer.property("Marker");
             if (markers) {
                 var found = false;
@@ -313,7 +316,7 @@ function hasTypewriter(layer) {
  * تطبيق Typewriter داخلياً
  */
 function _applyTypewriter(textLayer, opts) {
-    $.writeln("[TEXTORO] _applyTypewriter called");
+    if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] _applyTypewriter called");
     
     var fx = textLayer.property("ADBE Effect Parade");
     var textProp = textLayer.property("ADBE Text Properties").property("ADBE Text Document");
@@ -345,7 +348,7 @@ function _applyTypewriter(textLayer, opts) {
         "TW Auto": true,
         "TW Reverse": opts.reverse || false,
         "Word Mode": opts.wordMode || false,
-        "Random Speed": opts.randomSpeed || 0,
+        "Random Speed": _numOrDefault(opts.randomSpeed, 0),
         "Show Cursor": cursorOpts.show,
         "Cursor Before Text": cursorOpts.before,
         "Cursor Type": cursorOpts.type,
@@ -355,8 +358,8 @@ function _applyTypewriter(textLayer, opts) {
         "Blink In Hold": cursorOpts.blinkInHold,
         "Box RTL": isRTL,
         "Live Text": (opts.liveText !== false), // N-04: مفعل افتراضياً
-        "Easing Type": opts.easingType || 1,
-        "Easing Strength": opts.easingStrength || 100
+        "Easing Type": _numOrDefault(opts.easingType, 1),
+        "Easing Strength": _numOrDefault(opts.easingStrength, 100)
     };
     
     // محاولة استخدام ControllerManager
@@ -369,12 +372,12 @@ function _applyTypewriter(textLayer, opts) {
     
     // Fallback إذا فشل ControllerManager
     if (!useControllerManager) {
-        $.writeln("[TEXTORO] Using direct controller creation (fallback)");
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Using direct controller creation (fallback)");
         addSlider(fx, "TW Progress", 0);
         addCheckbox(fx, "TW Auto", true);
         addCheckbox(fx, "TW Reverse", opts.reverse || false);
         addCheckbox(fx, "Word Mode", opts.wordMode || false);
-        addSlider(fx, "Random Speed", opts.randomSpeed || 0);
+        addSlider(fx, "Random Speed", _numOrDefault(opts.randomSpeed, 0));
         addCheckbox(fx, "Show Cursor", cursorOpts.show);
         addCheckbox(fx, "Cursor Before Text", cursorOpts.before);
         addSlider(fx, "Cursor Type", cursorOpts.type);
@@ -384,8 +387,8 @@ function _applyTypewriter(textLayer, opts) {
         addCheckbox(fx, "Blink In Hold", cursorOpts.blinkInHold);
         addCheckbox(fx, "Box RTL", isRTL);
         addCheckbox(fx, "Live Text", opts.liveText !== false); // N-04
-        addSlider(fx, "Easing Type", opts.easingType || 1);
-        addSlider(fx, "Easing Strength", opts.easingStrength || 100);
+        addSlider(fx, "Easing Type", _numOrDefault(opts.easingType, 1));
+        addSlider(fx, "Easing Strength", _numOrDefault(opts.easingStrength, 100));
     }
     
     if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Typewriter controllers created successfully");
@@ -453,12 +456,12 @@ function _removeTypewriter(textLayer) {
     
     // Fallback: إزالة مباشرة
     if (!removed) {
-        $.writeln("[TEXTORO] Using direct controller removal (fallback)");
+        if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Using direct controller removal (fallback)");
         var controls = [
             "TW Progress", "TW Auto", "TW Reverse", "Random Speed",
             "Show Cursor", "Cursor Before Text", "Cursor Type", "Cursor Color", "Cursor Spacing",
             "Blink Speed", "Blink In Hold", "Box RTL", "Text Color",
-            "Easing Type", "Easing Strength", "Word Mode"
+            "Easing Type", "Easing Strength", "Word Mode", "Live Text"
         ];
         removeEffectControls(fx, controls);
     }
@@ -532,6 +535,14 @@ function _extractTiming(opts) {
     };
 }
 
+function _numOrDefault(val, fallback) {
+    if (val === "" || val === null || val === undefined || typeof val === "boolean") {
+        return fallback;
+    }
+    var n = Number(val);
+    return isNaN(n) ? fallback : n;
+}
+
 function _toNumberOrDefault(value, defaultValue) {
     if (value === null || value === undefined || value === "") return defaultValue;
     var n = parseFloat(value);
@@ -542,7 +553,7 @@ function _extractCursorOptions(opts) {
     return {
         show: (opts.showCursor !== false),
         before: (opts.cursorBefore === true),
-        type: parseInt(opts.cursorType) || 0,
+        type: parseInt(opts.cursorType, 10) || 0,
         custom: (opts.customCursor || ""),
         color: (opts.cursorColor || "#ffffff"),
         spacing: _toNumberOrDefault(opts.cursorSpacing, 0),

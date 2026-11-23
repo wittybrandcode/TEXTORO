@@ -137,8 +137,9 @@ function hasBox(layer, comp) {
     // Method 2: التحقق من وجود Effect Controls للـ Box + طبقة صندوق فعلية
     var fx = layer.property("ADBE Effect Parade");
     if (fx) {
-        var paddingLeft = findEffectControl(fx, "Padding Left");
-        var fillOpacity = findEffectControl(fx, "Fill Opacity");
+        var fxMap = (typeof getEffectControlMap === "function") ? getEffectControlMap(fx) : null;
+        var paddingLeft = fxMap ? findEffectControlFast(fxMap, "Padding Left") : findEffectControl(fx, "Padding Left");
+        var fillOpacity = fxMap ? findEffectControlFast(fxMap, "Fill Opacity") : findEffectControl(fx, "Fill Opacity");
         if (paddingLeft && fillOpacity) {
             // F-09: Effect Controls وحدها لا تثبت وجود الصندوق - نبحث عن الشيب لاير فعلياً
             var guessBaseId = getBaseId(layer);

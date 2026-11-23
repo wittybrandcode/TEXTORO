@@ -38,7 +38,8 @@ function offsetSelectedLayers(optsJSON) {
         var count = 0;
         for (var i = 0; i < selectedLayers.length; i++) {
             var layer = selectedLayers[i];
-            layer.startTime = Math.max(0, layer.startTime + offset);
+            if (layer.locked) continue;
+            layer.startTime = layer.startTime + offset;
             count++;
         }
 
@@ -63,7 +64,8 @@ function staggerSelectedLayers(optsJSON) {
         var opts = safeJSONParse(optsJSON, null);
         if (!opts) return error("Invalid options JSON");
         
-        var delay = opts.delay || 0.5;
+        var parsedDelay = Number(opts.delay);
+        var delay = (!isNaN(parsedDelay) && opts.delay !== "" && opts.delay !== null && opts.delay !== undefined) ? parsedDelay : 0.5;
         var order = opts.order || "asc";
         
         var comp = getActiveComp();
@@ -84,6 +86,9 @@ function staggerSelectedLayers(optsJSON) {
         
         // ترتيب حسب index
         layers.sort(function(a, b) { return a.index - b.index; });
+
+        // التقاط baseTime من الطبقة الأولى قبل الترتيب/العكس
+        var baseTime = layers.length > 0 ? layers[0].startTime : 0;
         
         // تطبيق الترتيب المطلوب
         if (order === "desc") {
@@ -100,10 +105,12 @@ function staggerSelectedLayers(optsJSON) {
         app.beginUndoGroup("TEXTORO - Stagger Layers");
         undoStarted = true;
 
-        var baseTime = layers[0].startTime;
-
+        var step = 0;
         for (var i = 0; i < layers.length; i++) {
-            layers[i].layer.startTime = baseTime + (delay * i);
+            var targetLayer = layers[i].layer;
+            if (targetLayer.locked) continue;
+            targetLayer.startTime = baseTime + (delay * step);
+            step++;
         }
 
         app.endUndoGroup();
@@ -319,7 +326,10 @@ function offsetTextoroMarkers(optsJSON) {
         var updatedMarkers = [];
         
         for (var layerIdx in layerOps) {
-            var layer = comp.layer(parseInt(layerIdx, 10));
+            if (!layerOps.hasOwnProperty(layerIdx)) continue;
+            var parsedLayerIdx = parseInt(layerIdx, 10);
+            if (isNaN(parsedLayerIdx) || parsedLayerIdx < 1 || parsedLayerIdx > comp.numLayers) continue;
+            var layer = comp.layer(parsedLayerIdx);
             if (!layer) continue;
             
             var markerProp = layer.property("Marker");

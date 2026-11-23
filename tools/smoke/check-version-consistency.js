@@ -48,6 +48,16 @@ if (uniqBusters.length === 1) versions['cache-buster'] = uniqBusters[0];
 const badge = html.match(/id="verBadge"[^>]*>v([^<]+)</);
 if (badge) versions['verBadge'] = badge[1];
 
+// 5. host/index.jsx header version
+const hostIdx = read(path.join('host', 'index.jsx'));
+const vHostIdx = hostIdx.match(/v([\d\.]+)\s*-\s*Modular Architecture/);
+if (vHostIdx) versions['host.index'] = vHostIdx[1];
+
+// 6. js/main-entry.js header version
+const mainEntry = read(path.join('js', 'main-entry.js'));
+const vMainEntry = mainEntry.match(/@version\s+([\d\.]+)/);
+if (vMainEntry) versions['main-entry.js'] = vMainEntry[1];
+
 // 4b. CONFIG_MODULE_VERSION must equal CONFIG.VERSION (internal drift)
 const cfgModuleVer = cfgJsx.match(/CONFIG_MODULE_VERSION\s*=\s*"([^"]+)"/);
 if (cfgModuleVer) {

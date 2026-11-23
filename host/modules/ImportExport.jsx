@@ -27,10 +27,45 @@ var IMPORTEXPORT_MODULE_LOADED = true;
  * @param {string} optsJSON - {category, id}
  * @returns {string} JSON response with preset data
  */
+/**
+ * قراءة ملف UTF-8 بأمان وإغلاقه دائماً عبر try/finally
+ * @param {File} fileObj
+ * @returns {string|null}
+ */
+function _readUtf8FileSafe(fileObj) {
+    if (!fileObj || !fileObj.exists || (fileObj instanceof Folder)) return null;
+    fileObj.encoding = "UTF-8";
+    if (!fileObj.open("r")) return null;
+    try {
+        return fileObj.read();
+    } finally {
+        fileObj.close();
+    }
+}
+
+/**
+ * كتابة ملف UTF-8 بأمان وإغلاقه دائماً عبر try/finally
+ * @param {File} fileObj
+ * @param {string} content
+ * @returns {boolean}
+ */
+function _writeUtf8FileSafe(fileObj, content) {
+    if (!fileObj || (fileObj instanceof Folder)) return false;
+    fileObj.encoding = "UTF-8";
+    if (!fileObj.open("w")) return false;
+    try {
+        return !!fileObj.write(content);
+    } finally {
+        fileObj.close();
+    }
+}
 function exportPreset(optsJSON) {
     try {
         var opts = safeJSONParse(optsJSON, null);
-        if (!opts) return error("Invalid options JSON");
+        if (!opts || !opts.category || !opts.id) return error("Missing category or preset id");
+        if (typeof _isAllowedPresetCategory === "function" && !_isAllowedPresetCategory(opts.category)) {
+            return error("Invalid preset category: " + opts.category);
+        }
         
         var category = opts.category;
         var id = opts.id;
@@ -47,23 +82,21 @@ function exportPreset(optsJSON) {
             
             if (!indexFile.exists) continue;
             
-            indexFile.encoding = "UTF-8";
-            indexFile.open("r");
-            var indexContent = indexFile.read();
-            indexFile.close();
-            
-            var index = JSON.parse(indexContent);
+            var indexContent = _readUtf8FileSafe(indexFile);
+            if (indexContent === null) continue;
+            var index = safeJSONParse(indexContent, null);
+            if (!index || !index.presets || (typeof txIsArray === "function" ? !txIsArray(index.presets) : !(index.presets instanceof Array))) continue;
             
             for (var i = 0; i < index.presets.length; i++) {
                 if (index.presets[i].id === id) {
-                    var presetPath = paths[p] + category + "/" + index.presets[i].file;
+                    var presetFileName = index.presets[i].file;
+                    if (typeof _isSafePresetFileName === "function" && !_isSafePresetFileName(presetFileName)) continue;
+                    var presetPath = paths[p] + category + "/" + presetFileName;
                     var presetFile = new File(presetPath);
                     
-                    if (presetFile.exists) {
-                        presetFile.encoding = "UTF-8";
-                        presetFile.open("r");
-                        preset = JSON.parse(presetFile.read());
-                        presetFile.close();
+                    var presetContent = _readUtf8FileSafe(presetFile);
+                    if (presetContent !== null) {
+                        preset = safeJSONParse(presetContent, null);
                     }
                     break;
                 }
@@ -82,8 +115,8 @@ function exportPreset(optsJSON) {
             return error("Export cancelled");
         }
         
-        // إضافة الامتداد إذا لم يكن موجوداً
-        if (saveFile.name.indexOf(".txpreset") === -1) {
+        // إضافة الامتداد إذا لم يكن موجوداً (غير حساس لحالة الأحرف)
+        if (!/\.txpreset$/i.test(saveFile.name)) {
             saveFile = new File(saveFile.fsName + ".txpreset");
         }
         
@@ -91,10 +124,13 @@ function exportPreset(optsJSON) {
         preset.exportedAt = _getISODate();
         preset.exportVersion = CONFIG.VERSION;
         
-        saveFile.encoding = "UTF-8";
-        saveFile.open("w");
-        saveFile.write(JSON.stringify(preset, null, 2));
-        saveFile.close();
+        if (typeof JSON === "undefined" || typeof JSON.stringify !== "function") {
+            return error("JSON serializer is unavailable");
+        }
+        var jsonOutput = JSON.stringify(preset, null, 2);
+        if (!_writeUtf8FileSafe(saveFile, jsonOutput)) {
+            return error("Failed to write preset data to disk: " + saveFile.fsName);
+        }
         
         return success("Preset exported", { path: saveFile.fsName });
         
@@ -337,15 +373,15 @@ function exportPresetByFileName(optsJSON) {
         }
         
         // فتح نافذة حفظ الملف
-        var defaultName = fileName.replace(".json", ".txpreset");
+        var defaultName = fileName.replace(/\.json$/i, ".txpreset");
         // E-04: تمرير الاسم المقترح فعلياً للـ dialog (كان متجاهلاً)
         var saveFile = File.saveDialog("Export Preset", "TEXTORO Preset:*.txpreset", defaultName);
         if (!saveFile) {
             return error("Export cancelled");
         }
         
-        // إضافة الامتداد إذا لم يكن موجوداً
-        if (saveFile.name.indexOf(".txpreset") === -1) {
+        // إضافة الامتداد إذا لم يكن موجوداً (غير حساس لحالة الأحرف)
+        if (!/\.txpreset$/i.test(saveFile.name)) {
             saveFile = new File(saveFile.fsName + ".txpreset");
         }
         
@@ -353,10 +389,13 @@ function exportPresetByFileName(optsJSON) {
         preset.exportedAt = _getISODate();
         preset.exportVersion = CONFIG.VERSION;
         
-        saveFile.encoding = "UTF-8";
-        saveFile.open("w");
-        saveFile.write(JSON.stringify(preset, null, 2));
-        saveFile.close();
+        if (typeof JSON === "undefined" || typeof JSON.stringify !== "function") {
+            return error("JSON serializer is unavailable");
+        }
+        var jsonOutputByFile = JSON.stringify(preset, null, 2);
+        if (!_writeUtf8FileSafe(saveFile, jsonOutputByFile)) {
+            return error("Failed to write preset data to disk: " + saveFile.fsName);
+        }
         
         return success("Preset exported", { path: saveFile.fsName });
         
@@ -382,17 +421,22 @@ function importPresetFromPath(optsJSON) {
             return error("File path required");
         }
         
+        if (filePath.indexOf("\0") !== -1 || /(^|[\\/])\.\.([\\/]|$)/.test(filePath)) {
+            return error("Invalid preset file path");
+        }
+        if (!/\.(txpreset|json)$/i.test(filePath)) {
+            return error("Unsupported preset file extension");
+        }
         var importFile = new File(filePath);
-        if (!importFile.exists) {
-            return error("File not found: " + filePath);
+        var content = _readUtf8FileSafe(importFile);
+        if (content === null) {
+            return error("Cannot open import file: " + importFile.fsName);
         }
         
-        importFile.encoding = "UTF-8";
-        importFile.open("r");
-        var content = importFile.read();
-        importFile.close();
-        
-        var preset = JSON.parse(content);
+        var preset = safeJSONParse(content, null);
+        if (!preset) {
+            return error("Invalid JSON in preset file");
+        }
         
         // تحديد الفئة من البريست إذا لم تُحدد
         if (!category && preset.category) {

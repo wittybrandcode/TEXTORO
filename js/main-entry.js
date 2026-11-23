@@ -1,7 +1,7 @@
 /**
  * TEXTORO - Main Entry Point
  * نقطة الدخول الرئيسية - تهيئة جميع الوحدات
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 (function() {
@@ -113,7 +113,8 @@
 
         TEXTORO.HostBridge.run('getCompInfo', null, function(res) {
             if (res.success && res.data && res.data.fps) {
-                var fps = Math.round(res.data.fps) || 25;
+                var rawFps = Number(res && res.data ? res.data.fps : NaN);
+                var fps = (isFinite(rawFps) && rawFps > 0) ? rawFps : 25;
                 if (TEXTORO.Time.getFPS && TEXTORO.Time.getFPS() !== fps) {
                     TEXTORO.Time.setFPS(fps);
                     TEXTORO.log('FPS re-synced to: ' + fps);

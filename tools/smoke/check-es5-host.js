@@ -59,6 +59,58 @@ function checkFile(file, rules, label, violations) {
     });
 }
 
+
+function hasRadixArg(callStr) {
+    let depth = 0, inQuote = null, commas = 0;
+    for (let i = 0; i < callStr.length; i++) {
+        const c = callStr[i];
+        if (inQuote) {
+            if (c === inQuote && callStr[i-1] !== '\\') inQuote = null;
+        } else if (c === '"' || c === "'") {
+            inQuote = c;
+        } else if (c === '(' || c === '[' || c === '{') {
+            depth++;
+        } else if (c === ')' || c === ']' || c === '}') {
+            depth--;
+        } else if (c === ',' && depth === 0) {
+            commas++;
+        }
+    }
+    return commas >= 1;
+}
+
+function checkParseIntRadix(file, src, violations) {
+    let idx = 0;
+    while ((idx = src.indexOf('parseInt(', idx)) !== -1) {
+        let start = idx + 'parseInt('.length;
+        let depth = 1, inQuote = null, end = -1;
+        for (let j = start; j < src.length; j++) {
+            const c = src[j];
+            if (inQuote) {
+                if (c === inQuote && src[j-1] !== '\\') inQuote = null;
+            } else if (c === '"' || c === "'") {
+                inQuote = c;
+            } else if (c === '(') {
+                depth++;
+            } else if (c === ')') {
+                depth--;
+                if (depth === 0) { end = j; break; }
+            }
+        }
+        if (end !== -1) {
+            const args = src.slice(start, end);
+            if (!hasRadixArg(args)) {
+                // Find line number
+                const line = src.slice(0, idx).split('\n').length;
+                violations.push({ file, line, name: 'parseInt missing radix: parseInt(' + args.trim() + ')', label: 'RADIX' });
+            }
+            idx = end + 1;
+        } else {
+            idx += 9;
+        }
+    }
+}
+
 function rel(p) { return path.relative(ROOT, p); }
 
 // --- Collect targets ---
@@ -86,6 +138,12 @@ for (const f of strictFiles) {
             apiRe.lastIndex = m.index + 1;
         }
     });
+}
+
+for (const f of strictFiles) {
+    const raw = fs.readFileSync(f, 'utf8');
+    const stripped = stripComments(raw);
+    checkParseIntRadix(f, stripped, violations);
 }
 
 for (const f of exprFiles) {

@@ -4,7 +4,7 @@
  * v1.1.0
  */
 
-$.writeln("[TEXTORO] Loading Config module...");
+if (typeof CONFIG !== "undefined" && CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Loading Config module...");
 
 // JSON polyfill for older ExtendScript engines (AE 2020 and similar).
 // Some hosts do not expose native JSON, which breaks all host/ui contracts.
@@ -240,7 +240,7 @@ function checkAECompatibility() {
                 compatible: false,
                 version: version,
                 versionStr: versionStr,
-                message: "TEXTORO requires After Effects CC 2016 (v13.0) or later. Current version: " + versionStr
+                message: "TEXTORO requires After Effects CC 2020 (v" + AE_MIN_VERSION.toFixed(1) + ") or later. Current version: " + versionStr
             };
         }
         
