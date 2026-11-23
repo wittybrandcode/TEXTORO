@@ -945,6 +945,7 @@ TEXTORO.UI.Modals = (function() {
         var chkType = document.getElementById('chkModuleType');
         var chkBox = document.getElementById('chkModuleBox');
         var chkMotion = document.getElementById('chkModuleMotion');
+        var catSelect = document.getElementById('presetSaveCategorySelect');
 
         if (okBtn) okBtn.addEventListener('click', submitPresetSaveModal);
         if (cancelBtn) cancelBtn.addEventListener('click', closePresetSaveModal);
@@ -957,7 +958,19 @@ TEXTORO.UI.Modals = (function() {
             });
         }
 
+        if (catSelect) {
+            catSelect.addEventListener('change', function() {
+                var val = catSelect.value;
+                if (val !== 'auto') {
+                    applyCategoryToModules(val);
+                }
+                updatePresetSaveCategory();
+            });
+        }
+
         function onModuleToggle() {
+            var s = document.getElementById('presetSaveCategorySelect');
+            if (s) s.value = 'auto';
             updatePresetSaveCategory();
         }
         if (chkType) chkType.addEventListener('change', onModuleToggle);
@@ -975,13 +988,46 @@ TEXTORO.UI.Modals = (function() {
     }
 
     /**
-     * تحديث فئة البريست ديناميكياً حسب الموديلات المختارة
+     * تفعيل الموديلات المناسبة للفئة المختارة يدوياً
+     */
+    function applyCategoryToModules(cat) {
+        if (!presetSaveData) return;
+        var chkType = document.getElementById('chkModuleType');
+        var chkBox = document.getElementById('chkModuleBox');
+        var chkMotion = document.getElementById('chkModuleMotion');
+
+        if (cat === 'type') {
+            if (chkType && presetSaveData.hasType) chkType.checked = true;
+            if (chkBox) chkBox.checked = false;
+            if (chkMotion) chkMotion.checked = false;
+        } else if (cat === 'box') {
+            if (chkType) chkType.checked = false;
+            if (chkBox && presetSaveData.hasBox) chkBox.checked = true;
+            if (chkMotion) chkMotion.checked = false;
+        } else if (cat === 'motion') {
+            if (chkType) chkType.checked = false;
+            if (chkBox) chkBox.checked = false;
+            if (chkMotion && presetSaveData.hasMotion) chkMotion.checked = true;
+        } else if (cat === 'compound') {
+            if (chkType && presetSaveData.hasType) chkType.checked = true;
+            if (chkBox && presetSaveData.hasBox) chkBox.checked = true;
+            if (chkMotion) chkMotion.checked = false;
+        } else if (cat === 'templates') {
+            if (chkType && presetSaveData.hasType) chkType.checked = true;
+            if (chkBox && presetSaveData.hasBox) chkBox.checked = true;
+            if (chkMotion && presetSaveData.hasMotion) chkMotion.checked = true;
+        }
+    }
+
+    /**
+     * تحديث فئة البريست ديناميكياً حسب الموديلات أو القائمة المنسدلة
      */
     function updatePresetSaveCategory() {
         var chkType = document.getElementById('chkModuleType');
         var chkBox = document.getElementById('chkModuleBox');
         var chkMotion = document.getElementById('chkModuleMotion');
         var badge = document.getElementById('presetSaveCategoryBadge');
+        var catSelect = document.getElementById('presetSaveCategorySelect');
         var okBtn = document.getElementById('btnPresetSaveOK');
 
         var hasT = chkType && chkType.checked;
@@ -991,30 +1037,42 @@ TEXTORO.UI.Modals = (function() {
         var cat = 'templates';
         var label = 'TEMPLATES';
 
-        if (hasT && hasB && hasM) {
-            cat = 'templates';
-            label = 'TEMPLATES (FULL SUITE)';
-        } else if (hasT && hasB) {
-            cat = 'compound';
-            label = 'COMPOUND (TYPE+BOX)';
-        } else if (hasT && hasM) {
-            cat = 'compound';
-            label = 'COMPOUND (TYPE+MOTION)';
-        } else if (hasB && hasM) {
-            cat = 'compound';
-            label = 'COMPOUND (BOX+MOTION)';
-        } else if (hasT) {
-            cat = 'type';
-            label = 'TYPEWRITER';
-        } else if (hasB) {
-            cat = 'box';
-            label = 'BOX SHAPE';
-        } else if (hasM) {
-            cat = 'motion';
-            label = 'MOTION';
+        if (catSelect && catSelect.value !== 'auto') {
+            cat = catSelect.value;
+            var catLabels = {
+                'templates': 'TEMPLATES',
+                'compound': 'COMPOUND',
+                'type': 'TYPEWRITER',
+                'box': 'BOX SHAPE',
+                'motion': 'MOTION'
+            };
+            label = catLabels[cat] || cat.toUpperCase();
         } else {
-            cat = '';
-            label = 'SELECT AT LEAST 1';
+            if (hasT && hasB && hasM) {
+                cat = 'templates';
+                label = 'TEMPLATES (FULL SUITE)';
+            } else if (hasT && hasB) {
+                cat = 'compound';
+                label = 'COMPOUND (TYPE+BOX)';
+            } else if (hasT && hasM) {
+                cat = 'compound';
+                label = 'COMPOUND (TYPE+MOTION)';
+            } else if (hasB && hasM) {
+                cat = 'compound';
+                label = 'COMPOUND (BOX+MOTION)';
+            } else if (hasT) {
+                cat = 'type';
+                label = 'TYPEWRITER';
+            } else if (hasB) {
+                cat = 'box';
+                label = 'BOX SHAPE';
+            } else if (hasM) {
+                cat = 'motion';
+                label = 'MOTION';
+            } else {
+                cat = '';
+                label = 'SELECT AT LEAST 1';
+            }
         }
 
         if (badge) {
@@ -1023,9 +1081,10 @@ TEXTORO.UI.Modals = (function() {
         }
 
         if (okBtn) {
-            okBtn.disabled = !cat;
-            okBtn.style.opacity = cat ? '1' : '0.4';
-            okBtn.style.pointerEvents = cat ? 'auto' : 'none';
+            var isValid = !!cat && (hasT || hasB || hasM);
+            okBtn.disabled = !isValid;
+            okBtn.style.opacity = isValid ? '1' : '0.4';
+            okBtn.style.pointerEvents = isValid ? 'auto' : 'none';
         }
 
         return cat;
@@ -1034,7 +1093,7 @@ TEXTORO.UI.Modals = (function() {
     /**
      * عرض نافذة حفظ البريست الذكية
      */
-    function showPresetSave(data, callback) {
+    function showPresetSave(data, callback, preferredCategory) {
         if (!presetSaveModal) initPresetSaveModal();
         if (!presetSaveModal) return;
 
@@ -1043,6 +1102,7 @@ TEXTORO.UI.Modals = (function() {
 
         var layerNameEl = document.getElementById('presetSaveLayerName');
         var nameInput = document.getElementById('presetSaveNameInput');
+        var catSelect = document.getElementById('presetSaveCategorySelect');
         var chkType = document.getElementById('chkModuleType');
         var chkBox = document.getElementById('chkModuleBox');
         var chkMotion = document.getElementById('chkModuleMotion');
@@ -1078,6 +1138,16 @@ TEXTORO.UI.Modals = (function() {
         if (cleanBase.length > 25) cleanBase = cleanBase.substring(0, 25);
         if (nameInput) {
             nameInput.value = cleanBase ? cleanBase + ' Preset' : 'Custom Preset';
+        }
+
+        // تحديد الفئة المفضلة تلقائياً إن وجدت
+        if (catSelect) {
+            if (preferredCategory && ['type', 'box', 'motion', 'compound', 'templates'].indexOf(preferredCategory) !== -1) {
+                catSelect.value = preferredCategory;
+                applyCategoryToModules(preferredCategory);
+            } else {
+                catSelect.value = 'auto';
+            }
         }
 
         updatePresetSaveCategory();

@@ -2386,8 +2386,18 @@
     </div>
 
     <div class="preset-save-target-row">
-        <span class="preset-target-label">TECHNICAL CATEGORY:</span>
-        <span class="preset-badge templates" id="presetSaveCategoryBadge">TEMPLATES</span>
+        <label class="preset-target-label" for="presetSaveCategorySelect">TARGET TAB / CATEGORY</label>
+        <div class="preset-save-category-wrapper">
+            <select id="presetSaveCategorySelect" class="studio-select preset-save-category-select" title="Preset Category Tab">
+                <option value="auto">Auto (Smart Detect)</option>
+                <option value="type">Typewriter</option>
+                <option value="box">Box Shape</option>
+                <option value="motion">Motion</option>
+                <option value="compound">Compound (Type + Box)</option>
+                <option value="templates">Templates (Full Suite)</option>
+            </select>
+            <span class="preset-badge templates" id="presetSaveCategoryBadge">TEMPLATES</span>
+        </div>
     </div>
 
     <div class="preset-save-input-group">

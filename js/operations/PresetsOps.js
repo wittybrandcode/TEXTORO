@@ -115,7 +115,7 @@ TEXTORO.Ops.Presets = (function() {
 
             TEXTORO.UI.StatusBar.set('', '');
 
-            // Open the smart studio modal with auto-detected modules
+            // Open the smart studio modal with auto-detected modules and preferred category
             TEXTORO.UI.Modals.showPresetSave(inspectData, function(savePayload) {
                 if (!savePayload) return;
 
@@ -124,14 +124,21 @@ TEXTORO.Ops.Presets = (function() {
                 TEXTORO.HostBridge.run('savePreset', savePayload, function(saveRes) {
                     if (saveRes.success) {
                         TEXTORO.UI.StatusBar.success('Preset saved: ' + savePayload.name);
-                        if (TEXTORO.Panels.Presets && TEXTORO.Panels.Presets.load) {
-                            TEXTORO.Panels.Presets.load(true);
+                        
+                        // Switch tab to the preset's category so it is IMMEDIATELY VISIBLE
+                        if (TEXTORO.Panels.Presets && typeof TEXTORO.Panels.Presets.setFilter === 'function') {
+                            TEXTORO.Panels.Presets.setFilter(savePayload.category);
+                        }
+                        
+                        // Reload and highlight the newly saved preset
+                        if (TEXTORO.Panels.Presets && typeof TEXTORO.Panels.Presets.load === 'function') {
+                            TEXTORO.Panels.Presets.load(true, savePayload.name);
                         }
                     } else {
                         TEXTORO.UI.StatusBar.error('Error: ' + (saveRes.error || 'Failed to save preset'));
                     }
                 });
-            });
+            }, preferredCategory);
         });
     }
     

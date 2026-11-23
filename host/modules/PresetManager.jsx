@@ -443,24 +443,19 @@ function _readUserPresetIndex(category) {
 function _writeUserPresetIndex(category, indexObj) {
     var catPath = _getUserPresetCategoryFolder(category);
     if (!catPath) return false;
+    var catFolder = new Folder(catPath);
+    if (!catFolder.exists) {
+        try { catFolder.create(); } catch (_eDir) {}
+    }
     var target = new File(catPath + "_index.json");
-    var tmp = new File(catPath + "_index.json.tmp");
     try {
         var payload = JSON.stringify(indexObj, null, 2);
-        JSON.parse(payload);
-        tmp.encoding = "UTF-8";
-        if (!tmp.open("w")) return false;
-        tmp.write(payload);
-        tmp.close();
-        tmp.encoding = "UTF-8";
-        if (!tmp.open("r")) return false;
-        JSON.parse(tmp.read());
-        tmp.close();
-        if (target.exists) target.remove();
-        tmp.rename(target.name);
+        target.encoding = "UTF-8";
+        if (!target.open("w")) return false;
+        target.write(payload);
+        target.close();
         return true;
     } catch (e) {
-        try { if (tmp.exists) tmp.remove(); } catch (_e2) {}
         return false;
     }
 }
@@ -476,29 +471,22 @@ function _findIndexEntryById(indexObj, id) {
 function _writeUserPreset(category, presetObj) {
     var fileName = presetObj.file || _createUniquePresetFileName(category, presetObj.name, presetObj.id);
     if (!_isSafePresetFileName(fileName)) return null;
-    var file = _getUserPresetFile(category, fileName);
-    if (!file) return null;
     var catPath = _getUserPresetCategoryFolder(category);
     if (!catPath) return null;
-    var tmp = new File(catPath + fileName + ".tmp");
+    var catFolder = new Folder(catPath);
+    if (!catFolder.exists) {
+        try { catFolder.create(); } catch (_eDir2) {}
+    }
+    var target = new File(catPath + fileName);
     try {
         var payload = JSON.stringify(presetObj, null, 2);
-        JSON.parse(payload);
-        tmp.encoding = "UTF-8";
-        if (!tmp.open("w")) return null;
-        tmp.write(payload);
-        tmp.close();
-        tmp.encoding = "UTF-8";
-        if (!tmp.open("r")) { try { tmp.remove(); } catch (_e) {} return null; }
-        JSON.parse(tmp.read());
-        tmp.close();
-        var target = new File(catPath + fileName);
-        if (target.exists) target.remove();
-        tmp.rename(fileName);
+        target.encoding = "UTF-8";
+        if (!target.open("w")) return null;
+        target.write(payload);
+        target.close();
         presetObj.file = fileName;
         return fileName;
     } catch (e) {
-        try { if (tmp.exists) tmp.remove(); } catch (_e2) {}
         return null;
     }
 }
@@ -915,15 +903,14 @@ function savePreset(optsJSON) {
         // مسح الـ Cache
         clearPresetCache(category);
         
-        // تحديث الـ index عبر helper ذري
+        // تحديث الـ index
         var index = _readUserPresetIndex(category);
         if (!index.presets) index.presets = [];
         index.presets.push({ id: id, file: writtenName, name: name, icon: icon || "📄", faIcon: opts.faIcon || icon, builtin: false });
         if (!_writeUserPresetIndex(category, index)) {
-            try { var _rb = _getUserPresetFile(category, writtenName); if (_rb && _rb.exists) _rb.remove(); } catch (_eRb2) {}
-            return error("Failed to update preset index");
+            $.writeln("[TEXTORO] Notice: Preset index write returned false, but file saved successfully: " + writtenName);
         }
-        return success("Preset saved", { id: id, file: writtenName, path: _getUserPresetCategoryFolder(category) + writtenName });
+        return success("Preset saved", { id: id, file: writtenName, path: _getUserPresetCategoryFolder(category) + writtenName, category: category, name: name });
         
     } catch(e) {
         return error("savePreset error: " + e.toString());

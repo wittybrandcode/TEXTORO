@@ -190,7 +190,7 @@ TEXTORO.Panels.Presets = (function() {
     /**
      * تحميل البريسات
      */
-    function load(forceReload) {
+    function load(forceReload, selectTargetName) {
         if (!elements.container) {
             elements.container = document.getElementById('presetsListContainer');
         }
@@ -226,6 +226,23 @@ TEXTORO.Panels.Presets = (function() {
                 if (loadedCount === categories.length) {
                     cache = allPresets;
                     render();
+
+                    if (selectTargetName && elements.container) {
+                        var targetEl = null;
+                        var items = elements.container.querySelectorAll('.preset-item');
+                        for (var it = 0; it < items.length; it++) {
+                            var pName = items[it].querySelector('.preset-name');
+                            if (pName && pName.textContent.trim().indexOf(selectTargetName) !== -1) {
+                                targetEl = items[it];
+                                break;
+                            }
+                        }
+                        if (targetEl) {
+                            items.forEach(function(el) { el.classList.remove('selected'); });
+                            targetEl.classList.add('selected');
+                            try { targetEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch(e) {}
+                        }
+                    }
 
                     // E-01: رسائل واضحة حسب حجم الفشل
                     if (!allPresets.length && failCount > 0) {
@@ -694,6 +711,7 @@ TEXTORO.Panels.Presets = (function() {
         }
         item.dataset.category = preset.category;
         item.dataset.filename = preset.fileName || '';
+        item.dataset.name = preset.name || '';
         
         // Callback container for hover interactions
         var onHover = { enter: null, leave: null };
@@ -992,11 +1010,34 @@ TEXTORO.Panels.Presets = (function() {
     }
     
     /**
+     * تغيير الفلتر النشط برمجياً ومزامنة الأزرار
+     */
+    function setFilter(category) {
+        if (!category) return;
+        var norm = category.toLowerCase();
+        if (norm === 'toro') norm = 'templates';
+        if (norm === 'mix') norm = 'compound';
+        if (norm === 'motion-full') norm = 'motion';
+        
+        currentFilter = norm;
+        if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') {
+            TEXTORO.State.Manager.set('presetsFilter', currentFilter);
+        }
+        
+        document.querySelectorAll('.filter-btn').forEach(function(btn) {
+            btn.classList.toggle('active', btn.dataset.filter === currentFilter);
+        });
+        
+        updateMotionOptionsVisibility();
+    }
+
+    /**
      * إنشاء بريست جديد من الطبقة النشطة
      */
     function createFromLayer() {
         if (TEXTORO.Ops && TEXTORO.Ops.Presets && typeof TEXTORO.Ops.Presets.saveFromLayer === 'function') {
-            TEXTORO.Ops.Presets.saveFromLayer();
+            var prefCat = (currentFilter !== 'all' && currentFilter !== 'favorites') ? currentFilter : null;
+            TEXTORO.Ops.Presets.saveFromLayer(prefCat);
         } else {
             TEXTORO.UI.StatusBar.error('Preset save operation unavailable');
         }
@@ -1010,6 +1051,7 @@ TEXTORO.Panels.Presets = (function() {
         apply: apply,
         applySelected: applySelected,
         createFromLayer: createFromLayer,
+        setFilter: setFilter,
         isFavorite: isFavorite,
         toggleFavorite: toggleFavorite
     };
