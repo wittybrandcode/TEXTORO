@@ -1320,6 +1320,7 @@ function _extractTypeValues(layer) {
         twReverse: _getCheckboxValue(fx, "TW Reverse", false),
         wordMode: _getCheckboxValue(fx, "Word Mode", false),
         randomSpeed: _getSliderValue(fx, "Random Speed", 0),
+        typeBlur: _getSliderValue(fx, "Type Blur", 0),
         showCursor: _getCheckboxValue(fx, "Show Cursor", true),
         cursorBefore: _getCheckboxValue(fx, "Cursor Before Text", false),
         cursorColor: _getColorValue(fx, "Cursor Color", [1, 1, 1]),
@@ -1611,6 +1612,7 @@ function getToroValuesForPreset() {
                 reverse: _getEffectValue(fx, "TW Reverse", 0) == 1,
                 wordMode: _getEffectValue(fx, "Word Mode", 0) == 1,
                 randomSpeed: _getEffectValue(fx, "Random Speed", 0),
+                typeBlur: _getEffectValue(fx, "Type Blur", 0),
                 easingType: _getEffectValue(fx, "Easing Type", 1),
                 easingStrength: _getEffectValue(fx, "Easing Strength", 100),
                 boxRTL: _getEffectValue(fx, "Box RTL", 0) == 1
@@ -2094,6 +2096,7 @@ function _applyTypePreset(layer, values) {
         blinkInHold: values.blinkInHold,
         reverse: values.twReverse,
         randomSpeed: values.randomSpeed,
+        typeBlur: (values.typeBlur != null) ? values.typeBlur : 0,
         easingType: (values.easingType != null) ? values.easingType : 1,
         easingStrength: (values.easingStrength != null) ? values.easingStrength : 100,
         inStart: values.inStart,

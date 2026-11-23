@@ -1,6 +1,8 @@
 {
   "versions": {
     "typewriter/sourceText": "v1.4",
+    "typewriter/blurRangeStart": "v1.4",
+    "typewriter/blurRangeEnd": "v1.4",
     "cursor/blink": "v1.0",
     "cursor/range": "v1.0",
     "cursor/rangeEnd": "v1.0",

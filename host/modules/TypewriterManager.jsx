@@ -343,12 +343,14 @@ function _applyTypewriter(textLayer, opts) {
     if (CONFIG && CONFIG.DEBUG) $.writeln("[TEXTORO] Creating typewriter controllers...");
     
     // تحضير القيم للـ Controllers
+    var typeBlur = _numOrDefault(opts.typeBlur, 0);
     var controllerValues = {
         "TW Progress": 0,
         "TW Auto": true,
         "TW Reverse": opts.reverse || false,
         "Word Mode": opts.wordMode || false,
         "Random Speed": _numOrDefault(opts.randomSpeed, 0),
+        "Type Blur": typeBlur,
         "Show Cursor": cursorOpts.show,
         "Cursor Before Text": cursorOpts.before,
         "Cursor Type": cursorOpts.type,
@@ -378,6 +380,7 @@ function _applyTypewriter(textLayer, opts) {
         addCheckbox(fx, "TW Reverse", opts.reverse || false);
         addCheckbox(fx, "Word Mode", opts.wordMode || false);
         addSlider(fx, "Random Speed", _numOrDefault(opts.randomSpeed, 0));
+        addSlider(fx, "Type Blur", typeBlur);
         addCheckbox(fx, "Show Cursor", cursorOpts.show);
         addCheckbox(fx, "Cursor Before Text", cursorOpts.before);
         addSlider(fx, "Cursor Type", cursorOpts.type);
@@ -404,10 +407,13 @@ function _applyTypewriter(textLayer, opts) {
     textProp.expression = buildSourceTextExpr();
     
     // ─────────────────────────────────────────────────────────────
-    // Cursor Blink Animator
+    // Animators (Cursor Blink & Type Blur)
     // ─────────────────────────────────────────────────────────────
-    removeAnimatorsByName(animators, ["Cursor Blink"]);
+    removeAnimatorsByName(animators, ["Cursor Blink", "Type Blur"]);
     _createCursorAnimator(animators);
+    if (typeBlur > 0 || (opts.enableBlur === true)) {
+        _createTypeBlurAnimator(animators, typeBlur);
+    }
     
     // ─────────────────────────────────────────────────────────────
     // Text Color (إذا كان مفعلاً)
@@ -461,13 +467,13 @@ function _removeTypewriter(textLayer) {
             "TW Progress", "TW Auto", "TW Reverse", "Random Speed",
             "Show Cursor", "Cursor Before Text", "Cursor Type", "Cursor Color", "Cursor Spacing",
             "Blink Speed", "Blink In Hold", "Box RTL", "Text Color",
-            "Easing Type", "Easing Strength", "Word Mode", "Live Text"
+            "Easing Type", "Easing Strength", "Word Mode", "Live Text", "Type Blur"
         ];
         removeEffectControls(fx, controls);
     }
     
     // إزالة Animators
-    removeAnimatorsByName(animators, ["Cursor Blink", "Color Control"]);
+    removeAnimatorsByName(animators, ["Cursor Blink", "Color Control", "Type Blur"]);
     
     // إزالة Markers
     removeMarkers(markers, ["IN_START", "IN_END", "OUT_START", "OUT_END", "BLINK_START", "BLINK_END", "TW_TEXT:", "CURSOR_CHAR:"]);
@@ -626,6 +632,30 @@ function _createCursorAnimator(animators) {
     // Fill Color - لون المؤشر
     var cursorFillColor = animProps.addProperty("ADBE Text Fill Color");
     cursorFillColor.expression = 'effect("Cursor Color")(1)';
+}
+
+function _createTypeBlurAnimator(animators, blurAmount) {
+    var blurAnim = animators.addProperty("ADBE Text Animator");
+    blurAnim.name = "Type Blur";
+    
+    var blurSel = blurAnim.property("ADBE Text Selectors").addProperty("ADBE Text Selector");
+    if (typeof buildBlurRangeExpr === "function") {
+        blurSel.property("ADBE Text Percent Start").expression = buildBlurRangeExpr();
+    }
+    if (typeof buildBlurRangeEndExpr === "function") {
+        blurSel.property("ADBE Text Percent End").expression = buildBlurRangeEndExpr();
+    }
+    
+    try {
+        var advanced = blurSel.property("ADBE Text Range Advanced");
+        if (advanced && advanced.property("ADBE Text Range Shape")) {
+            advanced.property("ADBE Text Range Shape").setValue(2); // Ramp Down for natural optical decay
+        }
+    } catch (_advErr) {}
+    
+    var animProps = blurAnim.property("ADBE Text Animator Properties");
+    var blurProp = animProps.addProperty("ADBE Text Blur");
+    blurProp.expression = 'var b = 0; try { b = effect("Type Blur")(1).value; } catch(e) { b = 0; }; [b, b];';
 }
 
 function _applyTextColorAnimator(textLayer, animators, fx, textColor) {

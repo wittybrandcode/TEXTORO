@@ -5,7 +5,7 @@
   "description": "Typewriter Controllers - متحكمات تأثير الآلة الكاتبة",
   "sourceFile": "host/modules/TypewriterManager.jsx",
   "sourceLines": "224-270",
-  "controllersCount": 15,
+  "controllersCount": 16,
 
   "groups": {
     "progress": {
@@ -18,7 +18,7 @@
       "label": "الوضع",
       "labelEn": "Mode",
       "order": 2,
-      "controllers": ["Word Mode", "Random Speed", "Box RTL"]
+      "controllers": ["Word Mode", "Random Speed", "Box RTL", "Type Blur"]
     },
     "cursor": {
       "label": "المؤشر",
@@ -106,6 +106,18 @@
       "descriptionEn": "Right-to-left direction",
       "expressionRef": "effect(\"Box RTL\")(\"Checkbox\")",
       "usedInExpressions": ["typewriter/sourceText"]
+    },
+    "Type Blur": {
+      "type": "slider",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "unit": "pixels",
+      "group": "mode",
+      "description": "شدة الضبابية السينمائية أثناء ظهور الحروف",
+      "descriptionEn": "Cinematic blur intensity on character reveal",
+      "expressionRef": "effect(\"Type Blur\")(\"Slider\")",
+      "usedInExpressions": ["typewriter/blurRangeStart", "typewriter/blurRangeEnd"]
     },
     "Show Cursor": {
       "type": "checkbox",
@@ -296,6 +308,18 @@
       },
       "properties": {
         "fillColor": "effect(\"Text Color\")(\"Color\")"
+      }
+    },
+    "Type Blur": {
+      "description": "Animator للتحكم في ضبابية الحروف أثناء ظهورها",
+      "optional": true,
+      "condition": "typeBlur > 0",
+      "selector": {
+        "start": "typewriter/blurRangeStart expression",
+        "end": "typewriter/blurRangeEnd expression"
+      },
+      "properties": {
+        "blur": "effect(\"Type Blur\")(\"Slider\")"
       }
     }
   }

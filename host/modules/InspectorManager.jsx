@@ -288,6 +288,7 @@ function _readTypewriterValues(fx) {
         wordMode: _getCheckboxValue(fx, "Word Mode", d["Word Mode"]),
         twWordByWord: _getCheckboxValue(fx, "Word Mode", d["Word Mode"]),
         randomSpeed: _getSliderValue(fx, "Random Speed", d["Random Speed"]),
+        typeBlur: _getSliderValue(fx, "Type Blur", 0),
         showCursor: _getCheckboxValue(fx, "Show Cursor", d["Show Cursor"]),
         cursorBefore: _getCheckboxValue(fx, "Cursor Before Text", d["Cursor Before Text"]),
         cursorType: _getSliderValue(fx, "Cursor Type", 0),
@@ -468,6 +469,26 @@ function _writeTypewriterValues(fx, tw) {
     var _wm = tw.wordMode !== undefined ? tw.wordMode : tw.twWordByWord;
     if (_wm !== undefined) _setCheckboxValue(fx, "Word Mode", _wm);
     if (tw.randomSpeed !== undefined) _setSliderValue(fx, "Random Speed", tw.randomSpeed);
+    if (tw.typeBlur !== undefined) {
+        var blurCtrl = findEffectControl(fx, "Type Blur");
+        if (blurCtrl) {
+            _setSliderValue(fx, "Type Blur", tw.typeBlur);
+        } else {
+            addSlider(fx, "Type Blur", tw.typeBlur);
+        }
+        try {
+            var lytw = fx.propertyGroup(1);
+            if (lytw && lytw instanceof TextLayer && tw.typeBlur > 0) {
+                var animsTW = lytw.property("ADBE Text Properties").property("ADBE Text Animators");
+                if (animsTW && typeof _createTypeBlurAnimator === "function") {
+                    var existingBlur = animsTW.property("Type Blur");
+                    if (!existingBlur) {
+                        _createTypeBlurAnimator(animsTW, tw.typeBlur);
+                    }
+                }
+            }
+        } catch(eTB) {}
+    }
     if (tw.showCursor !== undefined) _setCheckboxValue(fx, "Show Cursor", tw.showCursor);
     if (tw.cursorBefore !== undefined) _setCheckboxValue(fx, "Cursor Before Text", tw.cursorBefore);
     if (tw.cursorType !== undefined) _setSliderValue(fx, "Cursor Type", tw.cursorType);

@@ -37,6 +37,7 @@
     <button type="button" class="subbar-btn square-icon-btn active" id="subTypeCursor" title="Toggle Blinking Cursor" aria-label="Cursor"><i class="ph-bold ph-cursor-text"></i></button>
     <button type="button" class="subbar-btn square-icon-btn" id="subTypeReverse" title="Toggle Reverse Typewriter" aria-label="Reverse"><i class="ph-bold ph-arrows-left-right"></i></button>
     <button type="button" class="subbar-btn square-icon-btn" id="subTypeNoOut" title="Toggle No OUT Animation" aria-label="No Out"><i class="ph-bold ph-arrow-square-out"></i></button>
+    <button type="button" class="subbar-btn square-icon-btn" id="subTypeBlur" title="Toggle Kinetic Type Blur" aria-label="Type Blur"><i class="ph-bold ph-drop"></i></button>
     <div class="subbar-divider"></div>
     <button type="button" class="subbar-btn square-icon-btn" id="subTypeGetText" title="Get text from active layer" aria-label="Get Text"><i class="ph-bold ph-download-simple"></i></button>
     <button type="button" class="subbar-btn square-icon-btn" id="subTypeUpdateText" title="Update active layer text" aria-label="Update Text"><i class="ph-bold ph-upload-simple"></i></button>
@@ -239,6 +240,13 @@
                 <input type="range" id="rangeRandom" class="sl" value="0" min="0" max="100">
             </div>
             <span class="sv slider-val-badge" id="valRandom">0%</span>
+        </div>
+        <div class="studio-slider-row mt-6" title="Kinetic Blur Reveal (0-50px)">
+            <span class="slider-label"><i class="ph-bold ph-drop" style="margin-right:3px;"></i>TYPE BLUR</span>
+            <div class="slider-track-wrap">
+                <input type="range" id="rangeTypeBlur" class="sl" value="0" min="0" max="50" step="1">
+            </div>
+            <span class="sv slider-val-badge" id="valTypeBlur">0px</span>
         </div>
         <div class="studio-combo-row mt-6">
             <div style="flex: 2;">
@@ -770,8 +778,8 @@
 </div>
         </div>
 
-        <!-- Position/Direction Chips -->
-        <div class="mb-6">
+        <!-- Position/Direction Chips & Type Blur -->
+        <div class="metrics-grid-2 mb-6">
             <label class="studio-toggle-chip" title="Place cursor before text">
                 <input type="checkbox" id="inspCursorBefore">
                 <span class="chip-inner">
@@ -779,6 +787,15 @@
                     <span class="chip-label"><i class="ph-bold ph-arrow-left" style="margin-right:3px;vertical-align:-1px;"></i>CURSOR BEFORE</span>
                 </span>
             </label>
+            <div class="precision-input-box" title="Kinetic Blur Reveal (0-50px)">
+                <span class="p-label" title="Type Blur (px)"><i class="ph-bold ph-drop"></i></span>
+                <input type="number" id="inspTypeBlur" class="ni" value="0" step="5" min="0" max="50">
+                <span class="unit-tag">px</span>
+                <div class="stepper-actions">
+                    <button type="button" class="step-arrow step-up" tabindex="-1" title="Increase">▲</button>
+                    <button type="button" class="step-arrow step-down" tabindex="-1" title="Decrease">▼</button>
+                </div>
+            </div>
         </div>
 
         <!-- Cursor & Text Colors -->

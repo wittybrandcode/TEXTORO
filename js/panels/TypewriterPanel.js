@@ -82,6 +82,19 @@ TEXTORO.Panels.Typewriter = (function() {
                 valRandom.textContent = this.value + '%';
             });
         }
+
+        // Type blur slider value display & subbar sync
+        var rangeTypeBlur = document.getElementById('rangeTypeBlur');
+        var valTypeBlur = document.getElementById('valTypeBlur');
+        var subTypeBlur = document.getElementById('subTypeBlur');
+        if (rangeTypeBlur && valTypeBlur) {
+            rangeTypeBlur.addEventListener('input', function() {
+                valTypeBlur.textContent = this.value + 'px';
+                if (subTypeBlur) {
+                    subTypeBlur.classList.toggle('active', (parseFloat(this.value) || 0) > 0);
+                }
+            });
+        }
         
         // Get text from layer button
         var btnGetText = document.getElementById('btnGetText');
@@ -116,7 +129,7 @@ TEXTORO.Panels.Typewriter = (function() {
             'numInStart', 'numInEnd', 'numOutStart', 'numOutEnd', 'chkNoOut',
             'chkCursor', 'chkCursorBefore', 'selCursorType', 'txtCustomCursor',
             'numCursorSpacing', 'numBlinkSpeed', 'numBlinkStart', 'numBlinkEnd',
-            'chkReverse', 'chkWordMode', 'rangeRandom',
+            'chkReverse', 'chkWordMode', 'rangeRandom', 'rangeTypeBlur',
             'chkTextColor', 'selEasingType', 'numEasingStrength'
         ];
 
@@ -329,6 +342,7 @@ TEXTORO.Panels.Typewriter = (function() {
             reverse: getChk('chkReverse'),
             wordMode: getChk('chkWordMode'),
             randomSpeed: getNum('rangeRandom', 0),
+            typeBlur: getNum('rangeTypeBlur', 0),
             // Easing options
             easingType: getInt('selEasingType', 1),
             easingStrength: getNum('numEasingStrength', 100),
@@ -371,6 +385,7 @@ TEXTORO.Panels.Typewriter = (function() {
             blinkSpeed: values.blinkSpeed,
             blinkInHold: values.blinkInHold,
             randomSpeed: values.randomSpeed,
+            typeBlur: values.typeBlur,
             easingType: values.easingType,
             easingStrength: values.easingStrength,
             textColor: values.textColor,
@@ -444,6 +459,17 @@ TEXTORO.Panels.Typewriter = (function() {
                 if (rangeRandom && valRandom && tw.randomSpeed !== undefined) {
                     rangeRandom.value = tw.randomSpeed;
                     valRandom.textContent = tw.randomSpeed + '%';
+                }
+
+                var rangeTypeBlur = document.getElementById('rangeTypeBlur');
+                var valTypeBlur = document.getElementById('valTypeBlur');
+                var subTypeBlur = document.getElementById('subTypeBlur');
+                if (rangeTypeBlur && valTypeBlur && tw.typeBlur !== undefined) {
+                    rangeTypeBlur.value = tw.typeBlur;
+                    valTypeBlur.textContent = tw.typeBlur + 'px';
+                    if (subTypeBlur) {
+                        subTypeBlur.classList.toggle('active', tw.typeBlur > 0);
+                    }
                 }
 
                 setChk('chkCursor', tw.showCursor);

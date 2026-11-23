@@ -46,7 +46,8 @@ TEXTORO.Panels.Inspector = (function() {
             cursorBefore: 'inspCursorBefore', cursorColor: 'inspCursorColor',
             cursorSpacing: 'inspCursorSpacing', blinkSpeed: 'inspBlinkSpeed',
             textColor: 'inspTextColor',
-            easingType: 'inspEasingType', easingStrength: 'inspEasingStrength'
+            easingType: 'inspEasingType', easingStrength: 'inspEasingStrength',
+            typeBlur: 'inspTypeBlur'
         },
         box: {
             paddingLeft: 'inspPadL', paddingRight: 'inspPadR', paddingTop: 'inspPadT', paddingBottom: 'inspPadB',
@@ -103,7 +104,7 @@ TEXTORO.Panels.Inspector = (function() {
             'inspTwProgress', 'inspTwAuto', 'inspTwReverse', 'inspWordMode', 'inspRandomSpeed',
             'inspShowCursor', 'inspCursorBefore', 'inspCursorColor',
             'inspCursorSpacing', 'inspBlinkSpeed',
-            'inspTextColor', 'inspEasingType', 'inspEasingStrength',
+            'inspTextColor', 'inspEasingType', 'inspEasingStrength', 'inspTypeBlur',
             // Box
             'inspPadL', 'inspPadR', 'inspPadT', 'inspPadB',
             'inspCorner', 'inspCornerTL', 'inspCornerTR', 'inspCornerBL', 'inspCornerBR',
@@ -313,6 +314,7 @@ TEXTORO.Panels.Inspector = (function() {
         setColor('inspTextColor', tw.textColor);
         setValue('inspEasingType', (tw.easingType != null) ? tw.easingType : 1);
         setValue('inspEasingStrength', (tw.easingStrength != null) ? tw.easingStrength : 100);
+        setValue('inspTypeBlur', (tw.typeBlur != null) ? tw.typeBlur : 0);
     }
     
     /**
@@ -541,7 +543,8 @@ TEXTORO.Panels.Inspector = (function() {
                 boxRTL: false,
                 textColor: hexToRgb(getValue('inspTextColor', '#ffffff')),
                 easingType: getInt('inspEasingType', 1),
-                easingStrength: getNum('inspEasingStrength', 100)
+                easingStrength: getNum('inspEasingStrength', 100),
+                typeBlur: getNum('inspTypeBlur', twD.typeBlur || 0)
             };
         }
         

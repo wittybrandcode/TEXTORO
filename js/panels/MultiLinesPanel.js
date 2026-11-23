@@ -131,7 +131,8 @@ TEXTORO.Panels.MultiLines = (function() {
             blinkInHold: true,
             reverse: chkReverseEl ? chkReverseEl.checked : false,
             wordMode: chkWordModeEl ? chkWordModeEl.checked : false,
-            randomSpeed: getNum('rangeRandom', 0)
+            randomSpeed: getNum('rangeRandom', 0),
+            typeBlur: getNum('rangeTypeBlur', 0)
         };
         
         TEXTORO.log('Split & Apply: ' + JSON.stringify(opts));

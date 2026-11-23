@@ -53,6 +53,32 @@ TEXTORO.UI.SubBar = (function() {
             }
         });
 
+        // Toggle Type Blur
+        var btnBlur = document.getElementById('subTypeBlur');
+        var rangeBlur = document.getElementById('rangeTypeBlur');
+        var valBlur = document.getElementById('valTypeBlur');
+        if (btnBlur && rangeBlur) {
+            btnBlur.addEventListener('click', function() {
+                var cur = parseFloat(rangeBlur.value) || 0;
+                if (cur > 0) {
+                    btnBlur._lastBlur = cur;
+                    rangeBlur.value = 0;
+                    if (valBlur) valBlur.textContent = '0px';
+                    btnBlur.classList.remove('active');
+                } else {
+                    var target = btnBlur._lastBlur || 25;
+                    rangeBlur.value = target;
+                    if (valBlur) valBlur.textContent = target + 'px';
+                    btnBlur.classList.add('active');
+                }
+                rangeBlur.dispatchEvent(new Event('input'));
+                rangeBlur.dispatchEvent(new Event('change'));
+                if (TEXTORO.Panels.Typewriter && TEXTORO.Panels.Typewriter.update) {
+                    TEXTORO.Panels.Typewriter.update();
+                }
+            });
+        }
+
         // Quick Actions
         var btnGet = document.getElementById('subTypeGetText');
         var origGet = document.getElementById('btnGetText');
@@ -72,6 +98,11 @@ TEXTORO.UI.SubBar = (function() {
         syncBtnState('subTypeCursor', 'chkCursor');
         syncBtnState('subTypeReverse', 'chkReverse');
         syncBtnState('subTypeNoOut', 'chkNoOut');
+        var btnBlur = document.getElementById('subTypeBlur');
+        var rangeBlur = document.getElementById('rangeTypeBlur');
+        if (btnBlur && rangeBlur) {
+            btnBlur.classList.toggle('active', (parseFloat(rangeBlur.value) || 0) > 0);
+        }
     }
 
     /**

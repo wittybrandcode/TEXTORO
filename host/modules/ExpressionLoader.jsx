@@ -154,7 +154,7 @@ function loadExprConfig(forceReload) {
 function loadExpression(category, name, version) {
     $.writeln("[TEXTORO] loadExpression called: " + category + "/" + name);
     var _allowedCats = {typewriter:1, cursor:1, box:1};
-    var _allowedNames = {sourceText:1, range:1, rangeEnd:1, blink:1, path4corners:1, size:1, position:1, hideWhenEmpty:1};
+    var _allowedNames = {sourceText:1, range:1, rangeEnd:1, blink:1, path4corners:1, size:1, position:1, hideWhenEmpty:1, blurRangeStart:1, blurRangeEnd:1};
     if (!_allowedCats[category] || !_allowedNames[name]) {
         $.writeln("[TEXTORO] loadExpression - unsupported category/name: " + category + "/" + name);
         return "";
@@ -284,6 +284,14 @@ function buildCursorRangeExpr() {
 
 function buildCursorRangeEndExpr() {
     return loadExpression("cursor", "rangeEnd");
+}
+
+function buildBlurRangeExpr() {
+    return loadExpression("typewriter", "blurRangeStart");
+}
+
+function buildBlurRangeEndExpr() {
+    return loadExpression("typewriter", "blurRangeEnd");
 }
 
 function buildCursorBlinkExpr() {
