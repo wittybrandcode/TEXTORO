@@ -36,7 +36,15 @@ var _customPresetsPath = null;
  * Note: _normalizePath is provided by Utilities.jsx (loaded first)
  */
 function _getSettingsFilePath() {
-    return _normalizePath(Folder.userData.fsName) + "/TEXTORO/settings.json";
+    var docPath = _normalizePath(Folder.myDocuments.fsName) + "/TEXTORO/settings.json";
+    var docFile = new File(docPath);
+    if (docFile.exists) return docPath;
+    
+    var oldPath = _normalizePath(Folder.userData.fsName) + "/TEXTORO/settings.json";
+    var oldFile = new File(oldPath);
+    if (oldFile.exists) return oldPath;
+    
+    return docPath;
 }
 
 /**
@@ -61,12 +69,12 @@ function _loadSettings() {
  */
 function _saveSettings(settings) {
     try {
-        var textoroFolder = new Folder(_normalizePath(Folder.userData.fsName) + "/TEXTORO/");
+        var textoroFolder = new Folder(_normalizePath(Folder.myDocuments.fsName) + "/TEXTORO/");
         if (!textoroFolder.exists) {
             textoroFolder.create();
         }
         
-        var settingsFile = new File(_getSettingsFilePath());
+        var settingsFile = new File(_normalizePath(Folder.myDocuments.fsName) + "/TEXTORO/settings.json");
         settingsFile.encoding = "UTF-8";
         settingsFile.open("w");
         settingsFile.write(JSON.stringify(settings, null, 2));
@@ -115,6 +123,7 @@ function clearPresetCache(category) {
 
 /**
  * الحصول على مسار مجلد الـ Presets المخصصة
+ * المجلد الافتراضي الكنسي هو Documents/TEXTORO/Presets لضمان الصلاحيات وسهولة التعديل اليدوي
  */
 function getPresetsPath() {
     var settings = _loadSettings();
@@ -129,19 +138,46 @@ function getPresetsPath() {
         }
     }
     
-    var defaultPath = _normalizePath(Folder.userData.fsName) + "/TEXTORO/presets/";
-    var defaultFolder = new Folder(defaultPath);
+    // المسار الموثوق والمرئي للمستخدم: Documents/TEXTORO/Presets/
+    var docPath = _normalizePath(Folder.myDocuments.fsName) + "/TEXTORO/Presets/";
+    var docFolder = new Folder(docPath);
     
-    if (!defaultFolder.exists) {
-        var textoroFolder = new Folder(_normalizePath(Folder.userData.fsName) + "/TEXTORO/");
-        if (!textoroFolder.exists) {
-            textoroFolder.create();
+    if (!docFolder.exists) {
+        var textoroDocFolder = new Folder(_normalizePath(Folder.myDocuments.fsName) + "/TEXTORO/");
+        if (!textoroDocFolder.exists) {
+            try { textoroDocFolder.create(); } catch(_eDocParent) {}
         }
-        defaultFolder.create();
+        try { docFolder.create(); } catch(_eDoc) {}
     }
     
-    _ensurePresetsFolders(defaultPath);
-    return defaultPath;
+    // ترحيل تلقائي لأي بريسات قديمة كانت في AppData/Roaming إن وجدت
+    var oldAppDataPath = _normalizePath(Folder.userData.fsName) + "/TEXTORO/presets/";
+    var oldAppDataFolder = new Folder(oldAppDataPath);
+    if (oldAppDataFolder.exists) {
+        try {
+            var subCats = ["type", "box", "motion", "compound", "templates"];
+            for (var sc = 0; sc < subCats.length; sc++) {
+                var oSub = new Folder(oldAppDataPath + subCats[sc] + "/");
+                var nSub = new Folder(docPath + subCats[sc] + "/");
+                if (oSub.exists) {
+                    if (!nSub.exists) nSub.create();
+                    var oFiles = oSub.getFiles("*.json");
+                    for (var ofi = 0; ofi < oFiles.length; ofi++) {
+                        var oF = oFiles[ofi];
+                        if (oF.name.charAt(0) !== '_') {
+                            var destFile = new File(nSub.fsName + "/" + oF.name);
+                            if (!destFile.exists) {
+                                oF.copy(destFile.fsName);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (_eMigrate) {}
+    }
+    
+    _ensurePresetsFolders(docPath);
+    return docPath;
 }
 
 /**
