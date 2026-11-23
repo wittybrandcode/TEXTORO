@@ -21,6 +21,7 @@ TEXTORO.UI.Modals = (function() {
     var currentPresetSaveCallback = null;
     var presetSaveData = null;
     var selectedPresetIcon = 'ph-bold ph-sparkle';
+    var userHasSelectedCustomIcon = false;
 
     var originalColor = '#FFFFFF';
     var currentColor = '#FFFFFF';
@@ -945,7 +946,6 @@ TEXTORO.UI.Modals = (function() {
         var chkType = document.getElementById('chkModuleType');
         var chkBox = document.getElementById('chkModuleBox');
         var chkMotion = document.getElementById('chkModuleMotion');
-        var catSelect = document.getElementById('presetSaveCategorySelect');
 
         if (okBtn) okBtn.addEventListener('click', submitPresetSaveModal);
         if (cancelBtn) cancelBtn.addEventListener('click', closePresetSaveModal);
@@ -958,20 +958,11 @@ TEXTORO.UI.Modals = (function() {
             });
         }
 
-        if (catSelect) {
-            catSelect.addEventListener('change', function() {
-                var val = catSelect.value;
-                if (val !== 'auto') {
-                    applyCategoryToModules(val);
-                }
-                updatePresetSaveCategory();
-            });
-        }
-
         function onModuleToggle() {
-            var s = document.getElementById('presetSaveCategorySelect');
-            if (s) s.value = 'auto';
-            updatePresetSaveCategory();
+            var cat = updatePresetSaveCategory();
+            if (!userHasSelectedCustomIcon) {
+                syncDefaultIconWithCategory(cat);
+            }
         }
         if (chkType) chkType.addEventListener('change', onModuleToggle);
         if (chkBox) chkBox.addEventListener('change', onModuleToggle);
@@ -983,96 +974,72 @@ TEXTORO.UI.Modals = (function() {
                 iconBtns.forEach(function(b) { b.classList.remove('active'); });
                 btn.classList.add('active');
                 selectedPresetIcon = btn.getAttribute('data-icon') || 'ph-bold ph-sparkle';
+                userHasSelectedCustomIcon = true;
             });
         });
     }
 
     /**
-     * تفعيل الموديلات المناسبة للفئة المختارة يدوياً
+     * مزامنة الأيقونة الافتراضية مع التصنيف التلقائي
      */
-    function applyCategoryToModules(cat) {
-        if (!presetSaveData) return;
-        var chkType = document.getElementById('chkModuleType');
-        var chkBox = document.getElementById('chkModuleBox');
-        var chkMotion = document.getElementById('chkModuleMotion');
-
-        if (cat === 'type') {
-            if (chkType && presetSaveData.hasType) chkType.checked = true;
-            if (chkBox) chkBox.checked = false;
-            if (chkMotion) chkMotion.checked = false;
-        } else if (cat === 'box') {
-            if (chkType) chkType.checked = false;
-            if (chkBox && presetSaveData.hasBox) chkBox.checked = true;
-            if (chkMotion) chkMotion.checked = false;
-        } else if (cat === 'motion') {
-            if (chkType) chkType.checked = false;
-            if (chkBox) chkBox.checked = false;
-            if (chkMotion && presetSaveData.hasMotion) chkMotion.checked = true;
-        } else if (cat === 'compound') {
-            if (chkType && presetSaveData.hasType) chkType.checked = true;
-            if (chkBox && presetSaveData.hasBox) chkBox.checked = true;
-            if (chkMotion) chkMotion.checked = false;
-        } else if (cat === 'templates') {
-            if (chkType && presetSaveData.hasType) chkType.checked = true;
-            if (chkBox && presetSaveData.hasBox) chkBox.checked = true;
-            if (chkMotion && presetSaveData.hasMotion) chkMotion.checked = true;
-        }
+    function syncDefaultIconWithCategory(cat) {
+        var iconMap = {
+            'type': 'ph-bold ph-text-t',
+            'box': 'ph-bold ph-bounding-box',
+            'motion': 'ph-bold ph-wave-sine',
+            'compound': 'ph-bold ph-stack',
+            'templates': 'ph-bold ph-sparkle'
+        };
+        var targetIcon = iconMap[cat] || 'ph-bold ph-sparkle';
+        selectedPresetIcon = targetIcon;
+        var iconBtns = document.querySelectorAll('#presetSaveIconsRow .preset-icon-choice');
+        iconBtns.forEach(function(b) {
+            var isMatch = b.getAttribute('data-icon') === targetIcon;
+            b.classList.toggle('active', isMatch);
+        });
     }
 
     /**
-     * تحديث فئة البريست ديناميكياً حسب الموديلات أو القائمة المنسدلة
+     * تحديث فئة البريست ديناميكياً 100% حسب الموديلات المحددة
      */
     function updatePresetSaveCategory() {
         var chkType = document.getElementById('chkModuleType');
         var chkBox = document.getElementById('chkModuleBox');
         var chkMotion = document.getElementById('chkModuleMotion');
         var badge = document.getElementById('presetSaveCategoryBadge');
-        var catSelect = document.getElementById('presetSaveCategorySelect');
         var okBtn = document.getElementById('btnPresetSaveOK');
 
         var hasT = chkType && chkType.checked;
         var hasB = chkBox && chkBox.checked;
         var hasM = chkMotion && chkMotion.checked;
 
-        var cat = 'templates';
-        var label = 'TEMPLATES';
+        var cat = '';
+        var label = 'SELECT AT LEAST 1';
 
-        if (catSelect && catSelect.value !== 'auto') {
-            cat = catSelect.value;
-            var catLabels = {
-                'templates': 'TEMPLATES',
-                'compound': 'COMPOUND',
-                'type': 'TYPEWRITER',
-                'box': 'BOX SHAPE',
-                'motion': 'MOTION'
-            };
-            label = catLabels[cat] || cat.toUpperCase();
+        if (hasT && hasB && hasM) {
+            cat = 'templates';
+            label = 'TEMPLATES (FULL SUITE)';
+        } else if (hasT && hasB) {
+            cat = 'compound';
+            label = 'COMPOUND (TYPE+BOX)';
+        } else if (hasT && hasM) {
+            cat = 'compound';
+            label = 'COMPOUND (TYPE+MOTION)';
+        } else if (hasB && hasM) {
+            cat = 'compound';
+            label = 'COMPOUND (BOX+MOTION)';
+        } else if (hasT) {
+            cat = 'type';
+            label = 'TYPEWRITER';
+        } else if (hasB) {
+            cat = 'box';
+            label = 'BOX SHAPE';
+        } else if (hasM) {
+            cat = 'motion';
+            label = 'MOTION';
         } else {
-            if (hasT && hasB && hasM) {
-                cat = 'templates';
-                label = 'TEMPLATES (FULL SUITE)';
-            } else if (hasT && hasB) {
-                cat = 'compound';
-                label = 'COMPOUND (TYPE+BOX)';
-            } else if (hasT && hasM) {
-                cat = 'compound';
-                label = 'COMPOUND (TYPE+MOTION)';
-            } else if (hasB && hasM) {
-                cat = 'compound';
-                label = 'COMPOUND (BOX+MOTION)';
-            } else if (hasT) {
-                cat = 'type';
-                label = 'TYPEWRITER';
-            } else if (hasB) {
-                cat = 'box';
-                label = 'BOX SHAPE';
-            } else if (hasM) {
-                cat = 'motion';
-                label = 'MOTION';
-            } else {
-                cat = '';
-                label = 'SELECT AT LEAST 1';
-            }
+            cat = '';
+            label = 'SELECT AT LEAST 1';
         }
 
         if (badge) {
@@ -1099,10 +1066,10 @@ TEXTORO.UI.Modals = (function() {
 
         presetSaveData = data || {};
         currentPresetSaveCallback = callback;
+        userHasSelectedCustomIcon = false;
 
         var layerNameEl = document.getElementById('presetSaveLayerName');
         var nameInput = document.getElementById('presetSaveNameInput');
-        var catSelect = document.getElementById('presetSaveCategorySelect');
         var chkType = document.getElementById('chkModuleType');
         var chkBox = document.getElementById('chkModuleBox');
         var chkMotion = document.getElementById('chkModuleMotion');
@@ -1112,27 +1079,40 @@ TEXTORO.UI.Modals = (function() {
 
         if (layerNameEl) layerNameEl.textContent = data.layerName || 'Selected Layer';
         
+        // ذكاء التحديد التلقائي: إذا كان المستخدم في تبويب محدد نحدد فقط ذلك الموديل
+        var targetType = !!data.hasType;
+        var targetBox = !!data.hasBox;
+        var targetMotion = !!data.hasMotion;
+
+        if (preferredCategory === 'type' && data.hasType) {
+            targetType = true;
+            targetBox = false;
+            targetMotion = false;
+        } else if (preferredCategory === 'box' && data.hasBox) {
+            targetType = false;
+            targetBox = true;
+            targetMotion = false;
+        } else if (preferredCategory === 'motion' && data.hasMotion) {
+            targetType = false;
+            targetBox = false;
+            targetMotion = true;
+        }
+
         if (chkType) {
-            chkType.checked = !!data.hasType;
+            chkType.checked = targetType;
             chkType.disabled = !data.hasType;
             if (lblType) lblType.style.opacity = data.hasType ? '1' : '0.35';
         }
         if (chkBox) {
-            chkBox.checked = !!data.hasBox;
+            chkBox.checked = targetBox;
             chkBox.disabled = !data.hasBox;
             if (lblBox) lblBox.style.opacity = data.hasBox ? '1' : '0.35';
         }
         if (chkMotion) {
-            chkMotion.checked = !!data.hasMotion;
+            chkMotion.checked = targetMotion;
             chkMotion.disabled = !data.hasMotion;
             if (lblMotion) lblMotion.style.opacity = data.hasMotion ? '1' : '0.35';
         }
-
-        selectedPresetIcon = 'ph-bold ph-sparkle';
-        var iconBtns = document.querySelectorAll('#presetSaveIconsRow .preset-icon-choice');
-        iconBtns.forEach(function(b, idx) {
-            b.classList.toggle('active', idx === 0);
-        });
 
         var cleanBase = (data.layerName || 'Preset').replace(/[^a-zA-Z0-9_\-\s]/g, '').trim();
         if (cleanBase.length > 25) cleanBase = cleanBase.substring(0, 25);
@@ -1140,17 +1120,8 @@ TEXTORO.UI.Modals = (function() {
             nameInput.value = cleanBase ? cleanBase + ' Preset' : 'Custom Preset';
         }
 
-        // تحديد الفئة المفضلة تلقائياً إن وجدت
-        if (catSelect) {
-            if (preferredCategory && ['type', 'box', 'motion', 'compound', 'templates'].indexOf(preferredCategory) !== -1) {
-                catSelect.value = preferredCategory;
-                applyCategoryToModules(preferredCategory);
-            } else {
-                catSelect.value = 'auto';
-            }
-        }
-
-        updatePresetSaveCategory();
+        var initialCat = updatePresetSaveCategory();
+        syncDefaultIconWithCategory(initialCat);
 
         presetSaveModal.style.display = 'flex';
         if (nameInput) {
