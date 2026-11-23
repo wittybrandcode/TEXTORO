@@ -590,25 +590,6 @@
     left: auto !important;
 }
 
-/* Motion Sync Options */
-.presets-motion-options {
-    padding: 8px 10px !important;
-    margin-bottom: 8px !important;
-    background: rgba(245, 158, 11, 0.08) !important;
-    border: 1px solid rgba(245, 158, 11, 0.25) !important;
-    border-radius: 0 !important;
-}
-
-.presets-motion-options .ck {
-    font-size: 10px !important;
-}
-
-.presets-motion-options .cl i {
-    color: #f59e0b !important;
-    margin-right: 4px !important;
-}
-
-
 /* Presets Filter Bar */
 .presets-filter {
     display: flex !important;

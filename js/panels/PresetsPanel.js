@@ -32,8 +32,6 @@ TEXTORO.Panels.Presets = (function() {
         elements.searchInput = document.getElementById('presetsSearchInput');
         elements.searchClear = document.getElementById('presetsSearchClear');
         elements.sortSelect = document.getElementById('presetsSortSelect');
-        elements.motionOptions = document.getElementById('presetsMotionOptions');
-        elements.motionSync = document.getElementById('presetsMotionSync');
         
         // تحميل المفضلة
         loadFavorites();
@@ -994,20 +992,17 @@ TEXTORO.Panels.Presets = (function() {
     }
     
     /**
-     * إظهار/إخفاء خيارات Motion
+     * خيارات الحركة مربوطة دائماً بالـ Markers
      */
     function updateMotionOptionsVisibility() {
-        if (elements.motionOptions) {
-            var showOptions = (currentFilter === 'motion' || (currentFilter === 'modules' && activeModuleFilters.indexOf('motion') !== -1));
-            elements.motionOptions.style.display = showOptions ? 'block' : 'none';
-        }
+        // Enforced: sync with markers is always enabled and mandatory
     }
     
     /**
-     * التحقق من تفعيل Sync with Markers
+     * ربط الحركة بالعلامات مفروض دائماً
      */
     function isSyncWithMarkersEnabled() {
-        return elements.motionSync && elements.motionSync.checked;
+        return true;
     }
     
     /**
@@ -1022,7 +1017,7 @@ TEXTORO.Panels.Presets = (function() {
         var opts = {
             category: 'motion-full',
             mode: 'both', // دائماً both للبريسات الكاملة
-            syncWithMarkers: isSyncWithMarkersEnabled() // استخدام توقيت الـ markers
+            syncWithMarkers: true // ربط الحركة بالعلامات مفروض دائماً
         };
         
         if (preset.fileName) {
@@ -1079,9 +1074,7 @@ TEXTORO.Panels.Presets = (function() {
             opts.id = preset.id;
         }
 
-        if (isSyncWithMarkersEnabled()) {
-            opts.syncWithMarkers = true;
-        }
+        opts.syncWithMarkers = true;
         
         var rawCat = (preset.category || '').toLowerCase();
         var normCat = (rawCat === 'toro') ? 'templates' : ((rawCat === 'mix') ? 'compound' : ((rawCat === 'motion-full') ? 'motion' : rawCat));

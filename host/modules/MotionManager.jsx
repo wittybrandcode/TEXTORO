@@ -819,12 +819,14 @@ function _getMotionOpacityExprV2() {
  * يبحث عن: IN_START, IN_END, OUT_START, OUT_END
  * ترجع قيمًا نسبية للطبقة (keyTime - inPoint)
  */
-function _getMarkerTiming() {
+function _getMarkerTiming(targetLayer) {
     try {
-        var comp = getActiveComp();
-        if (!comp) return null;
-        
-        var layer = comp.selectedLayers[0];
+        var layer = targetLayer;
+        if (!layer) {
+            var comp = getActiveComp();
+            if (!comp) return null;
+            layer = comp.selectedLayers[0];
+        }
         if (!layer) return null;
         
         var markers = layer.property("Marker");
@@ -855,15 +857,91 @@ function _getMarkerTiming() {
             }
         }
         
-        // التحقق من وجود IN على الأقل
-        if (timing.inStart === null || timing.inEnd === null) {
-            return null;
-        }
-        
         return timing;
         
     } catch(e) {
         $.writeln("[TEXTORO] _getMarkerTiming error: " + e.toString());
+        return null;
+    }
+}
+
+/**
+ * فرض وضمان وجود Markers للـ IN و OUT على الطبقة لربط الحركة تلقائياً
+ * يضمن تطابق بداية ونهاية الحركة مع ظهور واختفاء النص
+ */
+function _ensureLayerMarkers(layer, mode, v) {
+    try {
+        if (!layer) {
+            var comp = getActiveComp();
+            if (!comp) return null;
+            layer = comp.selectedLayers[0];
+        }
+        if (!layer) return null;
+        
+        var markers = layer.property("Marker");
+        if (!markers) return null;
+        
+        var inPoint = layer.inPoint;
+        var layerDuration = layer.outPoint - layer.inPoint;
+        if (layerDuration <= 0) layerDuration = 5.0;
+        
+        var timing = _getMarkerTiming(layer);
+        if (!timing) {
+            timing = {
+                inStart: null,
+                inEnd: null,
+                outStart: null,
+                outEnd: null
+            };
+        }
+        
+        var MARKER_COLORS = { IN: 3, OUT: 1, BLINK: 9 };
+        
+        // فرض markers الـ IN إذا لم تكن موجودة
+        if (timing.inStart === null || timing.inEnd === null) {
+            var defaultInStart = (v && v.inStart !== undefined) ? v.inStart : 0;
+            var defaultInDur = (v && v.duration) ? v.duration : 1.0;
+            var defaultInEnd = (v && v.inEnd !== undefined) ? v.inEnd : (defaultInStart + defaultInDur);
+            
+            if (timing.inStart === null) {
+                timing.inStart = defaultInStart;
+                var mInS = new MarkerValue("IN_START");
+                mInS.label = MARKER_COLORS.IN;
+                markers.setValueAtTime(inPoint + timing.inStart, mInS);
+            }
+            if (timing.inEnd === null) {
+                timing.inEnd = Math.max(timing.inStart + 0.05, defaultInEnd);
+                var mInE = new MarkerValue("IN_END");
+                mInE.label = MARKER_COLORS.IN;
+                markers.setValueAtTime(inPoint + timing.inEnd, mInE);
+            }
+        }
+        
+        // فرض markers الـ OUT إذا كان الـ mode يتطلب خروجاً ولم تكن موجودة
+        if (mode === 'out' || mode === 'both') {
+            if (timing.outStart === null || timing.outEnd === null) {
+                var defaultOutEnd = (v && v.outEnd !== undefined && v.outEnd <= layerDuration) ? v.outEnd : layerDuration;
+                var defaultOutDur = (v && v.duration) ? v.duration : 1.0;
+                var defaultOutStart = (v && v.outStart !== undefined && v.outStart < defaultOutEnd) ? v.outStart : Math.max(timing.inEnd + 0.1, defaultOutEnd - defaultOutDur);
+                
+                if (timing.outEnd === null) {
+                    timing.outEnd = defaultOutEnd;
+                    var mOutE = new MarkerValue("OUT_END");
+                    mOutE.label = MARKER_COLORS.OUT;
+                    markers.setValueAtTime(inPoint + timing.outEnd, mOutE);
+                }
+                if (timing.outStart === null) {
+                    timing.outStart = Math.min(timing.outEnd - 0.05, defaultOutStart);
+                    var mOutS = new MarkerValue("OUT_START");
+                    mOutS.label = MARKER_COLORS.OUT;
+                    markers.setValueAtTime(inPoint + timing.outStart, mOutS);
+                }
+            }
+        }
+        
+        return timing;
+    } catch(e) {
+        $.writeln("[TEXTORO] _ensureLayerMarkers error: " + e.toString());
         return null;
     }
 }
@@ -876,7 +954,6 @@ function applyMotionPreset(optsJSON) {
         var preset = null;
         var mode = opts.mode || 'both'; // 'in', 'out', or 'both'
         var category = opts.category || 'motion'; // 'motion' or 'motion-full'
-        var syncWithMarkers = opts.syncWithMarkers || false;
         
         // Check if using JSON preset (by fileName)
         if (opts.fileName) {
@@ -913,33 +990,30 @@ function applyMotionPreset(optsJSON) {
         
         if (!preset) return error("Preset not found");
         
+        var comp = getActiveComp();
+        if (!comp) return error("Open a composition first");
+        var layer = getSelectedTextLayer(comp);
+        if (!layer) return error("Select a text layer");
+        
         var v = preset.values || preset;
         
-        // إذا كان syncWithMarkers مفعل، نقرأ التوقيت من markers الطبقة
-        var markerTiming = null;
-        if (syncWithMarkers) {
-            markerTiming = _getMarkerTiming();
-            if (!markerTiming) {
-                return error("Markers not found. Ensure IN_START, IN_END, OUT_START, OUT_END exist");
-            }
+        // ربط الحركة بالعلامات مفروض دائماً: التحقق من وجود markers أو إنشاؤها فوراً على الطبقة
+        var markerTiming = _ensureLayerMarkers(layer, mode, v);
+        if (!markerTiming) {
+            return error("Could not setup markers on layer");
         }
         
-        // بناء الخيارات حسب الـ mode
+        // بناء الخيارات مع فرض التزامن syncMode = 1
         var motionOpts = {
+            syncMode: 1, // تفعيل التزامن مع الـ Markers في Expressions
             easingType: v.easingType || (v.easing && v.easing.type) || 1,
             easingStrength: v.easingStrength || (v.easing && v.easing.strength) || 100
         };
         
-        // IN Animation
+        // IN Animation (دائماً متطابق مع IN_START و IN_END)
         if (mode === 'in' || mode === 'both') {
-            // استخدام توقيت markers إذا كان متاحاً
-            if (markerTiming) {
-                motionOpts.inStart = markerTiming.inStart;
-                motionOpts.inEnd = markerTiming.inEnd;
-            } else {
-                motionOpts.inStart = v.inStart || 0;
-                motionOpts.inEnd = v.inEnd || v.duration || 1.0;
-            }
+            motionOpts.inStart = markerTiming.inStart;
+            motionOpts.inEnd = markerTiming.inEnd;
             motionOpts.animatePosition = v.animatePosition || (v.position && v.position.enabled) || false;
             motionOpts.posFromX = v.posFromX || (v.position && v.position.fromX) || 0;
             motionOpts.posFromY = v.posFromY || (v.position && v.position.fromY) || 0;
@@ -964,19 +1038,10 @@ function applyMotionPreset(optsJSON) {
             motionOpts.animateOpacity = false;
         }
         
-        // OUT Animation
+        // OUT Animation (دائماً متطابق مع OUT_START و OUT_END)
         if (mode === 'out' || mode === 'both') {
-            // استخدام توقيت markers إذا كان متاحاً
-            if (markerTiming && markerTiming.outStart !== null && markerTiming.outEnd !== null) {
-                motionOpts.outStart = markerTiming.outStart;
-                motionOpts.outEnd = markerTiming.outEnd;
-            } else if (syncWithMarkers) {
-                // F-M3: لا هبوط صامت لتوقيت افتراضي - رسالة تشرح السبب والحل
-                return error("Sync with Markers required, but OUT markers are missing. Enable OUT animation in Type tab or disable Sync With Markers.");
-            } else {
-                motionOpts.outStart = v.outStart || 4.0;
-                motionOpts.outEnd = v.outEnd || 5.0;
-            }
+            motionOpts.outStart = markerTiming.outStart;
+            motionOpts.outEnd = markerTiming.outEnd;
             
             // للـ OUT mode، نستخدم قيم IN كـ OUT (عكسها) أو قيم OUT المحددة في البريست
             if (mode === 'out') {

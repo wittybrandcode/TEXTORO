@@ -1897,8 +1897,14 @@ function _applyMotionPreset(layer, values) {
         _removeMotion(layer);
     }
     
+    // ضمان وجود markers على الطبقة وتفعيل syncMode دائماً
+    if (typeof _ensureLayerMarkers === "function") {
+        _ensureLayerMarkers(layer, 'both', values);
+    }
+    
     // تطبيق Motion الجديد
     if (typeof _applyMotion === "function") {
+        values.syncMode = 1; // فرض المزامنة مع الـ Markers
         _applyMotion(layer, values);
         _updateMotionFlag(layer, true);
     } else {
