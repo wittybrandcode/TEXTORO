@@ -1045,9 +1045,6 @@ TEXTORO.Panels.Presets = (function() {
             showContextMenu(e, preset);
         });
         
-        // Tooltip
-        item.title = buildTooltip(preset);
-        
         return item;
     }
     

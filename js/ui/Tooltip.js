@@ -60,6 +60,12 @@ var Tooltip = (function() {
             hide();
             return;
         }
+
+        // Never show tooltips on preset cards or preview windows
+        if (target.classList.contains('preset-item') || target.classList.contains('preset-preview-window')) {
+            hide();
+            return;
+        }
         
         if (target === currentTarget) return;
         
