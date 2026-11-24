@@ -1,5 +1,5 @@
-// TEXTORO Box Position Expression v1.5
-// موضع الصندوق مع دعم تعويض الضبابية الحركية (Type Blur) وقفل الحجم والـ Padding
+// TEXTORO Box Position Expression v1.6
+// موضع الصندوق مع دعم تثبيت حافة الارتكاز وتعويض نزيف الضبابية الحركية (Type Blur)
 // ═══════════════════════════════════════════════════════════════════
 
 var hasParent = false;
@@ -71,23 +71,38 @@ if (!hasParent) {
         }
     } else {
         var rect = parent.sourceRectAtTime(time, false);
-        var lockedH = 0, lockedTop = 0;
+        var lockedH = 0, lockedTop = 0, lockedL = 0, lockedW = 0;
         try { lockedH = parent.effect("Locked Height")(1).value; } catch(e) { lockedH = 0; }
         try { lockedTop = parent.effect("Locked Top")(1).value; } catch(e) { lockedTop = 0; }
+        try { lockedL = parent.effect("Locked Left")(1).value; } catch(e) { lockedL = 0; }
+        try { lockedW = parent.effect("Locked Width")(1).value; } catch(e) { lockedW = 0; }
 
-        w = Math.max(0, rect.width - bEff);
-        left = (isRTL == 1) ? (rect.left + bEff) : rect.left;
-
-        if (lockedH > 5) {
-            h = lockedH;
-            top = lockedTop;
-        } else if (bEff > 0) {
-            h = Math.max(0, rect.height - 2 * bEff);
-            top = rect.top + bEff;
+        if (rect.width > 2) {
+            if (bEff > 0) {
+                if (isRTL == 1 && lockedW > 0) {
+                    var lockedR = lockedL + lockedW;
+                    var curL = rect.left + bEff;
+                    w = Math.max(0, Math.min(lockedW, lockedR - curL));
+                    left = lockedR - w;
+                } else if (lockedW > 0) {
+                    var curR = (rect.left + rect.width) - bEff;
+                    w = Math.max(0, Math.min(lockedW, curR - lockedL));
+                    left = lockedL;
+                } else {
+                    w = Math.max(0, rect.width - bEff);
+                    left = (isRTL == 1) ? (rect.left + bEff) : rect.left;
+                }
+            } else {
+                w = rect.width;
+                left = (isRTL == 1 && lockedW > 0) ? ((lockedL + lockedW) - w) : ((lockedW > 0) ? lockedL : rect.left);
+            }
         } else {
-            h = rect.height;
-            top = rect.top;
+            w = 0;
+            left = (lockedW > 0) ? lockedL : rect.left;
         }
+
+        h = (lockedH > 5) ? lockedH : ((bEff > 0) ? Math.max(0, rect.height - 2 * bEff) : rect.height);
+        top = (lockedH > 5) ? lockedTop : ((bEff > 0) ? (rect.top + bEff) : rect.top);
     }
 
     var totalW = w + pL + pR;

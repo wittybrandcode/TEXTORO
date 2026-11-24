@@ -496,11 +496,22 @@ function _create4CornersBox(rectContents, opts) {
 '        var liveRect = parent.sourceRectAtTime(time, false);\n' +
 '        if (w <= 15 || h <= 5) { w = Math.max(0, liveRect.width - bEff); h = (bEff > 0) ? Math.max(0, liveRect.height - 2 * bEff) : liveRect.height; left0 = (isRTL == 1) ? (liveRect.left + bEff) : liveRect.left; top0 = (bEff > 0) ? (liveRect.top + bEff) : liveRect.top; }\n' +
 '    } else {\n' +
-'        var rect = parent.sourceRectAtTime(time, false); var lockedH = 0, lockedTop = 0;\n' +
+'        var rect = parent.sourceRectAtTime(time, false); var lockedH = 0, lockedTop = 0, lockedL = 0, lockedW = 0;\n' +
 '        try { lockedH = parent.effect("Locked Height")(1).value; } catch(e) { lockedH = 0; }\n' +
 '        try { lockedTop = parent.effect("Locked Top")(1).value; } catch(e) { lockedTop = 0; }\n' +
-'        w = Math.max(0, rect.width - bEff); left0 = (isRTL == 1) ? (rect.left + bEff) : rect.left;\n' +
-'        if (lockedH > 5) { h = lockedH; top0 = lockedTop; } else if (bEff > 0) { h = Math.max(0, rect.height - 2 * bEff); top0 = rect.top + bEff; } else { h = rect.height; top0 = rect.top; }\n' +
+'        try { lockedL = parent.effect("Locked Left")(1).value; } catch(e) { lockedL = 0; }\n' +
+'        try { lockedW = parent.effect("Locked Width")(1).value; } catch(e) { lockedW = 0; }\n' +
+'        if (rect.width > 2) {\n' +
+'            if (bEff > 0) {\n' +
+'                if (isRTL == 1 && lockedW > 0) { var lockedR = lockedL + lockedW, curL = rect.left + bEff; w = Math.max(0, Math.min(lockedW, lockedR - curL)); left0 = lockedR - w; }\n' +
+'                else if (lockedW > 0) { var curR = (rect.left + rect.width) - bEff; w = Math.max(0, Math.min(lockedW, curR - lockedL)); left0 = lockedL; }\n' +
+'                else { w = Math.max(0, rect.width - bEff); left0 = (isRTL == 1) ? (rect.left + bEff) : rect.left; }\n' +
+'            } else {\n' +
+'                w = rect.width; left0 = (isRTL == 1 && lockedW > 0) ? ((lockedL + lockedW) - w) : ((lockedW > 0) ? lockedL : rect.left);\n' +
+'            }\n' +
+'        } else { w = 0; left0 = (lockedW > 0) ? lockedL : rect.left; }\n' +
+'        h = (lockedH > 5) ? lockedH : ((bEff > 0) ? Math.max(0, rect.height - 2 * bEff) : rect.height);\n' +
+'        top0 = (lockedH > 5) ? lockedTop : ((bEff > 0) ? (rect.top + bEff) : rect.top);\n' +
 '    }\n' +
 '    var totalW = w + pL + pR; var totalH = h + pT + pB;\n' +
 '    var cx = left0 - pL + totalW/2; var cy = top0 + h/2 + (pB - pT)/2;\n' +

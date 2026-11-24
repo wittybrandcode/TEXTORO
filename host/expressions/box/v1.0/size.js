@@ -1,5 +1,5 @@
-// TEXTORO Box Size Expression v1.5
-// حساب حجم الصندوق مع دعم تعويض الضبابية الحركية (Type Blur) وقفل الحجم والـ Padding
+// TEXTORO Box Size Expression v1.6
+// حساب حجم الصندوق مع دعم تثبيت حافة الارتكاز وتعويض نزيف الضبابية الحركية (Type Blur)
 // ═══════════════════════════════════════════════════════════════════
 
 var hasParent = false;
@@ -53,6 +53,9 @@ if (!hasParent) {
         }
     }
 
+    var isRTL = 0;
+    try { isRTL = parent.effect("Box RTL")(1).value; } catch(e) { isRTL = 0; }
+
     var w = 0, h = 0;
     if (isLocked == 1) {
         try { w = parent.effect("Locked Width")(1).value; } catch(e) { w = 0; }
@@ -64,17 +67,31 @@ if (!hasParent) {
         }
     } else {
         var rect = parent.sourceRectAtTime(time, false);
-        var lockedH = 0;
+        var lockedH = 0, lockedL = 0, lockedW = 0;
         try { lockedH = parent.effect("Locked Height")(1).value; } catch(e) { lockedH = 0; }
+        try { lockedL = parent.effect("Locked Left")(1).value; } catch(e) { lockedL = 0; }
+        try { lockedW = parent.effect("Locked Width")(1).value; } catch(e) { lockedW = 0; }
 
-        w = Math.max(0, rect.width - bEff);
-        if (lockedH > 5) {
-            h = lockedH;
-        } else if (bEff > 0) {
-            h = Math.max(0, rect.height - 2 * bEff);
+        if (rect.width > 2) {
+            if (bEff > 0) {
+                if (isRTL == 1 && lockedW > 0) {
+                    var lockedR = lockedL + lockedW;
+                    var curL = rect.left + bEff;
+                    w = Math.max(0, Math.min(lockedW, lockedR - curL));
+                } else if (lockedW > 0) {
+                    var curR = (rect.left + rect.width) - bEff;
+                    w = Math.max(0, Math.min(lockedW, curR - lockedL));
+                } else {
+                    w = Math.max(0, rect.width - bEff);
+                }
+            } else {
+                w = rect.width;
+            }
         } else {
-            h = rect.height;
+            w = 0;
         }
+
+        h = (lockedH > 5) ? lockedH : ((bEff > 0) ? Math.max(0, rect.height - 2 * bEff) : rect.height);
     }
 
     [w + pL + pR, h + pT + pB];
