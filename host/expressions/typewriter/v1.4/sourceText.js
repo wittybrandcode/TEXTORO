@@ -192,9 +192,9 @@ var visibleText = "";
 // اكتشاف الاتجاه: إما من Effect Control أو تلقائياً
 var textIsRTL = (isRTL == 1) || detectTextDirection(X);
 
-if (wordMode == 1 || textIsRTL) {
+if (wordMode == 1) {
     // ═══════════════════════════════════════════════════════════════
-    // Word Mode (للعربية أو عند التفعيل يدوياً)
+    // Word Mode (عند التفعيل يدوياً للظهور بالكلمات)
     // ═══════════════════════════════════════════════════════════════
     var words = X.split(" ");
     var W = words.length;

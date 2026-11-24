@@ -547,7 +547,7 @@ function _getEmbeddedExpression(category, name) {
 'p = clamp(p, 0, 100);\n' +
 'var visibleText = "";\n' +
 'var textIsRTL = (isRTL == 1) || detectTextDirection(X);\n' +
-'if (wordMode == 1 || textIsRTL) {\n' +
+'if (wordMode == 1) {\n' +
 '    var words = X.split(" "); var W = words.length;\n' +
 '    var visibleCount = Math.floor(W * p / 100);\n' +
 '    if (reverse == 1) visibleCount = W - visibleCount;\n' +
