@@ -487,31 +487,38 @@ function _create4CornersBox(rectContents, opts) {
 '        } else { var p = 0; try { p = parent.effect("TW Progress")(1).value; } catch(e) { p = 0; } if (p > 0 && p < 100) bEff = (p > 90) ? tb * ((100 - p) / 10) : tb; }\n' +
 '    }\n' +
 '    var isRTL = 0; try { isRTL = parent.effect("Box RTL")(1).value; } catch(e) { isRTL = 0; }\n' +
+'    if (isRTL == 0) { try { var srcTxt = parent.text.sourceText + ""; for (var ci = 0; ci < srcTxt.length && ci < 30; ci++) { var code = srcTxt.charCodeAt(ci); if ((code >= 0x0600 && code <= 0x06FF) || (code >= 0xFB50 && code <= 0xFEFF)) { isRTL = 1; break; } } } catch(e) {} }\n' +
+'    var liveRect = parent.sourceRectAtTime(time, false);\n' +
+'    var inEnd = -1; var m = parent.marker;\n' +
+'    if (m && m.numKeys > 0) { for (var mi = 1; mi <= m.numKeys; mi++) { if (m.key(mi).comment == "IN_END") { inEnd = m.key(mi).time; break; } } }\n' +
+'    var fullRect = (inEnd > 0) ? parent.sourceRectAtTime(inEnd, false) : liveRect;\n' +
+'    var curL = liveRect.left, curR = liveRect.left + liveRect.width, curT = liveRect.top, curH = liveRect.height;\n' +
+'    if (bEff > 0) { curL += bEff; curR -= bEff; curT += bEff; curH = Math.max(0, curH - 2 * bEff); }\n' +
 '    var w = 0, h = 0, left0 = 0, top0 = 0;\n' +
 '    if (isLocked == 1) {\n' +
-'        try { w = parent.effect("Locked Width")(1).value; } catch(e) { w = 0; }\n' +
-'        try { h = parent.effect("Locked Height")(1).value; } catch(e) { h = 0; }\n' +
-'        try { left0 = parent.effect("Locked Left")(1).value; } catch(e) { left0 = 0; }\n' +
-'        try { top0 = parent.effect("Locked Top")(1).value; } catch(e) { top0 = 0; }\n' +
-'        var liveRect = parent.sourceRectAtTime(time, false);\n' +
-'        if (w <= 15 || h <= 5) { w = Math.max(0, liveRect.width - bEff); h = (bEff > 0) ? Math.max(0, liveRect.height - 2 * bEff) : liveRect.height; left0 = (isRTL == 1) ? (liveRect.left + bEff) : liveRect.left; top0 = (bEff > 0) ? (liveRect.top + bEff) : liveRect.top; }\n' +
+'        w = (fullRect.width > 0) ? fullRect.width : Math.max(0, curR - curL);\n' +
+'        h = (fullRect.height > 5) ? fullRect.height : curH;\n' +
+'        left0 = (fullRect.width > 0) ? fullRect.left : curL;\n' +
+'        top0 = (fullRect.height > 5) ? fullRect.top : curT;\n' +
 '    } else {\n' +
-'        var rect = parent.sourceRectAtTime(time, false); var lockedH = 0, lockedTop = 0, lockedL = 0, lockedW = 0;\n' +
-'        try { lockedH = parent.effect("Locked Height")(1).value; } catch(e) { lockedH = 0; }\n' +
-'        try { lockedTop = parent.effect("Locked Top")(1).value; } catch(e) { lockedTop = 0; }\n' +
-'        try { lockedL = parent.effect("Locked Left")(1).value; } catch(e) { lockedL = 0; }\n' +
-'        try { lockedW = parent.effect("Locked Width")(1).value; } catch(e) { lockedW = 0; }\n' +
-'        if (rect.width > 2) {\n' +
-'            if (bEff > 0) {\n' +
-'                if (isRTL == 1 && lockedW > 0) { var lockedR = lockedL + lockedW, curL = rect.left + bEff; w = Math.max(0, Math.min(lockedW, lockedR - curL)); left0 = lockedR - w; }\n' +
-'                else if (lockedW > 0) { var curR = (rect.left + rect.width) - bEff; w = Math.max(0, Math.min(lockedW, curR - lockedL)); left0 = lockedL; }\n' +
-'                else { w = Math.max(0, rect.width - bEff); left0 = (isRTL == 1) ? (rect.left + bEff) : rect.left; }\n' +
+'        h = (fullRect.height > 5) ? fullRect.height : curH;\n' +
+'        top0 = (fullRect.height > 5) ? fullRect.top : curT;\n' +
+'        if (liveRect.width > 1) {\n' +
+'            if (isRTL == 1) {\n' +
+'                var fullRight = fullRect.left + fullRect.width;\n' +
+'                var anchorRight = (fullRect.width > 0) ? fullRight : curR;\n' +
+'                w = Math.max(0, anchorRight - curL);\n' +
+'                if (fullRect.width > 0) w = Math.min(w, fullRect.width);\n' +
+'                left0 = anchorRight - w;\n' +
 '            } else {\n' +
-'                w = rect.width; left0 = (isRTL == 1 && lockedW > 0) ? ((lockedL + lockedW) - w) : ((lockedW > 0) ? lockedL : rect.left);\n' +
+'                var anchorLeft = (fullRect.width > 0) ? fullRect.left : curL;\n' +
+'                w = Math.max(0, curR - anchorLeft);\n' +
+'                if (fullRect.width > 0) w = Math.min(w, fullRect.width);\n' +
+'                left0 = anchorLeft;\n' +
 '            }\n' +
-'        } else { w = 0; left0 = (lockedW > 0) ? lockedL : rect.left; }\n' +
-'        h = (lockedH > 5) ? lockedH : ((bEff > 0) ? Math.max(0, rect.height - 2 * bEff) : rect.height);\n' +
-'        top0 = (lockedH > 5) ? lockedTop : ((bEff > 0) ? (rect.top + bEff) : rect.top);\n' +
+'        } else {\n' +
+'            w = 0; left0 = (isRTL == 1 && fullRect.width > 0) ? (fullRect.left + fullRect.width) : curL;\n' +
+'        }\n' +
 '    }\n' +
 '    var totalW = w + pL + pR; var totalH = h + pT + pB;\n' +
 '    var cx = left0 - pL + totalW/2; var cy = top0 + h/2 + (pB - pT)/2;\n' +

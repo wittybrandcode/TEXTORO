@@ -628,6 +628,14 @@ function _createCursorAnimator(animators) {
     cursorSel.property("ADBE Text Percent Start").expression = buildCursorRangeExpr();
     cursorSel.property("ADBE Text Percent End").expression = buildCursorRangeEndExpr();
     
+    try {
+        var advanced = cursorSel.property("ADBE Text Range Advanced");
+        if (advanced && advanced.property("ADBE Text Range Amount")) {
+            advanced.property("ADBE Text Range Amount").expression = 
+                'var show = 1; try { show = effect("Show Cursor")(1).value; } catch(e) { show = 1; }; var tb = 0; try { tb = effect("Type Blur")(1).value; } catch(e) { tb = 0; }; (show == 1 && tb <= 0) ? 100 : 0;';
+        }
+    } catch(e) {}
+    
     var animProps = cursorAnim.property("ADBE Text Animator Properties");
     
     // Opacity - الوميض
@@ -711,7 +719,20 @@ function _updateBoxLockValues(textLayer) {
     var lockedRight = findEffectControl(fx, "Locked Right");
     if (!lockedRight) return;
     
-    var textRect = textLayer.sourceRectAtTime(0, false);
+    var sampleTime = 0;
+    try {
+        var markers = textLayer.property("Marker");
+        if (markers && markers.numKeys > 0) {
+            for (var mi = 1; mi <= markers.numKeys; mi++) {
+                if (markers.key(mi).comment === "IN_END") {
+                    sampleTime = markers.key(mi).time;
+                    break;
+                }
+            }
+        }
+    } catch(e) {}
+    
+    var textRect = textLayer.sourceRectAtTime(sampleTime, false);
     
     var lockedLeft = findEffectControl(fx, "Locked Left");
     var lockedWidth = findEffectControl(fx, "Locked Width");

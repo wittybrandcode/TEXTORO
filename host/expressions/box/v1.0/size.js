@@ -1,5 +1,5 @@
 // TEXTORO Box Size Expression v1.6
-// حساب حجم الصندوق مع دعم تثبيت حافة الارتكاز وتعويض نزيف الضبابية الحركية (Type Blur)
+// حساب حجم الصندوق مع حسابات طباعية ديناميكية تلقائية بنسبة 100%
 // ═══════════════════════════════════════════════════════════════════
 
 var hasParent = false;
@@ -17,7 +17,7 @@ if (!hasParent) {
     var isLocked = 0;
     try { isLocked = parent.effect("Lock Box Size")(1).value; } catch(e) { isLocked = 0; }
 
-    // حساب الضبابية الحركية الفعالة (Type Blur) لخصمها من الحيز ليبقى الصندوق متطابقاً مع المسار الصافي
+    // حساب الضبابية الحركية الفعالة (Type Blur)
     var bEff = 0;
     var tb = 0;
     try { tb = parent.effect("Type Blur")(1).value; } catch(e) { tb = 0; }
@@ -55,43 +55,64 @@ if (!hasParent) {
 
     var isRTL = 0;
     try { isRTL = parent.effect("Box RTL")(1).value; } catch(e) { isRTL = 0; }
+    if (isRTL == 0) {
+        try {
+            var srcTxt = parent.text.sourceText + "";
+            for (var ci = 0; ci < srcTxt.length && ci < 30; ci++) {
+                var code = srcTxt.charCodeAt(ci);
+                if ((code >= 0x0600 && code <= 0x06FF) || (code >= 0xFB50 && code <= 0xFEFF)) {
+                    isRTL = 1;
+                    break;
+                }
+            }
+        } catch(e) {}
+    }
+
+    var liveRect = parent.sourceRectAtTime(time, false);
+
+    // قياس الحيز الكامل الأصلي للنص عند اكتمال الكتابة ديناميكياً (بنفس نوع الخط الحالي)
+    var inEnd = -1;
+    var m = parent.marker;
+    if (m && m.numKeys > 0) {
+        for (var mi = 1; mi <= m.numKeys; mi++) {
+            if (m.key(mi).comment == "IN_END") {
+                inEnd = m.key(mi).time;
+                break;
+            }
+        }
+    }
+    var fullRect = (inEnd > 0) ? parent.sourceRectAtTime(inEnd, false) : liveRect;
+
+    var curL = liveRect.left;
+    var curR = liveRect.left + liveRect.width;
+    var curH = liveRect.height;
+    if (bEff > 0) {
+        curL += bEff;
+        curR -= bEff;
+        curH = Math.max(0, curH - 2 * bEff);
+    }
 
     var w = 0, h = 0;
     if (isLocked == 1) {
-        try { w = parent.effect("Locked Width")(1).value; } catch(e) { w = 0; }
-        try { h = parent.effect("Locked Height")(1).value; } catch(e) { h = 0; }
-        var liveRect = parent.sourceRectAtTime(time, false);
-        if (w <= 15 || h <= 5) {
-            w = Math.max(0, liveRect.width - bEff);
-            h = (bEff > 0) ? Math.max(0, liveRect.height - 2 * bEff) : liveRect.height;
-        }
+        w = (fullRect.width > 0) ? fullRect.width : Math.max(0, curR - curL);
+        h = (fullRect.height > 5) ? fullRect.height : curH;
     } else {
-        var rect = parent.sourceRectAtTime(time, false);
-        var lockedH = 0, lockedL = 0, lockedW = 0;
-        try { lockedH = parent.effect("Locked Height")(1).value; } catch(e) { lockedH = 0; }
-        try { lockedL = parent.effect("Locked Left")(1).value; } catch(e) { lockedL = 0; }
-        try { lockedW = parent.effect("Locked Width")(1).value; } catch(e) { lockedW = 0; }
+        h = (fullRect.height > 5) ? fullRect.height : curH;
 
-        if (rect.width > 2) {
-            if (bEff > 0) {
-                if (isRTL == 1 && lockedW > 0) {
-                    var lockedR = lockedL + lockedW;
-                    var curL = rect.left + bEff;
-                    w = Math.max(0, Math.min(lockedW, lockedR - curL));
-                } else if (lockedW > 0) {
-                    var curR = (rect.left + rect.width) - bEff;
-                    w = Math.max(0, Math.min(lockedW, curR - lockedL));
-                } else {
-                    w = Math.max(0, rect.width - bEff);
-                }
+        if (liveRect.width > 1) {
+            if (isRTL == 1) {
+                var fullRight = fullRect.left + fullRect.width;
+                var anchorRight = (fullRect.width > 0) ? fullRight : curR;
+                w = Math.max(0, anchorRight - curL);
+                if (fullRect.width > 0) w = Math.min(w, fullRect.width);
             } else {
-                w = rect.width;
+                var anchorLeft = (fullRect.width > 0) ? fullRect.left : curL;
+                w = Math.max(0, curR - anchorLeft);
+                if (fullRect.width > 0) w = Math.min(w, fullRect.width);
             }
         } else {
             w = 0;
         }
-
-        h = (lockedH > 5) ? lockedH : ((bEff > 0) ? Math.max(0, rect.height - 2 * bEff) : rect.height);
     }
 
     [w + pL + pR, h + pT + pB];

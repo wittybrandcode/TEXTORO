@@ -570,8 +570,11 @@ function _getEmbeddedExpression(category, name) {
         return '// TEXTORO Cursor Range Selector (Percent Start)\n' +
 'var show = 1;\n' +
 'try { show = effect("Show Cursor")(1).value; } catch(e) { show = 1; }\n' +
+'var tb = 0;\n' +
+'try { tb = effect("Type Blur")(1).value; } catch(e) { tb = 0; }\n' +
+'if (tb > 0) show = 0;\n' +
 'if (show == 0) {\n' +
-'    100;\n' +
+'    0;\n' +
 '} else {\n' +
 '    var before = 0;\n' +
 '    try { before = effect("Cursor Before Text")(1).value; } catch(e) { before = 0; }\n' +
@@ -585,14 +588,17 @@ function _getEmbeddedExpression(category, name) {
         return '// TEXTORO Cursor Range End Selector (Percent End)\n' +
 'var show = 1;\n' +
 'try { show = effect("Show Cursor")(1).value; } catch(e) { show = 1; }\n' +
+'var tb = 0;\n' +
+'try { tb = effect("Type Blur")(1).value; } catch(e) { tb = 0; }\n' +
+'if (tb > 0) show = 0;\n' +
 'if (show == 0) {\n' +
-'    100;\n' +
+'    0;\n' +
 '} else {\n' +
 '    var before = 0;\n' +
 '    try { before = effect("Cursor Before Text")(1).value; } catch(e) { before = 0; }\n' +
 '    var txt = text.sourceText + "";\n' +
 '    var len = txt.length;\n' +
-'    if (len <= 0) 100; else if (before == 1) (1 / len) * 100; else 100;\n' +
+'    if (len <= 0) 0; else if (before == 1) (1 / len) * 100; else 100;\n' +
 '}';
     }
     
