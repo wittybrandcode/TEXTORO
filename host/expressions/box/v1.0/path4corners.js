@@ -54,14 +54,30 @@ if (!hasParent) {
         }
     }
 
+    // قياس الحيز الكامل الأصلي للنص عند اكتمال الكتابة ديناميكياً (بنفس نوع الخط الحالي)
+    var inEnd = -1, fullTxt = "";
+    var m = parent.marker;
+    if (m && m.numKeys > 0) {
+        for (var mi = 1; mi <= m.numKeys; mi++) {
+            var mc = m.key(mi).comment;
+            if (mc == "IN_END") inEnd = m.key(mi).time;
+            else if (mc && mc.indexOf("TW_TEXT:") == 0) fullTxt = mc.substring(8);
+        }
+    }
+
     var isRTL = 0;
     try { isRTL = parent.effect("Box RTL")(1).value; } catch(e) { isRTL = 0; }
     if (isRTL == 0) {
         try {
-            var srcTxt = parent.text.sourceText + "";
-            for (var ci = 0; ci < srcTxt.length && ci < 30; ci++) {
-                var code = srcTxt.charCodeAt(ci);
-                if ((code >= 0x0600 && code <= 0x06FF) || (code >= 0xFB50 && code <= 0xFEFF)) {
+            if (!fullTxt && inEnd > 0) {
+                try { fullTxt = parent.text.sourceText.valueAtTime(inEnd) + ""; } catch(eTxt) {}
+            }
+            if (!fullTxt) {
+                try { fullTxt = parent.text.sourceText + ""; } catch(eTxt2) {}
+            }
+            for (var ci = 0; ci < fullTxt.length && ci < 60; ci++) {
+                var code = fullTxt.charCodeAt(ci);
+                if ((code >= 0x0600 && code <= 0x06FF) || (code >= 0x0750 && code <= 0x077F) || (code >= 0x08A0 && code <= 0x08FF) || (code >= 0xFB50 && code <= 0xFEFF)) {
                     isRTL = 1;
                     break;
                 }
@@ -70,18 +86,6 @@ if (!hasParent) {
     }
 
     var liveRect = parent.sourceRectAtTime(time, false);
-
-    // قياس الحيز الكامل الأصلي للنص عند اكتمال الكتابة ديناميكياً (بنفس نوع الخط الحالي)
-    var inEnd = -1;
-    var m = parent.marker;
-    if (m && m.numKeys > 0) {
-        for (var mi = 1; mi <= m.numKeys; mi++) {
-            if (m.key(mi).comment == "IN_END") {
-                inEnd = m.key(mi).time;
-                break;
-            }
-        }
-    }
     var fullRect = (inEnd > 0) ? parent.sourceRectAtTime(inEnd, false) : liveRect;
 
     var curL = liveRect.left;

@@ -299,7 +299,23 @@ function _readTypewriterValues(fx) {
         blinkInHold: _getCheckboxValue(fx, "Blink In Hold", d["Blink In Hold"]),
         boxRTL: _getCheckboxValue(fx, "Box RTL", d["Box RTL"]),
         liveText: _getCheckboxValue(fx, "Live Text", d["Live Text"] !== false),
-        textColor: _getColorValue(fx, "Text Color", d["Text Color"]),
+        textColor: (function() {
+            var tc = findEffectControl(fx, "Text Color");
+            if (tc) {
+                try {
+                    var col = tc(1).value;
+                    return [col[0], col[1], col[2]];
+                } catch(e) {}
+            }
+            try {
+                var lytxt = fx.propertyGroup(1);
+                if (lytxt && lytxt instanceof TextLayer) {
+                    var doc = lytxt.property("ADBE Text Properties").property("ADBE Text Document").value;
+                    if (doc && doc.fillColor) return [doc.fillColor[0], doc.fillColor[1], doc.fillColor[2]];
+                }
+            } catch(e2) {}
+            return d["Text Color"] || [1, 1, 1];
+        })(),
         easingType: _getSliderValue(fx, "Easing Type", d["Easing Type"]),
         easingStrength: _getSliderValue(fx, "Easing Strength", d["Easing Strength"]),
         timing: timing
@@ -487,6 +503,24 @@ function _writeTypewriterValues(fx, tw) {
                         var existingBlur = animsTW.property("Type Blur");
                         if (!existingBlur && typeof _createTypeBlurAnimator === "function") {
                             _createTypeBlurAnimator(animsTW, tw.typeBlur);
+                        } else if (existingBlur) {
+                            try {
+                                var bSel = existingBlur.property("ADBE Text Selectors").property(1);
+                                if (bSel) {
+                                    if (typeof buildBlurRangeExpr === "function") bSel.property("ADBE Text Percent Start").expression = buildBlurRangeExpr();
+                                    if (typeof buildBlurRangeEndExpr === "function") bSel.property("ADBE Text Percent End").expression = buildBlurRangeEndExpr();
+                                    var bAdv = bSel.property("ADBE Text Range Advanced");
+                                    if (bAdv && bAdv.property("ADBE Text Range Amount")) {
+                                        bAdv.property("ADBE Text Range Amount").expression = 
+                                            'var b = 0; try { b = effect("Type Blur")(1).value; } catch(e) { b = 0; }; if (b <= 0) { 0; } else { var auto = 1; try { auto = effect("TW Auto")(1).value; } catch(e) { auto = 1; }; if (auto == 1) { var inStart = -1, inEnd = -1; var m = thisLayer.marker; if (m && m.numKeys > 0) { for (var i = 1; i <= m.numKeys; i++) { var c = m.key(i).comment; if (c.indexOf("IN_START") == 0) inStart = m.key(i).time; else if (c.indexOf("IN_END") == 0) inEnd = m.key(i).time; } }; if (inStart >= 0 && inEnd > inStart) { (time >= inStart && time < inEnd) ? 100 : 0; } else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; (p > 0 && p < 100) ? 100 : 0; } } else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; (p > 0 && p < 100) ? 100 : 0; } };';
+                                    }
+                                }
+                                var bProps = existingBlur.property("ADBE Text Animator Properties");
+                                var bProp = bProps ? bProps.property("ADBE Text Blur") : null;
+                                if (bProp && typeof buildBlurAmountExpr === "function") {
+                                    bProp.expression = buildBlurAmountExpr();
+                                }
+                            } catch(_eUpB) {}
                         }
                     } else {
                         removeAnimatorsByName(animsTW, ["Type Blur"]);
@@ -525,7 +559,7 @@ function _writeTypewriterValues(fx, tw) {
         var textColorCtrl = findEffectControl(fx, "Text Color");
         if (textColorCtrl) {
             _setColorValue(fx, "Text Color", tw.textColor);
-        } else {
+        } else if (tw.applyTextColor === true) {
             try {
                 var lytc = fx.propertyGroup(1);
                 if (lytc && lytc instanceof TextLayer) {
@@ -535,6 +569,14 @@ function _writeTypewriterValues(fx, tw) {
             } catch(eTC) {
                 $.writeln("[TEXTORO] _writeTypewriterValues: Could not create Text Color animator: " + eTC.toString());
             }
+        } else {
+            try {
+                var lyOrphan = fx.propertyGroup(1);
+                if (lyOrphan && lyOrphan instanceof TextLayer) {
+                    var aOrphan = lyOrphan.property("ADBE Text Properties").property("ADBE Text Animators");
+                    if (aOrphan) removeAnimatorsByName(aOrphan, ["Color Control"]);
+                }
+            } catch(_eOrph) {}
         }
     }
     
@@ -904,11 +946,12 @@ function _ensureTextColorAnimator(textLayer, animators, fx, textColor) {
         var colorSelector = colorAnimator.property("ADBE Text Selectors").addProperty("ADBE Text Selector");
         colorSelector.property("ADBE Text Percent Start").setValue(0);
         
-        // استثناء المؤشر من Text Color
+        // استثناء المؤشر فقط عندما يكون المؤشر مفعلاً
         colorSelector.property("ADBE Text Percent End").expression = 
-            'var txt = text.sourceText + ""; ' +
-            'var len = txt.length; ' +
-            'len > 1 ? ((len - 1) / len) * 100 : 0;';
+            'var show = 1; try { show = effect("Show Cursor")(1).value; } catch(e) { show = 1; }; ' +
+            'var before = 0; try { before = effect("Cursor Before Text")(1).value; } catch(e) { before = 0; }; ' +
+            'var txt = text.sourceText + ""; var len = txt.length; ' +
+            '(show == 1 && before == 0 && len > 0) ? ((len - 1) / len) * 100 : 100;';
         
         var colorProp = colorAnimator.property("ADBE Text Animator Properties").addProperty("ADBE Text Fill Color");
         colorProp.expression = 'effect("Text Color")(1);';

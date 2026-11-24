@@ -55,6 +55,22 @@ TEXTORO.Panels.Inspector = (function() {
             strokeWidth: 'inspStrokeW', strokeOpacity: 'inspStrokeOp', strokeColor: 'inspStrokeColor',
             strokeDash: 'inspStrokeDash', strokeGap: 'inspStrokeGap', fillOpacity: 'inspFillOp',
             fillColor: 'inspFillColor', lockBoxSize: 'inspLockSize'
+        },
+        motion: {
+            inStart: 'inspMotionInStart', inEnd: 'inspMotionInEnd', outStart: 'inspMotionOutStart', outEnd: 'inspMotionOutEnd',
+            posEnable: 'inspMotionPosEnable', posFromX: 'inspMotionPosFromX', posFromY: 'inspMotionPosFromY',
+            posToX: 'inspMotionPosToX', posToY: 'inspMotionPosToY', scaleEnable: 'inspMotionScaleEnable',
+            scaleFrom: 'inspMotionScaleFrom', scaleTo: 'inspMotionScaleTo', rotEnable: 'inspMotionRotEnable',
+            rotFrom: 'inspMotionRotFrom', rotTo: 'inspMotionRotTo', opacityEnable: 'inspMotionOpacityEnable',
+            opacityFrom: 'inspMotionOpacityFrom', opacityTo: 'inspMotionOpacityTo',
+            posOutFromX: 'inspMotionPosOutFromX', posOutFromY: 'inspMotionPosOutFromY',
+            posOutToX: 'inspMotionPosOutToX', posOutToY: 'inspMotionPosOutToY',
+            scaleOutFrom: 'inspMotionScaleOutFrom', scaleOutTo: 'inspMotionScaleOutTo',
+            rotOutFrom: 'inspMotionRotOutFrom', rotOutTo: 'inspMotionRotOutTo',
+            opacityOutFrom: 'inspMotionOpacityOutFrom', opacityOutTo: 'inspMotionOpacityOutTo',
+            easingType: 'inspMotionEasingType', easingStrength: 'inspMotionEasingStrength',
+            springStiffness: 'inspSpringStiffness', springDamping: 'inspSpringDamping',
+            springMass: 'inspSpringMass', springVelocityBoost: 'inspSpringVelocityBoost'
         }
     };
     var SOGA_FIELD_IDS = INSPECTOR_FIELD_IDS; // Legacy backward alias
@@ -478,12 +494,13 @@ TEXTORO.Panels.Inspector = (function() {
     }
     
     /**
-     * Capture form snapshot to compute diffs during multi-selection
+     * Capture form snapshot to compute diffs during live edit
      */
     function captureFormSnapshot() {
         var snap = {};
-        ['typewriter', 'box'].forEach(function(section) {
+        ['typewriter', 'box', 'motion'].forEach(function(section) {
             var ids = INSPECTOR_FIELD_IDS[section];
+            if (!ids) return;
             Object.keys(ids).forEach(function(key) {
                 var id = ids[key];
                 var el = getDom(id);
@@ -500,7 +517,7 @@ TEXTORO.Panels.Inspector = (function() {
     }
 
     /**
-     * Prune unchanged fields in multi-selection mode
+     * Prune unchanged fields to isolate edits strictly to changed properties only
      */
     function pruneToChangedOnly(opts) {
         function fieldChanged(id) {
@@ -516,16 +533,17 @@ TEXTORO.Panels.Inspector = (function() {
             return cur !== formSnapshot[id];
         }
 
-        ['typewriter', 'box'].forEach(function(section) {
+        ['typewriter', 'box', 'motion'].forEach(function(section) {
             if (!opts[section]) return;
             var ids = INSPECTOR_FIELD_IDS[section];
+            if (!ids) return;
             Object.keys(opts[section]).forEach(function(key) {
                 var id = ids[key];
                 if (id && !fieldChanged(id)) delete opts[section][key];
             });
         });
 
-        ['typewriter', 'box'].forEach(function(section) {
+        ['typewriter', 'box', 'motion'].forEach(function(section) {
             if (!opts[section]) return;
             var real = Object.keys(opts[section]).filter(function(k) {
                 return k !== 'use4Corners' && opts[section][k] !== null && opts[section][k] !== undefined;
@@ -581,7 +599,6 @@ TEXTORO.Panels.Inspector = (function() {
                 cursorSpacing: getNum('inspCursorSpacing', twD.cursorSpacing),
                 blinkSpeed: getNum('inspBlinkSpeed', twD.blinkSpeed),
                 blinkInHold: true,
-                boxRTL: false,
                 textColor: hexToRgb(getValue('inspTextColor', '#ffffff')),
                 easingType: getInt('inspEasingType', 1),
                 easingStrength: getNum('inspEasingStrength', 100),
@@ -623,13 +640,11 @@ TEXTORO.Panels.Inspector = (function() {
             opts.motion = collectMotionValues();
         }
 
-        // In multi-selection mode send diffs only
-        if (multiCount > 1) {
-            pruneToChangedOnly(opts);
-            if (!opts.typewriter && !opts.box && !opts.motion) {
-                TEXTORO.UI.StatusBar.info('No changes to apply');
-                return;
-            }
+        // Always isolate edits strictly to changed fields only to avoid property clobbering
+        pruneToChangedOnly(opts);
+        if (!opts.typewriter && !opts.box && !opts.motion) {
+            TEXTORO.log('No changed fields to apply');
+            return;
         }
 
         TEXTORO.log('Inspector Apply, Multi: ' + multiCount);
@@ -638,6 +653,7 @@ TEXTORO.Panels.Inspector = (function() {
         
         TEXTORO.HostBridge.run(funcName, opts, function(res) {
             if (res.success) {
+                formSnapshot = captureFormSnapshot();
                 TEXTORO.UI.StatusBar.success('Changes applied');
             } else {
                 TEXTORO.UI.StatusBar.error('Error: ' + (res.error || 'Failed'));

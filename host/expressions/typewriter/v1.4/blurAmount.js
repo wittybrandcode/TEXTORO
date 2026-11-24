@@ -17,8 +17,8 @@ if (b <= 0) {
         if (m && m.numKeys > 0) {
             for (var i = 1; i <= m.numKeys; i++) {
                 var c = m.key(i).comment;
-                if (c == "IN_START") inStart = m.key(i).time;
-                else if (c == "IN_END") inEnd = m.key(i).time;
+                if (c.indexOf("IN_START") == 0) inStart = m.key(i).time;
+                else if (c.indexOf("IN_END") == 0) inEnd = m.key(i).time;
             }
         }
 

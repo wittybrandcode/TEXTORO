@@ -661,8 +661,23 @@ function _createTypeBlurAnimator(animators, blurAmount) {
     
     try {
         var advanced = blurSel.property("ADBE Text Range Advanced");
-        if (advanced && advanced.property("ADBE Text Range Shape")) {
-            advanced.property("ADBE Text Range Shape").setValue(2); // Ramp Down for natural optical decay
+        if (advanced) {
+            if (advanced.property("ADBE Text Range Shape")) {
+                advanced.property("ADBE Text Range Shape").setValue(2); // Ramp Down for natural optical decay
+            }
+            if (advanced.property("ADBE Text Range Amount")) {
+                advanced.property("ADBE Text Range Amount").expression = 
+                    'var b = 0; try { b = effect("Type Blur")(1).value; } catch(e) { b = 0; }; ' +
+                    'if (b <= 0) { 0; } else { ' +
+                    'var auto = 1; try { auto = effect("TW Auto")(1).value; } catch(e) { auto = 1; }; ' +
+                    'if (auto == 1) { ' +
+                    'var inStart = -1, inEnd = -1; var m = thisLayer.marker; ' +
+                    'if (m && m.numKeys > 0) { for (var i = 1; i <= m.numKeys; i++) { var c = m.key(i).comment; if (c.indexOf("IN_START") == 0) inStart = m.key(i).time; else if (c.indexOf("IN_END") == 0) inEnd = m.key(i).time; } }; ' +
+                    'if (inStart >= 0 && inEnd > inStart) { (time >= inStart && time < inEnd) ? 100 : 0; } ' +
+                    'else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; (p > 0 && p < 100) ? 100 : 0; } ' +
+                    '} else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; (p > 0 && p < 100) ? 100 : 0; } ' +
+                    '};';
+            }
         }
     } catch (_advErr) {}
     
@@ -694,7 +709,7 @@ function _applyTextColorAnimator(textLayer, animators, fx, textColor) {
         'var show = 1; try { show = effect("Show Cursor")(1).value; } catch(e) { show = 1; } ' +
         'var before = 0; try { before = effect("Cursor Before Text")(1).value; } catch(e) { before = 0; } ' +
         'var txt = text.sourceText + ""; var len = txt.length; ' +
-        '(show == 1 && before == 0 && len > 1) ? ((len - 1) / len) * 100 : 100;';
+        '(show == 1 && before == 0 && len > 0) ? ((len - 1) / len) * 100 : 100;';
     
     var colorProp = colorAnimator.property("ADBE Text Animator Properties").addProperty("ADBE Text Fill Color");
     colorProp.expression = 'effect("Text Color")(1);';

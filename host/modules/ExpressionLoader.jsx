@@ -721,6 +721,88 @@ function _getEmbeddedExpression(category, name) {
 '}';
     }
     
+    // ─────────────────────────────────────────────────────────────
+    // Typewriter Type Blur expressions
+    // ─────────────────────────────────────────────────────────────
+    if (category === "typewriter" && name === "blurAmount") {
+        return '// TEXTORO Typewriter Blur Amount\n' +
+'var b = 0; try { b = effect("Type Blur")(1).value; } catch(e) { b = 0; }\n' +
+'if (b <= 0) { [0, 0]; } else {\n' +
+'    var auto = 1; try { auto = effect("TW Auto")(1).value; } catch(e) { auto = 1; }\n' +
+'    if (auto == 1) {\n' +
+'        var inStart = -1, inEnd = -1; var m = thisLayer.marker;\n' +
+'        if (m && m.numKeys > 0) {\n' +
+'            for (var i = 1; i <= m.numKeys; i++) {\n' +
+'                var c = m.key(i).comment;\n' +
+'                if (c.indexOf("IN_START") == 0) inStart = m.key(i).time;\n' +
+'                else if (c.indexOf("IN_END") == 0) inEnd = m.key(i).time;\n' +
+'            }\n' +
+'        }\n' +
+'        if (inStart >= 0 && inEnd > inStart) {\n' +
+'            if (time < inStart || time >= inEnd) [0, 0];\n' +
+'            else {\n' +
+'                var settleTime = 0.15; var timeLeft = inEnd - time;\n' +
+'                var factor = (timeLeft < settleTime && timeLeft >= 0) ? (timeLeft / settleTime) : 1;\n' +
+'                var curB = b * factor; [curB, curB];\n' +
+'            }\n' +
+'        } else {\n' +
+'            var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }\n' +
+'            if (p <= 0 || p >= 100) [0, 0];\n' +
+'            else { var curB = (p > 90) ? b * ((100 - p) / 10) : b; [curB, curB]; }\n' +
+'        }\n' +
+'    } else {\n' +
+'        var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }\n' +
+'        if (p <= 0 || p >= 100) [0, 0];\n' +
+'        else { var curB = (p > 90) ? b * ((100 - p) / 10) : b; [curB, curB]; }\n' +
+'    }\n' +
+'}';
+    }
+
+    if (category === "typewriter" && name === "blurRangeStart") {
+        return '// TEXTORO Typewriter Blur Range Start\n' +
+'var b = 0; try { b = effect("Type Blur")(1).value; } catch(e) { b = 0; }\n' +
+'if (b <= 0) { 0; } else {\n' +
+'    var isDone = false; var auto = 1; try { auto = effect("TW Auto")(1).value; } catch(e) { auto = 1; }\n' +
+'    if (auto == 1) {\n' +
+'        var inStart = -1, inEnd = -1; var m = thisLayer.marker;\n' +
+'        if (m && m.numKeys > 0) {\n' +
+'            for (var i = 1; i <= m.numKeys; i++) {\n' +
+'                var c = m.key(i).comment;\n' +
+'                if (c.indexOf("IN_START") == 0) inStart = m.key(i).time;\n' +
+'                else if (c.indexOf("IN_END") == 0) inEnd = m.key(i).time;\n' +
+'            }\n' +
+'        }\n' +
+'        if (inStart >= 0 && inEnd > inStart) { if (time < inStart || time >= inEnd) isDone = true; }\n' +
+'        else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; if (p <= 0 || p >= 100) isDone = true; }\n' +
+'    } else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; if (p <= 0 || p >= 100) isDone = true; }\n' +
+'    if (isDone) { 0; } else {\n' +
+'        var txt = text.sourceText + ""; var len = txt.length;\n' +
+'        if (len <= 0) { 0; } else { var windowSize = 3; var startIdx = Math.max(0, len - windowSize); Math.max(0, (startIdx / len) * 100); }\n' +
+'    }\n' +
+'}';
+    }
+
+    if (category === "typewriter" && name === "blurRangeEnd") {
+        return '// TEXTORO Typewriter Blur Range End\n' +
+'var b = 0; try { b = effect("Type Blur")(1).value; } catch(e) { b = 0; }\n' +
+'if (b <= 0) { 0; } else {\n' +
+'    var isDone = false; var auto = 1; try { auto = effect("TW Auto")(1).value; } catch(e) { auto = 1; }\n' +
+'    if (auto == 1) {\n' +
+'        var inStart = -1, inEnd = -1; var m = thisLayer.marker;\n' +
+'        if (m && m.numKeys > 0) {\n' +
+'            for (var i = 1; i <= m.numKeys; i++) {\n' +
+'                var c = m.key(i).comment;\n' +
+'                if (c.indexOf("IN_START") == 0) inStart = m.key(i).time;\n' +
+'                else if (c.indexOf("IN_END") == 0) inEnd = m.key(i).time;\n' +
+'            }\n' +
+'        }\n' +
+'        if (inStart >= 0 && inEnd > inStart) { if (time < inStart || time >= inEnd) isDone = true; }\n' +
+'        else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; if (p <= 0 || p >= 100) isDone = true; }\n' +
+'    } else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; if (p <= 0 || p >= 100) isDone = true; }\n' +
+'    if (isDone) { 0; } else { var txt = text.sourceText + ""; var len = txt.length; if (len <= 0) 0; else 100; }\n' +
+'}';
+    }
+    
     // Default fallback
     return '// Expression not found: ' + category + '/' + name;
 }

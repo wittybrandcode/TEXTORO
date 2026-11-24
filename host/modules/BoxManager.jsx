@@ -619,7 +619,7 @@ function _removeBox(textLayer, comp) {
             "Padding Left", "Padding Right", "Padding Top", "Padding Bottom",
             "Corner Radius", "Corner TL", "Corner TR", "Corner BR", "Corner BL",
             "Stroke Width", "Stroke Opacity", "Stroke Color", "Stroke Dash", "Stroke Gap",
-            "Fill Opacity", "Fill Color", "Text Color",
+            "Fill Opacity", "Fill Color",
             "Trim Start", "Trim End", "Trim Offset", "Path Offset",
             "Lock Box Size", "Locked Width", "Locked Height",
             "Locked Left", "Locked Top", "Locked Right"
@@ -627,9 +627,11 @@ function _removeBox(textLayer, comp) {
         removeEffectControls(fx, boxControls);
     }
     
-    // إزالة Color Control Animator
-    var animators = textLayer.property("ADBE Text Properties").property("ADBE Text Animators");
-    removeAnimatorsByName(animators, ["Color Control"]);
+    // إزالة Color Control Animator فقط إذا لم تكن الطبقة تحتوي على Typewriter
+    if (!hasTypewriter(textLayer)) {
+        var animators = textLayer.property("ADBE Text Properties").property("ADBE Text Animators");
+        if (animators) removeAnimatorsByName(animators, ["Color Control"]);
+    }
     
     removeLayerFlag(textLayer, "B");
 }
