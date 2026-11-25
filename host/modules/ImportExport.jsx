@@ -151,15 +151,14 @@ function exportAllPresets() {
             presets: {
                 type: [],
                 box: [],
-                mix: [],
+                compound: [],
                 motion: [],
-                "motion-full": [],
-                toro: []
+                templates: []
             }
         };
 
-        // E-04: كل الفئات وليس type/box/mix فقط
-        var categories = ["type", "box", "mix", "motion", "motion-full", "toro"];
+        // تصدير جميع الفئات الرسمية المعتمدة (مع دعم استيراد الفئات القديمة أيضاً)
+        var categories = ["type", "box", "compound", "motion", "templates"];
         var userPath = getPresetsPath();
         
         for (var c = 0; c < categories.length; c++) {
@@ -245,11 +244,11 @@ function importPresets() {
         var data = JSON.parse(content);
         var imported = 0;
         
-        // التحقق من نوع الملف
-        if (data.presets && (data.presets.type || data.presets.box || data.presets.mix ||
-                             data.presets.motion || data.presets["motion-full"] || data.presets.toro)) {
-            // ملف حزمة (.txpack) - E-04: كل الفئات
-            var categories = ["type", "box", "mix", "motion", "motion-full", "toro"];
+        // التحقق من نوع الملف (دعم الفئات الرسمية + القديمة للتوافق العكسي)
+        if (data.presets && (data.presets.type || data.presets.box || data.presets.compound || data.presets.templates ||
+                             data.presets.mix || data.presets.motion || data.presets["motion-full"] || data.presets.toro)) {
+            // ملف حزمة (.txpack) - كل الفئات
+            var categories = ["type", "box", "compound", "motion", "templates", "mix", "motion-full", "toro"];
             
             for (var c = 0; c < categories.length; c++) {
                 var category = categories[c];

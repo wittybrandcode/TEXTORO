@@ -144,7 +144,11 @@ function _getHardcodedDefaults(category) {
             "Opacity Out From": 100,
             "Opacity Out To": 0,
             "Motion Easing Type": 1,
-            "Motion Easing Strength": 100
+            "Motion Easing Strength": 100,
+            "Spring Stiffness": 180,
+            "Spring Damping": 18,
+            "Spring Mass": 1.0,
+            "Spring Velocity Boost": 0
         };
     }
     
@@ -299,6 +303,7 @@ function _readTypewriterValues(fx) {
         blinkInHold: _getCheckboxValue(fx, "Blink In Hold", d["Blink In Hold"]),
         boxRTL: _getCheckboxValue(fx, "Box RTL", d["Box RTL"]),
         liveText: _getCheckboxValue(fx, "Live Text", d["Live Text"] !== false),
+        applyTextColor: findEffectControl(fx, "Text Color") !== null,
         textColor: (function() {
             var tc = findEffectControl(fx, "Text Color");
             if (tc) {
@@ -400,7 +405,12 @@ function _readMotionValues(fx) {
         opacityOutTo: _getSliderValueFast(map, "Opacity Out To", d["Opacity Out To"]),
         // Easing
         easingType: _getSliderValueFast(map, "Motion Easing Type", d["Motion Easing Type"]),
-        easingStrength: _getSliderValueFast(map, "Motion Easing Strength", d["Motion Easing Strength"])
+        easingStrength: _getSliderValueFast(map, "Motion Easing Strength", d["Motion Easing Strength"]),
+        // Physics
+        springStiffness: _getSliderValueFast(map, "Spring Stiffness", d["Spring Stiffness"]),
+        springDamping: _getSliderValueFast(map, "Spring Damping", d["Spring Damping"]),
+        springMass: _getSliderValueFast(map, "Spring Mass", d["Spring Mass"]),
+        springVelocityBoost: _getSliderValueFast(map, "Spring Velocity Boost", d["Spring Velocity Boost"])
     };
 }
 
@@ -555,7 +565,16 @@ function _writeTypewriterValues(fx, tw) {
     if (tw.liveText !== undefined) _setCheckboxValue(fx, "Live Text", tw.liveText);
     
     // Text Color
-    if (tw.textColor !== undefined) {
+    if (tw.applyTextColor === false) {
+        try {
+            var lyRmTC = fx.propertyGroup(1);
+            if (lyRmTC && lyRmTC instanceof TextLayer) {
+                var aRmTC = lyRmTC.property("ADBE Text Properties").property("ADBE Text Animators");
+                if (aRmTC) removeAnimatorsByName(aRmTC, ["Color Control"]);
+            }
+            if (typeof removeEffectControls === "function") removeEffectControls(fx, ["Text Color"]);
+        } catch(_eRmTC) {}
+    } else if (tw.textColor !== undefined) {
         var textColorCtrl = findEffectControl(fx, "Text Color");
         if (textColorCtrl) {
             _setColorValue(fx, "Text Color", tw.textColor);
@@ -703,6 +722,11 @@ function _writeMotionValues(fx, mt) {
     // Easing
     _ensureMotionControl(fx, "Motion Easing Type", mt.easingType, 1, "slider");
     _ensureMotionControl(fx, "Motion Easing Strength", mt.easingStrength, 100, "slider");
+    // Physics Dynamics
+    _ensureMotionControl(fx, "Spring Stiffness", mt.springStiffness, 180, "slider");
+    _ensureMotionControl(fx, "Spring Damping", mt.springDamping, 18, "slider");
+    _ensureMotionControl(fx, "Spring Mass", mt.springMass, 1.0, "slider");
+    _ensureMotionControl(fx, "Spring Velocity Boost", mt.springVelocityBoost, 0, "slider");
 }
 
 
@@ -882,7 +906,8 @@ function _setColorValue(fx, name, value) {
 }
 
 function _ensureMotionControl(fx, name, value, defaultVal, type) {
-    var finalValue = (value !== undefined && value !== null) ? value : defaultVal;
+    if (value === undefined || value === null) return;
+    var finalValue = value;
     var ctrl = findEffectControl(fx, name);
     
     if (!ctrl) {

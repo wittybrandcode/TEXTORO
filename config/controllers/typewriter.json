@@ -5,7 +5,7 @@
   "description": "Typewriter Controllers - متحكمات تأثير الآلة الكاتبة",
   "sourceFile": "host/modules/TypewriterManager.jsx",
   "sourceLines": "224-270",
-  "controllersCount": 16,
+  "controllersCount": 18,
 
   "groups": {
     "progress": {
@@ -18,7 +18,7 @@
       "label": "الوضع",
       "labelEn": "Mode",
       "order": 2,
-      "controllers": ["Word Mode", "Random Speed", "Box RTL", "Type Blur"]
+      "controllers": ["Word Mode", "Random Speed", "Box RTL", "Live Text", "Type Blur"]
     },
     "cursor": {
       "label": "المؤشر",
@@ -105,6 +105,15 @@
       "description": "اتجاه من اليمين لليسار",
       "descriptionEn": "Right-to-left direction",
       "expressionRef": "effect(\"Box RTL\")(\"Checkbox\")",
+      "usedInExpressions": ["typewriter/sourceText"]
+    },
+    "Live Text": {
+      "type": "checkbox",
+      "default": true,
+      "group": "mode",
+      "description": "التحرير الحي للنص مباشرة من الطبقة (Mogrt)",
+      "descriptionEn": "Live text editing directly from layer (Mogrt-ready)",
+      "expressionRef": "effect(\"Live Text\")(\"Checkbox\")",
       "usedInExpressions": ["typewriter/sourceText"]
     },
     "Type Blur": {

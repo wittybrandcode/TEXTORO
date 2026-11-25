@@ -5,7 +5,7 @@
   "description": "Motion Controllers - متحكمات الحركة",
   "sourceFile": "host/modules/MotionManager.jsx",
   "sourceLines": "142-196",
-  "controllersCount": 34,
+  "controllersCount": 39,
 
   "groups": {
     "timing": {

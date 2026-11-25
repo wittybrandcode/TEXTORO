@@ -13,13 +13,13 @@
   ],
 
   "statistics": {
-    "totalControllers": 79,
+    "totalControllers": 83,
     "totalExpressions": 12,
     "totalSharedCode": 2,
     "categories": {
-      "typewriter": 15,
+      "typewriter": 18,
       "box": 26,
-      "motion": 38
+      "motion": 39
     },
     "integrationStatus": {
       "typewriter": "✅ Smart Fallback (v1.4.0)",
@@ -33,7 +33,7 @@
       "file": "typewriter.json",
       "description": "متحكمات تأثير الآلة الكاتبة",
       "sourceFile": "host/modules/TypewriterManager.jsx",
-      "controllersCount": 15
+      "controllersCount": 18
     },
     "box": {
       "file": "box.json",
@@ -45,7 +45,7 @@
       "file": "motion.json",
       "description": "متحكمات الحركة ومحرك الفيزياء",
       "sourceFile": "host/modules/MotionManager.jsx",
-      "controllersCount": 38
+      "controllersCount": 39
     }
   },
 

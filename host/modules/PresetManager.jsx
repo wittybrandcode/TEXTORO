@@ -1047,7 +1047,7 @@ function repairPresetIndex(optsJSON) {
         try { opts = JSON.parse(optsJSON); } catch (_e0) { opts = {}; }
         var category = opts ? opts.category : null;
         if (!category) {
-            var cats = ["type", "box", "mix", "motion", "motion-full", "toro"];
+            var cats = ["type", "box", "compound", "motion", "templates"];
             var results = {};
             for (var ci = 0; ci < cats.length; ci++) {
                 var r = JSON.parse(repairPresetIndex(JSON.stringify({ category: cats[ci] })));
@@ -1850,7 +1850,7 @@ function _applyPresetToSingleLayer(layer, comp, category, preset, onlyModule) {
             if (!hasTypewriter(layer)) {
                 var defaultTypeOpts = {
                     direction: ((typeof isArabicText === "function") && isArabicText((function() { try { return layer.property("ADBE Text Properties").property("ADBE Text Document").value.text; } catch(e) { return ""; } })())) ? "rtl" : "ltr",
-                    wordMode: ((typeof isArabicText === "function") && isArabicText((function() { try { return layer.property("ADBE Text Properties").property("ADBE Text Document").value.text; } catch(e) { return ""; } })())),
+                    wordMode: false,
                     showCursor: true,
                     cursorBefore: false,
                     cursorSpacing: 0,
@@ -1882,7 +1882,7 @@ function _applyPresetToSingleLayer(layer, comp, category, preset, onlyModule) {
         if (!hasTypewriter(layer)) {
             var defaultTypeOpts = {
                 direction: ((typeof isArabicText === "function") && isArabicText((function() { try { return layer.property("ADBE Text Properties").property("ADBE Text Document").value.text; } catch(e) { return ""; } })())) ? "rtl" : "ltr",
-                wordMode: ((typeof isArabicText === "function") && isArabicText((function() { try { return layer.property("ADBE Text Properties").property("ADBE Text Document").value.text; } catch(e) { return ""; } })())),
+                wordMode: false,
                 showCursor: true,
                 cursorBefore: false,
                 cursorSpacing: 0,
@@ -2081,7 +2081,7 @@ function _applyTypePreset(layer, values) {
     } catch(e) {}
     var isArabic = (typeof isArabicText === "function") ? isArabicText(originalText) : false;
     var isRTL = isArabic || prevRTL || (values.boxRTL === true);
-    var wordMode = isArabic ? true : (values.wordMode || false);
+    var wordMode = (values.wordMode === true);
 
     _removeTypewriter(layer);
     

@@ -390,11 +390,23 @@ function _applyMotion(layer, opts) {
     
     $.writeln("[TEXTORO] Motion controllers created successfully");
     
-    // Apply Expressions with OUT support
-    transform.property("ADBE Position").expression = _getMotionPositionExprV2();
-    transform.property("ADBE Scale").expression = _getMotionScaleExprV2();
-    transform.property("ADBE Rotate Z").expression = _getMotionRotationExprV2();
-    transform.property("ADBE Opacity").expression = _getMotionOpacityExprV2();
+    // Apply Expressions with OUT support (preferring modular expression files via ControllerManager)
+    function _resolveMotionExpr(exprName, fallbackFn) {
+        if (typeof buildMotionExpression === "function") {
+            try {
+                var built = buildMotionExpression(exprName, ["easing", "timing"]);
+                if (built && built.length > 50) return built;
+            } catch (_eBuildM) {
+                $.writeln("[TEXTORO] buildMotionExpression fallback for " + exprName + ": " + _eBuildM.toString());
+            }
+        }
+        return fallbackFn();
+    }
+
+    transform.property("ADBE Position").expression = _resolveMotionExpr("position", _getMotionPositionExprV2);
+    transform.property("ADBE Scale").expression = _resolveMotionExpr("scale", _getMotionScaleExprV2);
+    transform.property("ADBE Rotate Z").expression = _resolveMotionExpr("rotation", _getMotionRotationExprV2);
+    transform.property("ADBE Opacity").expression = _resolveMotionExpr("opacity", _getMotionOpacityExprV2);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -455,7 +467,8 @@ function _removeMotion(layer) {
             "Rot Link Mode", "Rot Out From", "Rot Out To",
             "Animate Opacity", "Opacity From", "Opacity To",
             "Opacity Link Mode", "Opacity Out From", "Opacity Out To",
-            "Motion Easing Type", "Motion Easing Strength"
+            "Motion Easing Type", "Motion Easing Strength",
+            "Spring Stiffness", "Spring Damping", "Spring Mass", "Spring Velocity Boost"
         ];
         
         for (var i = fx.numProperties; i >= 1; i--) {
@@ -572,7 +585,7 @@ function _getMotionPositionExpr() {
             'oX=tX+(fX-tX)*p;oY=tY+(fY-tY)*p;' +
         '}' +
         'else if(outS>=0&&t>outE){oX=fX;oY=fY;}' +
-        'value+[oX,oY];}';
+        'value.length>2?[value[0]+oX,value[1]+oY,value[2]]:value+[oX,oY];}';
 }
 
 function _getMotionScaleExpr() {
@@ -677,7 +690,7 @@ function _getMotionPositionExprV2() {
             '}' +
             'else if(outS>=0&&t>outE){oX=outTX;oY=outTY;}' +
         '}' +
-        'value+[oX,oY];}';
+        'value.length>2?[value[0]+oX,value[1]+oY,value[2]]:value+[oX,oY];}';
 }
 
 function _getMotionScaleExprV2() {

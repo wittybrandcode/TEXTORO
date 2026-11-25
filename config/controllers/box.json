@@ -32,24 +32,16 @@
       "order": 4,
       "controllers": ["Fill Opacity", "Fill Color"]
     },
-    "textColor": {
-      "label": "لون النص",
-      "labelEn": "Text Color",
-      "order": 5,
-      "controllers": ["Text Color"],
-      "conditional": true,
-      "condition": "applyTextColor == true"
-    },
     "trim": {
       "label": "القص",
       "labelEn": "Trim",
-      "order": 6,
+      "order": 5,
       "controllers": ["Trim Start", "Trim End", "Trim Offset", "Path Offset"]
     },
     "lock": {
       "label": "القفل",
       "labelEn": "Lock",
-      "order": 7,
+      "order": 6,
       "controllers": ["Lock Box Size", "Locked Width", "Locked Height", "Locked Left", "Locked Top", "Locked Right"]
     }
   },
@@ -247,17 +239,6 @@
       "descriptionEn": "Fill color",
       "expressionRef": "parent.effect(\"Fill Color\")(\"Color\")",
       "usedInExpressions": ["box shape fill"]
-    },
-    "Text Color": {
-      "type": "color",
-      "default": [1, 1, 1],
-      "defaultHex": "#FFFFFF",
-      "group": "textColor",
-      "description": "لون النص",
-      "descriptionEn": "Text color",
-      "expressionRef": "effect(\"Text Color\")(\"Color\")",
-      "usedInExpressions": ["Color Control animator"],
-      "conditional": true
     },
     "Trim Start": {
       "type": "slider",

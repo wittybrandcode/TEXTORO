@@ -430,8 +430,8 @@ TEXTORO.Panels.Typewriter = (function() {
             typeBlur: values.typeBlur,
             easingType: values.easingType,
             easingStrength: values.easingStrength,
-            textColor: values.textColor,
-            liveText: values.applyTextColor,
+            applyTextColor: values.applyTextColor,
+            textColor: values.applyTextColor ? values.textColor : undefined,
             customText: values.customText,
             inStart: values.inStart,
             inEnd: values.inEnd,
@@ -568,7 +568,7 @@ TEXTORO.Panels.Typewriter = (function() {
                 setNum('numCursorSpacing', tw.cursorSpacing);
                 setNum('numBlinkSpeed', tw.blinkSpeed);
 
-                setChk('chkTextColor', tw.liveText);
+                setChk('chkTextColor', !!tw.applyTextColor);
                 setColor('colorText', tw.textColor);
 
                 var selEase = document.getElementById('selEasingType');

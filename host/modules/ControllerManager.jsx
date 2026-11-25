@@ -200,6 +200,10 @@ function createControllersFromRegistry(layer, category, values, only) {
         }
         
         var ctrl = controllers[name];
+        // تخطي المتحكمات الاختيارية أو المشروطة إذا لم تُمرَّر قيمتها صراحةً
+        if ((ctrl.optional === true || ctrl.conditional === true || ctrl.condition) && values[name] === undefined) {
+            continue;
+        }
         var value = (values[name] !== undefined) ? values[name] : ctrl.default;
 
         // F-14: عزل أخطاء العنصر الواحد - بريس تالف لا يجهض العملية كاملة
