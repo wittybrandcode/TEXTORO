@@ -34,6 +34,9 @@ TEXTORO.Ops.Presets = (function() {
             return;
         }
         opts.category = category;
+        if (TEXTORO.Panels && TEXTORO.Panels.Presets && typeof TEXTORO.Panels.Presets.getWithTypewriter === 'function') {
+            opts.withTypewriter = TEXTORO.Panels.Presets.getWithTypewriter();
+        }
         
         var scriptName = '';
         var normCat = (category === 'toro') ? 'templates' : ((category === 'mix') ? 'compound' : ((category === 'motion-full') ? 'motion' : category));

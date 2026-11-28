@@ -11,6 +11,40 @@ TEXTORO.Panels.Typewriter = (function() {
 
     var _updateTimer = null;
     var _isUpdatingFromHost = false;
+    var _layerSnapshot = null;
+
+    function buildPayload(values) {
+        return {
+            twReverse: values.reverse,
+            reverse: values.reverse,
+            twWordByWord: values.wordMode,
+            wordMode: values.wordMode,
+            boxRTL: values.direction === 'rtl',
+            direction: values.direction,
+            showCursor: values.showCursor,
+            cursorBefore: values.cursorBefore,
+            cursorType: values.cursorType,
+            customCursor: values.customCursor,
+            cursorColor: values.cursorColor,
+            cursorSpacing: values.cursorSpacing,
+            blinkSpeed: values.blinkSpeed,
+            blinkInHold: values.blinkInHold,
+            randomSpeed: values.randomSpeed,
+            typeBlur: values.typeBlur,
+            easingType: values.easingType,
+            easingStrength: values.easingStrength,
+            applyTextColor: values.applyTextColor,
+            textColor: values.applyTextColor ? values.textColor : undefined,
+            customText: values.customText,
+            inStart: values.inStart,
+            inEnd: values.inEnd,
+            outStart: values.outStart,
+            outEnd: values.outEnd,
+            noOut: values.noOut,
+            blinkStart: values.blinkStart,
+            blinkEnd: values.blinkEnd
+        };
+    }
 
     function formatHostError(res, fallback) {
         var msg = (res && res.error) || fallback || 'Unknown error';
@@ -411,39 +445,23 @@ TEXTORO.Panels.Typewriter = (function() {
      */
     function update(callback) {
         var values = getValues();
-        var payload = {
-            twReverse: values.reverse,
-            reverse: values.reverse,
-            twWordByWord: values.wordMode,
-            wordMode: values.wordMode,
-            boxRTL: values.direction === 'rtl',
-            direction: values.direction,
-            showCursor: values.showCursor,
-            cursorBefore: values.cursorBefore,
-            cursorType: values.cursorType,
-            customCursor: values.customCursor,
-            cursorColor: values.cursorColor,
-            cursorSpacing: values.cursorSpacing,
-            blinkSpeed: values.blinkSpeed,
-            blinkInHold: values.blinkInHold,
-            randomSpeed: values.randomSpeed,
-            typeBlur: values.typeBlur,
-            easingType: values.easingType,
-            easingStrength: values.easingStrength,
-            applyTextColor: values.applyTextColor,
-            textColor: values.applyTextColor ? values.textColor : undefined,
-            customText: values.customText,
-            inStart: values.inStart,
-            inEnd: values.inEnd,
-            outStart: values.outStart,
-            outEnd: values.outEnd,
-            noOut: values.noOut,
-            blinkStart: values.blinkStart,
-            blinkEnd: values.blinkEnd
-        };
+        var fullPayload = buildPayload(values);
+        var payload = (TEXTORO.Utils && typeof TEXTORO.Utils.diffObjects === 'function')
+            ? TEXTORO.Utils.diffObjects(fullPayload, _layerSnapshot, [
+                ['inStart', 'inEnd', 'outStart', 'outEnd', 'noOut', 'blinkStart', 'blinkEnd'],
+                ['cursorType', 'customCursor'],
+                ['applyTextColor', 'textColor']
+            ])
+            : fullPayload;
+
+        if (!Object.keys(payload).length) {
+            if (typeof callback === 'function') callback({ success: true });
+            return;
+        }
 
         TEXTORO.HostBridge.run('setLayerEffectValues', { typewriter: payload }, function(res) {
             if (res && res.success) {
+                _layerSnapshot = fullPayload;
                 TEXTORO.log('Typewriter properties updated on layer');
             }
             if (typeof callback === 'function') callback(res);
@@ -456,6 +474,7 @@ TEXTORO.Panels.Typewriter = (function() {
     function syncFromLayer(callback) {
         TEXTORO.HostBridge.run('getLayerEffectValues', null, function(res) {
             if (!res || !res.success || !res.data || !res.data.typewriter) {
+                _layerSnapshot = null;
                 if (typeof callback === 'function') callback(false, res);
                 return;
             }
@@ -593,6 +612,7 @@ TEXTORO.Panels.Typewriter = (function() {
                     TEXTORO.UI.SubBar.syncTypewriter();
                 }
 
+                _layerSnapshot = buildPayload(getValues());
                 TEXTORO.log('TypewriterPanel synced from active layer');
             } catch(e) {
                 TEXTORO.error('Error syncing TypewriterPanel from layer: ' + e);
@@ -632,6 +652,7 @@ TEXTORO.Panels.Typewriter = (function() {
                 TEXTORO.log('Single Apply');
                 TEXTORO.HostBridge.run('applyTypewriter', opts, function(res) {
                     if (res.success) {
+                        _layerSnapshot = buildPayload(getValues());
                         TEXTORO.UI.StatusBar.success('Typewriter applied!');
                     } else {
                         TEXTORO.UI.StatusBar.error('Error: ' + formatHostError(res));
@@ -647,6 +668,7 @@ TEXTORO.Panels.Typewriter = (function() {
     function remove() {
         TEXTORO.HostBridge.run('removeTypewriter', null, function(res) {
             if (res.success) {
+                _layerSnapshot = null;
                 TEXTORO.UI.StatusBar.success('Typewriter removed');
             } else {
                 TEXTORO.UI.StatusBar.error('Error: ' + formatHostError(res));

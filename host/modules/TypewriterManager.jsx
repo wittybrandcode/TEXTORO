@@ -666,17 +666,9 @@ function _createTypeBlurAnimator(animators, blurAmount) {
                 advanced.property("ADBE Text Range Shape").setValue(2); // Ramp Down for natural optical decay
             }
             if (advanced.property("ADBE Text Range Amount")) {
-                advanced.property("ADBE Text Range Amount").expression = 
-                    'var b = 0; try { b = effect("Type Blur")(1).value; } catch(e) { b = 0; }; ' +
-                    'if (b <= 0) { 0; } else { ' +
-                    'var auto = 1; try { auto = effect("TW Auto")(1).value; } catch(e) { auto = 1; }; ' +
-                    'if (auto == 1) { ' +
-                    'var inStart = -1, inEnd = -1; var m = thisLayer.marker; ' +
-                    'if (m && m.numKeys > 0) { for (var i = 1; i <= m.numKeys; i++) { var c = m.key(i).comment; if (c.indexOf("IN_START") == 0) inStart = m.key(i).time; else if (c.indexOf("IN_END") == 0) inEnd = m.key(i).time; } }; ' +
-                    'if (inStart >= 0 && inEnd > inStart) { (time >= inStart && time < inEnd) ? 100 : 0; } ' +
-                    'else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; (p > 0 && p < 100) ? 100 : 0; } ' +
-                    '} else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; (p > 0 && p < 100) ? 100 : 0; } ' +
-                    '};';
+                advanced.property("ADBE Text Range Amount").expression = (typeof buildBlurRangeAmountExpr === "function")
+                    ? buildBlurRangeAmountExpr()
+                    : 'var b = 0; try { b = effect("Type Blur")(1).value; } catch(e) { b = 0; }; if (b <= 0) { 0; } else { var auto = 1; try { auto = effect("TW Auto")(1).value; } catch(e) { auto = 1; }; if (auto == 1) { var inStart = -1, inEnd = -1; var m = thisLayer.marker; if (m && m.numKeys > 0) { for (var i = 1; i <= m.numKeys; i++) { var c = m.key(i).comment; var mt = m.key(i).time - inPoint; if (c.indexOf("IN_START") == 0) inStart = mt; else if (c.indexOf("IN_END") == 0) inEnd = mt; } }; if (inStart < 0 && inEnd > 0) inStart = 0; var curT = time - inPoint; if (inStart >= 0 && inEnd > inStart) { (curT >= inStart && curT < inEnd) ? 100 : 0; } else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; (p > 0 && p < 100) ? 100 : 0; } } else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; (p > 0 && p < 100) ? 100 : 0; } };';
             }
         }
     } catch (_advErr) {}

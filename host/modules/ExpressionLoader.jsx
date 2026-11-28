@@ -298,6 +298,20 @@ function buildBlurAmountExpr() {
     return loadExpression("typewriter", "blurAmount");
 }
 
+function buildBlurRangeAmountExpr() {
+    return 'var b = 0; try { b = effect("Type Blur")(1).value; } catch(e) { b = 0; }; ' +
+        'if (b <= 0) { 0; } else { ' +
+        'var auto = 1; try { auto = effect("TW Auto")(1).value; } catch(e) { auto = 1; }; ' +
+        'if (auto == 1) { ' +
+        'var inStart = -1, inEnd = -1; var m = thisLayer.marker; ' +
+        'if (m && m.numKeys > 0) { for (var i = 1; i <= m.numKeys; i++) { var c = m.key(i).comment; var mt = m.key(i).time - inPoint; if (c.indexOf("IN_START") == 0) inStart = mt; else if (c.indexOf("IN_END") == 0) inEnd = mt; } }; ' +
+        'if (inStart < 0 && inEnd > 0) inStart = 0; var curT = time - inPoint; ' +
+        'if (inStart >= 0 && inEnd > inStart) { (curT >= inStart && curT < inEnd) ? 100 : 0; } ' +
+        'else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; (p > 0 && p < 100) ? 100 : 0; } ' +
+        '} else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; (p > 0 && p < 100) ? 100 : 0; } ' +
+        '};';
+}
+
 function buildCursorBlinkExpr() {
     return loadExpression("cursor", "blink");
 }
@@ -714,7 +728,18 @@ function _getEmbeddedExpression(category, name) {
 'else {\n' +
 '    var src = "";\n' +
 '    try { src = String(parent.text.sourceText); } catch(e) { src = ""; }\n' +
-'    var txt = src.replace(/[\\|\\s_\\u2588\\u258C\\u258E\\u25CF\\u25C6]/g, "");\n' +
+'    var customCur = "";\n' +
+'    try {\n' +
+'        var pm = parent.marker;\n' +
+'        if (pm && pm.numKeys > 0) {\n' +
+'            for (var mi = 1; mi <= pm.numKeys; mi++) {\n' +
+'                var mc = pm.key(mi).comment;\n' +
+'                if (mc && mc.indexOf("CURSOR_CHAR:") == 0) { customCur = mc.substring(12); break; }\n' +
+'            }\n' +
+'        }\n' +
+'    } catch(eC) {}\n' +
+'    var txt = src.replace(/[\\|\\s_\\u2588\\u258C\\u258E\\u25CF\\u25C6\\u200D]/g, "");\n' +
+'    if (customCur && txt.length > 0) { txt = txt.split(customCur).join(""); }\n' +
 '    var ctrlVal = 100;\n' +
 '    try { ctrlVal = parent.effect("{{OPACITY_CONTROL}}")(1).value; } catch(e) {}\n' +
 '    txt.length > 0 ? clamp(ctrlVal, 0, 100) : 0;\n' +
@@ -733,15 +758,17 @@ function _getEmbeddedExpression(category, name) {
 '        var inStart = -1, inEnd = -1; var m = thisLayer.marker;\n' +
 '        if (m && m.numKeys > 0) {\n' +
 '            for (var i = 1; i <= m.numKeys; i++) {\n' +
-'                var c = m.key(i).comment;\n' +
-'                if (c.indexOf("IN_START") == 0) inStart = m.key(i).time;\n' +
-'                else if (c.indexOf("IN_END") == 0) inEnd = m.key(i).time;\n' +
+'                var c = m.key(i).comment; var mt = m.key(i).time - inPoint;\n' +
+'                if (c.indexOf("IN_START") == 0) inStart = mt;\n' +
+'                else if (c.indexOf("IN_END") == 0) inEnd = mt;\n' +
 '            }\n' +
 '        }\n' +
+'        if (inStart < 0 && inEnd > 0) inStart = 0;\n' +
+'        var curT = time - inPoint;\n' +
 '        if (inStart >= 0 && inEnd > inStart) {\n' +
-'            if (time < inStart || time >= inEnd) [0, 0];\n' +
+'            if (curT < inStart || curT >= inEnd) [0, 0];\n' +
 '            else {\n' +
-'                var settleTime = 0.15; var timeLeft = inEnd - time;\n' +
+'                var settleTime = 0.15; var timeLeft = inEnd - curT;\n' +
 '                var factor = (timeLeft < settleTime && timeLeft >= 0) ? (timeLeft / settleTime) : 1;\n' +
 '                var curB = b * factor; [curB, curB];\n' +
 '            }\n' +
@@ -767,12 +794,14 @@ function _getEmbeddedExpression(category, name) {
 '        var inStart = -1, inEnd = -1; var m = thisLayer.marker;\n' +
 '        if (m && m.numKeys > 0) {\n' +
 '            for (var i = 1; i <= m.numKeys; i++) {\n' +
-'                var c = m.key(i).comment;\n' +
-'                if (c.indexOf("IN_START") == 0) inStart = m.key(i).time;\n' +
-'                else if (c.indexOf("IN_END") == 0) inEnd = m.key(i).time;\n' +
+'                var c = m.key(i).comment; var mt = m.key(i).time - inPoint;\n' +
+'                if (c.indexOf("IN_START") == 0) inStart = mt;\n' +
+'                else if (c.indexOf("IN_END") == 0) inEnd = mt;\n' +
 '            }\n' +
 '        }\n' +
-'        if (inStart >= 0 && inEnd > inStart) { if (time < inStart || time >= inEnd) isDone = true; }\n' +
+'        if (inStart < 0 && inEnd > 0) inStart = 0;\n' +
+'        var curT = time - inPoint;\n' +
+'        if (inStart >= 0 && inEnd > inStart) { if (curT < inStart || curT >= inEnd) isDone = true; }\n' +
 '        else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; if (p <= 0 || p >= 100) isDone = true; }\n' +
 '    } else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; if (p <= 0 || p >= 100) isDone = true; }\n' +
 '    if (isDone) { 0; } else {\n' +
@@ -791,12 +820,14 @@ function _getEmbeddedExpression(category, name) {
 '        var inStart = -1, inEnd = -1; var m = thisLayer.marker;\n' +
 '        if (m && m.numKeys > 0) {\n' +
 '            for (var i = 1; i <= m.numKeys; i++) {\n' +
-'                var c = m.key(i).comment;\n' +
-'                if (c.indexOf("IN_START") == 0) inStart = m.key(i).time;\n' +
-'                else if (c.indexOf("IN_END") == 0) inEnd = m.key(i).time;\n' +
+'                var c = m.key(i).comment; var mt = m.key(i).time - inPoint;\n' +
+'                if (c.indexOf("IN_START") == 0) inStart = mt;\n' +
+'                else if (c.indexOf("IN_END") == 0) inEnd = mt;\n' +
 '            }\n' +
 '        }\n' +
-'        if (inStart >= 0 && inEnd > inStart) { if (time < inStart || time >= inEnd) isDone = true; }\n' +
+'        if (inStart < 0 && inEnd > 0) inStart = 0;\n' +
+'        var curT = time - inPoint;\n' +
+'        if (inStart >= 0 && inEnd > inStart) { if (curT < inStart || curT >= inEnd) isDone = true; }\n' +
 '        else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; if (p <= 0 || p >= 100) isDone = true; }\n' +
 '    } else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; if (p <= 0 || p >= 100) isDone = true; }\n' +
 '    if (isDone) { 0; } else { var txt = text.sourceText + ""; var len = txt.length; if (len <= 0) 0; else 100; }\n' +

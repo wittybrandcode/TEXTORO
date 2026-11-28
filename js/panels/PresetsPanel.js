@@ -16,12 +16,14 @@ TEXTORO.Panels.Presets = (function() {
     var searchQuery = '';
     var favorites = [];
     var selectedPreset = null;
+    var withTypewriter = false;
     
     var elements = {
         container: null,
         searchInput: null,
         searchClear: null,
-        sortSelect: null
+        sortSelect: null,
+        withTypewriterBtn: null
     };
     
     /**
@@ -32,6 +34,7 @@ TEXTORO.Panels.Presets = (function() {
         elements.searchInput = document.getElementById('presetsSearchInput');
         elements.searchClear = document.getElementById('presetsSearchClear');
         elements.sortToggle = document.getElementById('presetsSortToggle');
+        elements.withTypewriterBtn = document.getElementById('presetsWithTypewriterBtn');
         
         // تحميل المفضلة
         loadFavorites();
@@ -44,6 +47,18 @@ TEXTORO.Panels.Presets = (function() {
             currentFilter = 'modules';
         }
         currentSort = (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.get === 'function') ? TEXTORO.State.Manager.get('presetsSort', 'name-asc') : 'name-asc';
+        withTypewriter = (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.get === 'function') ? !!TEXTORO.State.Manager.get('presetsWithTypewriter', false) : false;
+        syncWithTypewriterUI();
+        if (elements.withTypewriterBtn) {
+            elements.withTypewriterBtn.addEventListener('click', function() {
+                withTypewriter = !withTypewriter;
+                syncWithTypewriterUI();
+                if (TEXTORO.State && TEXTORO.State.Manager && typeof TEXTORO.State.Manager.set === 'function') {
+                    TEXTORO.State.Manager.set('presetsWithTypewriter', withTypewriter);
+                }
+                TEXTORO.UI.StatusBar.set(withTypewriter ? 'Box presets: Typewriter ON (Optional)' : 'Box presets: Box Only', '');
+            });
+        }
         
         syncSortToggleUI();
         
@@ -204,6 +219,12 @@ TEXTORO.Panels.Presets = (function() {
         }
 
         return ['type'];
+    }
+
+    function syncWithTypewriterUI() {
+        if (!elements.withTypewriterBtn) return;
+        elements.withTypewriterBtn.classList.toggle('active', !!withTypewriter);
+        elements.withTypewriterBtn.setAttribute('aria-pressed', withTypewriter ? 'true' : 'false');
     }
 
     /**
@@ -1125,6 +1146,7 @@ TEXTORO.Panels.Presets = (function() {
         var opts = {
             category: preset.category,
             onlyModule: moduleType,
+            withTypewriter: withTypewriter,
             syncWithMarkers: true
         };
         
@@ -1155,7 +1177,8 @@ TEXTORO.Panels.Presets = (function() {
         }
         
         var opts = {
-            category: preset.category
+            category: preset.category,
+            withTypewriter: withTypewriter
         };
         
         if (preset.fileName) {
@@ -1305,7 +1328,8 @@ TEXTORO.Panels.Presets = (function() {
         setFilter: setFilter,
         clearSearch: clearSearch,
         isFavorite: isFavorite,
-        toggleFavorite: toggleFavorite
+        toggleFavorite: toggleFavorite,
+        getWithTypewriter: function() { return withTypewriter; }
     };
 })();
 

@@ -11,6 +11,7 @@ TEXTORO.Panels.Box = (function() {
     
     var _updateTimer = null;
     var _isUpdatingFromHost = false;
+    var _layerSnapshot = null;
 
     /**
      * Initialize Box Panel
@@ -178,8 +179,20 @@ TEXTORO.Panels.Box = (function() {
      */
     function update(callback) {
         var values = getValues();
-        TEXTORO.HostBridge.run('setLayerEffectValues', { box: values }, function(res) {
+        var payload = (TEXTORO.Utils && typeof TEXTORO.Utils.diffObjects === 'function')
+            ? TEXTORO.Utils.diffObjects(values, _layerSnapshot, [
+                ['use4Corners', 'cornerRadius', 'cornerTL', 'cornerTR', 'cornerBL', 'cornerBR']
+            ])
+            : values;
+
+        if (!Object.keys(payload).length) {
+            if (typeof callback === 'function') callback({ success: true });
+            return;
+        }
+
+        TEXTORO.HostBridge.run('setLayerEffectValues', { box: payload }, function(res) {
             if (res && res.success) {
+                _layerSnapshot = values;
                 TEXTORO.log('Box properties updated on layer');
             }
             if (typeof callback === 'function') callback(res);
@@ -192,6 +205,7 @@ TEXTORO.Panels.Box = (function() {
     function syncFromLayer(callback) {
         TEXTORO.HostBridge.run('getLayerEffectValues', null, function(res) {
             if (!res || !res.success || !res.data || !res.data.box) {
+                _layerSnapshot = null;
                 if (typeof callback === 'function') callback(false, res);
                 return;
             }
@@ -261,6 +275,7 @@ TEXTORO.Panels.Box = (function() {
                     TEXTORO.UI.SubBar.syncBox();
                 }
 
+                _layerSnapshot = getValues();
                 TEXTORO.log('BoxPanel synced from active layer');
             } catch(e) {
                 TEXTORO.error('Error syncing BoxPanel from layer: ' + e);
@@ -281,6 +296,7 @@ TEXTORO.Panels.Box = (function() {
         
         TEXTORO.HostBridge.run('createBox', values, function(res) {
             if (res.success) {
+                _layerSnapshot = values;
                 TEXTORO.UI.StatusBar.success('Box created!');
             } else {
                 TEXTORO.UI.StatusBar.error('Error: ' + (res.error || 'Failed'));
@@ -294,6 +310,7 @@ TEXTORO.Panels.Box = (function() {
     function remove() {
         TEXTORO.HostBridge.run('removeBox', null, function(res) {
             if (res.success) {
+                _layerSnapshot = null;
                 TEXTORO.UI.StatusBar.success('Box removed');
             } else {
                 TEXTORO.UI.StatusBar.error('Error: ' + (res.error || 'Failed'));

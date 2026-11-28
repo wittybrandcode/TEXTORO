@@ -521,8 +521,9 @@ function _writeTypewriterValues(fx, tw) {
                                     if (typeof buildBlurRangeEndExpr === "function") bSel.property("ADBE Text Percent End").expression = buildBlurRangeEndExpr();
                                     var bAdv = bSel.property("ADBE Text Range Advanced");
                                     if (bAdv && bAdv.property("ADBE Text Range Amount")) {
-                                        bAdv.property("ADBE Text Range Amount").expression = 
-                                            'var b = 0; try { b = effect("Type Blur")(1).value; } catch(e) { b = 0; }; if (b <= 0) { 0; } else { var auto = 1; try { auto = effect("TW Auto")(1).value; } catch(e) { auto = 1; }; if (auto == 1) { var inStart = -1, inEnd = -1; var m = thisLayer.marker; if (m && m.numKeys > 0) { for (var i = 1; i <= m.numKeys; i++) { var c = m.key(i).comment; if (c.indexOf("IN_START") == 0) inStart = m.key(i).time; else if (c.indexOf("IN_END") == 0) inEnd = m.key(i).time; } }; if (inStart >= 0 && inEnd > inStart) { (time >= inStart && time < inEnd) ? 100 : 0; } else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; (p > 0 && p < 100) ? 100 : 0; } } else { var p = 0; try { p = effect("TW Progress")(1).value; } catch(e) { p = 0; }; (p > 0 && p < 100) ? 100 : 0; } };';
+                                        if (typeof buildBlurRangeAmountExpr === "function") {
+                                            bAdv.property("ADBE Text Range Amount").expression = buildBlurRangeAmountExpr();
+                                        }
                                     }
                                 }
                                 var bProps = existingBlur.property("ADBE Text Animator Properties");
@@ -759,16 +760,18 @@ function setLayerEffectValuesMulti(optsJSON) {
             var fx = layer.property("ADBE Effect Parade");
             var hasTW = hasTypewriter(layer);
             var hasBX = hasBox(layer, comp);
+            var layerUpdated = false;
             
             // تحديث قيم Typewriter إذا كان موجوداً
             if (hasTW && opts.typewriter) {
                 _writeTypewriterValues(fx, opts.typewriter);
-                updatedCount++;
+                layerUpdated = true;
             }
             
             // تحديث قيم Box إذا كان موجوداً
             if (hasBX && opts.box) {
                 _writeBoxValues(fx, opts.box);
+                layerUpdated = true;
             }
             
             // تحديث قيم Motion إذا كان موجوداً
@@ -777,7 +780,10 @@ function setLayerEffectValuesMulti(optsJSON) {
             if (hasMT && opts.motion) {
                 $.writeln("[TEXTORO Inspector] Motion OUT values: posLinkMode=" + opts.motion.posLinkMode);
                 _writeMotionValues(fx, opts.motion);
+                layerUpdated = true;
             }
+
+            if (layerUpdated) updatedCount++;
         }
         
         app.endUndoGroup();

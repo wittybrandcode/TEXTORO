@@ -145,6 +145,44 @@ TEXTORO.Utils = {
     getSelectValue: function(id, defaultVal) {
         var el = document.getElementById(id);
         return el ? el.value : (defaultVal || '');
+    },
+
+    /**
+     * Extract only keys in `current` that differ from `baseline`, preserving coupled groups together.
+     * @param {Object} current
+     * @param {Object|null} baseline
+     * @param {Array<Array<string>>} [coupledGroups]
+     * @returns {Object}
+     */
+    diffObjects: function(current, baseline, coupledGroups) {
+        var diff = {};
+        if (!current) return diff;
+        if (!baseline) {
+            Object.keys(current).forEach(function(k) {
+                if (current[k] !== undefined) diff[k] = current[k];
+            });
+            return diff;
+        }
+        Object.keys(current).forEach(function(k) {
+            var cur = current[k];
+            if (cur === undefined) return;
+            var prev = baseline[k];
+            var changed = (Array.isArray(cur) || Array.isArray(prev))
+                ? (JSON.stringify(cur) !== JSON.stringify(prev))
+                : (cur !== prev);
+            if (changed) diff[k] = cur;
+        });
+        if (coupledGroups && coupledGroups.length) {
+            coupledGroups.forEach(function(group) {
+                var groupTriggered = group.some(function(k) { return k in diff; });
+                if (groupTriggered) {
+                    group.forEach(function(k) {
+                        if (current[k] !== undefined) diff[k] = current[k];
+                    });
+                }
+            });
+        }
+        return diff;
     }
 };
 

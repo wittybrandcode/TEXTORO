@@ -486,11 +486,11 @@ function _create4CornersBox(rectContents, opts) {
 '            } else { var p = 0; try { p = parent.effect("TW Progress")(1).value; } catch(e) { p = 0; } if (p > 0 && p < 100) bEff = (p > 90) ? tb * ((100 - p) / 10) : tb; }\n' +
 '        } else { var p = 0; try { p = parent.effect("TW Progress")(1).value; } catch(e) { p = 0; } if (p > 0 && p < 100) bEff = (p > 90) ? tb * ((100 - p) / 10) : tb; }\n' +
 '    }\n' +
+'    var inEnd = -1, fullTxt = ""; var m = parent.marker;\n' +
+'    if (m && m.numKeys > 0) { for (var mi = 1; mi <= m.numKeys; mi++) { var mc = m.key(mi).comment; if (mc == "IN_END") inEnd = m.key(mi).time; else if (mc && mc.indexOf("TW_TEXT:") == 0) fullTxt = mc.substring(8); } }\n' +
 '    var isRTL = 0; try { isRTL = parent.effect("Box RTL")(1).value; } catch(e) { isRTL = 0; }\n' +
-'    if (isRTL == 0) { try { var srcTxt = parent.text.sourceText + ""; for (var ci = 0; ci < srcTxt.length && ci < 30; ci++) { var code = srcTxt.charCodeAt(ci); if ((code >= 0x0600 && code <= 0x06FF) || (code >= 0xFB50 && code <= 0xFEFF)) { isRTL = 1; break; } } } catch(e) {} }\n' +
+'    if (isRTL == 0) { try { if (!fullTxt && inEnd > 0) { try { fullTxt = parent.text.sourceText.valueAtTime(inEnd) + ""; } catch(eT) {} } if (!fullTxt) { try { fullTxt = parent.text.sourceText + ""; } catch(eT2) {} } for (var ci = 0; ci < fullTxt.length && ci < 60; ci++) { var code = fullTxt.charCodeAt(ci); if ((code >= 0x0600 && code <= 0x06FF) || (code >= 0x0750 && code <= 0x077F) || (code >= 0x08A0 && code <= 0x08FF) || (code >= 0xFB50 && code <= 0xFEFF)) { isRTL = 1; break; } } } catch(e) {} }\n' +
 '    var liveRect = parent.sourceRectAtTime(time, false);\n' +
-'    var inEnd = -1; var m = parent.marker;\n' +
-'    if (m && m.numKeys > 0) { for (var mi = 1; mi <= m.numKeys; mi++) { if (m.key(mi).comment == "IN_END") { inEnd = m.key(mi).time; break; } } }\n' +
 '    var fullRect = (inEnd > 0) ? parent.sourceRectAtTime(inEnd, false) : liveRect;\n' +
 '    var curL = liveRect.left, curR = liveRect.left + liveRect.width, curT = liveRect.top, curH = liveRect.height;\n' +
 '    if (bEff > 0) { curL += bEff; curR -= bEff; curT += bEff; curH = Math.max(0, curH - 2 * bEff); }\n' +

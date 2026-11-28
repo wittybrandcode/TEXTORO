@@ -17,18 +17,21 @@ if (b <= 0) {
         if (m && m.numKeys > 0) {
             for (var i = 1; i <= m.numKeys; i++) {
                 var c = m.key(i).comment;
-                if (c.indexOf("IN_START") == 0) inStart = m.key(i).time;
-                else if (c.indexOf("IN_END") == 0) inEnd = m.key(i).time;
+                var mt = m.key(i).time - inPoint;
+                if (c.indexOf("IN_START") == 0) inStart = mt;
+                else if (c.indexOf("IN_END") == 0) inEnd = mt;
             }
         }
+        if (inStart < 0 && inEnd > 0) inStart = 0;
+        var curT = time - inPoint;
 
         if (inStart >= 0 && inEnd > inStart) {
-            if (time < inStart || time >= inEnd) {
+            if (curT < inStart || curT >= inEnd) {
                 [0, 0];
             } else {
                 // تلاشي بصري سلس في آخر 150 ملي ثانية قبل IN_END لتنعيم استقرار الحرف الأخير
                 var settleTime = 0.15;
-                var timeLeft = inEnd - time;
+                var timeLeft = inEnd - curT;
                 var factor = (timeLeft < settleTime && timeLeft >= 0) ? (timeLeft / settleTime) : 1;
                 var curB = b * factor;
                 [curB, curB];

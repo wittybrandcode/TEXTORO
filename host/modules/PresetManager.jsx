@@ -1315,6 +1315,7 @@ function _extractTypeValues(layer) {
     var markers = layer.property("Marker");
     var inPoint = layer.inPoint;
     
+    var hasTextColor = findEffectControl(fx, "Text Color") !== null;
     var values = {
         twAuto: _getCheckboxValue(fx, "TW Auto", true),
         twReverse: _getCheckboxValue(fx, "TW Reverse", false),
@@ -1323,12 +1324,16 @@ function _extractTypeValues(layer) {
         typeBlur: _getSliderValue(fx, "Type Blur", 0),
         showCursor: _getCheckboxValue(fx, "Show Cursor", true),
         cursorBefore: _getCheckboxValue(fx, "Cursor Before Text", false),
+        cursorType: _getSliderValue(fx, "Cursor Type", 0),
+        customCursor: "",
         cursorColor: _getColorValue(fx, "Cursor Color", [1, 1, 1]),
         cursorSpacing: _getSliderValue(fx, "Cursor Spacing", 0),
         blinkSpeed: _getSliderValue(fx, "Blink Speed", 2),
         blinkInHold: _getCheckboxValue(fx, "Blink In Hold", true),
         boxRTL: _getCheckboxValue(fx, "Box RTL", false),
         liveText: _getCheckboxValue(fx, "Live Text", true), // N-04
+        applyTextColor: hasTextColor,
+        textColor: hasTextColor ? _getColorValue(fx, "Text Color", [1, 1, 1]) : null,
         easingType: _getSliderValue(fx, "Easing Type", 1),
         easingStrength: _getSliderValue(fx, "Easing Strength", 100),
         inStart: null,
@@ -1351,6 +1356,7 @@ function _extractTypeValues(layer) {
             else if (comment === "OUT_END") values.outEnd = time;
             else if (comment === "BLINK_START") values.blinkStart = time;
             else if (comment === "BLINK_END") values.blinkEnd = time;
+            else if (comment && comment.indexOf("CURSOR_CHAR:") === 0) values.customCursor = comment.substring(12);
         }
     }
     return values;
@@ -1811,9 +1817,10 @@ function applyPreset(optsJSON) {
         }
         
         // تطبيق البريست على كل الطبقات المحددة
+        var withTypewriter = (opts.withTypewriter === true);
         for (var i = 0; i < layers.length; i++) {
             var layer = layers[i];
-            _applyPresetToSingleLayer(layer, comp, category, preset, onlyModule);
+            _applyPresetToSingleLayer(layer, comp, category, preset, onlyModule, withTypewriter);
         }
         
         app.endUndoGroup();
@@ -1836,9 +1843,34 @@ function applyPreset(optsJSON) {
 /**
  * تطبيق Preset على طبقة واحدة
  */
-function _applyPresetToSingleLayer(layer, comp, category, preset, onlyModule) {
+function _ensureOptionalTypewriterForBox(layer) {
+    if (hasTypewriter(layer)) return;
+    var layerText = "";
+    try { layerText = layer.property("ADBE Text Properties").property("ADBE Text Document").value.text; } catch(e) {}
+    var isRtl = (typeof isArabicText === "function") && isArabicText(layerText);
+    _applyTypewriter(layer, {
+        direction: isRtl ? "rtl" : "ltr",
+        wordMode: false,
+        showCursor: true,
+        cursorBefore: isRtl,
+        cursorSpacing: 0,
+        blinkSpeed: 2,
+        blinkInHold: true,
+        inStart: 2,
+        inEnd: 3,
+        outStart: 6,
+        outEnd: 7,
+        noOut: false,
+        blinkStart: 1,
+        blinkEnd: 10,
+        reverse: false,
+        randomSpeed: 0
+    });
+}
+
+function _applyPresetToSingleLayer(layer, comp, category, preset, onlyModule, withTypewriter) {
     var normCat = _normalizePresetCategory(category) || category;
-    $.writeln("[TEXTORO] _applyPresetToSingleLayer - category: " + normCat + (onlyModule ? ", onlyModule: " + onlyModule : ""));
+    $.writeln("[TEXTORO] _applyPresetToSingleLayer - category: " + normCat + (onlyModule ? ", onlyModule: " + onlyModule : "") + (withTypewriter ? ", withTypewriter: true" : ""));
     
     // إذا طُلب تطبيق وحدة معينة فقط (نقل خاصية مفردة: Typewriter, Box, أو Motion)
     if (onlyModule) {
@@ -1847,26 +1879,8 @@ function _applyPresetToSingleLayer(layer, comp, category, preset, onlyModule) {
             _applyTypePreset(layer, typeVals);
         } else if (onlyModule === "box") {
             var boxVals = (preset.values && preset.values.box) ? preset.values.box : preset.values;
-            if (!hasTypewriter(layer)) {
-                var defaultTypeOpts = {
-                    direction: ((typeof isArabicText === "function") && isArabicText((function() { try { return layer.property("ADBE Text Properties").property("ADBE Text Document").value.text; } catch(e) { return ""; } })())) ? "rtl" : "ltr",
-                    wordMode: false,
-                    showCursor: true,
-                    cursorBefore: false,
-                    cursorSpacing: 0,
-                    blinkSpeed: 2,
-                    blinkInHold: true,
-                    inStart: 2,
-                    inEnd: 3,
-                    outStart: 6,
-                    outEnd: 7,
-                    noOut: false,
-                    blinkStart: 1,
-                    blinkEnd: 10,
-                    reverse: false,
-                    randomSpeed: 0
-                };
-                _applyTypewriter(layer, defaultTypeOpts);
+            if (withTypewriter === true) {
+                _ensureOptionalTypewriterForBox(layer);
             }
             _applyBoxPreset(layer, comp, boxVals);
         } else if (onlyModule === "motion") {
@@ -1879,26 +1893,8 @@ function _applyPresetToSingleLayer(layer, comp, category, preset, onlyModule) {
     if (normCat === "type") {
         _applyTypePreset(layer, preset.values);
     } else if (normCat === "box") {
-        if (!hasTypewriter(layer)) {
-            var defaultTypeOpts = {
-                direction: ((typeof isArabicText === "function") && isArabicText((function() { try { return layer.property("ADBE Text Properties").property("ADBE Text Document").value.text; } catch(e) { return ""; } })())) ? "rtl" : "ltr",
-                wordMode: false,
-                showCursor: true,
-                cursorBefore: false,
-                cursorSpacing: 0,
-                blinkSpeed: 2,
-                blinkInHold: true,
-                inStart: 2,
-                inEnd: 3,
-                outStart: 6,
-                outEnd: 7,
-                noOut: false,
-                blinkStart: 1,
-                blinkEnd: 10,
-                reverse: false,
-                randomSpeed: 0
-            };
-            _applyTypewriter(layer, defaultTypeOpts);
+        if (withTypewriter === true) {
+            _ensureOptionalTypewriterForBox(layer);
         }
         _applyBoxPreset(layer, comp, preset.values);
     } else if (normCat === "compound" || normCat === "mix") {
@@ -2090,6 +2086,8 @@ function _applyTypePreset(layer, values) {
         wordMode: wordMode,
         showCursor: values.showCursor,
         cursorBefore: values.cursorBefore,
+        cursorType: (values.cursorType != null) ? values.cursorType : 0,
+        customCursor: values.customCursor || "",
         cursorColor: values.cursorColor,
         cursorSpacing: values.cursorSpacing,
         blinkSpeed: values.blinkSpeed,
@@ -2097,6 +2095,9 @@ function _applyTypePreset(layer, values) {
         reverse: values.twReverse,
         randomSpeed: values.randomSpeed,
         typeBlur: (values.typeBlur != null) ? values.typeBlur : 0,
+        liveText: (values.liveText !== undefined) ? values.liveText : true,
+        applyTextColor: (values.applyTextColor === true),
+        textColor: values.textColor || null,
         easingType: (values.easingType != null) ? values.easingType : 1,
         easingStrength: (values.easingStrength != null) ? values.easingStrength : 100,
         inStart: values.inStart,
